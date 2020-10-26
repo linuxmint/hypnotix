@@ -1,0 +1,5 @@
+#!/bin/bash
+intltool-extract --type=gettext/glade usr/share/hypnotix/hypnotix.ui
+intltool-extract --type=gettext/glade usr/share/hypnotix/shortcuts.ui
+xgettext --language=Python --keyword=_ --keyword=N_ --output=hypnotix.pot usr/lib/hypnotix/*.py generate_desktop_files usr/share/hypnotix/hypnotix.ui.h usr/share/hypnotix/shortcuts.ui.h
+rm -f usr/share/hypnotix/*.ui.h

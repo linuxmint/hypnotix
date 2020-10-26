@@ -1,0 +1,24 @@
+#!/usr/bin/python3
+
+DOMAIN = "hypnotix"
+PATH = "/usr/share/locale"
+
+import os
+import gettext
+from mintcommon import additionalfiles
+
+os.environ['LANGUAGE'] = "en_US.UTF-8"
+gettext.install(DOMAIN, PATH)
+
+prefix = "[Desktop Entry]\n"
+
+suffix = """Exec=hypnotix
+Icon=hypnotix
+Terminal=false
+Type=Application
+Encoding=UTF-8
+Categories=AudioVideo;Video;Player;TV;
+StartupNotify=false
+"""
+
+additionalfiles.generate(DOMAIN, PATH, "usr/share/applications/hypnotix.desktop", prefix, _("Hypnotix"), _("Watch TV"), suffix)

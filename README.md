@@ -1,0 +1,3 @@
+# Hypnotix
+
+An IPTV app.

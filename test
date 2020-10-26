@@ -1,0 +1,5 @@
+#!/bin/bash
+sudo rm -rf /usr/lib/hypnotix
+sudo rm -rf /usr/share/hypnotix
+sudo cp -R usr /
+hypnotix

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Hypnotix
+Comment=Watch TV
+Exec=hypnotix
+Icon=hypnotix
+Terminal=false
+Type=Application
+Encoding=UTF-8
+Categories=AudioVideo;Video;Player;TV;
+StartupNotify=false

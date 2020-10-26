@@ -1,0 +1,17 @@
+Source: hypnotix
+Section: admin
+Priority: optional
+Maintainer: Linux Mint <root@linuxmint.com>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.5
+
+Package: hypnotix
+Architecture: all
+Depends: gir1.2-xapp-1.0,
+         python3,
+         python3-gi,
+         python3-setproctitle,
+         xapps-common,
+         ${misc:Depends},
+Description: IPTV Player
+ Watch TV by streaming from M3U sources.

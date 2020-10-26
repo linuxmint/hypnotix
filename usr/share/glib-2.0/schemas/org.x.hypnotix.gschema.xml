@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.x.hypnotix" path="/org/x/hypnotix/">
+  	<key type="as" name="providers">
+      <default>['Free-IPTV:::https://raw.githubusercontent.com/Free-IPTV/Countries/master/ZZ_PLAYLIST_ALL_TV.m3u']</default>
+      <summary></summary>
+      <description></description>
+    </key>
+  </schema>
+</schemalist>

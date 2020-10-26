@@ -1,0 +1,13 @@
+#!/usr/bin/make -f
+
+DEB_VERSION := $(shell dpkg-parsechangelog | egrep '^Version:' | cut -f 2 -d ' ')
+
+%:
+	dh ${@}
+
+# Inject version number in the code
+override_dh_installdeb:
+	dh_installdeb
+	for pkg in $$(dh_listpackages -i); do \
+		find debian/$$pkg -type f -exec sed -i -e s/__DEB_VERSION__/$(DEB_VERSION)/g {} +; \
+	done
