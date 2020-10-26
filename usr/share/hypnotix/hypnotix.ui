@@ -143,32 +143,9 @@
                 <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
                 <child>
-                  <object class="GtkStack" id="stack">
+                  <object class="GtkDrawingArea" id="mpv_drawing_area">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkBox">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="orientation">vertical</property>
-                        <child>
-                          <placeholder/>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="name">page_none</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkDrawingArea" id="mpv_drawing_area">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                      </object>
-                      <packing>
-                        <property name="name">page_player</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
                   </object>
                   <packing>
                     <property name="expand">True</property>

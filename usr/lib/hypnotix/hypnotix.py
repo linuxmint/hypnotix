@@ -61,6 +61,7 @@ class MainWindow():
         self.manager = Manager()
         self.providers = []
         self.loading = False
+        self.fullscreen = False
 
         # Set the Glade file
         gladefile = "/usr/share/hypnotix/hypnotix.ui"
@@ -79,11 +80,11 @@ class MainWindow():
         self.channel_treeview = self.builder.get_object("channel_treeview")
         self.generic_channel_pixbuf = self.icon_theme.load_icon("tv-symbolic", 22 * self.window.get_scale_factor(), 0)
         self.mpv_drawing_area = self.builder.get_object("mpv_drawing_area")
-        self.stack = self.builder.get_object("stack")
 
         # Widget signals
         self.window.connect("key-press-event",self.on_key_press_event)
         self.mpv_drawing_area.connect("realize", self.on_mpv_drawing_area_realize)
+        self.mpv_drawing_area.connect("draw", self.on_mpv_drawing_area_draw)
 
         # Menubar
         accel_group = Gtk.AccelGroup()
@@ -183,7 +184,6 @@ class MainWindow():
             print ("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
             if channel != None and channel.url != None:
                 #os.system("mpv --wid=%s %s &" % (self.wid, channel.url))
-                self.stack.set_visible_child_name("page_player")
                 self.mpv.play(channel.url)
 
     def show_selected_provider(self, reload_groups=True):
@@ -268,6 +268,10 @@ class MainWindow():
         ctrl = (event.state & Gdk.ModifierType.CONTROL_MASK)
         if ctrl and event.keyval == Gdk.KEY_r:
             self.reload()
+        elif event.keyval == Gdk.KEY_F11 or \
+             event.keyval == Gdk.KEY_f or \
+             (self.fullscreen and event.keyval == Gdk.KEY_Escape):
+            self.toggle_fullscreen()
 
     def reload(self):
         for provider in self.settings.get_strv("providers"):
@@ -282,6 +286,18 @@ class MainWindow():
     def on_mpv_drawing_area_realize(self, widget):
         self.wid = str(widget.get_window().get_xid())
         self.mpv = mpv.MPV(ytdl=True, wid=str(widget.get_window().get_xid()))
+
+    def on_mpv_drawing_area_draw(self, widget, cr):
+        cr.set_source_rgb(0.0, 0.0, 0.0)
+        cr.paint()
+
+    def toggle_fullscreen(self):
+        self.fullscreen = (not self.fullscreen)
+        if self.fullscreen:
+            self.mpv.fullscreen = True
+        else:
+            self.mpv.fullscreen = False
+
 
 if __name__ == "__main__":
     application = MyApplication("org.x.hypnotix", Gio.ApplicationFlags.FLAGS_NONE)
