@@ -86,6 +86,7 @@ class MainWindow():
         self.status_bar = self.builder.get_object("status_bar")
         self.stack = self.builder.get_object("stack")
         self.fullscreen_box = self.builder.get_object("fullscreen_box")
+        self.fullscreen_button = self.builder.get_object("fullscreen_button")
         self.fullscreen_widgets = []
         self.fullscreen_widgets.append(self.builder.get_object("sidebar"))
         self.fullscreen_widgets.append(self.headerbar)
@@ -95,6 +96,7 @@ class MainWindow():
         self.window.connect("key-press-event",self.on_key_press_event)
         self.mpv_drawing_area.connect("realize", self.on_mpv_drawing_area_realize)
         self.mpv_drawing_area.connect("draw", self.on_mpv_drawing_area_draw)
+        self.fullscreen_button.connect("clicked", self.on_fullscreen_button_clicked)
 
         # Menubar
         accel_group = Gtk.AccelGroup()
@@ -319,6 +321,8 @@ class MainWindow():
                 widget.set_visible(True)
             self.main_box.set_border_width(12)
 
+    def on_fullscreen_button_clicked(self, widget):
+        self.toggle_fullscreen()
 
 if __name__ == "__main__":
     application = MyApplication("org.x.hypnotix", Gio.ApplicationFlags.FLAGS_NONE)

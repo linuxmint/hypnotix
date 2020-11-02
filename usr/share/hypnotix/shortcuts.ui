@@ -11,12 +11,12 @@
         <child>
           <object class="GtkShortcutsGroup">
             <property name="visible">1</property>
-            <property name="title" translatable="yes">Blah</property>
+            <property name="title" translatable="yes">Main shortcuts</property>
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">1</property>
-                <property name="accelerator">&lt;ctrl&gt;N</property>
-                <property name="title" translatable="yes">Blah</property>
+                <property name="accelerator">F11 f</property>
+                <property name="title" translatable="yes">Toggle Fullscreen</property>
               </object>
             </child>
           </object>
