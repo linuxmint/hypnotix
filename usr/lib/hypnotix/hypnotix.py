@@ -277,10 +277,11 @@ class MainWindow():
         for provider in self.settings.get_strv("providers"):
             (name, url) = provider.split(":::")
             provider = Provider(name, url)
-            self.providers.append(provider)
-            self.provider_combo.get_model().append([provider, provider.name])
-            self.manager.download_playlist(provider)
-            self.manager.load_channels(provider)
+            self.manager.get_playlist(provider)
+            if (self.manager.check_playlist(provider)):
+                self.manager.load_channels(provider)
+                self.providers.append(provider)
+                self.provider_combo.get_model().append([provider, provider.name])
         self.show_selected_provider()
 
     def on_mpv_drawing_area_realize(self, widget):

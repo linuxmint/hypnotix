@@ -72,31 +72,46 @@ class Channel():
                     self.group_title = params['group-title'].strip()
             if 'title' in res:
                 self.title = res['title']
+        if self.name == None and "," in info:
+            self.name = info.split(",")[-1].strip()
 
 class Manager():
 
     def __init__(self):
         os.system("mkdir -p '%s'" % PROVIDERS_PATH)
 
-    def download_playlist(self, provider):
-        success = False
+    def get_playlist(self, provider):
         try:
-            response = requests.get(provider.url, timeout=10)
-            if response.status_code == 200:
-                print("Download success")
-                try:
-                    source = response.content.decode("UTF-8")
-                except UnicodeDecodeError as e:
-                    source = response.content.decode("latin1")
-                if (source.count("#EXTM3U") > 0 and source.count("#EXTINF") > 0):
-                    print("Content looks legit")
+            if "file://" in provider.url:
+                # local file
+                provider.path = provider.url.replace("file://", "")
+            elif "://" in provider.url:
+                # Other protocol, assume it's http
+                response = requests.get(provider.url, timeout=10)
+                if response.status_code == 200:
+                    try:
+                        source = response.content.decode("UTF-8")
+                    except UnicodeDecodeError as e:
+                        source = response.content.decode("latin1")
                     with open(provider.path, "w") as file:
                         file.write(source)
-                        success = True
+            else:
+                # No protocol, assume it's local
+                provider.path = provider.url
         except Exception as e:
             print(e)
-        finally:
-            return success
+
+    def check_playlist(self, provider):
+        legit = False
+        if os.path.exists(provider.path):
+            with open(provider.path, "r") as file:
+                content = file.read()
+                if ("#EXTM3U" in content and "#EXTINF" in content):
+                    legit = True
+                    print("Content looks legit: %s" % provider.name)
+                else:
+                    print("Nope: %s" % provider.path)
+        return legit
 
     def load_channels(self, provider):
         with open(provider.path, "r") as file:
@@ -109,16 +124,22 @@ class Manager():
                     continue
                 if line.startswith("#EXTINF"):
                     channel = Channel(line)
+                    print("New channel: ", line)
                     continue
-                if "://" in line:
+                if "://" in line and not (line.startswith("#")):
+                    print("    ", line)
                     if channel == None:
+                        print("    --> channel is None")
                         continue
                     if channel.url != None:
                         # We already found the URL, skip the line
+                        print("    --> channel URL was already found")
                         continue
                     if channel.name == None or "***" in channel.name:
+                        print("    --> channel name is None")
                         continue
                     channel.url = line
+                    print("    --> URL found: ", line)
                     provider.channels.append(channel)
                     if channel.group_title != None and channel.group_title.strip() != "":
                         if group == None or group.name != channel.group_title:
