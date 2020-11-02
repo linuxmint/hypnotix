@@ -62,6 +62,7 @@ class MainWindow():
         self.providers = []
         self.loading = False
         self.fullscreen = False
+        self.mpv = None
 
         # Set the Glade file
         gladefile = "/usr/share/hypnotix/hypnotix.ui"
@@ -80,6 +81,15 @@ class MainWindow():
         self.channel_treeview = self.builder.get_object("channel_treeview")
         self.generic_channel_pixbuf = self.icon_theme.load_icon("tv-symbolic", 22 * self.window.get_scale_factor(), 0)
         self.mpv_drawing_area = self.builder.get_object("mpv_drawing_area")
+        self.mpv_box = self.builder.get_object("mpv_box")
+        self.main_box = self.builder.get_object("main_box")
+        self.status_bar = self.builder.get_object("status_bar")
+        self.stack = self.builder.get_object("stack")
+        self.fullscreen_box = self.builder.get_object("fullscreen_box")
+        self.fullscreen_widgets = []
+        self.fullscreen_widgets.append(self.builder.get_object("sidebar"))
+        self.fullscreen_widgets.append(self.headerbar)
+        self.fullscreen_widgets.append(self.status_bar)
 
         # Widget signals
         self.window.connect("key-press-event",self.on_key_press_event)
@@ -285,19 +295,29 @@ class MainWindow():
         self.show_selected_provider()
 
     def on_mpv_drawing_area_realize(self, widget):
-        self.wid = str(widget.get_window().get_xid())
-        self.mpv = mpv.MPV(ytdl=True, wid=str(widget.get_window().get_xid()))
+        if self.mpv == None:
+            print("Creating new MPV instance")
+            self.mpv = mpv.MPV(ytdl=True, wid=str(widget.get_window().get_xid()))
 
     def on_mpv_drawing_area_draw(self, widget, cr):
         cr.set_source_rgb(0.0, 0.0, 0.0)
         cr.paint()
 
     def toggle_fullscreen(self):
+        # Toggle state
         self.fullscreen = (not self.fullscreen)
         if self.fullscreen:
-            self.mpv.fullscreen = True
+            # Fullscreen mode
+            self.window.fullscreen()
+            for widget in self.fullscreen_widgets:
+                widget.set_visible(False)
+            self.main_box.set_border_width(0)
         else:
-            self.mpv.fullscreen = False
+            # Normal mode
+            self.window.unfullscreen()
+            for widget in self.fullscreen_widgets:
+                widget.set_visible(True)
+            self.main_box.set_border_width(12)
 
 
 if __name__ == "__main__":
