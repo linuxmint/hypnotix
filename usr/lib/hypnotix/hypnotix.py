@@ -79,7 +79,7 @@ class MainWindow():
         self.provider_combo = self.builder.get_object("provider_combo")
         self.group_treeview = self.builder.get_object("group_treeview")
         self.channel_treeview = self.builder.get_object("channel_treeview")
-        self.generic_channel_pixbuf = self.icon_theme.load_icon("tv-symbolic", 22 * self.window.get_scale_factor(), 0)
+        self.generic_channel_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size("/usr/share/hypnotix/generic_tv_logo.png", 22, 22)
         self.mpv_drawing_area = self.builder.get_object("mpv_drawing_area")
         self.mpv_box = self.builder.get_object("mpv_box")
         self.main_box = self.builder.get_object("main_box")
@@ -232,7 +232,11 @@ class MainWindow():
         model = self.channel_treeview.get_model()
         model.clear()
         for channel in channels:
-            pixbuf = self.generic_channel_pixbuf
+            try:
+               pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(channel.logo_path, 22, 22)
+            except:
+                pass
+                pixbuf = self.generic_channel_pixbuf
             if channel.name != None:
                 model.insert_with_valuesv(-1, range(3), [channel, channel.name, pixbuf])
         self.loading = False
@@ -292,9 +296,12 @@ class MainWindow():
             self.manager.get_playlist(provider)
             if (self.manager.check_playlist(provider)):
                 self.manager.load_channels(provider)
+                # self.manager.get_channel_logos(provider)
                 self.providers.append(provider)
                 self.provider_combo.get_model().append([provider, provider.name])
         self.show_selected_provider()
+
+
 
     def on_mpv_drawing_area_realize(self, widget):
         if self.mpv == None:

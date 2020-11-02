@@ -56,6 +56,7 @@ class Channel():
         self.id = None
         self.name = None
         self.logo = None
+        self.logo_path = None
         self.group_title = None
         self.title = None
         self.url = None
@@ -74,6 +75,15 @@ class Channel():
                 self.title = res['title']
         if self.name == None and "," in info:
             self.name = info.split(",")[-1].strip()
+        if self.logo != None:
+            ext = None
+            for known_ext in [".png", ".jpg", ".gif", ".jpeg"]:
+                if self.logo.lower().endswith(known_ext):
+                    ext = known_ext
+                    break
+            if ext == ".jpeg":
+                ext = ".jpg"
+            self.logo_path = os.path.join(PROVIDERS_PATH, "%s-%s%s" % (slugify(self.name), slugify(self.name), ext))
 
 class Manager():
 
@@ -100,6 +110,25 @@ class Manager():
                 provider.path = provider.url
         except Exception as e:
             print(e)
+
+    @_async
+    def get_channel_logos(self, provider, refresh_existing_logos=False):
+        with requests.session() as s:
+            s.headers['user-agent'] = 'Mozilla/5.0'
+            for channel in provider.channels:
+                if channel.logo_path == None:
+                    continue
+                if os.path.exists(channel.logo_path) and not refresh_existing_logos:
+                    continue
+                try:
+                    response = requests.get(channel.logo, timeout=10, stream=True)
+                    if response.status_code == 200:
+                        response.raw.decode_content = True
+                        print("Downloading logo", channel.logo_path, channel.logo)
+                        with open(channel.logo_path, 'wb') as f:
+                            shutil.copyfileobj(response.raw, f)
+                except Exception as e:
+                    print(e)
 
     def check_playlist(self, provider):
         legit = False
