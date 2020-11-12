@@ -16,7 +16,7 @@ EXTINF = re.compile(r'^#EXTINF:(?P<duration>-?\d+?) ?(?P<params>.*),(?P<title>.*
 PROVIDERS_PATH = os.path.expanduser("~/.hypnotix/providers")
 
 # Used as a decorator to run things in the background
-def _async(func):
+def async_function(func):
     def wrapper(*args, **kwargs):
         thread = threading.Thread(target=func, args=args, kwargs=kwargs)
         thread.daemon = True
@@ -25,7 +25,7 @@ def _async(func):
     return wrapper
 
 # Used as a decorator to run things in the main loop, from another thread
-def idle(func):
+def idle_function(func):
     def wrapper(*args):
         GObject.idle_add(func, *args)
     return wrapper
@@ -38,12 +38,17 @@ def slugify(string):
     return "".join(x.lower() for x in string if x.isalnum())
 
 class Provider():
-    def __init__(self, name, url):
-        self.name = name
-        self.path = os.path.join(PROVIDERS_PATH, slugify(name))
-        self.url = url
+    def __init__(self, name, provider_info):
+        if provider_info != None:
+            self.name, self.type_id, self.url, self.username, self.password, self.epg = provider_info.split(":::")
+        else:
+            self.name = name
+        self.path = os.path.join(PROVIDERS_PATH, slugify(self.name))
         self.groups = []
         self.channels = []
+
+    def get_info(self):
+        return "%s:::%s:::%s:::%s:::%s:::%s" % (self.name, self.type_id, self.url, self.username, self.password, self.epg)
 
 class Group():
     def __init__(self, name):
@@ -89,29 +94,35 @@ class Manager():
 
     def __init__(self):
         os.system("mkdir -p '%s'" % PROVIDERS_PATH)
+        self.verbose = False
 
-    def get_playlist(self, provider):
+    def debug(self, *args):
+        if self.verbose:
+            print(args)
+
+    def get_playlist(self, provider, refresh=False):
         try:
             if "file://" in provider.url:
                 # local file
                 provider.path = provider.url.replace("file://", "")
             elif "://" in provider.url:
                 # Other protocol, assume it's http
-                response = requests.get(provider.url, timeout=10)
-                if response.status_code == 200:
-                    try:
-                        source = response.content.decode("UTF-8")
-                    except UnicodeDecodeError as e:
-                        source = response.content.decode("latin1")
-                    with open(provider.path, "w") as file:
-                        file.write(source)
+                if refresh or not os.path.exists(provider.path):
+                    response = requests.get(provider.url, timeout=10)
+                    if response.status_code == 200:
+                        try:
+                            source = response.content.decode("UTF-8")
+                        except UnicodeDecodeError as e:
+                            source = response.content.decode("latin1")
+                        with open(provider.path, "w") as file:
+                            file.write(source)
             else:
                 # No protocol, assume it's local
                 provider.path = provider.url
         except Exception as e:
             print(e)
 
-    @_async
+    @async_function
     def get_channel_logos(self, provider, refresh_existing_logos=False):
         with requests.session() as s:
             s.headers['user-agent'] = 'Mozilla/5.0'
@@ -124,7 +135,7 @@ class Manager():
                     response = requests.get(channel.logo, timeout=10, stream=True)
                     if response.status_code == 200:
                         response.raw.decode_content = True
-                        print("Downloading logo", channel.logo_path, channel.logo)
+                        self.debug("Downloading logo", channel.logo_path, channel.logo)
                         with open(channel.logo_path, 'wb') as f:
                             shutil.copyfileobj(response.raw, f)
                 except Exception as e:
@@ -137,9 +148,9 @@ class Manager():
                 content = file.read()
                 if ("#EXTM3U" in content and "#EXTINF" in content):
                     legit = True
-                    print("Content looks legit: %s" % provider.name)
+                    self.debug("Content looks legit: %s" % provider.name)
                 else:
-                    print("Nope: %s" % provider.path)
+                    self.debug("Nope: %s" % provider.path)
         return legit
 
     def load_channels(self, provider):
@@ -153,22 +164,22 @@ class Manager():
                     continue
                 if line.startswith("#EXTINF"):
                     channel = Channel(line)
-                    print("New channel: ", line)
+                    self.debug("New channel: ", line)
                     continue
                 if "://" in line and not (line.startswith("#")):
-                    print("    ", line)
+                    self.debug("    ", line)
                     if channel == None:
-                        print("    --> channel is None")
+                        self.debug("    --> channel is None")
                         continue
                     if channel.url != None:
                         # We already found the URL, skip the line
-                        print("    --> channel URL was already found")
+                        self.debug("    --> channel URL was already found")
                         continue
                     if channel.name == None or "***" in channel.name:
-                        print("    --> channel name is None")
+                        self.debug("    --> channel name is None")
                         continue
                     channel.url = line
-                    print("    --> URL found: ", line)
+                    self.debug("    --> URL found: ", line)
                     provider.channels.append(channel)
                     if channel.group_title != None and channel.group_title.strip() != "":
                         if group == None or group.name != channel.group_title:
