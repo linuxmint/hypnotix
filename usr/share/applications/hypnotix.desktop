@@ -1,6 +1,7 @@
 [Desktop Entry]
 Name=Hypnotix
 Comment=Watch TV
+Comment=TV İzle
 Exec=hypnotix
 Icon=hypnotix
 Terminal=false
