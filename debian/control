@@ -14,5 +14,6 @@ Depends: gir1.2-xapp-1.0,
          xapps-common,
          ${misc:Depends},
          libmpv1,
+         python3-imdb
 Description: IPTV Player
  Watch TV by streaming from M3U sources.

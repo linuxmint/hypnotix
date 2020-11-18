@@ -13,7 +13,15 @@ from random import choice
 # M3U parsing regex
 PARAMS = re.compile(r'(\S+)="(.*?)"')
 EXTINF = re.compile(r'^#EXTINF:(?P<duration>-?\d+?) ?(?P<params>.*),(?P<title>.*?)$')
+SERIES = re.compile(r"(?P<series>.*?) S(?P<season>.\d{1,2}).*E(?P<episode>.\d{1,2})$", re.IGNORECASE)
+
 PROVIDERS_PATH = os.path.expanduser("~/.hypnotix/providers")
+
+TV_GROUP, MOVIES_GROUP, SERIES_GROUP = range(3)
+
+BADGES = {}
+BADGES['musik'] = "music"
+BADGES['zeland'] = "newzealand"
 
 # Used as a decorator to run things in the background
 def async_function(func):
@@ -46,17 +54,39 @@ class Provider():
         self.path = os.path.join(PROVIDERS_PATH, slugify(self.name))
         self.groups = []
         self.channels = []
+        self.movies = []
+        self.series = []
 
     def get_info(self):
         return "%s:::%s:::%s:::%s:::%s:::%s" % (self.name, self.type_id, self.url, self.username, self.password, self.epg)
 
 class Group():
     def __init__(self, name):
+        if "VOD" in name.split():
+            self.group_type = MOVIES_GROUP
+        elif "SERIES" in name.split():
+            self.group_type = SERIES_GROUP
+        else:
+            self.group_type = TV_GROUP
         self.name = name
         self.channels = []
+        self.series = []
+
+class Serie():
+    def __init__(self, name):
+        self.name = name
+        self.logo = None
+        self.logo_path = None
+        self.seasons = {}
+        self.episodes = []
+
+class Season():
+    def __init__(self, name):
+        self.name = name
+        self.episodes = {}
 
 class Channel():
-    def __init__(self, info):
+    def __init__(self, provider, info):
         self.info = info
         self.id = None
         self.name = None
@@ -75,7 +105,7 @@ class Channel():
                 if "tvg-logo" in params and params['tvg-logo'].strip() != "":
                     self.logo = params['tvg-logo'].strip()
                 if "group-title" in params and params['group-title'].strip() != "":
-                    self.group_title = params['group-title'].strip()
+                    self.group_title = params['group-title'].strip().replace(";", " ").replace("  ", " ")
             if 'title' in res:
                 self.title = res['title']
         if self.name == None and "," in info:
@@ -88,7 +118,7 @@ class Channel():
                     break
             if ext == ".jpeg":
                 ext = ".jpg"
-            self.logo_path = os.path.join(PROVIDERS_PATH, "%s-%s%s" % (slugify(self.name), slugify(self.name), ext))
+            self.logo_path = os.path.join(PROVIDERS_PATH, "%s-%s%s" % (slugify(provider.name), slugify(self.name), ext))
 
 class Manager():
 
@@ -122,25 +152,6 @@ class Manager():
         except Exception as e:
             print(e)
 
-    @async_function
-    def get_channel_logos(self, provider, refresh_existing_logos=False):
-        with requests.session() as s:
-            s.headers['user-agent'] = 'Mozilla/5.0'
-            for channel in provider.channels:
-                if channel.logo_path == None:
-                    continue
-                if os.path.exists(channel.logo_path) and not refresh_existing_logos:
-                    continue
-                try:
-                    response = requests.get(channel.logo, timeout=10, stream=True)
-                    if response.status_code == 200:
-                        response.raw.decode_content = True
-                        self.debug("Downloading logo", channel.logo_path, channel.logo)
-                        with open(channel.logo_path, 'wb') as f:
-                            shutil.copyfileobj(response.raw, f)
-                except Exception as e:
-                    print(e)
-
     def check_playlist(self, provider):
         legit = False
         if os.path.exists(provider.path):
@@ -158,12 +169,13 @@ class Manager():
             channel = None
             group = None
             groups = {}
+            series = {}
             for line in file:
                 line = line.strip()
                 if line.startswith("#EXTM3U"):
                     continue
                 if line.startswith("#EXTINF"):
-                    channel = Channel(line)
+                    channel = Channel(provider, line)
                     self.debug("New channel: ", line)
                     continue
                 if "://" in line and not (line.startswith("#")):
@@ -180,7 +192,32 @@ class Manager():
                         continue
                     channel.url = line
                     self.debug("    --> URL found: ", line)
-                    provider.channels.append(channel)
+
+                    serie = None
+                    f = SERIES.fullmatch(channel.name)
+                    if f != None:
+                        res = f.groupdict()
+                        series_name = res['series']
+                        if series_name in series.keys():
+                            serie = series[series_name]
+                        else:
+                            serie = Serie(series_name)
+                            #todo put in group
+                            provider.series.append(serie)
+                            series[series_name] = serie
+                            serie.logo = channel.logo
+                            serie.logo_path = channel.logo_path
+                        season_name = res['season']
+                        if season_name in serie.seasons.keys():
+                            season = serie.seasons[season_name]
+                        else:
+                            season = Season(season_name)
+                            serie.seasons[season_name] = season
+
+                        episode_name = res['episode']
+                        season.episodes[episode_name] = channel
+                        serie.episodes.append(channel)
+
                     if channel.group_title != None and channel.group_title.strip() != "":
                         if group == None or group.name != channel.group_title:
                             if channel.group_title in groups.keys():
@@ -189,5 +226,12 @@ class Manager():
                                 group = Group(channel.group_title)
                                 provider.groups.append(group)
                                 groups[channel.group_title] = group
+                        if serie != None and serie not in group.series:
+                            group.series.append(serie)
                         group.channels.append(channel)
-
+                        if group.group_type == TV_GROUP:
+                            provider.channels.append(channel)
+                        elif group.group_type == MOVIES_GROUP:
+                            provider.movies.append(channel)
+                    else:
+                        provider.channels.append(channel)
