@@ -1,8 +1,14 @@
 # Hypnotix
 
+Hypnotix is an IPTV streaming application with support for live TV, movies and series.
+
 ![shadow](https://user-images.githubusercontent.com/1138515/99553152-b8bac780-29b5-11eb-9d75-8756ed7581b6.png)
 
-An IPTV app.
+It can support multiple IPTV providers of the following types:
+
+- M3U URL
+- Xtream API
+- Local M3U playlist
 
 # TV Channels and media content
 
