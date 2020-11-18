@@ -746,7 +746,7 @@ class MainWindow():
         dialog.add_buttons(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK)
         filter_m3u = Gtk.FileFilter()
         filter_m3u.set_name(_("M3U Playlists"))
-        filter_m3u.add_pattern("*.m3u")
+        filter_m3u.add_pattern("*.m3u*")
         dialog.add_filter(filter_m3u)
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
