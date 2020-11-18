@@ -4,6 +4,22 @@
 
 An IPTV app.
 
+# TV Channels and media content
+
+Hypnotix does not provide content or TV channels, it is a player application which streams from IPTV providers.
+
+By default, Hypnotix is configured with one IPTV provider called Free-IPTV: https://github.com/Free-IPTV/Countries.
+
+This provider was chosen because it satisfied the following criterias:
+
+- It only includes free, legal, publicly available content
+- It groups TV channels by countries
+- It doesn't include adult content
+
+Issues relating to TV channels and media content should be addressed directly to the relevant provider.
+
+Note: Feel free to remove Free-IPTV from Hypnotix if you don't use it, or add any other provider you may have access to or local M3U playlists.
+
 # License
 
 Code: GPLv3
