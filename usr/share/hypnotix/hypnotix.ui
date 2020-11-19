@@ -1725,6 +1725,25 @@
                                             <property name="top_attach">0</property>
                                           </packing>
                                         </child>
+                                        <child>
+                                          <object class="GtkLinkButton" id="mpv_link">
+                                            <property name="label" translatable="yes">button</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <property name="halign">start</property>
+                                            <property name="valign">center</property>
+                                            <property name="relief">none</property>
+                                            <property name="uri">https://mpv.io/manual/master/#options</property>
+                                          </object>
+                                          <packing>
+                                            <property name="left_attach">1</property>
+                                            <property name="top_attach">1</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <placeholder/>
+                                        </child>
                                       </object>
                                       <packing>
                                         <property name="title" translatable="yes">Playback</property>

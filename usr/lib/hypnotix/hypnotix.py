@@ -131,7 +131,7 @@ class MainWindow():
             "reset_no_button", "reset_yes_button", \
             "info_section", "info_name_label", "info_plot_label", "info_rating_label", "info_year_label", \
             "info_genre_label", "info_duration_label", "info_votes_label", "info_pg_label", \
-            "useragent_entry", "referer_entry", "mpv_entry"]
+            "useragent_entry", "referer_entry", "mpv_entry", "mpv_link"]
 
         for name in widget_names:
             widget = self.builder.get_object(name)
@@ -140,6 +140,8 @@ class MainWindow():
                 sys.exit(1)
             else:
                 setattr(self, name, widget)
+
+        self.mpv_link.set_label(_("List of MPV options"))
 
         self.fullscreen_widgets = []
         self.fullscreen_widgets.append(self.sidebar)
