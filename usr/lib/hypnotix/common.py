@@ -122,9 +122,10 @@ class Channel():
 
 class Manager():
 
-    def __init__(self):
+    def __init__(self, settings):
         os.system("mkdir -p '%s'" % PROVIDERS_PATH)
         self.verbose = False
+        self.settings = settings
 
     def debug(self, *args):
         if self.verbose:
@@ -138,7 +139,11 @@ class Manager():
             elif "://" in provider.url:
                 # Other protocol, assume it's http
                 if refresh or not os.path.exists(provider.path):
-                    response = requests.get(provider.url, timeout=10)
+                    headers = {
+                        'User-Agent': self.settings.get_string("user-agent"),
+                        'Referer': self.settings.get_string("http-referer")
+                    }
+                    response = requests.get(provider.url, headers=headers, timeout=10)
                     if response.status_code == 200:
                         try:
                             source = response.content.decode("UTF-8")
@@ -146,6 +151,8 @@ class Manager():
                             source = response.content.decode("latin1")
                         with open(provider.path, "w") as file:
                             file.write(source)
+                    else:
+                        print("HTTP error %d while retrieving from %s!" % (response.status_code, provider.url))
             else:
                 # No protocol, assume it's local
                 provider.path = provider.url

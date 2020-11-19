@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
   <schema id="org.x.hypnotix" path="/org/x/hypnotix/">
-  	<key type="s" name="active-provider">
-  	  <default>"Free-IPTV"</default>
-  	  <summary>Provider selected by default</summary>
+    <key type="s" name="mpv-options">
+      <default>"hwdec=auto-safe"</default>
+      <summary></summary>
       <description></description>
-  	</key>
-  	<key type="as" name="providers">
+    </key>
+    <key type="s" name="user-agent">
+      <default>"Mozilla/5.0"</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="s" name="http-referer">
+      <default>""</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="s" name="active-provider">
+      <default>"Free-IPTV"</default>
+      <summary>Provider selected by default</summary>
+      <description></description>
+    </key>
+    <key type="as" name="providers">
       <default>['Free-IPTV:::url:::https://raw.githubusercontent.com/Free-IPTV/Countries/master/ZZ_PLAYLIST_ALL_TV.m3u:::::::::']</default>
       <summary>Format: name:::type:::url(or path):::username:::password:::epg</summary>
       <description></description>

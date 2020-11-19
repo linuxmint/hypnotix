@@ -77,7 +77,7 @@ class MainWindow():
         self.application = application
         self.settings = Gio.Settings(schema_id="org.x.hypnotix")
         self.icon_theme = Gtk.IconTheme.get_default()
-        self.manager = Manager()
+        self.manager = Manager(self.settings)
         self.providers = []
         self.active_provider = None
         self.marked_provider = None
@@ -129,8 +129,9 @@ class MainWindow():
             "providers_flowbox", "new_provider_button", "reset_providers_button", \
             "delete_provider_label", "delete_no_button", "delete_yes_button", \
             "reset_no_button", "reset_yes_button", \
-            "preferences_label", \
-            "info_section", "info_name_label", "info_plot_label", "info_rating_label", "info_year_label", "info_genre_label", "info_duration_label", "info_votes_label", "info_pg_label"]
+            "info_section", "info_name_label", "info_plot_label", "info_rating_label", "info_year_label", \
+            "info_genre_label", "info_duration_label", "info_votes_label", "info_pg_label", \
+            "useragent_entry", "referer_entry", "mpv_entry"]
 
         for name in widget_names:
             widget = self.builder.get_object(name)
@@ -185,14 +186,15 @@ class MainWindow():
 
         self.browse_button.connect("clicked", self.on_browse_button)
 
+        # Settings widgets
+        self.bind_setting_widget("user-agent", self.useragent_entry)
+        self.bind_setting_widget("http-referer", self.referer_entry)
+        self.bind_setting_widget("mpv-options", self.mpv_entry)
+
         # Menubar
         accel_group = Gtk.AccelGroup()
         self.window.add_accel_group(accel_group)
         menu = self.builder.get_object("main_menu")
-        item = Gtk.MenuItem()
-        item.set_label(_("Preferences"))
-        item.connect("activate", self.open_preferences)
-        menu.append(item)
         item = Gtk.ImageMenuItem()
         item.set_image(Gtk.Image.new_from_icon_name("preferences-desktop-keyboard-shortcuts-symbolic", Gtk.IconSize.MENU))
         item.set_label(_("Keyboard Shortcuts"))
@@ -437,24 +439,31 @@ class MainWindow():
     def on_vod_series_button_clicked(self, widget, serie):
         self.show_episodes(serie)
 
+    def bind_setting_widget(self, key, widget):
+        widget.set_text(self.settings.get_string(key))
+        widget.connect("changed", self.on_entry_changed, key)
+
+    def on_entry_changed(self, widget, key):
+        self.settings.set_string(key, widget.get_text())
+
     @async_function
     def download_channel_logos(self, logos_to_refresh):
-        with requests.session() as s:
-            s.headers['user-agent'] = 'Mozilla/5.0'
-            for channel, image in logos_to_refresh:
-                if channel.logo_path == None:
-                    continue
-                try:
-                    # self.status("Downloading logo for %s" % channel.name)
-                    response = requests.get(channel.logo, timeout=10, stream=True)
-                    if response.status_code == 200:
-                        response.raw.decode_content = True
-                        with open(channel.logo_path, 'wb') as f:
-                            shutil.copyfileobj(response.raw, f)
-                            self.refresh_channel_logo(channel, image)
-                except Exception as e:
-                    print(e)
-            # self.status(None)
+        headers = {
+            'User-Agent': self.settings.get_string("user-agent"),
+            'Referer': self.settings.get_string("http-referer")
+        }
+        for channel, image in logos_to_refresh:
+            if channel.logo_path == None:
+                continue
+            try:
+                response = requests.get(channel.logo, headers=headers, timeout=10, stream=True)
+                if response.status_code == 200:
+                    response.raw.decode_content = True
+                    with open(channel.logo_path, 'wb') as f:
+                        shutil.copyfileobj(response.raw, f)
+                        self.refresh_channel_logo(channel, image)
+            except Exception as e:
+                print(e)
 
     @idle_function
     def refresh_channel_logo(self, channel, image):
@@ -529,6 +538,7 @@ class MainWindow():
         if channel != None and channel.url != None:
             #os.system("mpv --wid=%s %s &" % (self.wid, channel.url))
             # self.mpv_drawing_area.show()
+            self.reinit_mpv()
             self.mpv.play(channel.url)
             self.playback_label.set_text(channel.name)
             self.active_channel = channel
@@ -668,7 +678,6 @@ class MainWindow():
 
     def on_preferences_button(self, widget):
         self.stack.set_visible_child_name("preferences_page")
-        self.preferences_label.set_text("%s: Preferences" % self.active_provider.name)
 
     def on_new_provider_button(self, widget):
         self.add_label.set_text(_("Add a new provider"))
@@ -757,15 +766,12 @@ class MainWindow():
 #### PREFERENCES #####
 ######################
 
-    def open_preferences(self, widget):
-        self.stack.set_visible_child_name("preferences_page")
-
     def save(self):
         provider_strings = []
         for provider in self.providers:
             provider_strings.append(provider.get_info())
         self.settings.set_strv("providers", provider_strings)
-        self.reload(page="providers_page")
+        self.reload(page="providers_page", refresh=True)
 
     def on_provider_type_combo_changed(self, widget):
         type_id = self.provider_type_combo.get_model()[self.provider_type_combo.get_active()][PROVIDER_TYPE_ID]
@@ -883,7 +889,7 @@ class MainWindow():
     def on_key_press_event(self, widget, event):
         ctrl = (event.state & Gdk.ModifierType.CONTROL_MASK)
         if ctrl and event.keyval == Gdk.KEY_r:
-            self.reload()
+            self.reload(page=None, refresh=True)
         elif event.keyval == Gdk.KEY_F11 or \
              event.keyval == Gdk.KEY_f or \
              (self.fullscreen and event.keyval == Gdk.KEY_Escape):
@@ -964,9 +970,28 @@ class MainWindow():
         self.stack.set_visible_child_name(page)
 
     def on_mpv_drawing_area_realize(self, widget):
-        if self.mpv == None:
-            self.mpv = mpv.MPV(script_opts='osc-layout=box,osc-seekbarstyle=bar,osc-deadzonesize=0,osc-minmousemove=3', input_default_bindings=True, \
-                 input_vo_keyboard=True,osc=True, ytdl=True, wid=str(widget.get_window().get_xid()))
+        self.reinit_mpv()
+
+    def reinit_mpv(self):
+        if self.mpv != None:
+            self.mpv.stop()
+        options = {}
+        try:
+            mpv_options = self.settings.get_string("mpv-options")
+            if ("=") in mpv_options:
+                pairs = mpv_options.split()
+                for pair in pairs:
+                    key, value = pair.split("=")
+                    options[key] = value
+        except Exception as e:
+            print("Could not parse MPV options!")
+            print(e)
+
+        options["user_agent"] = self.settings.get_string("user-agent")
+        options["referrer"] = self.settings.get_string("http-referer")
+
+        self.mpv = mpv.MPV(**options, script_opts='osc-layout=box,osc-seekbarstyle=bar,osc-deadzonesize=0,osc-minmousemove=3', input_default_bindings=True, \
+             input_vo_keyboard=True,osc=True, ytdl=True, wid=str(self.mpv_drawing_area.get_window().get_xid()))
 
     def on_mpv_drawing_area_draw(self, widget, cr):
         cr.set_source_rgb(0.0, 0.0, 0.0)
