@@ -448,67 +448,118 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkBox" id="info_section">
+                          <object class="GtkRevealer" id="info_revealer">
+                            <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="border_width">20</property>
-                            <property name="orientation">vertical</property>
-                            <property name="spacing">3</property>
+                            <property name="transition_type">slide-up</property>
                             <child>
-                              <object class="GtkBox">
+                              <object class="GtkBox" id="info_section">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="spacing">6</property>
+                                <property name="border_width">20</property>
+                                <property name="orientation">vertical</property>
+                                <property name="spacing">3</property>
                                 <child>
-                                  <object class="GtkLabel" id="info_name_label">
+                                  <object class="GtkButton" id="close_info_button">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="valign">end</property>
-                                    <property name="label" translatable="yes">Cars</property>
-                                    <attributes>
-                                      <attribute name="font-desc" value="Ubuntu Bold 18"/>
-                                    </attributes>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">True</property>
+                                    <property name="halign">end</property>
+                                    <property name="relief">none</property>
+                                    <child>
+                                      <object class="GtkImage">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="pixel_size">16</property>
+                                        <property name="icon_name">dialog-close-symbolic</property>
+                                      </object>
+                                    </child>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
-                                    <property name="fill">True</property>
+                                    <property name="fill">False</property>
                                     <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="info_year_label">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="valign">end</property>
-                                    <property name="label" translatable="yes">(2006)</property>
-                                    <attributes>
-                                      <attribute name="font-desc" value="Ubuntu Bold 12"/>
-                                    </attributes>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">1</property>
                                   </packing>
                                 </child>
                                 <child>
                                   <object class="GtkBox">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="orientation">vertical</property>
+                                    <property name="spacing">6</property>
+                                    <child>
+                                      <object class="GtkLabel" id="info_name_label">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="valign">end</property>
+                                        <property name="label" translatable="yes">Cars</property>
+                                        <attributes>
+                                          <attribute name="font-desc" value="Ubuntu Bold 18"/>
+                                        </attributes>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="info_year_label">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="valign">end</property>
+                                        <property name="label" translatable="yes">(2006)</property>
+                                        <attributes>
+                                          <attribute name="font-desc" value="Ubuntu Bold 12"/>
+                                        </attributes>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
                                     <child>
                                       <object class="GtkBox">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="valign">end</property>
+                                        <property name="orientation">vertical</property>
                                         <child>
-                                          <object class="GtkLabel" id="info_rating_label">
+                                          <object class="GtkBox">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="valign">end</property>
-                                            <property name="label" translatable="yes">7.1</property>
-                                            <attributes>
-                                              <attribute name="font-desc" value="Ubuntu Bold 18"/>
-                                            </attributes>
+                                            <child>
+                                              <object class="GtkLabel" id="info_rating_label">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="valign">end</property>
+                                                <property name="label" translatable="yes">7.1</property>
+                                                <attributes>
+                                                  <attribute name="font-desc" value="Ubuntu Bold 18"/>
+                                                </attributes>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkLabel">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="valign">end</property>
+                                                <property name="label" translatable="yes">/10</property>
+                                                <attributes>
+                                                  <attribute name="weight" value="thin"/>
+                                                </attributes>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -517,14 +568,10 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkLabel">
+                                          <object class="GtkLabel" id="info_votes_label">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="valign">end</property>
-                                            <property name="label" translatable="yes">/10</property>
-                                            <attributes>
-                                              <attribute name="weight" value="thin"/>
-                                            </attributes>
+                                            <property name="label" translatable="yes">362000</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -536,70 +583,23 @@
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">True</property>
-                                        <property name="position">0</property>
+                                        <property name="pack_type">end</property>
+                                        <property name="position">2</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkLabel" id="info_votes_label">
+                                      <object class="GtkImage">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">362000</property>
+                                        <property name="icon_name">emblem-favorite-symbolic</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">True</property>
-                                        <property name="position">1</property>
+                                        <property name="pack_type">end</property>
+                                        <property name="position">3</property>
                                       </packing>
                                     </child>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="pack_type">end</property>
-                                    <property name="position">2</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkImage">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="icon_name">emblem-favorite-symbolic</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="pack_type">end</property>
-                                    <property name="position">3</property>
-                                  </packing>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkBox">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="spacing">6</property>
-                                <child>
-                                  <object class="GtkLabel" id="info_pg_label">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">G</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkSeparator">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -608,10 +608,68 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel" id="info_duration_label">
+                                  <object class="GtkBox">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">1h 57min</property>
+                                    <property name="spacing">6</property>
+                                    <child>
+                                      <object class="GtkLabel" id="info_pg_label">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="label" translatable="yes">G</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkSeparator">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="info_duration_label">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="label" translatable="yes">1h 57min</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">2</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkSeparator">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">3</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="info_genre_label">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="label" translatable="yes">Animation, Comedy, Family</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">4</property>
+                                      </packing>
+                                    </child>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -620,9 +678,13 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkSeparator">
+                                  <object class="GtkLabel" id="info_plot_label">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="halign">start</property>
+                                    <property name="margin_top">6</property>
+                                    <property name="label" translatable="yes">Plot</property>
+                                    <property name="wrap">True</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -630,39 +692,7 @@
                                     <property name="position">3</property>
                                   </packing>
                                 </child>
-                                <child>
-                                  <object class="GtkLabel" id="info_genre_label">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Animation, Comedy, Family</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">4</property>
-                                  </packing>
-                                </child>
                               </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="info_plot_label">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="halign">start</property>
-                                <property name="margin_top">6</property>
-                                <property name="label" translatable="yes">Plot</property>
-                                <property name="wrap">True</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">2</property>
-                              </packing>
                             </child>
                           </object>
                           <packing>

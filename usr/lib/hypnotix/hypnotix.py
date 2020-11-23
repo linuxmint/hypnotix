@@ -125,7 +125,7 @@ class MainWindow():
             "providers_flowbox", "new_provider_button", "reset_providers_button", \
             "delete_no_button", "delete_yes_button", \
             "reset_no_button", "reset_yes_button", \
-            "info_section", "info_name_label", "info_plot_label", "info_rating_label", "info_year_label", \
+            "info_section", "info_revealer", "info_name_label", "info_plot_label", "info_rating_label", "info_year_label", "close_info_button", \
             "info_genre_label", "info_duration_label", "info_votes_label", "info_pg_label", \
             "useragent_entry", "referer_entry", "mpv_entry", "mpv_link"]
 
@@ -172,6 +172,8 @@ class MainWindow():
         self.reset_yes_button.connect("clicked", self.on_reset_yes_button)
 
         self.browse_button.connect("clicked", self.on_browse_button)
+
+        self.close_info_button.connect("clicked", self.on_close_info_button)
 
         # Settings widgets
         self.bind_setting_widget("user-agent", self.useragent_entry)
@@ -593,7 +595,7 @@ class MainWindow():
             self.reinit_mpv()
             self.mpv.play(channel.url)
             self.playback_label.set_text(channel.name)
-            self.info_section.hide()
+            self.info_revealer.set_reveal_child(False)
             if self.content_type == MOVIES_GROUP:
                 self.get_imdb_details(channel.name)
             elif self.content_type == SERIES_GROUP:
@@ -621,7 +623,7 @@ class MainWindow():
             self.set_imdb_info(movie, 'genres', self.info_genre_label)
             self.set_imdb_info(movie, 'runtimes', self.info_duration_label)
             self.set_imdb_info(movie, 'certificates', self.info_pg_label)
-            self.info_section.show()
+            self.info_revealer.set_reveal_child(True)
 
     def set_imdb_info(self, movie, field, widget):
         value = movie.get(field)
@@ -650,10 +652,13 @@ class MainWindow():
             widget.set_text(value)
             widget.show()
 
+    def on_close_info_button(self, widget):
+        self.info_revealer.set_reveal_child(False)
+
     def on_stop_button(self, widget):
         self.mpv.stop()
         # self.mpv_drawing_area.hide()
-        self.info_section.hide()
+        self.info_revealer.set_reveal_child(False)
         self.active_channel = None
         self.playback_bar.hide()
 
@@ -1033,7 +1038,7 @@ class MainWindow():
                 self.sidebar.hide()
                 self.headerbar.hide()
                 self.status_label.hide()
-                self.info_section.hide()
+                self.info_revealer.set_reveal_child(False)
                 self.channels_box.set_border_width(0)
             else:
                 # Normal mode
