@@ -595,11 +595,13 @@ class MainWindow():
             self.playback_label.set_text(channel.name)
             self.info_section.hide()
             if self.content_type == MOVIES_GROUP:
-                self.get_imdb_details(channel)
+                self.get_imdb_details(channel.name)
+            elif self.content_type == SERIES_GROUP:
+                self.get_imdb_details(self.active_serie.name)
 
     @async_function
-    def get_imdb_details(self, channel):
-        movies = self.ia.search_movie(channel.name)
+    def get_imdb_details(self, name):
+        movies = self.ia.search_movie(name)
         match = None
         for movie in movies:
             self.ia.update(movie)
