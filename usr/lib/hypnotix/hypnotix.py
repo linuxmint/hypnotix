@@ -48,11 +48,6 @@ PROVIDER_TYPE_URL = "url"
 PROVIDER_TYPE_LOCAL = "local"
 PROVIDER_TYPE_XTREAM = "xtream"
 
-SPECIFICITIES = {}
-SPECIFICITIES[TV_GROUP] = _("TV Channels")
-SPECIFICITIES[MOVIES_GROUP] = _("Movies")
-SPECIFICITIES[SERIES_GROUP] = _("Series")
-
 class MyApplication(Gtk.Application):
     # Main initialization routine
     def __init__(self, application_id, flags):
@@ -80,12 +75,14 @@ class MainWindow():
         self.manager = Manager(self.settings)
         self.providers = []
         self.active_provider = None
+        self.active_group = None
+        self.active_serie = None
         self.marked_provider = None
         self.content_type = TV_GROUP # content being browsed
+        self.back_page = None # page to go back to if the back button is pressed
         self.active_channel = None
         self.fullscreen = False
         self.mpv = None
-        self.skip_group_page = False
         self.ia = IMDb()
 
         # Set the Glade file
@@ -112,22 +109,21 @@ class MainWindow():
 
         # Create variables to quickly access dynamic widgets
         self.generic_channel_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size("/usr/share/hypnotix/generic_tv_logo.png", 22, 22)
-        widget_names = ["headerbar", "status_label", "status_bar", "top_bar", "sidebar", \
+        widget_names = ["headerbar", "status_label", "status_bar", "sidebar", "go_back_button", "channels_box", \
             "provider_button", "preferences_button", \
             "mpv_drawing_area", "stack", "fullscreen_button", \
-            "add_label", "provider_ok_button", "provider_cancel_button", \
+            "provider_ok_button", "provider_cancel_button", \
             "name_entry", "path_label", "path_entry", "browse_button", "url_label", "url_entry", \
             "username_label", "username_entry", "password_label", "password_entry", "epg_label", "epg_entry", \
             "tv_logo", "movies_logo", "series_logo", "tv_button", "movies_button", "series_button", \
-            "provider_label", "tv_label", "movies_label", "series_label", \
-            "categories_flowbox", "categories_label", "categories_go_back_button",
-            "channels_flowbox", "channels_label", "channels_go_back_button", \
-            "vod_flowbox", "vod_label", "vod_go_back_button", \
-            "episodes_box", "episodes_label", "episodes_go_back_button", \
-            "stop_button", "pause_button", "show_button", "playback_label", "playback_bar",
-            "preferences_go_back_button", "providers_go_back_button", \
+            "tv_label", "movies_label", "series_label", \
+            "categories_flowbox", \
+            "channels_flowbox", \
+            "vod_flowbox", \
+            "episodes_box", \
+            "stop_button", "pause_button", "show_button", "playback_label", "playback_bar", \
             "providers_flowbox", "new_provider_button", "reset_providers_button", \
-            "delete_provider_label", "delete_no_button", "delete_yes_button", \
+            "delete_no_button", "delete_yes_button", \
             "reset_no_button", "reset_yes_button", \
             "info_section", "info_name_label", "info_plot_label", "info_rating_label", "info_year_label", \
             "info_genre_label", "info_duration_label", "info_votes_label", "info_pg_label", \
@@ -147,7 +143,6 @@ class MainWindow():
         self.fullscreen_widgets.append(self.sidebar)
         self.fullscreen_widgets.append(self.headerbar)
         self.fullscreen_widgets.append(self.status_label)
-        self.fullscreen_widgets.append(self.top_bar)
 
         # Widget signals
         self.window.connect("key-press-event",self.on_key_press_event)
@@ -165,12 +160,7 @@ class MainWindow():
         self.tv_button.connect("clicked", self.show_groups, TV_GROUP)
         self.movies_button.connect("clicked", self.show_groups, MOVIES_GROUP)
         self.series_button.connect("clicked", self.show_groups, SERIES_GROUP)
-        self.categories_go_back_button.connect("clicked", self.on_categories_go_back_button)
-        self.channels_go_back_button.connect("clicked", self.on_channels_go_back_button)
-        self.vod_go_back_button.connect("clicked", self.on_vod_go_back_button)
-        self.preferences_go_back_button.connect("clicked", self.on_preferences_go_back_button)
-        self.providers_go_back_button.connect("clicked", self.on_providers_go_back_button)
-        self.episodes_go_back_button.connect("clicked", self.on_episodes_go_back_button)
+        self.go_back_button.connect("clicked", self.on_go_back_button)
 
         self.stop_button.connect("clicked", self.on_stop_button)
         self.pause_button.connect("clicked", self.on_pause_button)
@@ -249,16 +239,15 @@ class MainWindow():
 
     def show_groups(self, widget, content_type):
         self.content_type = content_type
-        title = SPECIFICITIES[self.content_type]
-        self.stack.set_visible_child_name("categories_page")
-        self.categories_label.set_text("%s: %s" % (self.active_provider.name, title))
+        self.navigate_to("categories_page")
         for child in self.categories_flowbox.get_children():
             self.categories_flowbox.remove(child)
-        self.skip_group_page = True
+        self.active_group = None
+        found_groups = False
         for group in self.active_provider.groups:
             if group.group_type != self.content_type:
                 continue
-            self.skip_group_page = False
+            found_groups = True
             button = Gtk.Button()
             button.connect("clicked", self.on_category_button_clicked, group)
             label = Gtk.Label()
@@ -296,38 +285,32 @@ class MainWindow():
             self.categories_flowbox.add(button)
             self.categories_flowbox.show_all()
 
-        if self.skip_group_page:
+        if not found_groups:
             self.on_category_button_clicked(None, None)
 
     def on_category_button_clicked(self, widget, group):
-
-        group_name = self.active_provider.name
-        if group != None:
-                group_name = group.name
-
+        self.active_group = group
         if self.content_type == TV_GROUP:
             if group != None:
-                self.show_channels(group.name, group.channels)
+                self.show_channels(group.channels)
             else:
-                self.show_channels(self.active_provider.name, self.active_provider.channels)
+                self.show_channels(self.active_provider.channels)
         elif self.content_type == MOVIES_GROUP:
             if group != None:
-                self.show_vod(group.name, group.channels)
+                self.show_vod(group.channels)
             else:
-                self.show_vod(self.active_provider.name, self.active_provider.movies)
+                self.show_vod(self.active_provider.movies)
         elif self.content_type == SERIES_GROUP:
             if group != None:
-                self.show_vod(group.name, group.series)
+                self.show_vod(group.series)
             else:
-                self.show_vod(self.active_provider.name, self.active_provider.series)
+                self.show_vod(self.active_provider.series)
 
-    def show_channels(self, group_name, channels):
-        self.stack.set_visible_child_name("channels_page")
+    def show_channels(self, channels):
+        self.navigate_to("channels_page")
         if self.content_type == TV_GROUP:
             self.sidebar.show()
             logos_to_refresh = []
-            self.channels_label.set_text(group_name)
-            self.playback_bar.hide()
             for child in self.channels_flowbox.get_children():
                 self.channels_flowbox.remove(child)
             for channel in channels:
@@ -353,10 +336,9 @@ class MainWindow():
         else:
             self.sidebar.hide()
 
-    def show_vod(self, group_name, items):
+    def show_vod(self, items):
         logos_to_refresh = []
-        self.vod_label.set_text(self.remove_word("VOD", group_name))
-        self.stack.set_visible_child_name("vod_page")
+        self.navigate_to("vod_page")
         for child in self.vod_flowbox.get_children():
             self.vod_flowbox.remove(child)
         for item in items:
@@ -393,8 +375,8 @@ class MainWindow():
 
     def show_episodes(self, serie):
         logos_to_refresh = []
-        self.episodes_label.set_text(serie.name)
-        self.stack.set_visible_child_name("episodes_page")
+        self.active_serie = serie
+        self.navigate_to("episodes_page")
         for child in self.episodes_box.get_children():
             self.episodes_box.remove(child)
         for season_name in serie.seasons.keys():
@@ -429,13 +411,13 @@ class MainWindow():
             self.download_channel_logos(logos_to_refresh)
 
     def on_vod_movie_button_clicked(self, widget, channel):
-        self.channels_label.set_text(channel.name)
-        self.show_channels(None, None)
+        self.active_channel = channel
+        self.show_channels(None)
         self.play_async(channel)
 
     def on_episode_button_clicked(self, widget, channel):
-        self.channels_label.set_text(channel.name)
-        self.show_channels(None, None)
+        self.active_channel = channel
+        self.show_channels(None)
         self.play_async(channel)
 
     def on_vod_series_button_clicked(self, widget, serie):
@@ -485,36 +467,106 @@ class MainWindow():
             pixbuf = self.generic_channel_pixbuf
         return pixbuf
 
-    def on_categories_go_back_button(self, widget):
-        self.stack.set_visible_child_name("landing_page")
+    def on_go_back_button(self, widget):
+        self.navigate_to(self.back_page)
+        if self.active_channel != None:
+            self.playback_bar.show()
 
-    def on_channels_go_back_button(self, widget):
-        if self.content_type == TV_GROUP:
-            if self.skip_group_page:
-                self.stack.set_visible_child_name("landing_page")
+    @idle_function
+    def navigate_to(self, page, name=""):
+        self.go_back_button.show()
+        self.stack.set_visible_child_name(page)
+        provider = self.active_provider
+        if page == "landing_page":
+            self.back_page = None
+            self.headerbar.set_title("Hypnotix")
+            if provider == None:
+                self.headerbar.set_subtitle(_("No provider selected"))
+                self.tv_label.set_text("TV Channels (%d)" % 0)
+                self.movies_label.set_text("Movies (%d)" % 0)
+                self.series_label.set_text("Series (%d)" % 0)
+                self.preferences_button.set_sensitive(False)
+                self.tv_button.set_sensitive(False)
+                self.movies_button.set_sensitive(False)
+                self.series_button.set_sensitive(False)
             else:
-                self.stack.set_visible_child_name("categories_page")
-            if self.active_channel != None:
-                self.playback_bar.show()
-        elif self.content_type == MOVIES_GROUP:
-            self.stack.set_visible_child_name("vod_page")
-        else:
-            self.stack.set_visible_child_name("episodes_page")
-
-    def on_vod_go_back_button(self, widget):
-        if self.skip_group_page:
-            self.stack.set_visible_child_name("landing_page")
-        else:
-            self.stack.set_visible_child_name("categories_page")
-
-    def on_preferences_go_back_button(self, widget):
-        self.stack.set_visible_child_name("landing_page")
-
-    def on_providers_go_back_button(self, widget):
-        self.stack.set_visible_child_name("landing_page")
-
-    def on_episodes_go_back_button(self, widget):
-        self.stack.set_visible_child_name("vod_page")
+                self.headerbar.set_subtitle(provider.name)
+                self.tv_label.set_text("TV Channels (%d)" % len(provider.channels))
+                self.movies_label.set_text("Movies (%d)" % len(provider.movies))
+                self.series_label.set_text("Series (%d)" % len(provider.series))
+                self.preferences_button.set_sensitive(True)
+                self.tv_button.set_sensitive(len(provider.channels) > 0)
+                self.movies_button.set_sensitive(len(provider.movies) > 0)
+                self.series_button.set_sensitive(len(provider.series) > 0)
+            self.go_back_button.hide()
+        elif page == "categories_page":
+            self.back_page = "landing_page"
+            self.headerbar.set_title(provider.name)
+            if self.content_type == TV_GROUP:
+                self.headerbar.set_subtitle(_("TV Channels"))
+            elif self.content_type == MOVIES_GROUP:
+                self.headerbar.set_subtitle(_("Movies"))
+            else:
+                self.headerbar.set_subtitle(_("Series"))
+        elif page == "channels_page":
+            self.playback_bar.hide()
+            self.headerbar.set_title(provider.name)
+            if self.content_type == TV_GROUP:
+                if self.active_group == None:
+                    self.back_page = "landing_page"
+                    self.headerbar.set_subtitle(_("TV Channels"))
+                else:
+                    self.back_page = "categories_page"
+                    self.headerbar.set_subtitle(_("TV Channels > %s") % self.active_group.name)
+            elif self.content_type == MOVIES_GROUP:
+                self.headerbar.set_subtitle(self.active_channel.name)
+                self.back_page = "vod_page"
+            else:
+                self.headerbar.set_subtitle(self.active_channel.name)
+                self.back_page = "episodes_page"
+        elif page == "vod_page":
+            self.headerbar.set_title(provider.name)
+            if self.content_type == MOVIES_GROUP:
+                if self.active_group == None:
+                    self.back_page = "landing_page"
+                    self.headerbar.set_subtitle(_("Movies"))
+                else:
+                    self.back_page = "categories_page"
+                    self.headerbar.set_subtitle(_("Movies > %s") % self.active_group.name)
+            else:
+                if self.active_group == None:
+                    self.back_page = "landing_page"
+                    self.headerbar.set_subtitle(_("Series"))
+                else:
+                    self.back_page = "categories_page"
+                    self.headerbar.set_subtitle(_("Series > %s") % self.active_group.name)
+        elif page == "episodes_page":
+            self.back_page = "vod_page"
+            self.headerbar.set_title(provider.name)
+            self.headerbar.set_subtitle(self.active_serie.name)
+        elif page == "preferences_page":
+            self.back_page = "landing_page"
+            self.headerbar.set_title("Hypnotix")
+            self.headerbar.set_subtitle(_("Preferences"))
+        elif page == "providers_page":
+            self.back_page = "landing_page"
+            self.headerbar.set_title("Hypnotix")
+            self.headerbar.set_subtitle(_("Providers"))
+        elif page == "add_page":
+            self.back_page = "providers_page"
+            self.headerbar.set_title("Hypnotix")
+            if self.edit_mode:
+                self.headerbar.set_subtitle(_("Edit %s") % name)
+            else:
+                self.headerbar.set_subtitle(_("Add a new provider"))
+        elif page == "delete_page":
+            self.back_page = "providers_page"
+            self.headerbar.set_title("Hypnotix")
+            self.headerbar.set_subtitle(_("Delete %s") % name)
+        elif page == "reset_page":
+            self.back_page = "providers_page"
+            self.headerbar.set_title("Hypnotix")
+            self.headerbar.set_subtitle(_("Reset providers"))
 
     def open_keyboard_shortcuts(self, widget):
         gladefile = "/usr/share/hypnotix/shortcuts.ui"
@@ -526,6 +578,7 @@ class MainWindow():
         window.show()
 
     def on_channel_button_clicked(self, widget, channel):
+        self.active_channel = channel
         self.play(channel)
 
     @async_function
@@ -543,7 +596,6 @@ class MainWindow():
             self.reinit_mpv()
             self.mpv.play(channel.url)
             self.playback_label.set_text(channel.name)
-            self.active_channel = channel
             self.info_section.hide()
             if self.content_type == MOVIES_GROUP:
                 self.get_imdb_details(channel)
@@ -610,11 +662,10 @@ class MainWindow():
         self.mpv.pause = not self.mpv.pause
 
     def on_show_button(self, widget):
-        self.stack.set_visible_child_name("channels_page")
-        self.playback_bar.hide()
+        self.navigate_to("channels_page")
 
     def on_provider_button(self, widget):
-        self.stack.set_visible_child_name("providers_page")
+        self.navigate_to("providers_page")
 
     @idle_function
     def refresh_providers_page(self):
@@ -676,13 +727,12 @@ class MainWindow():
     def on_provider_selected(self, widget, provider):
         self.active_provider = provider
         self.settings.set_string("active-provider", provider.name)
-        self.show_page("landing_page")
+        self.navigate_to("landing_page")
 
     def on_preferences_button(self, widget):
-        self.stack.set_visible_child_name("preferences_page")
+        self.navigate_to("preferences_page")
 
     def on_new_provider_button(self, widget):
-        self.add_label.set_text(_("Add a new provider"))
         self.name_entry.set_text("")
         self.url_entry.set_text("")
         self.set_provider_type(PROVIDER_TYPE_URL)
@@ -694,22 +744,20 @@ class MainWindow():
                 self.provider_type_combo.set_active_iter(iter)
                 break
             iter = model.iter_next(iter)
-        self.stack.set_visible_child_name("add_page")
+        self.navigate_to("add_page")
         self.edit_mode = False
         self.provider_ok_button.set_sensitive(False)
         self.name_entry.grab_focus()
 
     def on_reset_providers_button(self, widget):
-        self.stack.set_visible_child_name("reset_page")
+        self.navigate_to("reset_page")
 
     def on_delete_button_clicked(self, widget, provider):
-        self.stack.set_visible_child_name("delete_page")
-        self.delete_provider_label.set_text(provider.name)
+        self.navigate_to("delete_page", name=provider.name)
         self.marked_provider = provider
 
     def on_edit_button_clicked(self, widget, provider):
         self.marked_provider = provider
-        self.add_label.set_text(_("Edit the provider"))
         self.name_entry.set_text(provider.name)
         self.username_entry.set_text(provider.username)
         self.password_entry.set_text(provider.password)
@@ -729,17 +777,17 @@ class MainWindow():
                 self.provider_type_combo.set_active_iter(iter)
                 break
             iter = model.iter_next(iter)
-        self.stack.set_visible_child_name("add_page")
         self.edit_mode = True
+        self.navigate_to("add_page", name=provider.name)
         self.provider_ok_button.set_sensitive(True)
         self.name_entry.grab_focus()
         self.set_provider_type(provider.type_id)
 
     def on_delete_no_button(self, widget):
-        self.stack.set_visible_child_name("providers_page")
+        self.navigate_to("providers_page")
 
     def on_reset_no_button(self, widget):
-        self.stack.set_visible_child_name("providers_page")
+        self.navigate_to("providers_page")
 
     def on_delete_yes_button(self, widget):
         self.providers.remove(self.marked_provider)
@@ -829,7 +877,7 @@ class MainWindow():
         self.save()
 
     def on_provider_cancel_button(self, widget):
-        self.stack.set_visible_child_name("providers_page")
+        self.navigate_to("providers_page")
 
     def toggle_ok_sensitivity(self, widget=None):
         if self.name_entry.get_text() == "":
@@ -927,7 +975,7 @@ class MainWindow():
         self.refresh_providers_page()
 
         if page != None:
-            self.show_page(page)
+            self.navigate_to(page)
         self.status(None)
 
     def force_reload(self):
@@ -947,29 +995,6 @@ class MainWindow():
         else:
             self.status_label.set_text(string)
             print(string)
-
-    @idle_function
-    def show_page(self, page):
-        provider = self.active_provider
-        if provider == None:
-            self.provider_label.set_text("Hypnotix")
-            self.tv_label.set_text("TV Channels (%d)" % 0)
-            self.movies_label.set_text("Movies (%d)" % 0)
-            self.series_label.set_text("Series (%d)" % 0)
-            self.preferences_button.set_sensitive(False)
-            self.tv_button.set_sensitive(False)
-            self.movies_button.set_sensitive(False)
-            self.series_button.set_sensitive(False)
-        else:
-            self.provider_label.set_text(provider.name)
-            self.tv_label.set_text("TV Channels (%d)" % len(provider.channels))
-            self.movies_label.set_text("Movies (%d)" % len(provider.movies))
-            self.series_label.set_text("Series (%d)" % len(provider.series))
-            self.preferences_button.set_sensitive(True)
-            self.tv_button.set_sensitive(len(provider.channels) > 0)
-            self.movies_button.set_sensitive(len(provider.movies) > 0)
-            self.series_button.set_sensitive(len(provider.series) > 0)
-        self.stack.set_visible_child_name(page)
 
     def on_mpv_drawing_area_realize(self, widget):
         self.reinit_mpv()
@@ -1007,13 +1032,13 @@ class MainWindow():
             self.window.fullscreen()
             for widget in self.fullscreen_widgets:
                 widget.set_visible(False)
-            self.stack.set_border_width(0)
+            self.channels_box.set_border_width(0)
         else:
             # Normal mode
             self.window.unfullscreen()
             for widget in self.fullscreen_widgets:
                 widget.set_visible(True)
-            self.stack.set_border_width(12)
+            self.channels_box.set_border_width(12)
 
     def on_fullscreen_button_clicked(self, widget):
         self.toggle_fullscreen()
