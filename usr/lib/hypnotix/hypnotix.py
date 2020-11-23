@@ -139,11 +139,6 @@ class MainWindow():
 
         self.mpv_link.set_label(_("List of MPV options"))
 
-        self.fullscreen_widgets = []
-        self.fullscreen_widgets.append(self.sidebar)
-        self.fullscreen_widgets.append(self.headerbar)
-        self.fullscreen_widgets.append(self.status_label)
-
         # Widget signals
         self.window.connect("key-press-event",self.on_key_press_event)
         self.mpv_drawing_area.connect("realize", self.on_mpv_drawing_area_realize)
@@ -475,6 +470,7 @@ class MainWindow():
     @idle_function
     def navigate_to(self, page, name=""):
         self.go_back_button.show()
+        self.fullscreen_button.hide()
         self.stack.set_visible_child_name(page)
         provider = self.active_provider
         if page == "landing_page":
@@ -509,6 +505,7 @@ class MainWindow():
             else:
                 self.headerbar.set_subtitle(_("Series"))
         elif page == "channels_page":
+            self.fullscreen_button.show()
             self.playback_bar.hide()
             self.headerbar.set_title(provider.name)
             if self.content_type == TV_GROUP:
@@ -1025,20 +1022,24 @@ class MainWindow():
         cr.paint()
 
     def toggle_fullscreen(self):
-        # Toggle state
-        self.fullscreen = (not self.fullscreen)
-        if self.fullscreen:
-            # Fullscreen mode
-            self.window.fullscreen()
-            for widget in self.fullscreen_widgets:
-                widget.set_visible(False)
-            self.channels_box.set_border_width(0)
-        else:
-            # Normal mode
-            self.window.unfullscreen()
-            for widget in self.fullscreen_widgets:
-                widget.set_visible(True)
-            self.channels_box.set_border_width(12)
+        if self.stack.get_visible_child_name() == "channels_page":
+            # Toggle state
+            self.fullscreen = (not self.fullscreen)
+            if self.fullscreen:
+                # Fullscreen mode
+                self.window.fullscreen()
+                self.sidebar.hide()
+                self.headerbar.hide()
+                self.status_label.hide()
+                self.info_section.hide()
+                self.channels_box.set_border_width(0)
+            else:
+                # Normal mode
+                self.window.unfullscreen()
+                if self.content_type == TV_GROUP:
+                    self.sidebar.show()
+                self.headerbar.show()
+                self.channels_box.set_border_width(12)
 
     def on_fullscreen_button_clicked(self, widget):
         self.toggle_fullscreen()

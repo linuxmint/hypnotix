@@ -49,7 +49,6 @@
             <property name="can_focus">False</property>
             <child>
               <object class="GtkButton" id="fullscreen_button">
-                <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="tooltip_text" translatable="yes">Fullscreen</property>
