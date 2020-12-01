@@ -127,7 +127,8 @@ class MainWindow():
             "reset_no_button", "reset_yes_button", \
             "info_section", "info_revealer", "info_name_label", "info_plot_label", "info_rating_label", "info_year_label", "close_info_button", \
             "info_genre_label", "info_duration_label", "info_votes_label", "info_pg_label", \
-            "useragent_entry", "referer_entry", "mpv_entry", "mpv_link"]
+            "useragent_entry", "referer_entry", "mpv_entry", "mpv_link", \
+            "mpv_stack", "spinner"]
 
         for name in widget_names:
             widget = self.builder.get_object(name)
@@ -578,28 +579,35 @@ class MainWindow():
 
     def on_channel_button_clicked(self, widget, channel):
         self.active_channel = channel
-        self.play(channel)
+        self.play_async(channel)
 
     @async_function
     def play_async(self, channel):
-        while self.mpv == None:
-            time.sleep(1)
-        self.play(channel)
-
-    @idle_function
-    def play(self, channel):
         print ("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
         if channel != None and channel.url != None:
             #os.system("mpv --wid=%s %s &" % (self.wid, channel.url))
             # self.mpv_drawing_area.show()
+            self.before_play(channel)
             self.reinit_mpv()
             self.mpv.play(channel.url)
-            self.playback_label.set_text(channel.name)
-            self.info_revealer.set_reveal_child(False)
-            if self.content_type == MOVIES_GROUP:
-                self.get_imdb_details(channel.name)
-            elif self.content_type == SERIES_GROUP:
-                self.get_imdb_details(self.active_serie.name)
+            self.mpv.wait_until_playing()
+            self.after_play(channel)
+
+    @idle_function
+    def before_play(self, channel):
+        self.mpv_stack.set_visible_child_name("spinner_page")
+        self.spinner.start()
+
+    @idle_function
+    def after_play(self, channel):
+        self.mpv_stack.set_visible_child_name("player_page")
+        self.spinner.stop()
+        self.playback_label.set_text(channel.name)
+        self.info_revealer.set_reveal_child(False)
+        if self.content_type == MOVIES_GROUP:
+            self.get_imdb_details(channel.name)
+        elif self.content_type == SERIES_GROUP:
+            self.get_imdb_details(self.active_serie.name)
 
     @async_function
     def get_imdb_details(self, name):
