@@ -1,3 +1,34 @@
+hypnotix (1.1) ulyssa; urgency=medium
+
+  [ Clement Lefebvre ]
+  * Set drawingarea background to black
+  * Add missing dependency libmpv1
+  * Add compatibility for local m3u playlists
+  * Implement fullscreen support
+  * Add a fullscreen button
+  * Add support for TV logos
+  * Start implementing preferences
+  * Implement 2nd batch of features
+  * Add licensing info
+  * Fix dependency
+  * Fix restrictive m3u file dialog filter
+  * Update README.md
+  * Add support for user agent, http referrer and mpv options
+  * Add a link to MPV options
+  * Redesign navigation widgets
+  * Fix fullscreen
+  * Enable info section for series
+  * Reveal the info section with an animation
+
+  [ ItzSwirlz ]
+  * Improve packaging (#30)
+
+  [ Clement Lefebvre ]
+  * Show a spinner while MPV is loading a stream
+  * l10n: Update POT
+
+ -- Clement Lefebvre <root@linuxmint.com>  Tue, 01 Dec 2020 12:09:45 +0000
+
 hypnotix (1.0.0) ulyana; urgency=low
 
   * Initial release
