@@ -523,7 +523,6 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="valign">end</property>
-                                        <property name="label" translatable="yes">Cars</property>
                                         <attributes>
                                           <attribute name="font-desc" value="Ubuntu Bold 18"/>
                                         </attributes>
@@ -539,7 +538,6 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="valign">end</property>
-                                        <property name="label" translatable="yes">(2006)</property>
                                         <attributes>
                                           <attribute name="font-desc" value="Ubuntu Bold 12"/>
                                         </attributes>
@@ -565,7 +563,6 @@
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="valign">end</property>
-                                                <property name="label" translatable="yes">7.1</property>
                                                 <attributes>
                                                   <attribute name="font-desc" value="Ubuntu Bold 18"/>
                                                 </attributes>
@@ -577,11 +574,10 @@
                                               </packing>
                                             </child>
                                             <child>
-                                              <object class="GtkLabel">
+                                              <object class="GtkLabel" id="divider_label">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="valign">end</property>
-                                                <property name="label" translatable="yes">/10</property>
                                                 <attributes>
                                                   <attribute name="weight" value="thin"/>
                                                 </attributes>
@@ -603,7 +599,6 @@
                                           <object class="GtkLabel" id="info_votes_label">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label" translatable="yes">362000</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -648,7 +643,6 @@
                                       <object class="GtkLabel" id="info_pg_label">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">G</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -671,7 +665,6 @@
                                       <object class="GtkLabel" id="info_duration_label">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">1h 57min</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -694,7 +687,6 @@
                                       <object class="GtkLabel" id="info_genre_label">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">Animation, Comedy, Family</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -715,7 +707,6 @@
                                     <property name="can_focus">False</property>
                                     <property name="halign">start</property>
                                     <property name="margin_top">6</property>
-                                    <property name="label" translatable="yes">Plot</property>
                                     <property name="wrap">True</property>
                                   </object>
                                   <packing>
@@ -906,7 +897,7 @@
                                     </child>
                                     <child>
                                       <object class="GtkLinkButton" id="mpv_link">
-                                        <property name="label" translatable="yes">button</property>
+                                        <property name="label" translatable="yes">List of MPV options</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>

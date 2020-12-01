@@ -126,7 +126,7 @@ class MainWindow():
             "delete_no_button", "delete_yes_button", \
             "reset_no_button", "reset_yes_button", \
             "info_section", "info_revealer", "info_name_label", "info_plot_label", "info_rating_label", "info_year_label", "close_info_button", \
-            "info_genre_label", "info_duration_label", "info_votes_label", "info_pg_label", \
+            "info_genre_label", "info_duration_label", "info_votes_label", "info_pg_label", "divider_label", \
             "useragent_entry", "referer_entry", "mpv_entry", "mpv_link", \
             "mpv_stack", "spinner"]
 
@@ -138,7 +138,7 @@ class MainWindow():
             else:
                 setattr(self, name, widget)
 
-        self.mpv_link.set_label(_("List of MPV options"))
+        self.divider_label.set_text("/10")
 
         # Widget signals
         self.window.connect("key-press-event",self.on_key_press_event)
@@ -691,15 +691,21 @@ class MainWindow():
             label = Gtk.Label()
             label.set_markup("<b>%s</b>" % provider.name)
             labels_box.pack_start(label, False, False, 0)
-            label = Gtk.Label()
-            label.set_text(_("%s TV channels") % len(provider.channels))
-            labels_box.pack_start(label, False, False, 0)
-            label = Gtk.Label()
-            label.set_text(_("%s movies") % len(provider.movies))
-            labels_box.pack_start(label, False, False, 0)
-            label = Gtk.Label()
-            label.set_text(_("%s series") % len(provider.series))
-            labels_box.pack_start(label, False, False, 0)
+            num = len(provider.channels)
+            if num > 0:
+                label = Gtk.Label()
+                label.set_text(gettext.ngettext("%d TV channel", "%d TV channels", num) % num)
+                labels_box.pack_start(label, False, False, 0)
+            num = len(provider.movies)
+            if num > 0:
+                label = Gtk.Label()
+                label.set_text(gettext.ngettext("%d movie", "%d movies", num) % num)
+                labels_box.pack_start(label, False, False, 0)
+            num = len(provider.series)
+            if num > 0:
+                label = Gtk.Label()
+                label.set_text(gettext.ngettext("%d series", "%d series", num) % num)
+                labels_box.pack_start(label, False, False, 0)
             button = Gtk.Button()
             button.connect("clicked", self.on_provider_selected, provider)
             label = Gtk.Label()
