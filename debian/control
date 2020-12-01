@@ -1,9 +1,10 @@
 Source: hypnotix
-Section: admin
+Section: video
 Priority: optional
 Maintainer: Linux Mint <root@linuxmint.com>
 Build-Depends: debhelper (>= 9)
-Standards-Version: 3.9.5
+Standards-Version: 3.9.6
+Rules-Requires-Root: no
 
 Package: hypnotix
 Architecture: all
