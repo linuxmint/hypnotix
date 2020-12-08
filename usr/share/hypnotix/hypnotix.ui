@@ -363,7 +363,8 @@
               <object class="GtkBox" id="categories_box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="border_width">12</property>
+                <property name="margin_top">12</property>
+                <property name="margin_bottom">12</property>
                 <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkScrolledWindow">
@@ -378,6 +379,8 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="valign">start</property>
+                            <property name="margin_left">12</property>
+                            <property name="margin_right">12</property>
                           </object>
                         </child>
                       </object>
@@ -418,6 +421,7 @@
                               <object class="GtkFlowBox" id="channels_flowbox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="margin_right">12</property>
                                 <property name="min_children_per_line">1</property>
                                 <property name="max_children_per_line">1</property>
                               </object>
@@ -751,7 +755,8 @@
               <object class="GtkBox" id="vod_box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="border_width">12</property>
+                <property name="margin_top">12</property>
+                <property name="margin_bottom">12</property>
                 <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkScrolledWindow">
@@ -766,6 +771,8 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="valign">start</property>
+                            <property name="margin_left">12</property>
+                            <property name="margin_right">12</property>
                           </object>
                         </child>
                       </object>
