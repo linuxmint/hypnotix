@@ -1,3 +1,11 @@
+hypnotix (1.2) ulyssa; urgency=medium
+
+  [ JosephMcc ]
+  * ui: Fix a headerbar icon name
+  * ui: Fix a few scrollbars overlaying content (#63)
+
+ -- Clement Lefebvre <root@linuxmint.com>  Tue, 08 Dec 2020 10:51:58 +0000
+
 hypnotix (1.1) ulyssa; urgency=medium
 
   [ Clement Lefebvre ]
