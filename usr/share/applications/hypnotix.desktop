@@ -1,6 +1,26 @@
 [Desktop Entry]
 Name=Hypnotix
 Comment=Watch TV
+Comment[ca]=Mirar TV
+Comment[da]=Se TV
+Comment[de]=Fernsehen
+Comment[es]=Ver TV
+Comment[eu]=Ikusi TB
+Comment[fi]=Katso televisiota
+Comment[fr]=Regarder la télévision
+Comment[hi]=टीवी देखें
+Comment[hr]=Gledajte TV
+Comment[it]=Guarda TV
+Comment[ja]=テレビを視聴
+Comment[kab]=Wali tiliẓri
+Comment[kn]=ಟಿವಿ ವೀಕ್ಷಿಸು
+Comment[nl]=TV kijken
+Comment[pt]=Ver TV
+Comment[ru]=Смотреть ТВ
+Comment[sr@latin]=Gledaj TV
+Comment[sv]=Se på TV
+Comment[tr]=TV Seyret
+Comment[uk]=Дивитися TV
 Exec=hypnotix
 Icon=hypnotix
 Terminal=false
