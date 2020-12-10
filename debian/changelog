@@ -1,3 +1,10 @@
+hypnotix (1.3) ulyssa; urgency=medium
+
+  * l10n: Update translations
+  * l10n: Generate files
+
+ -- Clement Lefebvre <root@linuxmint.com>  Thu, 10 Dec 2020 12:41:04 +0000
+
 hypnotix (1.2) ulyssa; urgency=medium
 
   [ JosephMcc ]
