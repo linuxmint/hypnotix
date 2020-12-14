@@ -10,6 +10,18 @@ It can support multiple IPTV providers of the following types:
 - Xtream API
 - Local M3U playlist
 
+# License
+
+- Code: GPLv3
+- Flags: https://github.com/linuxmint/flags
+- Icons on the landing page: CC BY-ND 2.0
+
+# Requirements
+
+- libxapp 1.4+
+- libmpv
+- python3-imdbpy (for Older Mint and Debian releases get it from https://packages.ubuntu.com/focal/all/python3-imdbpy/download)
+
 # TV Channels and media content
 
 Hypnotix does not provide content or TV channels, it is a player application which streams from IPTV providers.
@@ -26,10 +38,4 @@ Issues relating to TV channels and media content should be addressed directly to
 
 Note: Feel free to remove Free-IPTV from Hypnotix if you don't use it, or add any other provider you may have access to or local M3U playlists.
 
-# License
 
-Code: GPLv3
-
-Flags: https://github.com/linuxmint/flags
-
-Icons on the landing page: CC BY-ND 2.0
