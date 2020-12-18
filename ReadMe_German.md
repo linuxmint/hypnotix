@@ -14,13 +14,13 @@ Lizenz
 
     Code: GPLv3
     Flags: https://github.com/linuxmint/flags
-    Symbole auf der Zielseite: CC BY-ND 2.0
+    Symbole: CC BY-ND 2.0
 
 # Voraussetzungen
 
 - libxapp 1.4+
 - libmpv
-- python3-imdbpy (for Older Mint and Debian releases get it from https://packages.ubuntu.com/focal/all/python3-imdbpy/download)
+- python3-imdbpy [für ältere Mint and Debian Versionen:] (https://packages.ubuntu.com/focal/all/python3-imdbpy/download)
 
 # Fernsehkanäle und Medieninhalte
 
