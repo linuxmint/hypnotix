@@ -38,4 +38,23 @@ Issues relating to TV channels and media content should be addressed directly to
 
 Note: Feel free to remove Free-IPTV from Hypnotix if you don't use it, or add any other provider you may have access to or local M3U playlists.
 
+## HowTo make Playlists for Series
 
+Use ExxSxx in your Playlist to get it shown as series.
+
+S01 = Season 1
+E12 = Episode 12
+
+for example:
+
+```
+#EXTM3U
+#EXTINF:-1 tvg-name="Frasier S04E06" group-title="SERIES Frasier",
+file:///home/brian/Videos/Frasier_4/Frasier.S04E06.mp4
+#EXTINF:-1 tvg-name="Frasier S04E07" group-title="SERIES Frasier",
+file:///home/brian/Videos/Frasier_4/Frasier.S04E07.mp4
+#EXTINF:-1 tvg-name="Frasier S04E09" group-title="SERIES Frasier",
+file:///home/brian/Videos/Frasier_4/Frasier.S04E09.mp4
+#EXTINF:-1 tvg-name="Frasier S04E10" group-title="SERIES Frasier",
+file:///home/brian/Videos/Frasier_4/Frasier.S04E10.mp4
+```
