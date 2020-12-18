@@ -63,5 +63,13 @@ In Mint kann man mint-build nutzen
 
 ```
 apt install mint-dev-tools
-mint-build -i -g hypnotix
+```
+nur deb erzeugen
+```
+mint-build -g https://github.com/Axel-Erfurt/hypnotix.git
+```
+
+deb erzeugen und installiern
+```
+mint-build -i -g https://github.com/Axel-Erfurt/hypnotix.git
 ```
