@@ -32,7 +32,7 @@ Dieser Anbieter wurde ausgewählt, weil er die folgenden Kriterien erfüllt:
 
     Es enthält nur kostenlose, legale und öffentlich zugängliche Inhalte
     Es gruppiert Fernsehkanäle nach Ländern
-    Es enthält keine Inhalte für Erwachsene
+    Es enthält keine sogenannten xxx Inhalte für Erwachsene
 
 Probleme im Zusammenhang mit Fernsehkanälen und Medieninhalten sollten direkt an den jeweiligen Anbieter gerichtet werden.
 
