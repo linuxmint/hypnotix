@@ -57,3 +57,11 @@ file:///home/brian/Videos/Frasier_4/Frasier.S04E09.mp4
 #EXTINF:-1 tvg-name="Frasier S04E10" group-title="SERIES Frasier",
 file:///home/brian/Videos/Frasier_4/Frasier.S04E10.mp4
 ```
+## Build deb for Mint
+
+If you're in Mint, you can use mint-build
+
+```
+apt install mint-dev-tools
+mint-build -i -g hypnotix
+```
