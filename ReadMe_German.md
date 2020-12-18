@@ -20,7 +20,7 @@ Lizenz
 
 - libxapp 1.4+
 - libmpv
-- python3-imdbpy [für ältere Mint and Debian Versionen:] (https://packages.ubuntu.com/focal/all/python3-imdbpy/download)
+- python3-imdbpy  [für ältere Mint and Debian Versionen siehe hier](https://packages.ubuntu.com/focal/all/python3-imdbpy/download)
 
 # Fernsehkanäle und Medieninhalte
 
