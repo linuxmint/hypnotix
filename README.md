@@ -63,5 +63,13 @@ If you're in Mint, you can use mint-build
 
 ```
 apt install mint-dev-tools
-mint-build -i -g hypnotix
+```
+to create deb file
+```
+mint-build -g https://github.com/Axel-Erfurt/hypnotix.git
+```
+
+to create and install deb file
+```
+mint-build -i -g https://github.com/Axel-Erfurt/hypnotix.git
 ```
