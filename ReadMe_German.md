@@ -69,7 +69,7 @@ nur deb erzeugen
 mint-build -g https://github.com/Axel-Erfurt/hypnotix.git
 ```
 
-deb erzeugen und installiern
+deb erzeugen und installieren
 ```
 mint-build -i -g https://github.com/Axel-Erfurt/hypnotix.git
 ```
