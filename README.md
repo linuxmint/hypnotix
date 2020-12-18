@@ -20,13 +20,13 @@ It can support multiple IPTV providers of the following types:
 
 - libxapp 1.4+
 - libmpv
-- python3-imdbpy (for Older Mint and Debian releases get it from https://packages.ubuntu.com/focal/all/python3-imdbpy/download)
+- python3-imdbpy (for Older Mint and Debian releases get it from [here](https://packages.ubuntu.com/focal/all/python3-imdbpy/download)
 
 # TV Channels and media content
 
 Hypnotix does not provide content or TV channels, it is a player application which streams from IPTV providers.
 
-By default, Hypnotix is configured with one IPTV provider called Free-IPTV: https://github.com/Free-IPTV/Countries.
+By default, Hypnotix is configured with one IPTV provider called [Free-IPTV](https://github.com/Free-IPTV/Countries)
 
 This provider was chosen because it satisfied the following criterias:
 
