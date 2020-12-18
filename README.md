@@ -2,7 +2,7 @@
 
 Hypnotix is an IPTV streaming application with support for live TV, movies and series.
 
-![shadow](https://user-images.githubusercontent.com/1138515/99553152-b8bac780-29b5-11eb-9d75-8756ed7581b6.png)
+<img src="https://user-images.githubusercontent.com/1138515/99553152-b8bac780-29b5-11eb-9d75-8756ed7581b6.png" width="500" />
 
 It can support multiple IPTV providers of the following types:
 
