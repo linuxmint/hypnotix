@@ -42,8 +42,7 @@ Note: Feel free to remove Free-IPTV from Hypnotix if you don't use it, or add an
 
 Use ExxSxx in your Playlist to get it shown as series.
 
-S01 = Season 1
-E12 = Episode 12
+- S01E12 = Season 1 Episode 12
 
 for example:
 
