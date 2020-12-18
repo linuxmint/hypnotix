@@ -26,7 +26,7 @@ Lizenz
 
 Hypnotix bietet keine Inhalte oder TV-Kanäle, sondern ist eine Player-Anwendung, die von IPTV-Anbietern gestreamt wird.
 
-Standardmäßig ist Hypnotix mit einem IPTV-Anbieter namens Free-IPTV konfiguriert: https://github.com/Free-IPTV/Countries.
+Standardmäßig ist Hypnotix mit einem IPTV-Anbieter namens [Free-IPTV](https://github.com/Free-IPTV/Countries) konfiguriert.
 
 Dieser Anbieter wurde ausgewählt, weil er die folgenden Kriterien erfüllt:
 
