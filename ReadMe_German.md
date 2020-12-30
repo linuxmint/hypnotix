@@ -66,10 +66,10 @@ apt install mint-dev-tools
 ```
 nur deb erzeugen
 ```
-mint-build -g https://github.com/Axel-Erfurt/hypnotix.git
+mint-build -g https://github.com/linuxmint/hypnotix.git
 ```
 
 deb erzeugen und installieren
 ```
-mint-build -i -g https://github.com/Axel-Erfurt/hypnotix.git
+mint-build -i -g https://github.com/linuxmint/hypnotix.git
 ```
