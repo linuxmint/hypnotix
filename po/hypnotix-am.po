@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2020-12-01 12:07+0000\n"
-"PO-Revision-Date: 2020-12-02 02:30+0000\n"
+"PO-Revision-Date: 2020-12-28 19:49+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2020-12-10 10:32+0000\n"
-"X-Generator: Launchpad (build 4853cb86c14c5a9e513816c8a61121c639b30835)\n"
+"X-Launchpad-Export-Date: 2021-01-02 14:19+0000\n"
+"X-Generator: Launchpad (build 34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:94 usr/lib/hypnotix/hypnotix.py:577
 #: usr/lib/hypnotix/hypnotix.py:931 generate_desktop_files:24
@@ -64,7 +64,7 @@ msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:505 usr/lib/hypnotix/hypnotix.py:517
 msgid "TV Channels"
-msgstr ""
+msgstr "የ ቲቪ ጣቢያዎች"
 
 #: usr/lib/hypnotix/hypnotix.py:507 usr/lib/hypnotix/hypnotix.py:532
 msgid "Movies"
@@ -119,22 +119,22 @@ msgstr ""
 #, python-format
 msgid "%d TV channel"
 msgid_plural "%d TV channels"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d የ ቲቪ ጣቢያ"
+msgstr[1] "%d የ ቲቪ ጣቢያዎች"
 
 #: usr/lib/hypnotix/hypnotix.py:702
 #, python-format
 msgid "%d movie"
 msgid_plural "%d movies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d ሙቪ"
+msgstr[1] "%d ሙቪዎች"
 
 #: usr/lib/hypnotix/hypnotix.py:707
 #, python-format
 msgid "%d series"
 msgid_plural "%d series"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d ተከታታይ"
+msgstr[1] "%d ተከታታዮች"
 
 #: usr/lib/hypnotix/hypnotix.py:727
 msgid "Edit"
@@ -151,7 +151,7 @@ msgstr ""
 #: usr/lib/hypnotix/hypnotix.py:932 generate_desktop_files:24
 #: usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Watch TV"
-msgstr ""
+msgstr "ቲቪ መመልከቻ"
 
 #: usr/share/hypnotix/hypnotix.ui.h:3
 msgid "Fullscreen"
@@ -171,7 +171,7 @@ msgstr "መልሶ ማጫወቻ"
 
 #: usr/share/hypnotix/hypnotix.ui.h:9
 msgid "User Agent"
-msgstr ""
+msgstr "የ ተጠቃሚ ወኪል"
 
 #: usr/share/hypnotix/hypnotix.ui.h:10
 msgid "Referrer"
@@ -239,7 +239,7 @@ msgstr "አይ"
 
 #: usr/share/hypnotix/hypnotix.ui.h:26
 msgid "Yes"
-msgstr ""
+msgstr "አዎ"
 
 #: usr/share/hypnotix/hypnotix.ui.h:27
 msgid "Are you sure you want to reset to the default providers?"
@@ -247,24 +247,24 @@ msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:28
 msgid "Currently playing:"
-msgstr ""
+msgstr "አሁን የሚጫወተው:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:29
 msgid "Show"
-msgstr ""
+msgstr "ማሳያ"
 
 #: usr/share/hypnotix/hypnotix.ui.h:30
 msgid "Pause"
-msgstr ""
+msgstr "ማስቆሚያ"
 
 #: usr/share/hypnotix/hypnotix.ui.h:31
 msgid "Stop"
-msgstr ""
+msgstr "ማስቆሚያ"
 
 #: usr/share/hypnotix/shortcuts.ui.h:1
 msgid "Main shortcuts"
-msgstr ""
+msgstr "ዋናው አቋራጭ"
 
 #: usr/share/hypnotix/shortcuts.ui.h:2
 msgid "Toggle Fullscreen"
-msgstr ""
+msgstr "በ ሙሉ መመልከቻ መቀያየሪያ"

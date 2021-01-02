@@ -1,4 +1,4 @@
-# Kabyle translation for linuxmint
+# Polish translation for linuxmint
 # Copyright (c) 2020 Rosetta Contributors and Canonical Ltd 2020
 # This file is distributed under the same license as the linuxmint package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
@@ -8,13 +8,14 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2020-12-01 12:07+0000\n"
-"PO-Revision-Date: 2020-12-10 22:46+0000\n"
-"Last-Translator: Yacine Bouklif <yacinebouklif@gmail.com>\n"
-"Language-Team: Kabyle <kab@li.org>\n"
+"PO-Revision-Date: 2020-12-11 14:40+0000\n"
+"Last-Translator: Paweł Pańczyk <pawelppanczyk@gmail.com>\n"
+"Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
 "X-Launchpad-Export-Date: 2021-01-02 14:19+0000\n"
 "X-Generator: Launchpad (build 34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f)\n"
 
@@ -26,152 +27,155 @@ msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:190
 msgid "Keyboard Shortcuts"
-msgstr "Ingzumen n unasiw"
+msgstr "Skróty klawiszowe"
 
 #: usr/lib/hypnotix/hypnotix.py:197 usr/lib/hypnotix/hypnotix.py:930
 msgid "About"
-msgstr "Ɣef"
+msgstr "O programie"
 
 #: usr/lib/hypnotix/hypnotix.py:202
 msgid "Quit"
-msgstr "Ffeγ"
+msgstr "Zakończ"
 
 #: usr/lib/hypnotix/hypnotix.py:215
 msgid "M3U URL"
-msgstr "URL M3U"
+msgstr "Adres URL M3U"
 
 #: usr/lib/hypnotix/hypnotix.py:216
 msgid "Local M3U File"
-msgstr "Afaylu adigan M3U"
+msgstr "Lokalny plik M3U"
 
 #: usr/lib/hypnotix/hypnotix.py:217
 msgid "Xtream API"
-msgstr ""
+msgstr "API Xtream"
 
 #: usr/lib/hypnotix/hypnotix.py:383
 #, python-format
 msgid "Season %s"
-msgstr ""
+msgstr "Sezon %s"
 
 #: usr/lib/hypnotix/hypnotix.py:393
 #, python-format
 msgid "Episode %s"
-msgstr ""
+msgstr "Odcinek %s"
 
 #: usr/lib/hypnotix/hypnotix.py:483
 msgid "No provider selected"
-msgstr "Ulac imefki yettwafernen"
+msgstr "Nie wybrano dostawcy"
 
 #: usr/lib/hypnotix/hypnotix.py:505 usr/lib/hypnotix/hypnotix.py:517
 msgid "TV Channels"
-msgstr "Ibuda n tiliẓri"
+msgstr "Kanały telewizyjne"
 
 #: usr/lib/hypnotix/hypnotix.py:507 usr/lib/hypnotix/hypnotix.py:532
 msgid "Movies"
-msgstr "Isura"
+msgstr "Filmy"
 
 #: usr/lib/hypnotix/hypnotix.py:509 usr/lib/hypnotix/hypnotix.py:539
 msgid "Series"
-msgstr "Imazraren"
+msgstr "Seriale"
 
 #: usr/lib/hypnotix/hypnotix.py:520
 #, python-format
 msgid "TV Channels > %s"
-msgstr "Ibuda n tiliẓri > %s"
+msgstr "Kanały telewizyjne > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:535
 #, python-format
 msgid "Movies > %s"
-msgstr "Isura > %s"
+msgstr "Filmy > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:542
 #, python-format
 msgid "Series > %s"
-msgstr "Isura > %s"
+msgstr "Seriale > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:550 usr/share/hypnotix/hypnotix.ui.h:5
 msgid "Preferences"
-msgstr "Ismenyifen"
+msgstr "Preferencje"
 
 #: usr/lib/hypnotix/hypnotix.py:554 usr/share/hypnotix/hypnotix.ui.h:4
 msgid "Providers"
-msgstr "Iseǧǧwen"
+msgstr "Dostawcy"
 
 #: usr/lib/hypnotix/hypnotix.py:559
 #, python-format
 msgid "Edit %s"
-msgstr "Ẓreg %s"
+msgstr "Edytuj %s"
 
 #: usr/lib/hypnotix/hypnotix.py:561
 msgid "Add a new provider"
-msgstr "Rnu aseǧǧaw amaynut"
+msgstr "Dodaj nowego dostawcę"
 
 #: usr/lib/hypnotix/hypnotix.py:565
 #, python-format
 msgid "Delete %s"
-msgstr "Kkes %s"
+msgstr "Usuń %s"
 
 #: usr/lib/hypnotix/hypnotix.py:569
 msgid "Reset providers"
-msgstr "Ales awennez n iseǧǧawen"
+msgstr "Zresetuj dostawców"
 
 #: usr/lib/hypnotix/hypnotix.py:697
 #, python-format
 msgid "%d TV channel"
 msgid_plural "%d TV channels"
-msgstr[0] "%d n ubadu n tiliẓri"
-msgstr[1] "%d n yibuda n tiliẓri"
+msgstr[0] "%d kanał telewizyjny"
+msgstr[1] "%d kanały telewizyjne"
+msgstr[2] "%d kanałów telewizyjnych"
 
 #: usr/lib/hypnotix/hypnotix.py:702
 #, python-format
 msgid "%d movie"
 msgid_plural "%d movies"
-msgstr[0] "%d n usaru"
-msgstr[1] "%d n yisura"
+msgstr[0] "%d film"
+msgstr[1] "%d filmy"
+msgstr[2] "%d filmów"
 
 #: usr/lib/hypnotix/hypnotix.py:707
 #, python-format
 msgid "%d series"
 msgid_plural "%d series"
-msgstr[0] "%d n umazrar"
-msgstr[1] "%d n yimazraren"
+msgstr[0] "%d serial"
+msgstr[1] "%d seriale"
+msgstr[2] "%d seriali"
 
 #: usr/lib/hypnotix/hypnotix.py:727
 msgid "Edit"
-msgstr "Ẓreg"
+msgstr "Edytuj"
 
 #: usr/lib/hypnotix/hypnotix.py:737
 msgid "Remove"
-msgstr "Kkes"
+msgstr "Usuń"
 
 #: usr/lib/hypnotix/hypnotix.py:825
 msgid "M3U Playlists"
-msgstr "Tibdarin n tɣuri n M3U"
+msgstr "Playlisty M3U"
 
 #: usr/lib/hypnotix/hypnotix.py:932 generate_desktop_files:24
 #: usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Watch TV"
-msgstr "Wali tiliẓri"
+msgstr "Oglądaj telewizję"
 
 #: usr/share/hypnotix/hypnotix.ui.h:3
 msgid "Fullscreen"
-msgstr "Agdil ačuran"
+msgstr "Pełny ekran"
 
 #: usr/share/hypnotix/hypnotix.ui.h:6
 msgid "MPV Options"
-msgstr "Tinefruni  n MPV"
+msgstr "Opcje MPV"
 
 #: usr/share/hypnotix/hypnotix.ui.h:7
 msgid "List of MPV options"
-msgstr "Tabdart n tnefrunin n MPV"
+msgstr "Lista opcji MPV"
 
 #: usr/share/hypnotix/hypnotix.ui.h:8
 msgid "Playback"
-msgstr "Taɣuri"
+msgstr "Odtwarzanie"
 
 #: usr/share/hypnotix/hypnotix.ui.h:9
 msgid "User Agent"
-msgstr "Ameggi aseqdac"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:10
 msgid "Referrer"
@@ -179,92 +183,92 @@ msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:11
 msgid "Network"
-msgstr "Aẓeḍḍa"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:12
 msgid "Add a new provider..."
-msgstr "Rnu aseǧǧaw amaynut..."
+msgstr "Dodaj dostawcę..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:13
 msgid "Reset to defaults..."
-msgstr "Ales awennez ar lexṣas..."
+msgstr "Przywróć domyślne..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Name:"
-msgstr "Isem:"
+msgstr "Nazwa:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "URL:"
-msgstr "URL:"
+msgstr "Adres URL:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:16
 msgid "Path:"
-msgstr "Abrid:"
+msgstr "Ścieżka:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:17
 msgid "Cancel"
-msgstr "Sefsex"
+msgstr "Anuluj"
 
 #: usr/share/hypnotix/hypnotix.ui.h:18
 msgid "OK"
-msgstr "Ih"
+msgstr "OK"
 
 #: usr/share/hypnotix/hypnotix.ui.h:19
 msgid "Username:"
-msgstr "Isem n useqdac:"
+msgstr "Nazwa użytkownika:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:20
 msgid "Password:"
-msgstr "Awal uffir:"
+msgstr "Hasło:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:21
 msgid "Browse..."
-msgstr "Snirem..."
+msgstr "Przeglądaj..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:22
 msgid "EPG:"
-msgstr "EPG:"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:23
 msgid "Type:"
-msgstr "Anaw:"
+msgstr "Typ:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:24
 msgid "Are you sure you want to delete this provider?"
-msgstr "D tidet tebɣiḍ ad tekkseḍ imefki-agi ?"
+msgstr "Czy na pewno chcesz usunąć tego dostawcę?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:25
 msgid "No"
-msgstr "Ala"
+msgstr "Nie"
 
 #: usr/share/hypnotix/hypnotix.ui.h:26
 msgid "Yes"
-msgstr "Ih"
+msgstr "Tak"
 
 #: usr/share/hypnotix/hypnotix.ui.h:27
 msgid "Are you sure you want to reset to the default providers?"
-msgstr "D tidet tebɣiḍ ad talseḍ awennez ɣer yiseǧǧawen n lexṣas ?"
+msgstr "Czy na pewno chcesz przywrócić domyślnych dostawców?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:28
 msgid "Currently playing:"
-msgstr "Itteddu akka tura:"
+msgstr "Teraz odtwarzane:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:29
 msgid "Show"
-msgstr "Sken"
+msgstr "Pokaż"
 
 #: usr/share/hypnotix/hypnotix.ui.h:30
 msgid "Pause"
-msgstr "Bedd"
+msgstr "Wstrzymaj"
 
 #: usr/share/hypnotix/hypnotix.ui.h:31
 msgid "Stop"
-msgstr "Seḥbes"
+msgstr "Zatrzymaj"
 
 #: usr/share/hypnotix/shortcuts.ui.h:1
 msgid "Main shortcuts"
-msgstr "Inegzumen igejdanen"
+msgstr "Skróty główne"
 
 #: usr/share/hypnotix/shortcuts.ui.h:2
 msgid "Toggle Fullscreen"
-msgstr "Qluqel ɣer ugdil aččuran"
+msgstr "Przełącz tryb pełnoekranowy"
