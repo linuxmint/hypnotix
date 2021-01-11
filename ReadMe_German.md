@@ -57,6 +57,21 @@ file:///home/brian/Videos/Frasier_4/Frasier.S04E09.mp4
 #EXTINF:-1 tvg-name="Frasier S04E10" group-title="SERIES Frasier",
 file:///home/brian/Videos/Frasier_4/Frasier.S04E10.mp4
 ```
+
+__hypnotix_test.zip__ in [Releases](https://github.com/Axel-Erfurt/hypnotix/releases)
+
+ist eine alternative Version, mit folgenden Änderungen
+
+- Kanalliste und Titelleiste werden beim Abspielen ausgeblendet
+-  __h__ Taste blendet Kanalliste und Titelleiste wieder ein
+- __q__ Taste beendet das Programm
+
+### Benutzung 
+
+cd to the folder _hypnotix_test_ and run
+
+```python3 ./hypnotix.py```
+
 ## deb für Mint erstellen
 
 In Mint kann man mint-build nutzen
