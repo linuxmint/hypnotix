@@ -1034,6 +1034,7 @@ class MainWindow():
 
         options["user_agent"] = self.settings.get_string("user-agent")
         options["referrer"] = self.settings.get_string("http-referer")
+        options["vo"] = "x11"
 
         self.mpv = mpv.MPV(**options, script_opts='osc-layout=box,osc-seekbarstyle=bar,osc-deadzonesize=0,osc-minmousemove=3', input_default_bindings=True, \
              input_vo_keyboard=True,osc=True, ytdl=True, wid=str(self.mpv_drawing_area.get_window().get_xid()))
