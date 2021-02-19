@@ -58,19 +58,10 @@ file:///home/brian/Videos/Frasier_4/Frasier.S04E09.mp4
 file:///home/brian/Videos/Frasier_4/Frasier.S04E10.mp4
 ```
 
-__hypnotix_test.zip__ in [Releases](https://github.com/Axel-Erfurt/hypnotix/releases)
+### Shortcuts
 
-is a different version, it has
-
-- hide channel list and window decoration after click and play
-- use __h__ key to toggle back
-- use __q__ key to quit
-
-### Usage 
-
-cd to the folder _hypnotix_test_ and run
-
-```python3 ./hypnotix.py```
+- H hide/show channel list and window decoration
+- F or F11 toggle Fullscreen`
 
 
 ## Build deb for Mint
