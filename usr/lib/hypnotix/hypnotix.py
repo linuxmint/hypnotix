@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-
+#!/usr/bin/python3
 import gettext
 import gi
 import locale
@@ -975,7 +975,18 @@ class MainWindow():
              event.keyval == Gdk.KEY_f or \
              (self.fullscreen and event.keyval == Gdk.KEY_Escape):
             self.toggle_fullscreen()
+        elif event.keyval == Gdk.KEY_h:
+            self.toggleSideBar()
+            
+    def toggleSideBar(self):
+        if self.sidebar.is_visible():
+            self.sidebar.hide()
+            self.window.set_decorated(False)
+        else:
+            self.window.set_decorated(True)
+            self.sidebar.show()
 
+            
     @async_function
     def reload(self, page=None, refresh=False):
         self.status("Loading providers...")
