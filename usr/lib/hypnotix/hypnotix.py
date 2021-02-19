@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+# -*- coding: utf-8 -*-
+#!/usr/bin/python3
 import gettext
 import gi
 import locale
@@ -64,7 +66,6 @@ class MyApplication(Gtk.Application):
             window = MainWindow(self)
             self.add_window(window.window)
             window.window.show()
-            window.window.move(100, 100)
 
 class MainWindow():
 
@@ -85,7 +86,9 @@ class MainWindow():
         self.fullscreen = False
         self.mpv = None
         self.ia = IMDb()
-
+        self.x_pos = 0
+        self.y_pos = 0
+        
         # Set the Glade file
         gladefile = "/usr/share/hypnotix/hypnotix.ui"
         self.builder = Gtk.Builder()
@@ -176,6 +179,9 @@ class MainWindow():
         self.browse_button.connect("clicked", self.on_browse_button)
 
         self.close_info_button.connect("clicked", self.on_close_info_button)
+        
+        self.channels_flowbox.add_events(Gdk.EventMask.POINTER_MOTION_MASK)
+        self.channels_flowbox.connect('motion-notify-event', self.on_mouse_move)
 
         # Settings widgets
         self.bind_setting_widget("user-agent", self.useragent_entry)
@@ -579,8 +585,14 @@ class MainWindow():
         window.show()
 
     def on_channel_button_clicked(self, widget, channel):
+        child = self.channels_flowbox.get_child_at_pos(self.x_pos, self.y_pos)
+        self.channels_flowbox.select_child(child)
         self.active_channel = channel
         self.play_async(channel)
+        
+    def on_mouse_move(self, widget, event):
+        self.x_pos = event.x
+        self.y_pos = event.y
 
     @async_function
     def play_async(self, channel):
@@ -772,7 +784,7 @@ class MainWindow():
         self.navigate_to("reset_page")
 
     def on_delete_button_clicked(self, widget, provider):
-        self.navigate_to("delete_page", provider.name)
+        self.navigate_to("delete_page", name=provider.name)
         self.marked_provider = provider
 
     def on_edit_button_clicked(self, widget, provider):
@@ -797,7 +809,7 @@ class MainWindow():
                 break
             iter = model.iter_next(iter)
         self.edit_mode = True
-        self.navigate_to("add_page", provider.name)
+        self.navigate_to("add_page", name=provider.name)
         self.provider_ok_button.set_sensitive(True)
         self.name_entry.grab_focus()
         self.set_provider_type(provider.type_id)
