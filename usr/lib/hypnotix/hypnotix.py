@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-#!/usr/bin/python3
+
 import gettext
 import gi
 import locale
@@ -146,6 +146,7 @@ class MainWindow():
 
         # Widget signals
         self.window.connect("key-press-event",self.on_key_press_event)
+        self.window.connect("destroy", self.on_quit)
         self.mpv_drawing_area.connect("realize", self.on_mpv_drawing_area_realize)
         self.mpv_drawing_area.connect("draw", self.on_mpv_drawing_area_draw)
         self.fullscreen_button.connect("clicked", self.on_fullscreen_button_clicked)
@@ -241,6 +242,11 @@ class MainWindow():
 
         self.window.show()
         self.playback_bar.hide()
+        
+    def on_quit(self, *args):
+        if self.mpv != None:
+            self.mpv.stop()
+        Gtk.main_quit
 
     def show_groups(self, widget, content_type):
         self.content_type = content_type
@@ -784,7 +790,7 @@ class MainWindow():
         self.navigate_to("reset_page")
 
     def on_delete_button_clicked(self, widget, provider):
-        self.navigate_to("delete_page", name=provider.name)
+        self.navigate_to("delete_page", provider.name)
         self.marked_provider = provider
 
     def on_edit_button_clicked(self, widget, provider):
@@ -809,7 +815,7 @@ class MainWindow():
                 break
             iter = model.iter_next(iter)
         self.edit_mode = True
-        self.navigate_to("add_page", name=provider.name)
+        self.navigate_to("add_page", provider.name)
         self.provider_ok_button.set_sensitive(True)
         self.name_entry.grab_focus()
         self.set_provider_type(provider.type_id)
