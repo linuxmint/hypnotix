@@ -771,7 +771,7 @@ class MainWindow():
         self.navigate_to("reset_page")
 
     def on_delete_button_clicked(self, widget, provider):
-        self.navigate_to("delete_page", name=provider.name)
+        self.navigate_to("delete_page", provider.name)
         self.marked_provider = provider
 
     def on_edit_button_clicked(self, widget, provider):
@@ -796,7 +796,7 @@ class MainWindow():
                 break
             iter = model.iter_next(iter)
         self.edit_mode = True
-        self.navigate_to("add_page", name=provider.name)
+        self.navigate_to("add_page", provider.name)
         self.provider_ok_button.set_sensitive(True)
         self.name_entry.grab_focus()
         self.set_provider_type(provider.type_id)
