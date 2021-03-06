@@ -1,3 +1,13 @@
+hypnotix (1.5) ulyssa; urgency=medium
+
+  [ freddii ]
+  * Added Keywords to desktop file (#76)
+
+  [ Clement Lefebvre ]
+  * Fix navigation to edit page
+
+ -- Clement Lefebvre <root@linuxmint.com>  Sat, 06 Mar 2021 15:48:00 +0000
+
 hypnotix (1.4) ulyssa; urgency=medium
 
   [ Michael Webster ]
