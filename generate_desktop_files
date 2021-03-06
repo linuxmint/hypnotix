@@ -18,6 +18,7 @@ Terminal=false
 Type=Application
 Encoding=UTF-8
 Categories=AudioVideo;Video;Player;TV;
+Keywords=Television;Stream;
 StartupNotify=false
 """
 
