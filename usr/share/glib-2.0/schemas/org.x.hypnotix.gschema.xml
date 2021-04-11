@@ -17,12 +17,12 @@
       <description></description>
     </key>
     <key type="s" name="active-provider">
-      <default>"Free-IPTV"</default>
+      <default>"iptv-org"</default>
       <summary>Provider selected by default</summary>
-      <description></description>
+      <description>Collection of 5000+ publicly available IPTV channels from all over the world.</description>
     </key>
     <key type="as" name="providers">
-      <default>['Free-IPTV:::url:::https://raw.githubusercontent.com/Free-IPTV/Countries/master/ZZ_PLAYLIST_ALL_TV.m3u:::::::::']</default>
+      <default>['iptv-org:::url:::https://iptv-org.github.io/iptv/index.sfw.m3u:::::::::']</default>
       <summary>Format: name:::type:::url(or path):::username:::password:::epg</summary>
       <description></description>
     </key>
