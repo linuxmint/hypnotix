@@ -26,7 +26,7 @@ It can support multiple IPTV providers of the following types:
 
 Hypnotix does not provide content or TV channels, it is a player application which streams from IPTV providers.
 
-By default, Hypnotix is configured with one IPTV provider called Free-IPTV: https://github.com/Free-IPTV/Countries.
+By default, Hypnotix is configured with one IPTV provider called Free-TV: https://github.com/Free-TV/IPTV.
 
 This provider was chosen because it satisfied the following criterias:
 
@@ -36,6 +36,4 @@ This provider was chosen because it satisfied the following criterias:
 
 Issues relating to TV channels and media content should be addressed directly to the relevant provider.
 
-Note: Feel free to remove Free-IPTV from Hypnotix if you don't use it, or add any other provider you may have access to or local M3U playlists.
-
-
+Note: Feel free to remove Free-TV from Hypnotix if you don't use it, or add any other provider you may have access to or local M3U playlists.
