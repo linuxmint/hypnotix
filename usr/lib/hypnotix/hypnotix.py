@@ -84,6 +84,8 @@ class MainWindow():
         self.fullscreen = False
         self.mpv = None
         self.ia = IMDb()
+        self.x_pos = 0
+        self.y_pos = 0
 
         # Set the Glade file
         gladefile = "/usr/share/hypnotix/hypnotix.ui"
@@ -175,6 +177,9 @@ class MainWindow():
         self.browse_button.connect("clicked", self.on_browse_button)
 
         self.close_info_button.connect("clicked", self.on_close_info_button)
+
+        self.channels_flowbox.add_events(Gdk.EventMask.POINTER_MOTION_MASK)
+        self.channels_flowbox.connect('motion-notify-event', self.on_mouse_hover)
 
         # Settings widgets
         self.bind_setting_widget("user-agent", self.useragent_entry)
@@ -578,8 +583,14 @@ class MainWindow():
         window.show()
 
     def on_channel_button_clicked(self, widget, channel):
+        child = self.channels_flowbox.get_child_at_pos(self.x_pos, self.y_pos)
+        self.channels_flowbox.select_child(child)
         self.active_channel = channel
         self.play_async(channel)
+
+    def on_mouse_hover(self, widget, event):
+        self.x_pos = event.x
+        self.y_pos = event.y
 
     @async_function
     def play_async(self, channel):
