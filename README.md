@@ -37,3 +37,13 @@ This provider was chosen because it satisfied the following criterias:
 Issues relating to TV channels and media content should be addressed directly to the relevant provider.
 
 Note: Feel free to remove Free-TV from Hypnotix if you don't use it, or add any other provider you may have access to or local M3U playlists.
+
+# Wayland compatibility
+
+If you're using Wayland go the Hypnotix preferences and add the following to the list of MPV options:
+
+`vo=x11`
+
+Run Hypnotix with:
+
+`GDK_BACKEND=x11 hypnotix`
