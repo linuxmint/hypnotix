@@ -1,3 +1,9 @@
+hypnotix (1.6) ulyssa; urgency=medium
+
+  * Switch default provider from Free-IPTV to Free-TV
+
+ -- Clement Lefebvre <root@linuxmint.com>  Thu, 15 Apr 2021 13:38:27 +0100
+
 hypnotix (1.5) ulyssa; urgency=medium
 
   [ freddii ]
