@@ -25,6 +25,8 @@ import mpv
 
 from imdb import IMDb
 
+from functools import partial
+
 setproctitle.setproctitle("hypnotix")
 
 # i18n
@@ -47,6 +49,18 @@ COL_PROVIDER_NAME, COL_PROVIDER = range(2)
 PROVIDER_TYPE_URL = "url"
 PROVIDER_TYPE_LOCAL = "local"
 PROVIDER_TYPE_XTREAM = "xtream"
+
+UPDATE_BR_INTERVAL = 5
+
+AUDIO_SAMPLE_FORMATS = { "u16": "unsigned 16 bits", \
+    "s16": "signed 16 bits", \
+    "s16p": "signed 16 bits, planar", \
+    "flt" : "float", \
+    "float" : "float", \
+    "fltp" : "float, planar", \
+    "floatp" : "float, planar", \
+    "dbl" : "double", \
+    "dblp": "double, planar"}
 
 class MyApplication(Gtk.Application):
     # Main initialization routine
@@ -84,6 +98,10 @@ class MainWindow():
         self.fullscreen = False
         self.mpv = None
         self.ia = IMDb()
+
+        self.video_properties = {}
+        self.audio_properties = {}
+
         self.x_pos = 0
         self.y_pos = 0
 
@@ -95,6 +113,9 @@ class MainWindow():
         self.window = self.builder.get_object("main_window")
         self.window.set_title(_("Hypnotix"))
         self.window.set_icon_name("hypnotix")
+
+        # The window used to display stream information
+        self.info_window = self.builder.get_object("stream_info_window")
 
         provider = Gtk.CssProvider()
         provider.load_from_path("/usr/share/hypnotix/hypnotix.css")
@@ -130,7 +151,11 @@ class MainWindow():
             "info_section", "info_revealer", "info_name_label", "info_plot_label", "info_rating_label", "info_year_label", "close_info_button", \
             "info_genre_label", "info_duration_label", "info_votes_label", "info_pg_label", "divider_label", \
             "useragent_entry", "referer_entry", "mpv_entry", "mpv_link", \
-            "mpv_stack", "spinner"]
+            "mpv_stack", "spinner", "info_window_close_button", \
+            "video_properties_box", "video_properties_label", \
+            "colour_properties_box", "colour_properties_label", \
+            "audio_properties_box", "audio_properties_label", \
+            "layout_properties_box", "layout_properties_label"]
 
         for name in widget_names:
             widget = self.builder.get_object(name)
@@ -147,6 +172,9 @@ class MainWindow():
         self.mpv_drawing_area.connect("realize", self.on_mpv_drawing_area_realize)
         self.mpv_drawing_area.connect("draw", self.on_mpv_drawing_area_draw)
         self.fullscreen_button.connect("clicked", self.on_fullscreen_button_clicked)
+
+        self.info_window.connect("delete-event", self.on_close_info_window)
+        self.info_window_close_button.connect("clicked", self.on_close_info_window_button_clicked)
 
         self.provider_ok_button.connect("clicked", self.on_provider_ok_button)
         self.provider_cancel_button.connect("clicked", self.on_provider_cancel_button)
@@ -197,6 +225,14 @@ class MainWindow():
         key, mod = Gtk.accelerator_parse("<Control>K")
         item.add_accelerator("activate", accel_group, key, mod, Gtk.AccelFlags.VISIBLE)
         menu.append(item)
+        self.info_menu_item = Gtk.ImageMenuItem()
+        self.info_menu_item.set_image(Gtk.Image.new_from_icon_name("dialog-information", Gtk.IconSize.MENU))
+        self.info_menu_item.set_label(_("Stream Information"))
+        self.info_menu_item.connect("activate", self.open_info)
+        key, mod = Gtk.accelerator_parse("F2")
+        self.info_menu_item.add_accelerator("activate", accel_group, key, mod, Gtk.AccelFlags.VISIBLE)
+        self.info_menu_item.set_sensitive(False)
+        menu.append(self.info_menu_item)
         item = Gtk.ImageMenuItem()
         item.set_image(Gtk.Image.new_from_icon_name("help-about-symbolic", Gtk.IconSize.MENU))
         item.set_label(_("About"))
@@ -239,6 +275,10 @@ class MainWindow():
 
         self.window.show()
         self.playback_bar.hide()
+
+        # Historic bitrates of the currently playing media
+        self.video_bitrates = []
+        self.audio_bitrates = []
 
     def show_groups(self, widget, content_type):
         self.content_type = content_type
@@ -598,6 +638,7 @@ class MainWindow():
         if channel != None and channel.url != None:
             #os.system("mpv --wid=%s %s &" % (self.wid, channel.url))
             # self.mpv_drawing_area.show()
+            self.info_menu_item.set_sensitive(False)
             self.before_play(channel)
             self.reinit_mpv()
             self.mpv.play(channel.url)
@@ -607,6 +648,16 @@ class MainWindow():
     @idle_function
     def before_play(self, channel):
         self.mpv_stack.set_visible_child_name("spinner_page")
+        self.video_properties.clear()
+        self.video_properties[_("general")] = {}
+        self.video_properties[_("colour")] = {}
+
+        self.audio_properties.clear()
+        self.audio_properties[_("general")] = {}
+        self.audio_properties[_("layout")] = {}
+
+        self.video_bitrates.clear()
+        self.audio_bitrates.clear()
         self.spinner.start()
 
     @idle_function
@@ -619,6 +670,92 @@ class MainWindow():
             self.get_imdb_details(channel.name)
         elif self.content_type == SERIES_GROUP:
             self.get_imdb_details(self.active_serie.name)
+        self.info_menu_item.set_sensitive(True)
+        self.monitor_playback()
+
+    def monitor_playback(self):
+        self.mpv.observe_property("video-params", self.on_video_params)
+        self.mpv.observe_property("video-format", self.on_video_format)
+        self.mpv.observe_property("audio-params", self.on_audio_params)
+        self.mpv.observe_property("audio-codec", self.on_audio_codec)
+        self.mpv.observe_property("video-bitrate", self.on_bitrate)
+        self.mpv.observe_property("audio-bitrate", self.on_bitrate)
+
+    @idle_function
+    def on_bitrate(self, prop, bitrate):
+        if not bitrate or prop not in ["video-bitrate", "audio-bitrate"]:
+            return
+
+        """
+        Only update the bitrates when the info window is open unless
+        we don't have any data yet.
+        """
+        if _("Average Bitrate") in self.video_properties:
+            if _("Average Bitrate") in self.audio_properties:
+                if not self.info_window.props.visible:
+                    return
+
+        rates = {"video": self.video_bitrates, "audio": self.audio_bitrates}
+        rate = "video"
+        if prop == "audio-bitrate":
+            rate = "audio"
+
+        rates[rate].append(int(bitrate) / 1000.0)
+        rates[rate] = rates[rate][-30:]
+        br = sum(rates[rate]) / float(len(rates[rate]))
+
+        if rate == "video":
+            self.video_properties[_("general")][_("Average Bitrate")] = "%.f Kbps" % br
+        else:
+            self.audio_properties[_("general")][_("Average Bitrate")] = "%.f Kbps" % br
+
+    @idle_function
+    def on_video_params(self, property, params):
+        if not params or not type(params) == dict:
+            return
+        if "w" in params and "h" in params:
+            self.video_properties[_("general")][_("Dimensions")] = "%sx%s" % (params["w"],params["h"])
+        if "aspect" in params:
+            aspect = round(float(params["aspect"]), 2)
+            self.video_properties[_("general")][_("Aspect")] = "%s" % aspect
+        if "pixelformat" in params:
+            self.video_properties[_("colour")][_("Pixel Format")] = params["pixelformat"]
+        if "gamma" in params:
+            self.video_properties[_("colour")][_("Gamma")] = params["gamma"]
+        if "average-bpp" in params:
+            self.video_properties[_("colour")][_("Bits Per Pixel")] = params["average-bpp"]
+
+    @idle_function
+    def on_video_format(self, property, vformat):
+        if not vformat:
+            return
+        self.video_properties[_("general")][_("Codec")] = vformat
+
+    @idle_function
+    def on_audio_params(self, property, params):
+        if not params or not type(params) == dict:
+            return
+        if "channels" in params:
+            chans = params["channels"]
+            if "5.1" in chans or "7.1" in chans:
+                chans += " " + _("surround sound")
+            self.audio_properties[_("layout")][_("Channels")] = chans
+        if "samplerate" in params:
+            sr = float(params["samplerate"]) / 1000.0
+            self.audio_properties[_("general")][_("Sample Rate")] = "%.1f KHz" % sr
+        if "format" in params:
+            fmt = params["format"]
+            if fmt in AUDIO_SAMPLE_FORMATS:
+                fmt = AUDIO_SAMPLE_FORMATS[fmt]
+            self.audio_properties[_("general")][_("Format")] = fmt
+        if "channel-count" in params:
+            self.audio_properties[_("layout")][_("Channel Count")] = params["channel-count"]
+
+    @idle_function
+    def on_audio_codec(self, property, codec):
+        if not codec:
+            return
+        self.audio_properties[_("general")][_("Codec")] = codec.split()[0]
 
     @async_function
     def get_imdb_details(self, name):
@@ -679,6 +816,7 @@ class MainWindow():
         # self.mpv_drawing_area.hide()
         self.info_revealer.set_reveal_child(False)
         self.active_channel = None
+        self.info_menu_item.set_sensitive(False)
         self.playback_bar.hide()
 
     def on_pause_button(self, widget):
@@ -780,6 +918,10 @@ class MainWindow():
 
     def on_reset_providers_button(self, widget):
         self.navigate_to("reset_page")
+
+    def on_close_info_window(self, widget, event):
+        self.info_window.hide()
+        return True
 
     def on_delete_button_clicked(self, widget, provider):
         self.navigate_to("delete_page", provider.name)
@@ -934,6 +1076,61 @@ class MainWindow():
         return url
 
 ##############################
+    def open_info(self, widget):
+        """
+        Display a dialog containing information about the currently
+        playing stream based on properties emitted by MPV during playback
+        """
+        sections = [self.video_properties_box, self.colour_properties_box, \
+            self.audio_properties_box, self.layout_properties_box]
+
+        for section in sections:
+            for child in section.get_children():
+                section.remove(child)
+
+        props = [self.video_properties[_("general")], \
+            self.video_properties[_("colour")], \
+            self.audio_properties[_("general")], \
+            self.audio_properties[_("layout")]]
+
+        for section, props in zip(sections, props):
+            for prop_k, prop_v in props.items():
+                box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL,
+                    margin_left=24, margin_right=24, margin_top=6, margin_bottom=6)
+                box.set_halign(Gtk.Align.FILL)
+                box_inner = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL,
+                    spacing=14*12, expand=True)
+                k = Gtk.Label(label=prop_k, margin_top=12, margin_bottom=12)
+                k.set_halign(Gtk.Align.START)
+                v = Gtk.Label(label=prop_v, margin_top=12, margin_bottom=12)
+
+                def update_bitrate(label, properties):
+                    """
+                    Periodically update a label displaying the average
+                    bitrate whilst the info dialog is visible.
+                    """
+                    if not self.info_window.props.visible:
+                        return False
+                    if _("Average Bitrate") in properties:
+                        label.set_text(properties[_("Average Bitrate")])
+                    return True
+
+                if prop_k == _("Average Bitrate") and props == self.video_properties[_("general")]:
+                    cb = partial(update_bitrate, v, props)
+                    GLib.timeout_add_seconds(UPDATE_BR_INTERVAL, cb)
+
+                elif prop_k == _("Average Bitrate") and props == self.audio_properties[_("general")]:
+                    cb = partial(update_bitrate, v, props)
+                    GLib.timeout_add_seconds(UPDATE_BR_INTERVAL, cb)
+
+                v.set_halign(Gtk.Align.CENTER)
+                box_inner.pack_start(k, True, True, 0)
+                box_inner.pack_end(v, False, False, 0)
+                box.add(box_inner)
+                seperator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
+                section.add(seperator)
+                section.add(box)
+        self.info_window.show_all()
 
     def open_about(self, widget):
         dlg = Gtk.AboutDialog()
@@ -1075,6 +1272,9 @@ class MainWindow():
 
     def on_fullscreen_button_clicked(self, widget):
         self.toggle_fullscreen()
+
+    def on_close_info_window_button_clicked(self, widget):
+        self.info_window.hide()
 
 if __name__ == "__main__":
     application = MyApplication("org.x.hypnotix", Gio.ApplicationFlags.FLAGS_NONE)
