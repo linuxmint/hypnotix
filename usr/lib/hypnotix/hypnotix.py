@@ -37,6 +37,7 @@ gettext.bindtextdomain(APP, LOCALE_DIR)
 gettext.textdomain(APP)
 _ = gettext.gettext
 
+HYPNOTIX_HOME_PATH= os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)),"../../../"))
 
 PROVIDER_OBJ, PROVIDER_NAME = range(2)
 PROVIDER_TYPE_ID, PROVIDER_TYPE_NAME = range(2)
@@ -105,8 +106,13 @@ class MainWindow():
         self.x_pos = 0
         self.y_pos = 0
 
+        # Used for redownloading timer
+        self.reload_timeout_sec = 60*5
+        self._timerid = -1
+
         # Set the Glade file
-        gladefile = "/usr/share/hypnotix/hypnotix.ui"
+        gladefile = os.path.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/hypnotix.ui")
+        
         self.builder = Gtk.Builder()
         self.builder.set_translation_domain(APP)
         self.builder.add_from_file(gladefile)
@@ -118,7 +124,8 @@ class MainWindow():
         self.info_window = self.builder.get_object("stream_info_window")
 
         provider = Gtk.CssProvider()
-        provider.load_from_path("/usr/share/hypnotix/hypnotix.css")
+        provider.load_from_path(os.path.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/hypnotix.css"))
+
         screen = Gdk.Display.get_default_screen(Gdk.Display.get_default())
         # I was unable to found instrospected version of this
         Gtk.StyleContext.add_provider_for_screen(
@@ -131,7 +138,12 @@ class MainWindow():
         self.edit_mode = False
 
         # Create variables to quickly access dynamic widgets
-        self.generic_channel_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size("/usr/share/hypnotix/generic_tv_logo.png", 22, 22)
+        self.generic_channel_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(
+            os.path.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/generic_tv_logo.png"), 
+            22, 
+            22
+        )
+
         widget_names = ["headerbar", "status_label", "status_bar", "sidebar", "go_back_button", "channels_box", \
             "provider_button", "preferences_button", \
             "mpv_drawing_area", "stack", "fullscreen_button", \
@@ -264,14 +276,24 @@ class MainWindow():
         self.provider_type_combo.set_active(0) # Select 1st type
         self.provider_type_combo.connect("changed", self.on_provider_type_combo_changed)
 
-        self.tv_logo.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size("/usr/share/hypnotix/pictures/tv.svg", 258, 258))
-        self.movies_logo.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size("/usr/share/hypnotix/pictures/movies.svg", 258, 258))
-        self.series_logo.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size("/usr/share/hypnotix/pictures/series.svg", 258, 258))
+        self.tv_logo.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size(
+            os.path.join(HYPNOTIX_HOME_PATH,"/usr/share/hypnotix/pictures/tv.svg"), 
+            258, 
+            258))
+        self.movies_logo.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size(
+            os.path.join(HYPNOTIX_HOME_PATH,"/usr/share/hypnotix/pictures/movies.svg"), 
+            258, 
+            258))
+        self.series_logo.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size(
+            os.path.join(HYPNOTIX_HOME_PATH,"/usr/share/hypnotix/pictures/series.svg"), 
+            258, 
+            258))
 
         self.reload(page="landing_page")
 
-        # Redownload playlists after a little while...
-        GLib.timeout_add_seconds(60 * 5, self.force_reload)
+        # Redownload playlists by default
+        # This is going to get readjusted 
+        self._timerid = GLib.timeout_add_seconds(self.reload_timeout_sec, self.force_reload)
 
         self.window.show()
         self.playback_bar.hide()
@@ -303,7 +325,7 @@ class MainWindow():
             box = Gtk.Box()
             for word in group.name.split():
                 word = word.lower()
-                badge = "/usr/share/hypnotix/pictures/badges/%s.png" % word
+                badge = os.path.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/pictures/badges/%s.png" % word)
                 if os.path.exists(badge):
                     try:
                         pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(badge, -1, 16)
@@ -313,7 +335,7 @@ class MainWindow():
                     except:
                         print("Could not load badge", badge)
                 elif word in BADGES.keys():
-                    badge = "/usr/share/hypnotix/pictures/badges/%s.png" % BADGES[word]
+                    badge = os.path.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/pictures/badges/%s.png" % BADGES[word])
                     try:
                         pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(badge, -1, 16)
                         surface = Gdk.cairo_surface_create_from_pixbuf(pixbuf, self.window.get_scale_factor())
@@ -395,7 +417,12 @@ class MainWindow():
             label.set_max_width_chars(30)
             label.set_ellipsize(Pango.EllipsizeMode.END)
             box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-            pixbuf = self.get_pixbuf(item.logo_path)
+            try:
+                pixbuf = self.get_pixbuf(item.logo_path)
+            except AttributeError as error:
+                print("Error loading logo_path")
+                print(error)
+                item.show()
             surface = Gdk.cairo_surface_create_from_pixbuf(pixbuf, self.window.get_scale_factor())
             image = Gtk.Image().new_from_surface(surface)
             logos_to_refresh.append((item, image))
@@ -614,7 +641,7 @@ class MainWindow():
             self.headerbar.set_subtitle(_("Reset providers"))
 
     def open_keyboard_shortcuts(self, widget):
-        gladefile = "/usr/share/hypnotix/shortcuts.ui"
+        gladefile = os.path.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/shortcuts.ui")
         builder = Gtk.Builder()
         builder.set_translation_domain(APP)
         builder.add_from_file(gladefile)
@@ -1176,25 +1203,67 @@ class MainWindow():
         self.status("Loading providers...")
         self.providers = []
         for provider_info in self.settings.get_strv("providers"):
+            
             try:
                 provider = Provider(name=None, provider_info=provider_info)
-                if refresh:
-                    self.status("Downloading playlist...", provider)
+                if provider.type_id != "xtream":
+                    # Download M3U
+                    if refresh:
+                        self.status("Downloading playlist...", provider)
+                    else:
+                        self.status("Getting playlist...", provider)
+                    ret = self.manager.get_playlist(provider, refresh=refresh)
+                    if ret:
+                        self.status("Checking playlist...", provider)
+                        if (self.manager.check_playlist(provider)):
+                            self.status("Loading channels...", provider)
+                            self.manager.load_channels(provider)
+                            self.providers.append(provider)
+                            if provider.name == self.settings.get_string("active-provider"):
+                                self.active_provider = provider
+                                print(provider)
+                            self.status(None)
+                            print("Loaded {} channels".format(len(self.providers[0].channels)))
+                            print("Loaded {} groups".format(len(self.providers[0].groups)))
+                            print("Loaded {} series".format(len(self.providers[0].series)))
+                            print("Loaded {} movies".format(len(self.providers[0].movies)))
+                            
+                            # for g in self.providers[0].groups:
+                            #     print("{} [{}]".format(g.name,len(g.channels)))
+                            #     for c in g.channels:
+                            #         print("-> {}".format(c.name))
+                    else:
+                        self.status("Failed to Download playlist from {}".format(provider.name),provider)
+
                 else:
-                    self.status("Getting playlist...", provider)
-                self.manager.get_playlist(provider, refresh=refresh)
-                self.status("Checking playlist...", provider)
-                if (self.manager.check_playlist(provider)):
-                    self.status("Loading channels...", provider)
-                    self.manager.load_channels(provider)
+                    
+                    # Download via Xtream
+                    from xtream import XTream
+                    x = XTream(provider.url,provider.username,provider.password)
+                    if x.authData != {}:
+                        print("XTREAM Loading Channels")
+                        x.load_iptv(provider)
+                    else:
+                        print("XTREAM Authentication Failed")
+
+                    # Change redownload timeout
+                    self.reload_timeout_sec = 60*60*2 # 2 hours
+                    if self._timerid:
+                        GLib.source_remove(self._timerid)
+                    self._timerid = GLib.timeout_add_seconds(self.reload_timeout_sec, self.force_reload)
+
+                    # If no errors, approve provider
                     self.providers.append(provider)
                     if provider.name == self.settings.get_string("active-provider"):
                         self.active_provider = provider
                     self.status(None)
+
             except Exception as e:
                 print(e)
                 traceback.print_exc()
                 print("Couldn't parse provider info: ", provider_info)
+
+        # If there are more than 1 providers and no Active Provider, set to the first one
         if len(self.providers) > 0 and self.active_provider == None:
             self.active_provider = self.providers[0]
 
