@@ -1,5 +1,5 @@
 import requests 
-import datetime
+import time
 import os.path as osp
 from timeit import default_timer as timer, timeit
 
@@ -50,81 +50,48 @@ class Channel():
     added = ""
     epg_channel_id = ""
 
-    def __init__(self, group_title, stream_info):
+    def __init__(self, group_title, stream_info, authorization):
         stream_type = stream_info['stream_type']
         # Adjust the odd "created_live" type
         if stream_type == "created_live":
             stream_type = "live"
 
-        if stream_type == "live":
+        if stream_type != "live" and stream_type != "movie":
+            print("Error the channel has unknown stream type `{}`\n`{}`".format(stream_type,stream_info))
+        else:
+
             self.info = stream_info
             stream_name = stream_info['name']
             self.id = stream_info['stream_id']
             self.name = stream_name
             self.logo = stream_info['stream_icon']
-            if self.logo != None:
-                if not validateURL(self.logo):
-                    #print("Bad URL? `{}`".format(self.logo))
-                    self.logo = None
-                else:
-                    self.logo_path = osp.join(PROVIDERS_PATH, "{}-{}".format(
-                        slugify(PROVIDER_NAME), 
-                        slugify(osp.split(self.logo)[-1])
-                        )
-                    )
-            else:
-                self.logo_path=None
+            self.logo_path = getLogoLocalPath(self.logo)
 
             self.group_id = stream_info['category_id']
 
             self.group_title = group_title
             self.title = stream_name
-            self.url = "http://mega.test25.in:80/{}/399898078855714/282869529383630/{}.ts".format(
-                stream_info['stream_type'],
-                stream_info['stream_id']
-                )
-            if not validateURL(self.url):
-                print("Bad URL? `{}`".format(self.url))
-            
-            self.is_adult = stream_info['is_adult']
-            self.epg_channel_id = stream_info['epg_channel_id']
-            self.added = stream_info['added']
-        elif stream_type == "movie":
-            self.info = stream_info
-            stream_name = stream_info['name']
-            self.id = stream_info['stream_id']
-            self.name = stream_name
-            self.logo = stream_info['stream_icon']
-            if self.logo != None:
-                if not validateURL(self.logo):
-                    #print("Bad URL? `{}`".format(self.logo))
-                    self.logo = None
-                else:
-                    self.logo_path = osp.join(PROVIDERS_PATH, "{}-{}".format(
-                        slugify(PROVIDER_NAME), 
-                        slugify(osp.split(self.logo)[-1])
-                        )
-                    )
-            else:
-                self.logo_path=None
 
-            self.group_id = stream_info['category_id']
+            if stream_type == "live":
+                stream_extension = "ts"
+                
+                self.is_adult = stream_info['is_adult']
+                self.epg_channel_id = stream_info['epg_channel_id']
+                self.added = stream_info['added']
 
-            self.group_title = group_title
-            self.title = stream_name
-            self.url = "http://mega.test25.in:80/{}/399898078855714/282869529383630/{}.{}".format(
+            elif stream_type == "movie":
+                stream_extension = stream_info['container_extension']
+
+            self.url = "http://mega.test25.in:80/{}/{}/{}/{}.{}".format(
                 stream_info['stream_type'],
+                authorization['username'],
+                authorization['password'],
                 stream_info['stream_id'],
-                stream_info['container_extension']
+                stream_extension
                 )
             
             if not validateURL(self.url):
                 print("{} - Bad URL? `{}`".format(self.name, self.url))
-
-        elif stream_type == "series":
-            pass
-        else:
-            print("Error the channel has unknown stream type `{}`\n`{}`".format(stream_type,stream_info))
 
     def show(self):
         print("Stream\nname: `{}`\nid: `{}`\nlogo: `{}`\nlogo_path: `{}`\ngroup_id: `{}`\ngroup_title: `{}`\nurl: `{}`\nis_adult: `{}`\nadded: `{}`".format(
@@ -138,6 +105,28 @@ class Channel():
             self.is_adult,
             self.added
         ))
+
+def getLogoLocalPath(logoURL: str):
+    """Convert the Logo URL to a local Logo Path
+
+    Args:
+        logoURL (str): The Logo URL
+
+    Returns:
+        [type]: The logo path as a string or None
+    """
+    local_logo_path = None
+    if logoURL != None:
+        if not validateURL(logoURL):
+            #print("Bad URL? `{}`".format(logoURL))
+            logoURL = None
+        else:
+            local_logo_path = osp.join(PROVIDERS_PATH, "{}-{}".format(
+                slugify(PROVIDER_NAME), 
+                slugify(osp.split(logoURL)[-1])
+                )
+            )
+    return local_logo_path
 
 class Group():
     def __init__(self, group_info: dict, stream_type: str):
@@ -163,13 +152,42 @@ class Group():
             len(self.series)
         ))
 
+class Episode():
+    def __init__(self, series_info, group_title, episode_info, authorization) -> None:
+        self.info = episode_info
+        self.title = episode_info['title']
+        self.name = self.title
+        self.group_title = group_title
+        self.id = episode_info['id']
+        self.container_extension = episode_info['container_extension']
+        self.episode_number = episode_info['episode_num']
+        self.av_info = episode_info['info']
+
+        self.logo = series_info['cover']
+        self.logo_path = getLogoLocalPath(self.logo)
+        
+
+        self.url = "http://mega.test25.in:80/series/{}/{}/{}.{}".format(
+            authorization['username'],
+            authorization['password'],
+            self.id,
+            self.container_extension
+            )
+
 class Serie():
-    def __init__(self, name):
-        self.name = name
-        self.logo = None
-        self.logo_path = None
+    def __init__(self, series_info):
+        self.info = series_info
+        self.name = series_info['name']
+        self.series_id = series_info['series_id']
+        self.logo = series_info['cover']
+        self.logo_path = getLogoLocalPath(self.logo)
+        
         self.seasons = {}
-        self.episodes = []
+        self.episodes = {}
+
+        self.plot = series_info['plot']
+        self.youtube_trailer = series_info['youtube_trailer']
+        self.genre = series_info['genre']
 
 class Season():
     def __init__(self, name):
@@ -201,6 +219,7 @@ class XTream():
     seriesType = "Series"
 
     authData = {}
+    authorization = {}
     groups = []
     channels = []
 
@@ -220,6 +239,39 @@ class XTream():
     def authenticate(self):
         r = requests.get(self.get_authenticate_URL())
         self.authData = r.json()
+        self.authorization = {
+            "username": self.authData["user_info"]["username"],
+            "password": self.authData["user_info"]["password"]
+            }
+
+    def loadFromFile(self, filename) -> dict:
+        #Build the full path
+        full_filename = osp.join(PROVIDERS_PATH, "{}-{}".format(
+                slugify(PROVIDER_NAME), 
+                filename
+        ))
+
+
+        my_data = None
+        #threshold_time = time.mktime(time.gmtime(60*60*8))   # 8 hours
+        threshold_time = 60*60*8
+
+        # Get the enlapsed seconds since last file update
+        diff_time = time.time() - osp.getmtime(full_filename)
+        # If the file was updated less than the threshold time, 
+        # it means that the file is still fresh, we can load it.
+        # Otherwise skip and return None to force a re-download
+        if threshold_time > diff_time:
+            # Load the JSON data
+            try:
+                with open(full_filename,mode='r',encoding='utf-8') as myfile:
+                    #my_data = myfile.read()
+                    my_data = json.load(myfile)
+            except Exception as e:
+                print("Could not save to file `{}`: e=`{}`".format(full_filename, e))
+
+        return my_data
+
 
     def saveToFile(self, data_list: dict, filename: str) -> bool:
         """Save a dictionary to file
@@ -243,9 +295,6 @@ class XTream():
         try:
             with open(full_filename, mode='wt', encoding='utf-8') as myfile:
                 myfile.write(json_data)
-                #myfile.write("[")
-                #myfile.write('\n'.join(str(line) for line in data_list))
-                #myfile.write("]")
         except Exception as e:
             print("Could not save to file `{}`: e=`{}`".format(full_filename, e))
             return False
@@ -255,11 +304,16 @@ class XTream():
     def load_iptv(self, provider):
         #loading_stream_type = self.liveType
         for loading_stream_type in (self.liveType, self.vodType, self.seriesType):
-            # Load all Groups and save file locally
-            start = timer()
-            all_cat = self.categories(loading_stream_type)
-            self.saveToFile(all_cat,"all_groups_{}.json".format(loading_stream_type))
-            dt = timer()-start
+            # Try loading local file
+            dt = 0
+            all_cat = self.loadFromFile("all_groups_{}.json".format(loading_stream_type))
+            # If none, download it from remote
+            if all_cat == None:
+                # Load all Groups and save file locally
+                start = timer()
+                all_cat = self.categories(loading_stream_type)
+                self.saveToFile(all_cat,"all_groups_{}.json".format(loading_stream_type))
+                dt = timer()-start
 
             if all_cat == None:
                 return None
@@ -275,11 +329,16 @@ class XTream():
                     self.groups.append(new_group)
                     provider.groups.append(new_group)
 
-            # Load all Streams and save file locally
-            start = timer()
-            all_streams = self.streams(loading_stream_type)
-            self.saveToFile(all_streams,"all_stream_{}.json".format(loading_stream_type))
-            dt = timer()-start
+            # Try loading local file
+            dt = 0
+            all_streams = self.loadFromFile("all_stream_{}.json".format(loading_stream_type))
+            # If none, download it from remote
+            if all_streams == None:
+                # Load all Streams and save file locally
+                start = timer()
+                all_streams = self.streams(loading_stream_type)
+                self.saveToFile(all_streams,"all_stream_{}.json".format(loading_stream_type))
+                dt = timer()-start
 
             if all_streams == None:
                 return None
@@ -296,9 +355,15 @@ class XTream():
                             stream_channel['category_id'] = '9999'
                         
                         if loading_stream_type == self.seriesType:
+                            # Load all Series
                             new_series = Serie(stream_channel)
+                            # To get all the Episodes for every Season or each Series is
+                            # very time consuming, we will only populate the Series
+                            # Once the user click on the Series, the Seasons and Episodes will 
+                            # be loaded using x.getSeriesInfoByID() function
+
                         else:
-                            new_channel = Channel(group_title, stream_channel)
+                            new_channel = Channel(group_title, stream_channel,self.authorization)
 
                         # Find the first occurence of the group that the Channel or Stream is pointing to
                         the_group = next((x for x in self.groups if x.group_id == stream_channel['category_id']), None)
@@ -311,11 +376,35 @@ class XTream():
                         else:
                             provider.series.append(new_series)
                         
-                        self.channels.append(new_channel)
-                        if the_group != None:
-                            the_group.channels.append(new_channel)
+                        if loading_stream_type != self.seriesType:
+                            #self.channels.append(new_channel)
+                            if the_group != None:
+                                the_group.channels.append(new_channel)
+                            else:
+                                print("Group not found `{}`".format(stream_channel['name']))
                         else:
-                            print("Group not found `{}`".format(stream_channel['name']))
+                            if the_group != None:
+                                the_group.series.append(new_series)
+                            else:
+                                print("Group not found `{}`".format(stream_channel['name']))
+
+    def getSeriesInfoByID(self, get_series):
+        start = timer()
+        series_seasons = self.seriesInfoByID(get_series.series_id)
+        dt = timer()-start
+        #print("Loaded in {:.3f} sec".format(dt))
+        for series_info in series_seasons["seasons"]:
+            season_name = series_info["name"]
+            season_key = series_info['season_number']
+            season = Season(season_name)
+            get_series.seasons[season_name] = season
+            #print("{} with {} episodes".format(season_name,len(series_seasons['episodes'][str(season_key)])))
+            if "episodes" in series_seasons.keys():
+                for series_season in series_seasons["episodes"].keys():
+                    #print("{} with {} episodes".format(season_name,len(series_seasons['episodes'][str(series_season)])))
+                    for episode_info in series_seasons["episodes"][str(series_season)]:
+                        new_episode_channel = Episode(series_info,"Testing",episode_info,self.authorization)
+                        season.episodes[episode_info['title']] = new_episode_channel
 
     # GET Stream Categories
     def categories(self, streamType: str):

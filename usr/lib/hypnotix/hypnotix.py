@@ -446,6 +446,11 @@ class MainWindow():
     def show_episodes(self, serie):
         logos_to_refresh = []
         self.active_serie = serie
+        # If we are using xtream provider
+        # Load every Episodes of every Season for this Series
+        if self.active_provider.type_id == "xtream":
+            self.x.getSeriesInfoByID(self.active_serie)
+
         self.navigate_to("episodes_page")
         for child in self.episodes_box.get_children():
             self.episodes_box.remove(child)
@@ -1221,7 +1226,6 @@ class MainWindow():
                             self.providers.append(provider)
                             if provider.name == self.settings.get_string("active-provider"):
                                 self.active_provider = provider
-                                print(provider)
                             self.status(None)
                             print("Loaded {} channels".format(len(self.providers[0].channels)))
                             print("Loaded {} groups".format(len(self.providers[0].groups)))
@@ -1236,13 +1240,13 @@ class MainWindow():
                         self.status("Failed to Download playlist from {}".format(provider.name),provider)
 
                 else:
-                    
-                    # Download via Xtream
+                    # Load xtream class
                     from xtream import XTream
-                    x = XTream(provider.url,provider.username,provider.password)
-                    if x.authData != {}:
+                    # Download via Xtream
+                    self.x = XTream(provider.url,provider.username,provider.password)
+                    if self.x.authData != {}:
                         print("XTREAM Loading Channels")
-                        x.load_iptv(provider)
+                        self.x.load_iptv(provider)
                     else:
                         print("XTREAM Authentication Failed")
 
