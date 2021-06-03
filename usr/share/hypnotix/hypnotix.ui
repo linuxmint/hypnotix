@@ -1943,7 +1943,7 @@
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">plane-depth</property>
+                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1955,7 +1955,7 @@
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">plane-depth</property>
+                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2020,7 +2020,7 @@
                                       <object class="GtkLabel" id="average_bitrate_label_value">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">100 Kbps</property>
+                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2115,7 +2115,7 @@
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">plane-depth</property>
+                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2127,7 +2127,7 @@
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">plane-depth</property>
+                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2182,7 +2182,7 @@
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">plane-depth</property>
+                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2194,7 +2194,7 @@
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">plane-depth</property>
+                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2307,7 +2307,7 @@
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">plane-depth</property>
+                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2319,7 +2319,7 @@
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">plane-depth</property>
+                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2546,7 +2546,7 @@
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">plane-depth</property>
+                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2558,7 +2558,7 @@
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">plane-depth</property>
+                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
