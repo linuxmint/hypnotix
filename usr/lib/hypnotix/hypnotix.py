@@ -280,6 +280,22 @@ class MainWindow():
         self.video_bitrates = []
         self.audio_bitrates = []
 
+    def add_badge(self, word, box, added_words):
+        if word not in added_words:
+            for extension in ["svg", "png"]:
+                badge = "/usr/share/hypnotix/pictures/badges/%s.%s" % (word, extension)
+                if os.path.exists(badge):
+                    try:
+                        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(badge, -1, 16)
+                        surface = Gdk.cairo_surface_create_from_pixbuf(pixbuf, self.window.get_scale_factor())
+                        image = Gtk.Image().new_from_surface(surface)
+                        box.pack_start(image, False, False, 0)
+                        added_words.append(word)
+                        break
+                    except Exception as e:
+                        print("Could not load badge", badge)
+                        print(e)
+
     def show_groups(self, widget, content_type):
         self.content_type = content_type
         self.navigate_to("categories_page")
@@ -301,27 +317,12 @@ class MainWindow():
             else:
                 label.set_text("%s (%d)" % (self.remove_word("SERIES", group.name), len(group.series)))
             box = Gtk.Box()
-            for word in group.name.split():
-                word = word.lower()
-                badge = "/usr/share/hypnotix/pictures/badges/%s.png" % word
-                if os.path.exists(badge):
-                    try:
-                        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(badge, -1, 16)
-                        surface = Gdk.cairo_surface_create_from_pixbuf(pixbuf, self.window.get_scale_factor())
-                        image = Gtk.Image().new_from_surface(surface)
-                        box.pack_start(image, False, False, 0)
-                    except:
-                        print("Could not load badge", badge)
-                elif word in BADGES.keys():
-                    badge = "/usr/share/hypnotix/pictures/badges/%s.png" % BADGES[word]
-                    try:
-                        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(badge, -1, 16)
-                        surface = Gdk.cairo_surface_create_from_pixbuf(pixbuf, self.window.get_scale_factor())
-                        image = Gtk.Image().new_from_surface(surface)
-                        box.pack_start(image, False, False, 0)
-                    except:
-                        print("Could not load badge", badge)
-
+            name = group.name.lower().replace("(", " ").replace(")", " ")
+            added_words = []
+            for word in name.split():
+                self.add_badge(word, box, added_words)
+                if word in BADGES.keys():
+                    self.add_badge(BADGES[word], box, added_words)
             box.pack_start(label, False, False, 0)
             box.set_spacing(6)
             button.add(box)
