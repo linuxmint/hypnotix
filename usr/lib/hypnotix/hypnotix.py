@@ -514,6 +514,8 @@ class MainWindow():
         for channel, image in logos_to_refresh:
             if channel.logo_path == None:
                 continue
+            if os.path.isfile(channel.logo_path):
+                continue
             try:
                 response = requests.get(channel.logo, headers=headers, timeout=10, stream=True)
                 if response.status_code == 200:
@@ -1195,13 +1197,41 @@ class MainWindow():
         self.application.quit()
 
     def on_key_press_event(self, widget, event):
-        ctrl = (event.state & Gdk.ModifierType.CONTROL_MASK)
+        # Get any active, but not pressed modifiers, like CapsLock and NumLock
+        persistant_modifiers = Gtk.accelerator_get_default_mod_mask()
+
+        # Determine the actively pressed modifier
+        modifier = event.get_state() & persistant_modifiers
+        # Bool of Control or Shift modifier states
+        ctrl = modifier == Gdk.ModifierType.CONTROL_MASK
+        shift = modifier == Gdk.ModifierType.SHIFT_MASK
+
         if ctrl and event.keyval == Gdk.KEY_r:
             self.reload(page=None, refresh=True)
         elif event.keyval == Gdk.KEY_F11 or \
              event.keyval == Gdk.KEY_f or \
              (self.fullscreen and event.keyval == Gdk.KEY_Escape):
             self.toggle_fullscreen()
+        # elif event.keyval == Gdk.KEY_Left:
+        #     # Left of in the list
+        # #    self.navigate_to("landing_page")
+        #     pass
+        # elif event.keyval == Gdk.KEY_Right:
+        #     # Right of in the list
+        # #    self.navigate_to("vod_page")
+        #     pass
+        # elif event.keyval == Gdk.KEY_Up:
+        #     # Up of in the list
+        #     pass
+        # elif event.keyval == Gdk.KEY_Down:
+        #     # Down of in the list
+        #     pass
+        elif event.keyval == Gdk.KEY_Escape:
+            # Go back one level
+            pass
+        # #elif event.keyval == Gdk.KEY_Return:
+        #     # Same as click
+        # #    pass
 
     @async_function
     def reload(self, page=None, refresh=False):
