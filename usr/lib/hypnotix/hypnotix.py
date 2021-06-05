@@ -2,7 +2,7 @@
 import gettext
 import gi
 import locale
-import os
+from os import path as osp
 import re
 import setproctitle
 import shutil
@@ -36,6 +36,13 @@ locale.bindtextdomain(APP, LOCALE_DIR)
 gettext.bindtextdomain(APP, LOCALE_DIR)
 gettext.textdomain(APP)
 _ = gettext.gettext
+
+HYPNOTIX_HOME_PATH= osp.abspath(
+    osp.join(
+        osp.dirname(osp.realpath(__file__)),
+        "../../../"
+    )
+)
 
 PROVIDER_OBJ, PROVIDER_NAME = range(2)
 PROVIDER_TYPE_ID, PROVIDER_TYPE_NAME = range(2)
@@ -107,10 +114,7 @@ class MainWindow():
         # Used for redownloading timer
         self.reload_timeout_sec = 60*5
         self._timerid = -1
-
-        # Set the Glade file
-        gladefile = "/usr/share/hypnotix/hypnotix.ui"
-        
+        gladefile = osp.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/hypnotix.ui")
         self.builder = Gtk.Builder()
         self.builder.set_translation_domain(APP)
         self.builder.add_from_file(gladefile)
@@ -122,7 +126,7 @@ class MainWindow():
         self.info_window = self.builder.get_object("stream_info_window")
 
         provider = Gtk.CssProvider()
-        provider.load_from_path("/usr/share/hypnotix/hypnotix.css")
+        provider.load_from_path(osp.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/hypnotix.css"))
 
         screen = Gdk.Display.get_default_screen(Gdk.Display.get_default())
         # I was unable to found instrospected version of this
@@ -136,7 +140,11 @@ class MainWindow():
         self.edit_mode = False
 
         # Create variables to quickly access dynamic widgets
-        self.generic_channel_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size("/usr/share/hypnotix/generic_tv_logo.png", 22, 22)
+        self.generic_channel_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(
+            osp.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/generic_tv_logo.png"),
+            22,
+            22
+        )
 
         widget_names = ["headerbar", "status_label", "status_bar", "sidebar", "go_back_button", "channels_box", \
             "provider_button", "preferences_button", \
@@ -270,9 +278,24 @@ class MainWindow():
         self.provider_type_combo.set_active(0) # Select 1st type
         self.provider_type_combo.connect("changed", self.on_provider_type_combo_changed)
 
-        self.tv_logo.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size("/usr/share/hypnotix/pictures/tv.svg", 258, 258))
-        self.movies_logo.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size("/usr/share/hypnotix/pictures/movies.svg", 258, 258))
-        self.series_logo.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size("/usr/share/hypnotix/pictures/series.svg", 258, 258))
+        self.tv_logo.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size(
+            osp.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/pictures/tv.svg"),
+            258,
+            258
+            )
+        )
+        self.movies_logo.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size(
+            osp.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/pictures/movies.svg"),
+            258,
+            258
+            )
+        )
+        self.series_logo.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size(
+            osp.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/pictures/series.svg"),
+            258,
+            258
+            )
+        )
 
         self.reload(page="landing_page")
 
@@ -310,8 +333,8 @@ class MainWindow():
             box = Gtk.Box()
             for word in group.name.split():
                 word = word.lower()
-                badge = "/usr/share/hypnotix/pictures/badges/%s.png" % word
-                if os.path.exists(badge):
+                badge = osp.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/pictures/badges/%s.png" % word)
+                if osp.exists(badge):
                     try:
                         pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(badge, -1, 16)
                         surface = Gdk.cairo_surface_create_from_pixbuf(pixbuf, self.window.get_scale_factor())
@@ -320,7 +343,7 @@ class MainWindow():
                     except:
                         print("Could not load badge", badge)
                 elif word in BADGES.keys():
-                    badge = "/usr/share/hypnotix/pictures/badges/%s.png" % BADGES[word]
+                    badge = osp.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/pictures/badges/%s.png" % BADGES[word])
                     try:
                         pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(badge, -1, 16)
                         surface = Gdk.cairo_surface_create_from_pixbuf(pixbuf, self.window.get_scale_factor())
@@ -494,7 +517,7 @@ class MainWindow():
         for channel, image in logos_to_refresh:
             if channel.logo_path == None:
                 continue
-            if os.path.isfile(channel.logo_path):
+            if osp.isfile(channel.logo_path):
                 continue
             try:
                 response = requests.get(channel.logo, headers=headers, timeout=10, stream=True)
@@ -628,7 +651,7 @@ class MainWindow():
             self.headerbar.set_subtitle(_("Reset providers"))
 
     def open_keyboard_shortcuts(self, widget):
-        gladefile = "/usr/share/hypnotix/shortcuts.ui"
+        gladefile = osp.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/shortcuts.ui")
         builder = Gtk.Builder()
         builder.set_translation_domain(APP)
         builder.add_from_file(gladefile)
@@ -1153,7 +1176,10 @@ class MainWindow():
         dlg.set_program_name(_("Hypnotix"))
         dlg.set_comments(_("Watch TV"))
         try:
-            h = open('/usr/share/common-licenses/GPL', encoding="utf-8")
+            h = open(
+                osp.join(HYPNOTIX_HOME_PATH,'usr/share/common-licenses/GPL'),
+                encoding="utf-8"
+            )
             s = h.readlines()
             gpl = ""
             for line in s:
@@ -1249,12 +1275,22 @@ class MainWindow():
 
                 else:
                     # Load xtream class
-                    from xtream import XTream
+                    try:
+                        # Try loading from pyxtream PYPI module
+                        from pyxtream import XTream
+                    except ModuleNotFoundError:
+                        # If there was an error, load local copy
+                        from xtream import XTream
                     # Download via Xtream
-                    self.x = XTream(provider.url,provider.username,provider.password)
+                    self.x = XTream(provider.name,provider.username,provider.password,provider.url,osp.expanduser("~/.hypnotix/providers"))
                     if self.x.authData != {}:
                         print("XTREAM Loading Channels")
-                        self.x.load_iptv(provider)
+                        self.x.load_iptv()
+                        # Inform Provider of data
+                        provider.channels = self.x.channels
+                        provider.movies = self.x.movies
+                        provider.series = self.x.series
+                        provider.groups = self.x.groups
 
                         # Change redownload timeout
                         self.reload_timeout_sec = 60*60*2 # 2 hours
