@@ -84,7 +84,8 @@ class Channel():
             elif stream_type == "movie":
                 stream_extension = stream_info['container_extension']
 
-            self.url = "http://mega.test25.in:80/{}/{}/{}/{}.{}".format(
+            self.url = "{}/{}/{}/{}/{}.{}".format(
+                xtream.server,
                 stream_info['stream_type'],
                 xtream.authorization['username'],
                 xtream.authorization['password'],
@@ -135,7 +136,8 @@ class Episode():
         self.logo_path = xtream.getLogoLocalPath(self.logo)
         
 
-        self.url = "http://mega.test25.in:80/series/{}/{}/{}.{}".format(
+        self.url = "{}/series/{}/{}/{}.{}".format(
+            xtream.server,
             xtream.authorization['username'],
             xtream.authorization['password'],
             self.id,
