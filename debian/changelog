@@ -1,3 +1,20 @@
+hypnotix (1.7) uma; urgency=medium
+
+  [ Clement Lefebvre ]
+  * README: Add a section for Wayland
+
+  [ NikoKrause ]
+  * Highlight selected TV channel (#134)
+
+  [ hcombination ]
+  * Add menu option to display stream information (#138)
+
+  [ Clement Lefebvre ]
+  * Improve badges
+  * l10n: Update POT
+
+ -- Clement Lefebvre <root@linuxmint.com>  Thu, 03 Jun 2021 19:19:57 +0100
+
 hypnotix (1.6) ulyssa; urgency=medium
 
   * Switch default provider from Free-IPTV to Free-TV
