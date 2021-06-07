@@ -2,7 +2,7 @@
 import gettext
 import gi
 import locale
-from os import path as osp
+import os
 import re
 import setproctitle
 import shutil
@@ -37,9 +37,9 @@ gettext.bindtextdomain(APP, LOCALE_DIR)
 gettext.textdomain(APP)
 _ = gettext.gettext
 
-HYPNOTIX_HOME_PATH= osp.abspath(
-    osp.join(
-        osp.dirname(osp.realpath(__file__)),
+HYPNOTIX_HOME_PATH= os.path.abspath(
+    os.path.join(
+        os.path.dirname(os.path.realpath(__file__)),
         "../../../"
     )
 )
@@ -114,7 +114,7 @@ class MainWindow():
         # Used for redownloading timer
         self.reload_timeout_sec = 60*5
         self._timerid = -1
-        gladefile = osp.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/hypnotix.ui")
+        gladefile = os.path.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/hypnotix.ui")
         self.builder = Gtk.Builder()
         self.builder.set_translation_domain(APP)
         self.builder.add_from_file(gladefile)
@@ -126,7 +126,7 @@ class MainWindow():
         self.info_window = self.builder.get_object("stream_info_window")
 
         provider = Gtk.CssProvider()
-        provider.load_from_path(osp.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/hypnotix.css"))
+        provider.load_from_path(os.path.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/hypnotix.css"))
 
         screen = Gdk.Display.get_default_screen(Gdk.Display.get_default())
         # I was unable to found instrospected version of this
@@ -141,7 +141,7 @@ class MainWindow():
 
         # Create variables to quickly access dynamic widgets
         self.generic_channel_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(
-            osp.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/generic_tv_logo.png"),
+            os.path.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/generic_tv_logo.png"),
             22,
             22
         )
@@ -279,19 +279,19 @@ class MainWindow():
         self.provider_type_combo.connect("changed", self.on_provider_type_combo_changed)
 
         self.tv_logo.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size(
-            osp.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/pictures/tv.svg"),
+            os.path.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/pictures/tv.svg"),
             258,
             258
             )
         )
         self.movies_logo.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size(
-            osp.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/pictures/movies.svg"),
+            os.path.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/pictures/movies.svg"),
             258,
             258
             )
         )
         self.series_logo.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size(
-            osp.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/pictures/series.svg"),
+            os.path.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/pictures/series.svg"),
             258,
             258
             )
@@ -333,8 +333,8 @@ class MainWindow():
             box = Gtk.Box()
             for word in group.name.split():
                 word = word.lower()
-                badge = osp.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/pictures/badges/%s.png" % word)
-                if osp.exists(badge):
+                badge = os.path.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/pictures/badges/%s.png" % word)
+                if os.path.exists(badge):
                     try:
                         pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(badge, -1, 16)
                         surface = Gdk.cairo_surface_create_from_pixbuf(pixbuf, self.window.get_scale_factor())
@@ -343,7 +343,7 @@ class MainWindow():
                     except:
                         print("Could not load badge", badge)
                 elif word in BADGES.keys():
-                    badge = osp.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/pictures/badges/%s.png" % BADGES[word])
+                    badge = os.path.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/pictures/badges/%s.png" % BADGES[word])
                     try:
                         pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(badge, -1, 16)
                         surface = Gdk.cairo_surface_create_from_pixbuf(pixbuf, self.window.get_scale_factor())
@@ -517,7 +517,7 @@ class MainWindow():
         for channel, image in logos_to_refresh:
             if channel.logo_path == None:
                 continue
-            if osp.isfile(channel.logo_path):
+            if os.path.isfile(channel.logo_path):
                 continue
             try:
                 response = requests.get(channel.logo, headers=headers, timeout=10, stream=True)
@@ -651,7 +651,7 @@ class MainWindow():
             self.headerbar.set_subtitle(_("Reset providers"))
 
     def open_keyboard_shortcuts(self, widget):
-        gladefile = osp.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/shortcuts.ui")
+        gladefile = os.path.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/shortcuts.ui")
         builder = Gtk.Builder()
         builder.set_translation_domain(APP)
         builder.add_from_file(gladefile)
@@ -1177,7 +1177,7 @@ class MainWindow():
         dlg.set_comments(_("Watch TV"))
         try:
             h = open(
-                osp.join(HYPNOTIX_HOME_PATH,'usr/share/common-licenses/GPL'),
+                os.path.join(HYPNOTIX_HOME_PATH,'usr/share/common-licenses/GPL'),
                 encoding="utf-8"
             )
             s = h.readlines()
@@ -1282,7 +1282,7 @@ class MainWindow():
                         # If there was an error, load local copy
                         from xtream import XTream
                     # Download via Xtream
-                    self.x = XTream(provider.name,provider.username,provider.password,provider.url,osp.expanduser("~/.hypnotix/providers"))
+                    self.x = XTream(provider.name,provider.username,provider.password,provider.url,os.path.expanduser("~/.hypnotix/providers"))
                     if self.x.authData != {}:
                         print("XTREAM Loading Channels")
                         self.x.load_iptv()
