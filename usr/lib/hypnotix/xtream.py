@@ -16,10 +16,12 @@ Github: superolmo
 __version__ = '0.1'
 __author__ = 'Claudio Olmi'
 
+from typing import List
 import requests 
 import time
 from os import path as osp
 from os import makedirs
+from os import remove
 
 # Timing xtream json downloads
 from timeit import default_timer as timer, timeit
@@ -96,6 +98,15 @@ class Channel():
             # Check that the constructed URL is valid
             if not xtream.validateURL(self.url):
                 print("{} - Bad URL? `{}`".format(self.name, self.url))
+
+    def export_json(self):
+        jsondata = {}
+
+        jsondata['url'] = self.url
+        jsondata.update(self.raw)
+        jsondata['logo_path'] = self.logo_path
+
+        return jsondata
 
 class Group():
     def __init__(self, group_info: dict, stream_type: str):
@@ -212,13 +223,14 @@ class XTream():
         self.username = provider_username
         self.password = provider_password
         self.name = provider_name
+        self.cache_path = cache_path
 
         # if the cache_path is specified, test that it is a directory
-        if cache_path != "":
-            if osp.isdir(cache_path):
-                self.cache_path = cache_path
-            else:
+        if self.cache_path != "":
+            # If the cache_path is not a directory, clear it
+            if not osp.isdir(self.cache_path):
                 print("Cache Path is not a directory, using default '~/.xtream-cache/'")
+                self.cache_path == ""
         
         # If the cache_path is still empty, use default
         if self.cache_path == "":
@@ -227,6 +239,80 @@ class XTream():
                 makedirs(self.cache_path, exist_ok=True)
 
         self.authenticate()
+
+    def search_stream(self, keyword: str, return_type: str = "LIST") -> List:
+        """Search for streams
+
+        Args:
+            keyword (str): Keyword to search for. Supports REGEX
+            return_type (str, optional): Output format, 'LIST' or 'JSON'. Defaults to "LIST".
+
+        Returns:
+            List: List with all the results, it could be empty. Each result
+        """
+
+        search_result = []
+        
+        regex = re.compile(keyword)
+
+        for stream in self.movies:
+            if re.match(regex, stream.name) is not None:
+                search_result.append(stream.export_json())
+        if return_type == "JSON":
+            if search_result != None:
+                print("Found {} results".format(len(search_result)))
+                return json.dumps(search_result, ensure_ascii=False)
+        else:
+            return search_result
+
+    def download_video(self, url: str, fullpath_filename: str) -> bool:
+        """Download a stream
+
+        Args:
+            url (str): Complete URL of the stream
+            fullpath_filename (str): Complete File path where to save the stream
+
+        Returns:
+            bool: True if successful, False if error
+        """
+        ret_code = False
+        mb_size = 1024*1024
+        try:
+            print("Downloading from URL `{}` and saving at `{}`".format(url,fullpath_filename))
+            response = requests.get(url, timeout=(5), stream=True)
+            print("Got response")
+            # If there is an answer from the remote server
+            if response.status_code == 200:
+                print("Got response 200")
+                # Set downloaded size
+                downloaded_bytes = 0
+                # Get total playlist byte size
+                total_content_size = int(response.headers['content-length'])
+                total_content_size_mb = total_content_size/mb_size
+                # Set stream blocks
+                block_bytes = int(4*mb_size)     # 4 MB
+
+                #response.encoding = response.apparent_encoding
+                print("Ready to download {:.1f} MB file".format(total_content_size_mb))
+                with open(fullpath_filename, "w") as file:
+                    # Grab data by block_bytes
+                    for data in response.iter_content(block_bytes,decode_unicode=True):
+                        downloaded_bytes += block_bytes
+                        print("{:.0f}/{:.1f} MB downloaded".format(downloaded_bytes/mb_size,total_content_size_mb))
+                        file.write(str(data))
+                if downloaded_bytes < total_content_size:
+                    print("The file size is incorrect, deleting")
+                    remove(fullpath_filename)
+                else:
+                    # Set the datatime when it was last retreived
+                    # self.settings.set_
+                    ret_code = True
+            else:
+                print("HTTP error %d while retrieving from %s!" % (response.status_code, url))
+        except Exception as e:
+            print(e)
+        
+        return ret_code
 
     def slugify(self, string: str) -> str:
         """Normalize string
@@ -289,35 +375,44 @@ class XTream():
             }
 
     def loadFromFile(self, filename) -> dict:
+        """Try to load the distionary from file
+
+        Args:
+            filename ([type]): File name containing the data
+
+        Returns:
+            dict: Dictionary is found and no errors, None is file does not exists
+        """
         #Build the full path
         full_filename = osp.join(self.cache_path, "{}-{}".format(
                 self.slugify(self.name), 
                 filename
         ))
 
+        if osp.isfile(full_filename):
 
-        my_data = None
-        #threshold_time = time.mktime(time.gmtime(60*60*8))   # 8 hours
-        threshold_time = 60*60*8
+            my_data = None
+            #threshold_time = time.mktime(time.gmtime(60*60*8))   # 8 hours
+            threshold_time = 60*60*8
 
-        # Get the enlapsed seconds since last file update
-        diff_time = time.time() - osp.getmtime(full_filename)
-        # If the file was updated less than the threshold time, 
-        # it means that the file is still fresh, we can load it.
-        # Otherwise skip and return None to force a re-download
-        if threshold_time > diff_time:
-            # Load the JSON data
-            try:
-                with open(full_filename,mode='r',encoding='utf-8') as myfile:
-                    #my_data = myfile.read()
-                    my_data = json.load(myfile)
-            except Exception as e:
-                print("Could not save to file `{}`: e=`{}`".format(
-                    full_filename, e
-                ))
-
-        return my_data
-
+            # Get the enlapsed seconds since last file update
+            diff_time = time.time() - osp.getmtime(full_filename)
+            # If the file was updated less than the threshold time, 
+            # it means that the file is still fresh, we can load it.
+            # Otherwise skip and return None to force a re-download
+            if threshold_time > diff_time:
+                # Load the JSON data
+                try:
+                    with open(full_filename,mode='r',encoding='utf-8') as myfile:
+                        #my_data = myfile.read()
+                        my_data = json.load(myfile)
+                except Exception as e:
+                    print("Could not save to file `{}`: e=`{}`".format(
+                        full_filename, e
+                    ))
+            return my_data
+        else:
+            return None
 
     def saveToFile(self, data_list: dict, filename: str) -> bool:
         """Save a dictionary to file
