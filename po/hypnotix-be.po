@@ -1,20 +1,21 @@
-# Spanish translation for linuxmint
-# Copyright (c) 2020 Rosetta Contributors and Canonical Ltd 2020
+# Belarusian translation for linuxmint
+# Copyright (c) 2021 Rosetta Contributors and Canonical Ltd 2021
 # This file is distributed under the same license as the linuxmint package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2021-06-03 19:30+0100\n"
-"PO-Revision-Date: 2021-06-06 08:30+0000\n"
-"Last-Translator: Toni Estevez <toni.estevez@gmail.com>\n"
-"Language-Team: Spanish <es@li.org>\n"
+"PO-Revision-Date: 2021-06-05 20:11+0000\n"
+"Last-Translator: Anton Hryb <Unknown>\n"
+"Language-Team: Belarusian <be@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Launchpad-Export-Date: 2021-06-09 14:22+0000\n"
 "X-Generator: Launchpad (build b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4)\n"
 
@@ -26,98 +27,98 @@ msgstr "Hypnotix"
 
 #: usr/lib/hypnotix/hypnotix.py:223
 msgid "Keyboard Shortcuts"
-msgstr "Atajos de teclado"
+msgstr "Спалучэнні клавіш"
 
 #: usr/lib/hypnotix/hypnotix.py:230 usr/share/hypnotix/hypnotix.ui.h:32
 msgid "Stream Information"
-msgstr "Información de la transmisión"
+msgstr "Інфармацыя аб стрыме"
 
 #: usr/lib/hypnotix/hypnotix.py:238 usr/lib/hypnotix/hypnotix.py:1139
 msgid "About"
-msgstr "Acerca de"
+msgstr "Аб праграме"
 
 #: usr/lib/hypnotix/hypnotix.py:243
 msgid "Quit"
-msgstr "Salir"
+msgstr "Выйсці"
 
 #: usr/lib/hypnotix/hypnotix.py:256
 msgid "M3U URL"
-msgstr "URL M3U"
+msgstr "M3U URL"
 
 #: usr/lib/hypnotix/hypnotix.py:257
 msgid "Local M3U File"
-msgstr "Archivo local M3U"
+msgstr "Лакальны файл M3U"
 
 #: usr/lib/hypnotix/hypnotix.py:258
 msgid "Xtream API"
-msgstr "API Xtream"
+msgstr "Xtream API"
 
 #: usr/lib/hypnotix/hypnotix.py:429
 #, python-format
 msgid "Season %s"
-msgstr "Temporada %s"
+msgstr "Сезон %s"
 
 #: usr/lib/hypnotix/hypnotix.py:439
 #, python-format
 msgid "Episode %s"
-msgstr "Episodio %s"
+msgstr "Эпізод %s"
 
 #: usr/lib/hypnotix/hypnotix.py:529
 msgid "No provider selected"
-msgstr "No se ha seleccionado ningún proveedor"
+msgstr "Ніводны правайдэр не выбраны"
 
 #: usr/lib/hypnotix/hypnotix.py:551 usr/lib/hypnotix/hypnotix.py:563
 msgid "TV Channels"
-msgstr "Canales de TV"
+msgstr "Тэлебачанне"
 
 #: usr/lib/hypnotix/hypnotix.py:553 usr/lib/hypnotix/hypnotix.py:578
 msgid "Movies"
-msgstr "Películas"
+msgstr "Фільмы"
 
 #: usr/lib/hypnotix/hypnotix.py:555 usr/lib/hypnotix/hypnotix.py:585
 msgid "Series"
-msgstr "Series"
+msgstr "Серыялы"
 
 #: usr/lib/hypnotix/hypnotix.py:566
 #, python-format
 msgid "TV Channels > %s"
-msgstr "Canales de TV > %s"
+msgstr "Каналы > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:581
 #, python-format
 msgid "Movies > %s"
-msgstr "Películas > %s"
+msgstr "Фільмы > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:588
 #, python-format
 msgid "Series > %s"
-msgstr "Series > %s"
+msgstr "Серыялы > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:596 usr/share/hypnotix/hypnotix.ui.h:5
 msgid "Preferences"
-msgstr "Preferencias"
+msgstr "Налады"
 
 #: usr/lib/hypnotix/hypnotix.py:600 usr/share/hypnotix/hypnotix.ui.h:4
 msgid "Providers"
-msgstr "Proveedores"
+msgstr "Правайдэры"
 
 #: usr/lib/hypnotix/hypnotix.py:605
 #, python-format
 msgid "Edit %s"
-msgstr "Editar %s"
+msgstr "Змяніць %s"
 
 #: usr/lib/hypnotix/hypnotix.py:607
 msgid "Add a new provider"
-msgstr "Añadir un proveedor"
+msgstr "Дадаць новага правайдэра"
 
 #: usr/lib/hypnotix/hypnotix.py:611
 #, python-format
 msgid "Delete %s"
-msgstr "Eliminar %s"
+msgstr "Выдаліць %s"
 
 #: usr/lib/hypnotix/hypnotix.py:615
 msgid "Reset providers"
-msgstr "Restablecer proveedores"
+msgstr "Скінуць правайдэраў"
 
 #: usr/lib/hypnotix/hypnotix.py:653 usr/lib/hypnotix/hypnotix.py:657
 #: usr/lib/hypnotix/hypnotix.py:709 usr/lib/hypnotix/hypnotix.py:711
@@ -128,19 +129,19 @@ msgstr "Restablecer proveedores"
 #: usr/lib/hypnotix/hypnotix.py:1119 usr/lib/hypnotix/hypnotix.py:1123
 #: usr/share/hypnotix/hypnotix.ui.h:33
 msgid "General"
-msgstr "General"
+msgstr "Агульныя"
 
 #: usr/lib/hypnotix/hypnotix.py:654 usr/lib/hypnotix/hypnotix.py:723
 #: usr/lib/hypnotix/hypnotix.py:725 usr/lib/hypnotix/hypnotix.py:727
 #: usr/lib/hypnotix/hypnotix.py:1093 usr/share/hypnotix/hypnotix.ui.h:35
 msgid "Color"
-msgstr "Color"
+msgstr "Колер"
 
 #: usr/lib/hypnotix/hypnotix.py:658 usr/lib/hypnotix/hypnotix.py:743
 #: usr/lib/hypnotix/hypnotix.py:753 usr/lib/hypnotix/hypnotix.py:1095
 #: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Layout"
-msgstr "Distribución"
+msgstr "Размяшчэнне"
 
 #: usr/lib/hypnotix/hypnotix.py:694 usr/lib/hypnotix/hypnotix.py:695
 #: usr/lib/hypnotix/hypnotix.py:709 usr/lib/hypnotix/hypnotix.py:711
@@ -148,210 +149,213 @@ msgstr "Distribución"
 #: usr/lib/hypnotix/hypnotix.py:1119 usr/lib/hypnotix/hypnotix.py:1123
 #: usr/share/hypnotix/hypnotix.ui.h:34
 msgid "Average Bitrate"
-msgstr "Tasa de bits media"
+msgstr "Сярэдні бітрэйт"
 
 #: usr/lib/hypnotix/hypnotix.py:718
 msgid "Dimensions"
-msgstr "Dimensiones"
+msgstr "Памеры"
 
 #: usr/lib/hypnotix/hypnotix.py:721
 msgid "Aspect"
-msgstr "Aspecto"
+msgstr "Суадносіны"
 
 #: usr/lib/hypnotix/hypnotix.py:723
 msgid "Pixel Format"
-msgstr "Formato del píxel"
+msgstr "Фармат пікселяў"
 
 #: usr/lib/hypnotix/hypnotix.py:725
 msgid "Gamma"
-msgstr "Gamma"
+msgstr "Гама"
 
 #: usr/lib/hypnotix/hypnotix.py:727
 msgid "Bits Per Pixel"
-msgstr "Bits por píxel"
+msgstr "Біты на піксель"
 
 #: usr/lib/hypnotix/hypnotix.py:733 usr/lib/hypnotix/hypnotix.py:759
 msgid "Codec"
-msgstr "Códec"
+msgstr "Кодэк"
 
 #: usr/lib/hypnotix/hypnotix.py:742
 msgid "surround sound"
-msgstr "sonido envolvente"
+msgstr "аб'ёмны гук"
 
 #: usr/lib/hypnotix/hypnotix.py:743
 msgid "Channels"
-msgstr "Canales"
+msgstr "Каналы"
 
 #: usr/lib/hypnotix/hypnotix.py:746
 msgid "Sample Rate"
-msgstr "Tasa de muestreo"
+msgstr "Частата ўзораў"
 
 #: usr/lib/hypnotix/hypnotix.py:751
 msgid "Format"
-msgstr "Formato"
+msgstr "Фармат"
 
 #: usr/lib/hypnotix/hypnotix.py:753
 msgid "Channel Count"
-msgstr "Recuento de canales"
+msgstr "Колькасць каналаў"
 
 #: usr/lib/hypnotix/hypnotix.py:847
 #, python-format
 msgid "%d TV channel"
 msgid_plural "%d TV channels"
-msgstr[0] "%d canal de TV"
-msgstr[1] "%d canales de TV"
+msgstr[0] "%d канал"
+msgstr[1] "%d каналы"
+msgstr[2] "%d каналаў"
 
 #: usr/lib/hypnotix/hypnotix.py:852
 #, python-format
 msgid "%d movie"
 msgid_plural "%d movies"
-msgstr[0] "%d película"
-msgstr[1] "%d películas"
+msgstr[0] "%d фільм"
+msgstr[1] "%d фільмы"
+msgstr[2] "%d фільмаў"
 
 #: usr/lib/hypnotix/hypnotix.py:857
 #, python-format
 msgid "%d series"
 msgid_plural "%d series"
-msgstr[0] "%d serie"
-msgstr[1] "%d series"
+msgstr[0] "%d серыял"
+msgstr[1] "%d серыялы"
+msgstr[2] "%d серыялаў"
 
 #: usr/lib/hypnotix/hypnotix.py:877
 msgid "Edit"
-msgstr "Editar"
+msgstr "Змяніць"
 
 #: usr/lib/hypnotix/hypnotix.py:887
 msgid "Remove"
-msgstr "Eliminar"
+msgstr "Выдаліць"
 
 #: usr/lib/hypnotix/hypnotix.py:979
 msgid "M3U Playlists"
-msgstr "Listas de reproducción M3U"
+msgstr "Плэйлісты M3U"
 
 #: usr/lib/hypnotix/hypnotix.py:1141 generate_desktop_files:25
 #: usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Watch TV"
-msgstr "Ver la TV"
+msgstr "Глядзець тэлебачанне"
 
 #: usr/share/hypnotix/hypnotix.ui.h:3
 msgid "Fullscreen"
-msgstr "Pantalla completa"
+msgstr "На ўвесь экран"
 
 #: usr/share/hypnotix/hypnotix.ui.h:6
 msgid "MPV Options"
-msgstr "Opciones de MPV"
+msgstr "Налады MPV"
 
 #: usr/share/hypnotix/hypnotix.ui.h:7
 msgid "List of MPV options"
-msgstr "Lista de opciones de MPV"
+msgstr "Спіс наладаў MPV"
 
 #: usr/share/hypnotix/hypnotix.ui.h:8
 msgid "Playback"
-msgstr "Reproducir"
+msgstr "Прайграванне"
 
 #: usr/share/hypnotix/hypnotix.ui.h:9
 msgid "User Agent"
-msgstr "Agente de usuario"
+msgstr "Карыстальніцкі агент"
 
 #: usr/share/hypnotix/hypnotix.ui.h:10
 msgid "Referrer"
-msgstr "Referente"
+msgstr "Спасылка"
 
 #: usr/share/hypnotix/hypnotix.ui.h:11
 msgid "Network"
-msgstr "Red"
+msgstr "Сетка"
 
 #: usr/share/hypnotix/hypnotix.ui.h:12
 msgid "Add a new provider..."
-msgstr "Añadir un proveedor..."
+msgstr "Дадаць новага правайдэра..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:13
 msgid "Reset to defaults..."
-msgstr "Restablecer valores predeterminados..."
+msgstr "Скінуць на перадвызначаныя..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Name:"
-msgstr "Nombre:"
+msgstr "Імя:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "URL:"
-msgstr "URL:"
+msgstr "URL-адрас:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:16
 msgid "Path:"
-msgstr "Ruta:"
+msgstr "Шлях:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:17
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "Адмена"
 
 #: usr/share/hypnotix/hypnotix.ui.h:18
 msgid "OK"
-msgstr "Aceptar"
+msgstr "Добра"
 
 #: usr/share/hypnotix/hypnotix.ui.h:19
 msgid "Username:"
-msgstr "Nombre de usuario:"
+msgstr "Імя карыстальніка:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:20
 msgid "Password:"
-msgstr "Contraseña:"
+msgstr "Пароль:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:21
 msgid "Browse..."
-msgstr "Examinar…"
+msgstr "Агляд..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:22
 msgid "EPG:"
-msgstr "Guía de programas:"
+msgstr "EPG:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:23
 msgid "Type:"
-msgstr "Tipo:"
+msgstr "Тып:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:24
 msgid "Are you sure you want to delete this provider?"
-msgstr "¿Seguro que quiere eliminar este proveedor?"
+msgstr "Вы сапраўды жадаеце выдаліць гэтага правайдэра?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:25
 msgid "No"
-msgstr "No"
+msgstr "Не"
 
 #: usr/share/hypnotix/hypnotix.ui.h:26
 msgid "Yes"
-msgstr "Sí"
+msgstr "Так"
 
 #: usr/share/hypnotix/hypnotix.ui.h:27
 msgid "Are you sure you want to reset to the default providers?"
-msgstr "¿Seguro que quiere restablecer los proveedores predeterminados?"
+msgstr "Вы сапраўды жадаеце скінуць да перадвызначаных правайдэраў?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:28
 msgid "Currently playing:"
-msgstr "Reproduciendo ahora:"
+msgstr "Зараз прайграецца:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:29
 msgid "Show"
-msgstr "Mostrar"
+msgstr "Паказаць"
 
 #: usr/share/hypnotix/hypnotix.ui.h:30
 msgid "Pause"
-msgstr "Pausar"
+msgstr "Прыпыніць"
 
 #: usr/share/hypnotix/hypnotix.ui.h:31
 msgid "Stop"
-msgstr "Detener"
+msgstr "Спыніць"
 
 #: usr/share/hypnotix/hypnotix.ui.h:36
 msgid "Video"
-msgstr "Vídeo"
+msgstr "Відэа"
 
 #: usr/share/hypnotix/hypnotix.ui.h:38
 msgid "Audio"
-msgstr "Audio"
+msgstr "Аўдыя"
 
 #: usr/share/hypnotix/shortcuts.ui.h:1
 msgid "Main shortcuts"
-msgstr "Atajos principales"
+msgstr "Асноўныя камбінацыі"
 
 #: usr/share/hypnotix/shortcuts.ui.h:2
 msgid "Toggle Fullscreen"
-msgstr "Activar o desactivar la pantalla completa"
+msgstr "Пераключыць поўнаэкранны рэжым"

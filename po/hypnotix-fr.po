@@ -7,148 +7,227 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2020-12-01 12:07+0000\n"
-"PO-Revision-Date: 2020-12-03 11:56+0000\n"
+"POT-Creation-Date: 2021-06-03 19:30+0100\n"
+"PO-Revision-Date: 2021-06-03 18:30+0000\n"
 "Last-Translator: Clement Lefebvre <root@linuxmint.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2021-01-02 14:19+0000\n"
-"X-Generator: Launchpad (build 34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f)\n"
+"X-Launchpad-Export-Date: 2021-06-09 14:22+0000\n"
+"X-Generator: Launchpad (build b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4)\n"
 
-#: usr/lib/hypnotix/hypnotix.py:94 usr/lib/hypnotix/hypnotix.py:577
-#: usr/lib/hypnotix/hypnotix.py:931 generate_desktop_files:24
+#: usr/lib/hypnotix/hypnotix.py:114 usr/lib/hypnotix/hypnotix.py:623
+#: usr/lib/hypnotix/hypnotix.py:1140 generate_desktop_files:25
 #: usr/share/hypnotix/hypnotix.ui.h:1
 msgid "Hypnotix"
 msgstr "Hypnotix"
 
-#: usr/lib/hypnotix/hypnotix.py:190
+#: usr/lib/hypnotix/hypnotix.py:223
 msgid "Keyboard Shortcuts"
 msgstr "Raccourcis clavier"
 
-#: usr/lib/hypnotix/hypnotix.py:197 usr/lib/hypnotix/hypnotix.py:930
+#: usr/lib/hypnotix/hypnotix.py:230 usr/share/hypnotix/hypnotix.ui.h:32
+msgid "Stream Information"
+msgstr "Information du flux"
+
+#: usr/lib/hypnotix/hypnotix.py:238 usr/lib/hypnotix/hypnotix.py:1139
 msgid "About"
 msgstr "À propos"
 
-#: usr/lib/hypnotix/hypnotix.py:202
+#: usr/lib/hypnotix/hypnotix.py:243
 msgid "Quit"
 msgstr "Quitter"
 
-#: usr/lib/hypnotix/hypnotix.py:215
+#: usr/lib/hypnotix/hypnotix.py:256
 msgid "M3U URL"
 msgstr "Adresse M3U"
 
-#: usr/lib/hypnotix/hypnotix.py:216
+#: usr/lib/hypnotix/hypnotix.py:257
 msgid "Local M3U File"
 msgstr "Fichier local M3U"
 
-#: usr/lib/hypnotix/hypnotix.py:217
+#: usr/lib/hypnotix/hypnotix.py:258
 msgid "Xtream API"
 msgstr "API Xtream"
 
-#: usr/lib/hypnotix/hypnotix.py:383
+#: usr/lib/hypnotix/hypnotix.py:429
 #, python-format
 msgid "Season %s"
 msgstr "Saison %s"
 
-#: usr/lib/hypnotix/hypnotix.py:393
+#: usr/lib/hypnotix/hypnotix.py:439
 #, python-format
 msgid "Episode %s"
 msgstr "Épisode %s"
 
-#: usr/lib/hypnotix/hypnotix.py:483
+#: usr/lib/hypnotix/hypnotix.py:529
 msgid "No provider selected"
 msgstr "Aucun fournisseur sélectionné"
 
-#: usr/lib/hypnotix/hypnotix.py:505 usr/lib/hypnotix/hypnotix.py:517
+#: usr/lib/hypnotix/hypnotix.py:551 usr/lib/hypnotix/hypnotix.py:563
 msgid "TV Channels"
 msgstr "Chaînes de télévision"
 
-#: usr/lib/hypnotix/hypnotix.py:507 usr/lib/hypnotix/hypnotix.py:532
+#: usr/lib/hypnotix/hypnotix.py:553 usr/lib/hypnotix/hypnotix.py:578
 msgid "Movies"
 msgstr "Films"
 
-#: usr/lib/hypnotix/hypnotix.py:509 usr/lib/hypnotix/hypnotix.py:539
+#: usr/lib/hypnotix/hypnotix.py:555 usr/lib/hypnotix/hypnotix.py:585
 msgid "Series"
 msgstr "Séries"
 
-#: usr/lib/hypnotix/hypnotix.py:520
+#: usr/lib/hypnotix/hypnotix.py:566
 #, python-format
 msgid "TV Channels > %s"
 msgstr "Chaînes de télévision > %s"
 
-#: usr/lib/hypnotix/hypnotix.py:535
+#: usr/lib/hypnotix/hypnotix.py:581
 #, python-format
 msgid "Movies > %s"
 msgstr "Films > %s"
 
-#: usr/lib/hypnotix/hypnotix.py:542
+#: usr/lib/hypnotix/hypnotix.py:588
 #, python-format
 msgid "Series > %s"
 msgstr "Séries > %s"
 
-#: usr/lib/hypnotix/hypnotix.py:550 usr/share/hypnotix/hypnotix.ui.h:5
+#: usr/lib/hypnotix/hypnotix.py:596 usr/share/hypnotix/hypnotix.ui.h:5
 msgid "Preferences"
 msgstr "Préférences"
 
-#: usr/lib/hypnotix/hypnotix.py:554 usr/share/hypnotix/hypnotix.ui.h:4
+#: usr/lib/hypnotix/hypnotix.py:600 usr/share/hypnotix/hypnotix.ui.h:4
 msgid "Providers"
 msgstr "Fournisseurs"
 
-#: usr/lib/hypnotix/hypnotix.py:559
+#: usr/lib/hypnotix/hypnotix.py:605
 #, python-format
 msgid "Edit %s"
 msgstr "Modifier %s"
 
-#: usr/lib/hypnotix/hypnotix.py:561
+#: usr/lib/hypnotix/hypnotix.py:607
 msgid "Add a new provider"
 msgstr "Ajouter un fournisseur"
 
-#: usr/lib/hypnotix/hypnotix.py:565
+#: usr/lib/hypnotix/hypnotix.py:611
 #, python-format
 msgid "Delete %s"
 msgstr "Supprimer %s"
 
-#: usr/lib/hypnotix/hypnotix.py:569
+#: usr/lib/hypnotix/hypnotix.py:615
 msgid "Reset providers"
 msgstr "Réinitialiser les fournisseurs"
 
-#: usr/lib/hypnotix/hypnotix.py:697
+#: usr/lib/hypnotix/hypnotix.py:653 usr/lib/hypnotix/hypnotix.py:657
+#: usr/lib/hypnotix/hypnotix.py:709 usr/lib/hypnotix/hypnotix.py:711
+#: usr/lib/hypnotix/hypnotix.py:718 usr/lib/hypnotix/hypnotix.py:721
+#: usr/lib/hypnotix/hypnotix.py:733 usr/lib/hypnotix/hypnotix.py:746
+#: usr/lib/hypnotix/hypnotix.py:751 usr/lib/hypnotix/hypnotix.py:759
+#: usr/lib/hypnotix/hypnotix.py:1092 usr/lib/hypnotix/hypnotix.py:1094
+#: usr/lib/hypnotix/hypnotix.py:1119 usr/lib/hypnotix/hypnotix.py:1123
+#: usr/share/hypnotix/hypnotix.ui.h:33
+msgid "General"
+msgstr "Général"
+
+#: usr/lib/hypnotix/hypnotix.py:654 usr/lib/hypnotix/hypnotix.py:723
+#: usr/lib/hypnotix/hypnotix.py:725 usr/lib/hypnotix/hypnotix.py:727
+#: usr/lib/hypnotix/hypnotix.py:1093 usr/share/hypnotix/hypnotix.ui.h:35
+msgid "Color"
+msgstr "Couleur"
+
+#: usr/lib/hypnotix/hypnotix.py:658 usr/lib/hypnotix/hypnotix.py:743
+#: usr/lib/hypnotix/hypnotix.py:753 usr/lib/hypnotix/hypnotix.py:1095
+#: usr/share/hypnotix/hypnotix.ui.h:37
+msgid "Layout"
+msgstr "Mise en page"
+
+#: usr/lib/hypnotix/hypnotix.py:694 usr/lib/hypnotix/hypnotix.py:695
+#: usr/lib/hypnotix/hypnotix.py:709 usr/lib/hypnotix/hypnotix.py:711
+#: usr/lib/hypnotix/hypnotix.py:1115 usr/lib/hypnotix/hypnotix.py:1116
+#: usr/lib/hypnotix/hypnotix.py:1119 usr/lib/hypnotix/hypnotix.py:1123
+#: usr/share/hypnotix/hypnotix.ui.h:34
+msgid "Average Bitrate"
+msgstr "Débit moyen"
+
+#: usr/lib/hypnotix/hypnotix.py:718
+msgid "Dimensions"
+msgstr "Dimensions"
+
+#: usr/lib/hypnotix/hypnotix.py:721
+msgid "Aspect"
+msgstr "Aspect"
+
+#: usr/lib/hypnotix/hypnotix.py:723
+msgid "Pixel Format"
+msgstr "Format des pixels"
+
+#: usr/lib/hypnotix/hypnotix.py:725
+msgid "Gamma"
+msgstr "Gamma"
+
+#: usr/lib/hypnotix/hypnotix.py:727
+msgid "Bits Per Pixel"
+msgstr "Octets par pixel"
+
+#: usr/lib/hypnotix/hypnotix.py:733 usr/lib/hypnotix/hypnotix.py:759
+msgid "Codec"
+msgstr "Codec"
+
+#: usr/lib/hypnotix/hypnotix.py:742
+msgid "surround sound"
+msgstr "son surround"
+
+#: usr/lib/hypnotix/hypnotix.py:743
+msgid "Channels"
+msgstr "Canaux"
+
+#: usr/lib/hypnotix/hypnotix.py:746
+msgid "Sample Rate"
+msgstr "Taux d’échantillonnage"
+
+#: usr/lib/hypnotix/hypnotix.py:751
+msgid "Format"
+msgstr "Format"
+
+#: usr/lib/hypnotix/hypnotix.py:753
+msgid "Channel Count"
+msgstr "Nombre de canaux"
+
+#: usr/lib/hypnotix/hypnotix.py:847
 #, python-format
 msgid "%d TV channel"
 msgid_plural "%d TV channels"
 msgstr[0] "%d chaîne de télévision"
 msgstr[1] "%d chaînes de télévision"
 
-#: usr/lib/hypnotix/hypnotix.py:702
+#: usr/lib/hypnotix/hypnotix.py:852
 #, python-format
 msgid "%d movie"
 msgid_plural "%d movies"
 msgstr[0] "%d film"
 msgstr[1] "%d films"
 
-#: usr/lib/hypnotix/hypnotix.py:707
+#: usr/lib/hypnotix/hypnotix.py:857
 #, python-format
 msgid "%d series"
 msgid_plural "%d series"
 msgstr[0] "%d série"
 msgstr[1] "%d séries"
 
-#: usr/lib/hypnotix/hypnotix.py:727
+#: usr/lib/hypnotix/hypnotix.py:877
 msgid "Edit"
 msgstr "Édition"
 
-#: usr/lib/hypnotix/hypnotix.py:737
+#: usr/lib/hypnotix/hypnotix.py:887
 msgid "Remove"
 msgstr "Supprimer"
 
-#: usr/lib/hypnotix/hypnotix.py:825
+#: usr/lib/hypnotix/hypnotix.py:979
 msgid "M3U Playlists"
 msgstr "Listes de lecture M3U"
 
-#: usr/lib/hypnotix/hypnotix.py:932 generate_desktop_files:24
+#: usr/lib/hypnotix/hypnotix.py:1141 generate_desktop_files:25
 #: usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Watch TV"
 msgstr "Regarder la télévision"
@@ -260,6 +339,14 @@ msgstr "Pause"
 #: usr/share/hypnotix/hypnotix.ui.h:31
 msgid "Stop"
 msgstr "Arrêt"
+
+#: usr/share/hypnotix/hypnotix.ui.h:36
+msgid "Video"
+msgstr "Vidéo"
+
+#: usr/share/hypnotix/hypnotix.ui.h:38
+msgid "Audio"
+msgstr "Audio"
 
 #: usr/share/hypnotix/shortcuts.ui.h:1
 msgid "Main shortcuts"

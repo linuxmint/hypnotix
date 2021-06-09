@@ -1,22 +1,23 @@
-# Spanish translation for linuxmint
-# Copyright (c) 2020 Rosetta Contributors and Canonical Ltd 2020
+# Estonian translation for linuxmint
+# Copyright (c) 2021 Rosetta Contributors and Canonical Ltd 2021
 # This file is distributed under the same license as the linuxmint package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2021-06-03 19:30+0100\n"
-"PO-Revision-Date: 2021-06-06 08:30+0000\n"
-"Last-Translator: Toni Estevez <toni.estevez@gmail.com>\n"
-"Language-Team: Spanish <es@li.org>\n"
+"PO-Revision-Date: 2021-02-04 12:36+0000\n"
+"Last-Translator: vaba <Unknown>\n"
+"Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Launchpad-Export-Date: 2021-06-09 14:22+0000\n"
 "X-Generator: Launchpad (build b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4)\n"
+"Language: et\n"
 
 #: usr/lib/hypnotix/hypnotix.py:114 usr/lib/hypnotix/hypnotix.py:623
 #: usr/lib/hypnotix/hypnotix.py:1140 generate_desktop_files:25
@@ -26,98 +27,98 @@ msgstr "Hypnotix"
 
 #: usr/lib/hypnotix/hypnotix.py:223
 msgid "Keyboard Shortcuts"
-msgstr "Atajos de teclado"
+msgstr "Klaviatuuri otseteed"
 
 #: usr/lib/hypnotix/hypnotix.py:230 usr/share/hypnotix/hypnotix.ui.h:32
 msgid "Stream Information"
-msgstr "Información de la transmisión"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:238 usr/lib/hypnotix/hypnotix.py:1139
 msgid "About"
-msgstr "Acerca de"
+msgstr "Teave"
 
 #: usr/lib/hypnotix/hypnotix.py:243
 msgid "Quit"
-msgstr "Salir"
+msgstr "Välju"
 
 #: usr/lib/hypnotix/hypnotix.py:256
 msgid "M3U URL"
-msgstr "URL M3U"
+msgstr "M3U URL"
 
 #: usr/lib/hypnotix/hypnotix.py:257
 msgid "Local M3U File"
-msgstr "Archivo local M3U"
+msgstr "Lokaalne M3U fail"
 
 #: usr/lib/hypnotix/hypnotix.py:258
 msgid "Xtream API"
-msgstr "API Xtream"
+msgstr "Xtream API"
 
 #: usr/lib/hypnotix/hypnotix.py:429
 #, python-format
 msgid "Season %s"
-msgstr "Temporada %s"
+msgstr "Hooaeg %s"
 
 #: usr/lib/hypnotix/hypnotix.py:439
 #, python-format
 msgid "Episode %s"
-msgstr "Episodio %s"
+msgstr "Episood %s"
 
 #: usr/lib/hypnotix/hypnotix.py:529
 msgid "No provider selected"
-msgstr "No se ha seleccionado ningún proveedor"
+msgstr "Teenust pole valitud"
 
 #: usr/lib/hypnotix/hypnotix.py:551 usr/lib/hypnotix/hypnotix.py:563
 msgid "TV Channels"
-msgstr "Canales de TV"
+msgstr "TV kanalid"
 
 #: usr/lib/hypnotix/hypnotix.py:553 usr/lib/hypnotix/hypnotix.py:578
 msgid "Movies"
-msgstr "Películas"
+msgstr "Filmid"
 
 #: usr/lib/hypnotix/hypnotix.py:555 usr/lib/hypnotix/hypnotix.py:585
 msgid "Series"
-msgstr "Series"
+msgstr "Seeriad"
 
 #: usr/lib/hypnotix/hypnotix.py:566
 #, python-format
 msgid "TV Channels > %s"
-msgstr "Canales de TV > %s"
+msgstr "TV kanalid > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:581
 #, python-format
 msgid "Movies > %s"
-msgstr "Películas > %s"
+msgstr "Filmid > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:588
 #, python-format
 msgid "Series > %s"
-msgstr "Series > %s"
+msgstr "Seeriad > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:596 usr/share/hypnotix/hypnotix.ui.h:5
 msgid "Preferences"
-msgstr "Preferencias"
+msgstr "Seadistused"
 
 #: usr/lib/hypnotix/hypnotix.py:600 usr/share/hypnotix/hypnotix.ui.h:4
 msgid "Providers"
-msgstr "Proveedores"
+msgstr "Teenused"
 
 #: usr/lib/hypnotix/hypnotix.py:605
 #, python-format
 msgid "Edit %s"
-msgstr "Editar %s"
+msgstr "Muuda %s"
 
 #: usr/lib/hypnotix/hypnotix.py:607
 msgid "Add a new provider"
-msgstr "Añadir un proveedor"
+msgstr "Lisa uus teenus"
 
 #: usr/lib/hypnotix/hypnotix.py:611
 #, python-format
 msgid "Delete %s"
-msgstr "Eliminar %s"
+msgstr "Kustuta %s"
 
 #: usr/lib/hypnotix/hypnotix.py:615
 msgid "Reset providers"
-msgstr "Restablecer proveedores"
+msgstr "Lähtesta teenused"
 
 #: usr/lib/hypnotix/hypnotix.py:653 usr/lib/hypnotix/hypnotix.py:657
 #: usr/lib/hypnotix/hypnotix.py:709 usr/lib/hypnotix/hypnotix.py:711
@@ -128,19 +129,19 @@ msgstr "Restablecer proveedores"
 #: usr/lib/hypnotix/hypnotix.py:1119 usr/lib/hypnotix/hypnotix.py:1123
 #: usr/share/hypnotix/hypnotix.ui.h:33
 msgid "General"
-msgstr "General"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:654 usr/lib/hypnotix/hypnotix.py:723
 #: usr/lib/hypnotix/hypnotix.py:725 usr/lib/hypnotix/hypnotix.py:727
 #: usr/lib/hypnotix/hypnotix.py:1093 usr/share/hypnotix/hypnotix.ui.h:35
 msgid "Color"
-msgstr "Color"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:658 usr/lib/hypnotix/hypnotix.py:743
 #: usr/lib/hypnotix/hypnotix.py:753 usr/lib/hypnotix/hypnotix.py:1095
 #: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Layout"
-msgstr "Distribución"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:694 usr/lib/hypnotix/hypnotix.py:695
 #: usr/lib/hypnotix/hypnotix.py:709 usr/lib/hypnotix/hypnotix.py:711
@@ -148,129 +149,129 @@ msgstr "Distribución"
 #: usr/lib/hypnotix/hypnotix.py:1119 usr/lib/hypnotix/hypnotix.py:1123
 #: usr/share/hypnotix/hypnotix.ui.h:34
 msgid "Average Bitrate"
-msgstr "Tasa de bits media"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:718
 msgid "Dimensions"
-msgstr "Dimensiones"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:721
 msgid "Aspect"
-msgstr "Aspecto"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:723
 msgid "Pixel Format"
-msgstr "Formato del píxel"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:725
 msgid "Gamma"
-msgstr "Gamma"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:727
 msgid "Bits Per Pixel"
-msgstr "Bits por píxel"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:733 usr/lib/hypnotix/hypnotix.py:759
 msgid "Codec"
-msgstr "Códec"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:742
 msgid "surround sound"
-msgstr "sonido envolvente"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:743
 msgid "Channels"
-msgstr "Canales"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:746
 msgid "Sample Rate"
-msgstr "Tasa de muestreo"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:751
 msgid "Format"
-msgstr "Formato"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:753
 msgid "Channel Count"
-msgstr "Recuento de canales"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:847
 #, python-format
 msgid "%d TV channel"
 msgid_plural "%d TV channels"
-msgstr[0] "%d canal de TV"
-msgstr[1] "%d canales de TV"
+msgstr[0] "%d TV kanal"
+msgstr[1] "%d TV kanalid"
 
 #: usr/lib/hypnotix/hypnotix.py:852
 #, python-format
 msgid "%d movie"
 msgid_plural "%d movies"
-msgstr[0] "%d película"
-msgstr[1] "%d películas"
+msgstr[0] "%d film"
+msgstr[1] "%d filmid"
 
 #: usr/lib/hypnotix/hypnotix.py:857
 #, python-format
 msgid "%d series"
 msgid_plural "%d series"
-msgstr[0] "%d serie"
-msgstr[1] "%d series"
+msgstr[0] "%d seeria"
+msgstr[1] "%d seeriad"
 
 #: usr/lib/hypnotix/hypnotix.py:877
 msgid "Edit"
-msgstr "Editar"
+msgstr "Muuda"
 
 #: usr/lib/hypnotix/hypnotix.py:887
 msgid "Remove"
-msgstr "Eliminar"
+msgstr "Eemalda"
 
 #: usr/lib/hypnotix/hypnotix.py:979
 msgid "M3U Playlists"
-msgstr "Listas de reproducción M3U"
+msgstr "M3U nimekiri"
 
 #: usr/lib/hypnotix/hypnotix.py:1141 generate_desktop_files:25
 #: usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Watch TV"
-msgstr "Ver la TV"
+msgstr "Vaata TV-d"
 
 #: usr/share/hypnotix/hypnotix.ui.h:3
 msgid "Fullscreen"
-msgstr "Pantalla completa"
+msgstr "Täisekraan"
 
 #: usr/share/hypnotix/hypnotix.ui.h:6
 msgid "MPV Options"
-msgstr "Opciones de MPV"
+msgstr "MPV valikud"
 
 #: usr/share/hypnotix/hypnotix.ui.h:7
 msgid "List of MPV options"
-msgstr "Lista de opciones de MPV"
+msgstr "MPV valikute nimekiri"
 
 #: usr/share/hypnotix/hypnotix.ui.h:8
 msgid "Playback"
-msgstr "Reproducir"
+msgstr "Taasesitus"
 
 #: usr/share/hypnotix/hypnotix.ui.h:9
 msgid "User Agent"
-msgstr "Agente de usuario"
+msgstr "Kasutaja agent"
 
 #: usr/share/hypnotix/hypnotix.ui.h:10
 msgid "Referrer"
-msgstr "Referente"
+msgstr "Suunaja"
 
 #: usr/share/hypnotix/hypnotix.ui.h:11
 msgid "Network"
-msgstr "Red"
+msgstr "Võrk"
 
 #: usr/share/hypnotix/hypnotix.ui.h:12
 msgid "Add a new provider..."
-msgstr "Añadir un proveedor..."
+msgstr "Uue teenuse lisamine..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:13
 msgid "Reset to defaults..."
-msgstr "Restablecer valores predeterminados..."
+msgstr "Lähtesta vaikeseadetele..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Name:"
-msgstr "Nombre:"
+msgstr "Nimi:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "URL:"
@@ -278,80 +279,80 @@ msgstr "URL:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:16
 msgid "Path:"
-msgstr "Ruta:"
+msgstr "Asukoht:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:17
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "Katkesta"
 
 #: usr/share/hypnotix/hypnotix.ui.h:18
 msgid "OK"
-msgstr "Aceptar"
+msgstr "OK"
 
 #: usr/share/hypnotix/hypnotix.ui.h:19
 msgid "Username:"
-msgstr "Nombre de usuario:"
+msgstr "Kasutajanimi:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:20
 msgid "Password:"
-msgstr "Contraseña:"
+msgstr "Parool:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:21
 msgid "Browse..."
-msgstr "Examinar…"
+msgstr "Sirvi..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:22
 msgid "EPG:"
-msgstr "Guía de programas:"
+msgstr "EPG:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:23
 msgid "Type:"
-msgstr "Tipo:"
+msgstr "Tüüp:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:24
 msgid "Are you sure you want to delete this provider?"
-msgstr "¿Seguro que quiere eliminar este proveedor?"
+msgstr "Kas soovite kindlasti selle teenuse kustutada?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:25
 msgid "No"
-msgstr "No"
+msgstr "Ei"
 
 #: usr/share/hypnotix/hypnotix.ui.h:26
 msgid "Yes"
-msgstr "Sí"
+msgstr "Jah"
 
 #: usr/share/hypnotix/hypnotix.ui.h:27
 msgid "Are you sure you want to reset to the default providers?"
-msgstr "¿Seguro que quiere restablecer los proveedores predeterminados?"
+msgstr "Kas soovite kindlasti lähtestada vaiketeenusele?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:28
 msgid "Currently playing:"
-msgstr "Reproduciendo ahora:"
+msgstr "Praegu mängib:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:29
 msgid "Show"
-msgstr "Mostrar"
+msgstr "Näita"
 
 #: usr/share/hypnotix/hypnotix.ui.h:30
 msgid "Pause"
-msgstr "Pausar"
+msgstr "Paus"
 
 #: usr/share/hypnotix/hypnotix.ui.h:31
 msgid "Stop"
-msgstr "Detener"
+msgstr "Peata"
 
 #: usr/share/hypnotix/hypnotix.ui.h:36
 msgid "Video"
-msgstr "Vídeo"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:38
 msgid "Audio"
-msgstr "Audio"
+msgstr ""
 
 #: usr/share/hypnotix/shortcuts.ui.h:1
 msgid "Main shortcuts"
-msgstr "Atajos principales"
+msgstr "Peamised otseteed"
 
 #: usr/share/hypnotix/shortcuts.ui.h:2
 msgid "Toggle Fullscreen"
-msgstr "Activar o desactivar la pantalla completa"
+msgstr "Täisekraan sisse"

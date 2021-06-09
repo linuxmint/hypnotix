@@ -7,148 +7,227 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2020-12-01 12:07+0000\n"
-"PO-Revision-Date: 2020-12-01 18:36+0000\n"
+"POT-Creation-Date: 2021-06-03 19:30+0100\n"
+"PO-Revision-Date: 2021-06-04 19:20+0000\n"
 "Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2021-01-02 14:19+0000\n"
-"X-Generator: Launchpad (build 34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f)\n"
+"X-Launchpad-Export-Date: 2021-06-09 14:22+0000\n"
+"X-Generator: Launchpad (build b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4)\n"
 
-#: usr/lib/hypnotix/hypnotix.py:94 usr/lib/hypnotix/hypnotix.py:577
-#: usr/lib/hypnotix/hypnotix.py:931 generate_desktop_files:24
+#: usr/lib/hypnotix/hypnotix.py:114 usr/lib/hypnotix/hypnotix.py:623
+#: usr/lib/hypnotix/hypnotix.py:1140 generate_desktop_files:25
 #: usr/share/hypnotix/hypnotix.ui.h:1
 msgid "Hypnotix"
 msgstr "Hypnotix"
 
-#: usr/lib/hypnotix/hypnotix.py:190
+#: usr/lib/hypnotix/hypnotix.py:223
 msgid "Keyboard Shortcuts"
 msgstr "Tastaturgenveje"
 
-#: usr/lib/hypnotix/hypnotix.py:197 usr/lib/hypnotix/hypnotix.py:930
+#: usr/lib/hypnotix/hypnotix.py:230 usr/share/hypnotix/hypnotix.ui.h:32
+msgid "Stream Information"
+msgstr "Streaminformation"
+
+#: usr/lib/hypnotix/hypnotix.py:238 usr/lib/hypnotix/hypnotix.py:1139
 msgid "About"
 msgstr "Om"
 
-#: usr/lib/hypnotix/hypnotix.py:202
+#: usr/lib/hypnotix/hypnotix.py:243
 msgid "Quit"
 msgstr "Afslut"
 
-#: usr/lib/hypnotix/hypnotix.py:215
+#: usr/lib/hypnotix/hypnotix.py:256
 msgid "M3U URL"
 msgstr "M3U-URL"
 
-#: usr/lib/hypnotix/hypnotix.py:216
+#: usr/lib/hypnotix/hypnotix.py:257
 msgid "Local M3U File"
 msgstr "Lokal M3U-fil"
 
-#: usr/lib/hypnotix/hypnotix.py:217
+#: usr/lib/hypnotix/hypnotix.py:258
 msgid "Xtream API"
-msgstr "Xtream API"
+msgstr "Xtream-API"
 
-#: usr/lib/hypnotix/hypnotix.py:383
+#: usr/lib/hypnotix/hypnotix.py:429
 #, python-format
 msgid "Season %s"
 msgstr "Sæson %s"
 
-#: usr/lib/hypnotix/hypnotix.py:393
+#: usr/lib/hypnotix/hypnotix.py:439
 #, python-format
 msgid "Episode %s"
 msgstr "Afsnit %s"
 
-#: usr/lib/hypnotix/hypnotix.py:483
+#: usr/lib/hypnotix/hypnotix.py:529
 msgid "No provider selected"
 msgstr "Ingen udbyder valgt"
 
-#: usr/lib/hypnotix/hypnotix.py:505 usr/lib/hypnotix/hypnotix.py:517
+#: usr/lib/hypnotix/hypnotix.py:551 usr/lib/hypnotix/hypnotix.py:563
 msgid "TV Channels"
 msgstr "TV-kanaler"
 
-#: usr/lib/hypnotix/hypnotix.py:507 usr/lib/hypnotix/hypnotix.py:532
+#: usr/lib/hypnotix/hypnotix.py:553 usr/lib/hypnotix/hypnotix.py:578
 msgid "Movies"
 msgstr "Film"
 
-#: usr/lib/hypnotix/hypnotix.py:509 usr/lib/hypnotix/hypnotix.py:539
+#: usr/lib/hypnotix/hypnotix.py:555 usr/lib/hypnotix/hypnotix.py:585
 msgid "Series"
 msgstr "Serier"
 
-#: usr/lib/hypnotix/hypnotix.py:520
+#: usr/lib/hypnotix/hypnotix.py:566
 #, python-format
 msgid "TV Channels > %s"
 msgstr "TV-kanaler > %s"
 
-#: usr/lib/hypnotix/hypnotix.py:535
+#: usr/lib/hypnotix/hypnotix.py:581
 #, python-format
 msgid "Movies > %s"
 msgstr "Film > %s"
 
-#: usr/lib/hypnotix/hypnotix.py:542
+#: usr/lib/hypnotix/hypnotix.py:588
 #, python-format
 msgid "Series > %s"
 msgstr "Serier > %s"
 
-#: usr/lib/hypnotix/hypnotix.py:550 usr/share/hypnotix/hypnotix.ui.h:5
+#: usr/lib/hypnotix/hypnotix.py:596 usr/share/hypnotix/hypnotix.ui.h:5
 msgid "Preferences"
 msgstr "Indstillinger"
 
-#: usr/lib/hypnotix/hypnotix.py:554 usr/share/hypnotix/hypnotix.ui.h:4
+#: usr/lib/hypnotix/hypnotix.py:600 usr/share/hypnotix/hypnotix.ui.h:4
 msgid "Providers"
 msgstr "Udbydere"
 
-#: usr/lib/hypnotix/hypnotix.py:559
+#: usr/lib/hypnotix/hypnotix.py:605
 #, python-format
 msgid "Edit %s"
 msgstr "Redigér %s"
 
-#: usr/lib/hypnotix/hypnotix.py:561
+#: usr/lib/hypnotix/hypnotix.py:607
 msgid "Add a new provider"
 msgstr "Tilføj en ny udbyder"
 
-#: usr/lib/hypnotix/hypnotix.py:565
+#: usr/lib/hypnotix/hypnotix.py:611
 #, python-format
 msgid "Delete %s"
 msgstr "Slet %s"
 
-#: usr/lib/hypnotix/hypnotix.py:569
+#: usr/lib/hypnotix/hypnotix.py:615
 msgid "Reset providers"
 msgstr "Nulstil udbydere"
 
-#: usr/lib/hypnotix/hypnotix.py:697
+#: usr/lib/hypnotix/hypnotix.py:653 usr/lib/hypnotix/hypnotix.py:657
+#: usr/lib/hypnotix/hypnotix.py:709 usr/lib/hypnotix/hypnotix.py:711
+#: usr/lib/hypnotix/hypnotix.py:718 usr/lib/hypnotix/hypnotix.py:721
+#: usr/lib/hypnotix/hypnotix.py:733 usr/lib/hypnotix/hypnotix.py:746
+#: usr/lib/hypnotix/hypnotix.py:751 usr/lib/hypnotix/hypnotix.py:759
+#: usr/lib/hypnotix/hypnotix.py:1092 usr/lib/hypnotix/hypnotix.py:1094
+#: usr/lib/hypnotix/hypnotix.py:1119 usr/lib/hypnotix/hypnotix.py:1123
+#: usr/share/hypnotix/hypnotix.ui.h:33
+msgid "General"
+msgstr "Generelt"
+
+#: usr/lib/hypnotix/hypnotix.py:654 usr/lib/hypnotix/hypnotix.py:723
+#: usr/lib/hypnotix/hypnotix.py:725 usr/lib/hypnotix/hypnotix.py:727
+#: usr/lib/hypnotix/hypnotix.py:1093 usr/share/hypnotix/hypnotix.ui.h:35
+msgid "Color"
+msgstr "Farve"
+
+#: usr/lib/hypnotix/hypnotix.py:658 usr/lib/hypnotix/hypnotix.py:743
+#: usr/lib/hypnotix/hypnotix.py:753 usr/lib/hypnotix/hypnotix.py:1095
+#: usr/share/hypnotix/hypnotix.ui.h:37
+msgid "Layout"
+msgstr "Layout"
+
+#: usr/lib/hypnotix/hypnotix.py:694 usr/lib/hypnotix/hypnotix.py:695
+#: usr/lib/hypnotix/hypnotix.py:709 usr/lib/hypnotix/hypnotix.py:711
+#: usr/lib/hypnotix/hypnotix.py:1115 usr/lib/hypnotix/hypnotix.py:1116
+#: usr/lib/hypnotix/hypnotix.py:1119 usr/lib/hypnotix/hypnotix.py:1123
+#: usr/share/hypnotix/hypnotix.ui.h:34
+msgid "Average Bitrate"
+msgstr "Gennemsnitlig bithastighed"
+
+#: usr/lib/hypnotix/hypnotix.py:718
+msgid "Dimensions"
+msgstr "Mål"
+
+#: usr/lib/hypnotix/hypnotix.py:721
+msgid "Aspect"
+msgstr "Forhold"
+
+#: usr/lib/hypnotix/hypnotix.py:723
+msgid "Pixel Format"
+msgstr "Pixelformat"
+
+#: usr/lib/hypnotix/hypnotix.py:725
+msgid "Gamma"
+msgstr "Gamma"
+
+#: usr/lib/hypnotix/hypnotix.py:727
+msgid "Bits Per Pixel"
+msgstr "Bit pr. pixel"
+
+#: usr/lib/hypnotix/hypnotix.py:733 usr/lib/hypnotix/hypnotix.py:759
+msgid "Codec"
+msgstr "Codec"
+
+#: usr/lib/hypnotix/hypnotix.py:742
+msgid "surround sound"
+msgstr "surroundsound"
+
+#: usr/lib/hypnotix/hypnotix.py:743
+msgid "Channels"
+msgstr "Kanaler"
+
+#: usr/lib/hypnotix/hypnotix.py:746
+msgid "Sample Rate"
+msgstr "Samplefrekvens"
+
+#: usr/lib/hypnotix/hypnotix.py:751
+msgid "Format"
+msgstr "Format"
+
+#: usr/lib/hypnotix/hypnotix.py:753
+msgid "Channel Count"
+msgstr "Kanalantal"
+
+#: usr/lib/hypnotix/hypnotix.py:847
 #, python-format
 msgid "%d TV channel"
 msgid_plural "%d TV channels"
 msgstr[0] "%d TV-kanal"
 msgstr[1] "%d TV-kanaler"
 
-#: usr/lib/hypnotix/hypnotix.py:702
+#: usr/lib/hypnotix/hypnotix.py:852
 #, python-format
 msgid "%d movie"
 msgid_plural "%d movies"
 msgstr[0] "%d film"
 msgstr[1] "%d film"
 
-#: usr/lib/hypnotix/hypnotix.py:707
+#: usr/lib/hypnotix/hypnotix.py:857
 #, python-format
 msgid "%d series"
 msgid_plural "%d series"
 msgstr[0] "%d serie"
 msgstr[1] "%d serier"
 
-#: usr/lib/hypnotix/hypnotix.py:727
+#: usr/lib/hypnotix/hypnotix.py:877
 msgid "Edit"
 msgstr "Redigér"
 
-#: usr/lib/hypnotix/hypnotix.py:737
+#: usr/lib/hypnotix/hypnotix.py:887
 msgid "Remove"
 msgstr "Fjern"
 
-#: usr/lib/hypnotix/hypnotix.py:825
+#: usr/lib/hypnotix/hypnotix.py:979
 msgid "M3U Playlists"
 msgstr "M3U-afspilningslister"
 
-#: usr/lib/hypnotix/hypnotix.py:932 generate_desktop_files:24
+#: usr/lib/hypnotix/hypnotix.py:1141 generate_desktop_files:25
 #: usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Watch TV"
 msgstr "Se TV"
@@ -231,7 +310,7 @@ msgstr "Type:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:24
 msgid "Are you sure you want to delete this provider?"
-msgstr "Er du sikker på, du vil slette denne udbyder?"
+msgstr "Er du sikker på, at du vil slette udbyderen?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:25
 msgid "No"
@@ -243,11 +322,11 @@ msgstr "Ja"
 
 #: usr/share/hypnotix/hypnotix.ui.h:27
 msgid "Are you sure you want to reset to the default providers?"
-msgstr "Er du sikker på, du vil nulstille til standardudbyderne?"
+msgstr "Er du sikker på, at du vil nulstille til standardudbyderne?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:28
 msgid "Currently playing:"
-msgstr "Afspiller lige nu:"
+msgstr "Afspiller nu:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:29
 msgid "Show"
@@ -261,9 +340,17 @@ msgstr "Pause"
 msgid "Stop"
 msgstr "Stop"
 
+#: usr/share/hypnotix/hypnotix.ui.h:36
+msgid "Video"
+msgstr "Video"
+
+#: usr/share/hypnotix/hypnotix.ui.h:38
+msgid "Audio"
+msgstr "Lyd"
+
 #: usr/share/hypnotix/shortcuts.ui.h:1
 msgid "Main shortcuts"
-msgstr "Vigtigste genveje"
+msgstr "Primære genveje"
 
 #: usr/share/hypnotix/shortcuts.ui.h:2
 msgid "Toggle Fullscreen"
