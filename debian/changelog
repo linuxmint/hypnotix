@@ -1,3 +1,12 @@
+hypnotix (1.8) uma; urgency=medium
+
+  * l10n: Update POT
+  * packaging: Recommend youtube-dl
+  * l10n: Update translations
+  * l10n: Generate files
+
+ -- Clement Lefebvre <root@linuxmint.com>  Wed, 09 Jun 2021 16:03:34 +0100
+
 hypnotix (1.7) uma; urgency=medium
 
   [ Clement Lefebvre ]
