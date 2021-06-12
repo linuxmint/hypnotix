@@ -392,7 +392,6 @@ class XTream():
         if osp.isfile(full_filename):
 
             my_data = None
-            #threshold_time = time.mktime(time.gmtime(60*60*8))   # 8 hours
             threshold_time = 60*60*8
 
             # Get the enlapsed seconds since last file update
@@ -404,8 +403,9 @@ class XTream():
                 # Load the JSON data
                 try:
                     with open(full_filename,mode='r',encoding='utf-8') as myfile:
-                        #my_data = myfile.read()
                         my_data = json.load(myfile)
+                        if len(my_data) == 0:
+                            my_data = None
                 except Exception as e:
                     print("Could not save to file `{}`: e=`{}`".format(
                         full_filename, e
