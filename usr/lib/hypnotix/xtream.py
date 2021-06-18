@@ -4,6 +4,9 @@
 Module handles downloading xtream data
 It does not support M3U
 
+This application comes from the pyxtream library found at:
+https://pypi.org/project/pyxtream
+
 Part of this content comes from 
 https://github.com/chazlarson/py-xtream-codes/blob/master/xtream.py
 https://github.com/linuxmint/hypnotix
@@ -17,7 +20,7 @@ __version__ = '0.1'
 __author__ = 'Claudio Olmi'
 
 from typing import List
-import requests 
+import requests
 import time
 from os import path as osp
 from os import makedirs
@@ -125,8 +128,6 @@ class Group():
     # Required by Hypnotix
     name = ""
     group_type = ""
-    channels = []
-    series = []
 
     # XTream
     group_id = ""
@@ -137,6 +138,9 @@ class Group():
     def __init__(self, group_info: dict, stream_type: str):
         # Raw JSON Group
         self.raw = group_info
+
+        self.channels = []
+        self.series = []
 
         TV_GROUP, MOVIES_GROUP, SERIES_GROUP = range(3)
 
@@ -161,7 +165,6 @@ class Episode():
     # Required by Hypnotix
     title = ""
     name = ""
-    
 
     # XTream
 
@@ -201,8 +204,6 @@ class Serie():
     name = ""
     logo = ""
     logo_path = ""
-    seasons = []
-    episodes = []
 
     # XTream
     series_id = ""
@@ -221,6 +222,9 @@ class Serie():
         self.name = series_info['name']
         self.logo = series_info['cover']
         self.logo_path = xtream.getLogoLocalPath(self.logo)
+
+        self.seasons = []
+        self.episodes = []
 
         # Check if category_id key is available
         if "series_id" in series_info.keys():
@@ -241,10 +245,10 @@ class Serie():
 class Season():
     # Required by Hypnotix
     name = ""
-    episodes = {}
 
     def __init__(self, name):
         self.name = name
+        self.episodes = {}
 
 class XTream():
 
@@ -273,6 +277,9 @@ class XTream():
         },
         liveType
     )
+    # If the cached JSON file is older than threshold_time_sec then load a new
+    # JSON dictionary from the provider
+    threshold_time_sec = 60*60*8
 
     def __init__(self, provider_name: str, provider_username: str, provider_password: str, provider_url: str, cache_path: str = ""):
         """Initialize Xtream Class
@@ -289,7 +296,6 @@ class XTream():
         self.password = provider_password
         self.name = provider_name
         self.cache_path = cache_path
-
         # if the cache_path is specified, test that it is a directory
         if self.cache_path != "":
             # If the cache_path is not a directory, clear it
@@ -318,66 +324,30 @@ class XTream():
 
         search_result = []
         
-        regex = re.compile(keyword)
+        regex = re.compile(keyword,re.IGNORECASE)
 
+        print("Checking {} movies".format(len(self.movies)))
         for stream in self.movies:
             if re.match(regex, stream.name) is not None:
                 search_result.append(stream.export_json())
+
+        print("Checking {} channels".format(len(self.channels)))
+        for stream in self.channels:
+            if re.match(regex, stream.name) is not None:
+                search_result.append(stream.export_json())
+
+        print("Checking {} series".format(len(self.series)))
+        for stream in self.series:
+            if re.match(regex, stream.name) is not None:
+                search_result.append(stream.export_json())
+
         if return_type == "JSON":
             if search_result != None:
-                print("Found {} results".format(len(search_result)))
+                print("Found {} results `{}`".format(len(search_result),keyword))
                 return json.dumps(search_result, ensure_ascii=False)
         else:
             return search_result
 
-    def download_video(self, url: str, fullpath_filename: str) -> bool:
-        """Download a stream
-
-        Args:
-            url (str): Complete URL of the stream
-            fullpath_filename (str): Complete File path where to save the stream
-
-        Returns:
-            bool: True if successful, False if error
-        """
-        ret_code = False
-        mb_size = 1024*1024
-        try:
-            print("Downloading from URL `{}` and saving at `{}`".format(url,fullpath_filename))
-            response = requests.get(url, timeout=(5), stream=True)
-            print("Got response")
-            # If there is an answer from the remote server
-            if response.status_code == 200:
-                print("Got response 200")
-                # Set downloaded size
-                downloaded_bytes = 0
-                # Get total playlist byte size
-                total_content_size = int(response.headers['content-length'])
-                total_content_size_mb = total_content_size/mb_size
-                # Set stream blocks
-                block_bytes = int(4*mb_size)     # 4 MB
-
-                #response.encoding = response.apparent_encoding
-                print("Ready to download {:.1f} MB file".format(total_content_size_mb))
-                with open(fullpath_filename, "w") as file:
-                    # Grab data by block_bytes
-                    for data in response.iter_content(block_bytes,decode_unicode=True):
-                        downloaded_bytes += block_bytes
-                        print("{:.0f}/{:.1f} MB downloaded".format(downloaded_bytes/mb_size,total_content_size_mb))
-                        file.write(str(data))
-                if downloaded_bytes < total_content_size:
-                    print("The file size is incorrect, deleting")
-                    remove(fullpath_filename)
-                else:
-                    # Set the datatime when it was last retreived
-                    # self.settings.set_
-                    ret_code = True
-            else:
-                print("HTTP error %d while retrieving from %s!" % (response.status_code, url))
-        except Exception as e:
-            print(e)
-        
-        return ret_code
 
     def slugify(self, string: str) -> str:
         """Normalize string
@@ -464,14 +434,13 @@ class XTream():
         if osp.isfile(full_filename):
 
             my_data = None
-            threshold_time = 60*60*8
 
             # Get the enlapsed seconds since last file update
             diff_time = time.time() - osp.getmtime(full_filename)
             # If the file was updated less than the threshold time, 
             # it means that the file is still fresh, we can load it.
             # Otherwise skip and return None to force a re-download
-            if threshold_time > diff_time:
+            if self.threshold_time_sec > diff_time:
                 # Load the JSON data
                 try:
                     with open(full_filename,mode='r',encoding='utf-8') as myfile:
@@ -562,6 +531,7 @@ class XTream():
                     #provider.groups.append(new_group)
             else:
                 print("Could not load {} Groups".format(loading_stream_type))
+                break
 
             ## Get Streams
 
@@ -590,13 +560,26 @@ class XTream():
                 for stream_channel in all_streams:
                     # Generate Group Title
                     if stream_channel['name'][0].isalnum():
-                        group_title = str.split(stream_channel['name'],'|')[0]
 
                         # Some channels have no group, 
                         # so let's add them to the catche all group
                         if stream_channel['category_id'] == None:
                             stream_channel['category_id'] = '9999'
+                        elif stream_channel['category_id'] != '1':
+                            pass
+
+                        # Find the first occurence of the group that the
+                        # Channel or Stream is pointing to
+                        the_group = next(
+                            (x for x in self.groups if x.group_id == stream_channel['category_id']),
+                            None
+                        )
                         
+                        if the_group != None:
+                            group_title = the_group.name
+                        else:
+                            group_title = self.catch_all_group.name
+
                         if loading_stream_type == self.seriesType:
                             # Load all Series
                             new_series = Serie(self, stream_channel)
@@ -613,35 +596,22 @@ class XTream():
                                 stream_channel
                             )
 
-                        # Find the first occurence of the group that the 
-                        # Channel or Stream is pointing to
-                        the_group = next(
-                            (x for x in self.groups if x.group_id == stream_channel['category_id']),
-                            None
-                        )
-
-                        # Save the new channel to the provider object and the new_group object
+                        # Save the new channel to the local list of channels
                         if loading_stream_type == self.liveType:
                             self.channels.append(new_channel)
-                            #provider.channels.append(new_channel)
                         elif loading_stream_type == self.vodType:
                             self.movies.append(new_channel)
-                            #provider.movies.append(new_channel)
                         else:
                             self.series.append(new_series)
-                            #provider.series.append(new_series)
-                        
-                        if loading_stream_type != self.seriesType:
-                            #self.channels.append(new_channel)
-                            if the_group != None:
+
+                        # Add stream to the specific Group       
+                        if the_group != None:
+                            if loading_stream_type != self.seriesType:
                                 the_group.channels.append(new_channel)
                             else:
-                                print("Group not found `{}`".format(stream_channel['name']))
-                        else:
-                            if the_group != None:
                                 the_group.series.append(new_series)
-                            else:
-                                print("Group not found `{}`".format(stream_channel['name']))
+                        else:
+                            print("Group not found `{}`".format(stream_channel['name']))
             else:
                 print("Could not load {} Streams".format(loading_stream_type))
 
