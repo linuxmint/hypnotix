@@ -1243,9 +1243,14 @@ class MainWindow():
         self.status("Loading providers...")
         self.providers = []
         for provider_info in self.settings.get_strv("providers"):
-            
+
             try:
                 provider = Provider(name=None, provider_info=provider_info)
+                
+                # Add provider to list. This must be done so that it shows up in the
+                # list of providers for editing.
+                self.providers.append(provider)
+
                 if provider.type_id != "xtream":
                     # Download M3U
                     if refresh:
@@ -1258,7 +1263,6 @@ class MainWindow():
                         if (self.manager.check_playlist(provider)):
                             self.status("Loading channels...", provider)
                             self.manager.load_channels(provider)
-                            self.providers.append(provider)
                             if provider.name == self.settings.get_string("active-provider"):
                                 self.active_provider = provider
                             self.status(None)
@@ -1285,7 +1289,7 @@ class MainWindow():
                     # Download via Xtream
                     self.x = XTream(provider.name,provider.username,provider.password,provider.url,os.path.expanduser("~/.hypnotix/providers"))
                     if self.x.authData != {}:
-                        print("XTREAM Loading Channels")
+                        print("XTREAM `{}` Loading Channels".format(provider.name))
                         self.x.load_iptv()
                         # Inform Provider of data
                         provider.channels = self.x.channels
@@ -1300,11 +1304,9 @@ class MainWindow():
                         self._timerid = GLib.timeout_add_seconds(self.reload_timeout_sec, self.force_reload)
 
                         # If no errors, approve provider
-                        self.providers.append(provider)
                         if provider.name == self.settings.get_string("active-provider"):
                             self.active_provider = provider
                         self.status(None)
-
                     else:
                         print("XTREAM Authentication Failed")
 
