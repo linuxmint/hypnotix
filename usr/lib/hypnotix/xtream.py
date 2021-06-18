@@ -32,24 +32,25 @@ import json
 import re
 
 class Channel():
-    stream_type = ""
-    logo_path = ""
-    logo = ""
-    info = ""
+    # Required by Hypnotix
     id = ""
+    name = "" # What is the difference between the below name and title?
+    logo = ""
+    logo_path = ""
+    group_title = ""
+    title = ""
     url = ""
 
-    # What is the difference between the below name and title?
-    name = ""
-    title = ""
-
-    # Group info
-    group_title = ""
+    # XTream
+    stream_type = ""
     group_id = ""
-
     is_adult = ""
     added = ""
     epg_channel_id = ""
+    added = ""
+    
+    # This contains the raw JSON data
+    raw = ""
 
     def __init__(self, xtream: object, group_title, stream_info):
         stream_type = stream_info['stream_type']
@@ -66,26 +67,38 @@ class Channel():
             self.raw = stream_info
 
             stream_name = stream_info['name']
+
+            # Required by Hypnotix
             self.id = stream_info['stream_id']
             self.name = stream_name
             self.logo = stream_info['stream_icon']
             self.logo_path = xtream.getLogoLocalPath(self.logo)
-
-            self.group_id = stream_info['category_id']
-
             self.group_title = group_title
             self.title = stream_name
+
+            # Check if category_id key is available
+            if "category_id" in stream_info.keys():
+                self.group_id = stream_info['category_id']
 
             if stream_type == "live":
                 stream_extension = "ts"
                 
-                self.is_adult = stream_info['is_adult']
-                self.epg_channel_id = stream_info['epg_channel_id']
+                # Default to 0
+                self.is_adult = 0
+                # Check if is_adult key is available
+                if "is_adult" in stream_info.keys():
+                    self.is_adult = stream_info['is_adult']
+
+                # Check if epg_channel_id key is available
+                if "epg_channel_id" in stream_info.keys():
+                    self.epg_channel_id = stream_info['epg_channel_id']
+
                 self.added = stream_info['added']
 
             elif stream_type == "movie":
                 stream_extension = stream_info['container_extension']
 
+            # Required by Hypnotix
             self.url = "{}/{}/{}/{}/{}.{}".format(
                 xtream.server,
                 stream_info['stream_type'],
@@ -109,6 +122,18 @@ class Channel():
         return jsondata
 
 class Group():
+    # Required by Hypnotix
+    name = ""
+    group_type = ""
+    channels = []
+    series = []
+
+    # XTream
+    group_id = ""
+
+    # This contains the raw JSON data
+    raw = ""
+
     def __init__(self, group_info: dict, stream_type: str):
         # Raw JSON Group
         self.raw = group_info
@@ -125,12 +150,24 @@ class Group():
             print("Unrecognized stream type `{}` for `{}`".format(
                 stream_type, group_info
             ))
+
         self.name = group_info['category_name']
-        self.group_id = group_info['category_id']
-        self.channels = []
-        self.series = []
+        
+        # Check if category_id key is available
+        if "category_id" in group_info.keys():
+            self.group_id = group_info['category_id']
 
 class Episode():
+    # Required by Hypnotix
+    title = ""
+    name = ""
+    
+
+    # XTream
+
+    # This contains the raw JSON data
+    raw = ""
+
     def __init__(self, xtream: object, series_info, group_title, episode_info) -> None:
         # Raw JSON Episode
         self.raw = episode_info
@@ -160,26 +197,54 @@ class Episode():
             print("{} - Bad URL? `{}`".format(self.name, self.url))
 
 class Serie():
+    # Required by Hypnotix
+    name = ""
+    logo = ""
+    logo_path = ""
+    seasons = []
+    episodes = []
+
+    # XTream
+    series_id = ""
+    plot = ""
+    youtube_trailer = ""
+    genre = ""
+
+    # This contains the raw JSON data
+    raw = ""
+
     def __init__(self, xtream: object, series_info):
         # Raw JSON Series
         self.raw = series_info
 
+        # Required by Hypnotix
         self.name = series_info['name']
-        self.series_id = series_info['series_id']
         self.logo = series_info['cover']
         self.logo_path = xtream.getLogoLocalPath(self.logo)
-        
-        self.seasons = {}
-        self.episodes = {}
 
-        self.plot = series_info['plot']
-        self.youtube_trailer = series_info['youtube_trailer']
-        self.genre = series_info['genre']
+        # Check if category_id key is available
+        if "series_id" in series_info.keys():
+            self.series_id = series_info['series_id']
+        
+        # Check if plot key is available
+        if "plot" in series_info.keys():
+            self.plot = series_info['plot']
+        
+        # Check if youtube_trailer key is available
+        if "youtube_trailer" in series_info.keys():
+            self.youtube_trailer = series_info['youtube_trailer']
+        
+        # Check if genre key is available
+        if "genre" in series_info.keys():
+            self.genre = series_info['genre']
 
 class Season():
+    # Required by Hypnotix
+    name = ""
+    episodes = {}
+
     def __init__(self, name):
         self.name = name
-        self.episodes = {}
 
 class XTream():
 
@@ -367,12 +432,19 @@ class XTream():
 
     # Authentication returns information about the account and server:
     def authenticate(self):
-        r = requests.get(self.get_authenticate_URL())
-        self.authData = r.json()
-        self.authorization = {
-            "username": self.authData["user_info"]["username"],
-            "password": self.authData["user_info"]["password"]
+        self.authData = {}
+        try:
+            r = requests.get(
+                self.get_authenticate_URL()
+                )
+            self.authData = r.json()
+            self.authorization = {
+                "username": self.authData["user_info"]["username"],
+                "password": self.authData["user_info"]["password"]
             }
+        except requests.exceptions.ConnectionError:
+            # If connection refused
+            print("{} - Connection refused URL: {}".format(self.name, self.server))
 
     def loadFromFile(self, filename) -> dict:
         """Try to load the distionary from file
