@@ -3,15 +3,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-06-03 19:30+0100\n"
-"PO-Revision-Date: 2020-12-19 04:03+0000\n"
+"PO-Revision-Date: 2021-06-13 21:18+0000\n"
 "Last-Translator: KAMI <kami911@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2021-06-09 14:22+0000\n"
-"X-Generator: Launchpad (build b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4)\n"
+"X-Launchpad-Export-Date: 2021-06-25 10:43+0000\n"
+"X-Generator: Launchpad (build 40cc6dba4163ba9ca785b26ad91f43c87d70ba4d)\n"
 "Language: hu\n"
 
 #: usr/lib/hypnotix/hypnotix.py:114 usr/lib/hypnotix/hypnotix.py:623
@@ -26,7 +26,7 @@ msgstr "Gyorsbillentyűk"
 
 #: usr/lib/hypnotix/hypnotix.py:230 usr/share/hypnotix/hypnotix.ui.h:32
 msgid "Stream Information"
-msgstr ""
+msgstr "Adatfolyam információ"
 
 #: usr/lib/hypnotix/hypnotix.py:238 usr/lib/hypnotix/hypnotix.py:1139
 msgid "About"
@@ -124,19 +124,19 @@ msgstr "Szolgáltatók visszaállítása"
 #: usr/lib/hypnotix/hypnotix.py:1119 usr/lib/hypnotix/hypnotix.py:1123
 #: usr/share/hypnotix/hypnotix.ui.h:33
 msgid "General"
-msgstr ""
+msgstr "Általános"
 
 #: usr/lib/hypnotix/hypnotix.py:654 usr/lib/hypnotix/hypnotix.py:723
 #: usr/lib/hypnotix/hypnotix.py:725 usr/lib/hypnotix/hypnotix.py:727
 #: usr/lib/hypnotix/hypnotix.py:1093 usr/share/hypnotix/hypnotix.ui.h:35
 msgid "Color"
-msgstr ""
+msgstr "Szín"
 
 #: usr/lib/hypnotix/hypnotix.py:658 usr/lib/hypnotix/hypnotix.py:743
 #: usr/lib/hypnotix/hypnotix.py:753 usr/lib/hypnotix/hypnotix.py:1095
 #: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Layout"
-msgstr ""
+msgstr "Elrendezés"
 
 #: usr/lib/hypnotix/hypnotix.py:694 usr/lib/hypnotix/hypnotix.py:695
 #: usr/lib/hypnotix/hypnotix.py:709 usr/lib/hypnotix/hypnotix.py:711
@@ -144,51 +144,51 @@ msgstr ""
 #: usr/lib/hypnotix/hypnotix.py:1119 usr/lib/hypnotix/hypnotix.py:1123
 #: usr/share/hypnotix/hypnotix.ui.h:34
 msgid "Average Bitrate"
-msgstr ""
+msgstr "Átlagos bitsebesség:"
 
 #: usr/lib/hypnotix/hypnotix.py:718
 msgid "Dimensions"
-msgstr ""
+msgstr "Méretek"
 
 #: usr/lib/hypnotix/hypnotix.py:721
 msgid "Aspect"
-msgstr ""
+msgstr "Méretarány"
 
 #: usr/lib/hypnotix/hypnotix.py:723
 msgid "Pixel Format"
-msgstr ""
+msgstr "Képpont formátum"
 
 #: usr/lib/hypnotix/hypnotix.py:725
 msgid "Gamma"
-msgstr ""
+msgstr "Gamma"
 
 #: usr/lib/hypnotix/hypnotix.py:727
 msgid "Bits Per Pixel"
-msgstr ""
+msgstr "Képpontonkénti bitek"
 
 #: usr/lib/hypnotix/hypnotix.py:733 usr/lib/hypnotix/hypnotix.py:759
 msgid "Codec"
-msgstr ""
+msgstr "Kodek"
 
 #: usr/lib/hypnotix/hypnotix.py:742
 msgid "surround sound"
-msgstr ""
+msgstr "térhatású hang"
 
 #: usr/lib/hypnotix/hypnotix.py:743
 msgid "Channels"
-msgstr ""
+msgstr "Csatornák"
 
 #: usr/lib/hypnotix/hypnotix.py:746
 msgid "Sample Rate"
-msgstr ""
+msgstr "Mintavétel"
 
 #: usr/lib/hypnotix/hypnotix.py:751
 msgid "Format"
-msgstr ""
+msgstr "Formátum"
 
 #: usr/lib/hypnotix/hypnotix.py:753
 msgid "Channel Count"
-msgstr ""
+msgstr "Csatornák száma"
 
 #: usr/lib/hypnotix/hypnotix.py:847
 #, python-format
@@ -340,11 +340,11 @@ msgstr "Leállítás"
 
 #: usr/share/hypnotix/hypnotix.ui.h:36
 msgid "Video"
-msgstr ""
+msgstr "Videó"
 
 #: usr/share/hypnotix/hypnotix.ui.h:38
 msgid "Audio"
-msgstr ""
+msgstr "Hang"
 
 #: usr/share/hypnotix/shortcuts.ui.h:1
 msgid "Main shortcuts"

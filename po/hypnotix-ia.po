@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2021-06-03 19:30+0100\n"
-"PO-Revision-Date: 2021-03-10 08:25+0000\n"
+"PO-Revision-Date: 2021-06-15 02:21+0000\n"
 "Last-Translator: karm <melo@carmu.com>\n"
 "Language-Team: Interlingua <ia@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2021-06-09 14:22+0000\n"
-"X-Generator: Launchpad (build b45bdbe3a00b6b668fa7f2069bd545c35c41f7f4)\n"
+"X-Launchpad-Export-Date: 2021-06-25 10:43+0000\n"
+"X-Generator: Launchpad (build 40cc6dba4163ba9ca785b26ad91f43c87d70ba4d)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:114 usr/lib/hypnotix/hypnotix.py:623
 #: usr/lib/hypnotix/hypnotix.py:1140 generate_desktop_files:25
@@ -30,7 +30,7 @@ msgstr "Vias breve de claviero"
 
 #: usr/lib/hypnotix/hypnotix.py:230 usr/share/hypnotix/hypnotix.ui.h:32
 msgid "Stream Information"
-msgstr ""
+msgstr "Information de stream"
 
 #: usr/lib/hypnotix/hypnotix.py:238 usr/lib/hypnotix/hypnotix.py:1139
 msgid "About"
@@ -55,16 +55,16 @@ msgstr "API Xtream"
 #: usr/lib/hypnotix/hypnotix.py:429
 #, python-format
 msgid "Season %s"
-msgstr ""
+msgstr "Saison %s"
 
 #: usr/lib/hypnotix/hypnotix.py:439
 #, python-format
 msgid "Episode %s"
-msgstr ""
+msgstr "Episodio %s"
 
 #: usr/lib/hypnotix/hypnotix.py:529
 msgid "No provider selected"
-msgstr ""
+msgstr "Nulle fornitor eligite"
 
 #: usr/lib/hypnotix/hypnotix.py:551 usr/lib/hypnotix/hypnotix.py:563
 msgid "TV Channels"
@@ -86,7 +86,7 @@ msgstr "Canales TV > %s"
 #: usr/lib/hypnotix/hypnotix.py:581
 #, python-format
 msgid "Movies > %s"
-msgstr ""
+msgstr "Films > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:588
 #, python-format
@@ -99,16 +99,16 @@ msgstr "Preferentias"
 
 #: usr/lib/hypnotix/hypnotix.py:600 usr/share/hypnotix/hypnotix.ui.h:4
 msgid "Providers"
-msgstr ""
+msgstr "Fornitores"
 
 #: usr/lib/hypnotix/hypnotix.py:605
 #, python-format
 msgid "Edit %s"
-msgstr ""
+msgstr "Rediger %s"
 
 #: usr/lib/hypnotix/hypnotix.py:607
 msgid "Add a new provider"
-msgstr ""
+msgstr "Adder un nove fornitor"
 
 #: usr/lib/hypnotix/hypnotix.py:611
 #, python-format
@@ -117,7 +117,7 @@ msgstr "Deler %s"
 
 #: usr/lib/hypnotix/hypnotix.py:615
 msgid "Reset providers"
-msgstr ""
+msgstr "Remontar le fornitores"
 
 #: usr/lib/hypnotix/hypnotix.py:653 usr/lib/hypnotix/hypnotix.py:657
 #: usr/lib/hypnotix/hypnotix.py:709 usr/lib/hypnotix/hypnotix.py:711
@@ -128,19 +128,19 @@ msgstr ""
 #: usr/lib/hypnotix/hypnotix.py:1119 usr/lib/hypnotix/hypnotix.py:1123
 #: usr/share/hypnotix/hypnotix.ui.h:33
 msgid "General"
-msgstr ""
+msgstr "General"
 
 #: usr/lib/hypnotix/hypnotix.py:654 usr/lib/hypnotix/hypnotix.py:723
 #: usr/lib/hypnotix/hypnotix.py:725 usr/lib/hypnotix/hypnotix.py:727
 #: usr/lib/hypnotix/hypnotix.py:1093 usr/share/hypnotix/hypnotix.ui.h:35
 msgid "Color"
-msgstr ""
+msgstr "Color"
 
 #: usr/lib/hypnotix/hypnotix.py:658 usr/lib/hypnotix/hypnotix.py:743
 #: usr/lib/hypnotix/hypnotix.py:753 usr/lib/hypnotix/hypnotix.py:1095
 #: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Layout"
-msgstr ""
+msgstr "Mappa"
 
 #: usr/lib/hypnotix/hypnotix.py:694 usr/lib/hypnotix/hypnotix.py:695
 #: usr/lib/hypnotix/hypnotix.py:709 usr/lib/hypnotix/hypnotix.py:711
@@ -148,58 +148,58 @@ msgstr ""
 #: usr/lib/hypnotix/hypnotix.py:1119 usr/lib/hypnotix/hypnotix.py:1123
 #: usr/share/hypnotix/hypnotix.ui.h:34
 msgid "Average Bitrate"
-msgstr ""
+msgstr "Frequentia de bit medie"
 
 #: usr/lib/hypnotix/hypnotix.py:718
 msgid "Dimensions"
-msgstr ""
+msgstr "Dimensiones"
 
 #: usr/lib/hypnotix/hypnotix.py:721
 msgid "Aspect"
-msgstr ""
+msgstr "Aspecto"
 
 #: usr/lib/hypnotix/hypnotix.py:723
 msgid "Pixel Format"
-msgstr ""
+msgstr "Formato pixel"
 
 #: usr/lib/hypnotix/hypnotix.py:725
 msgid "Gamma"
-msgstr ""
+msgstr "Gamma"
 
 #: usr/lib/hypnotix/hypnotix.py:727
 msgid "Bits Per Pixel"
-msgstr ""
+msgstr "Bits per pixel"
 
 #: usr/lib/hypnotix/hypnotix.py:733 usr/lib/hypnotix/hypnotix.py:759
 msgid "Codec"
-msgstr ""
+msgstr "Codec"
 
 #: usr/lib/hypnotix/hypnotix.py:742
 msgid "surround sound"
-msgstr ""
+msgstr "sono surround"
 
 #: usr/lib/hypnotix/hypnotix.py:743
 msgid "Channels"
-msgstr ""
+msgstr "Canales"
 
 #: usr/lib/hypnotix/hypnotix.py:746
 msgid "Sample Rate"
-msgstr ""
+msgstr "Frequentia de monstra"
 
 #: usr/lib/hypnotix/hypnotix.py:751
 msgid "Format"
-msgstr ""
+msgstr "Formato"
 
 #: usr/lib/hypnotix/hypnotix.py:753
 msgid "Channel Count"
-msgstr ""
+msgstr "Conto canal"
 
 #: usr/lib/hypnotix/hypnotix.py:847
 #, python-format
 msgid "%d TV channel"
 msgid_plural "%d TV channels"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d canal TV"
+msgstr[1] "%d canales TV"
 
 #: usr/lib/hypnotix/hypnotix.py:852
 #, python-format
@@ -225,12 +225,12 @@ msgstr "Remover"
 
 #: usr/lib/hypnotix/hypnotix.py:979
 msgid "M3U Playlists"
-msgstr ""
+msgstr "Lista de reproduction M3U"
 
 #: usr/lib/hypnotix/hypnotix.py:1141 generate_desktop_files:25
 #: usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Watch TV"
-msgstr ""
+msgstr "Reguardar TV"
 
 #: usr/share/hypnotix/hypnotix.ui.h:3
 msgid "Fullscreen"
@@ -238,11 +238,11 @@ msgstr "Plen Schermo"
 
 #: usr/share/hypnotix/hypnotix.ui.h:6
 msgid "MPV Options"
-msgstr ""
+msgstr "Optiones MPV"
 
 #: usr/share/hypnotix/hypnotix.ui.h:7
 msgid "List of MPV options"
-msgstr ""
+msgstr "Lista de optiones MPV"
 
 #: usr/share/hypnotix/hypnotix.ui.h:8
 msgid "Playback"
@@ -254,7 +254,7 @@ msgstr "Agente usator"
 
 #: usr/share/hypnotix/hypnotix.ui.h:10
 msgid "Referrer"
-msgstr ""
+msgstr "Referer"
 
 #: usr/share/hypnotix/hypnotix.ui.h:11
 msgid "Network"
@@ -262,11 +262,11 @@ msgstr "Rete"
 
 #: usr/share/hypnotix/hypnotix.ui.h:12
 msgid "Add a new provider..."
-msgstr ""
+msgstr "Adder un nove fornitor"
 
 #: usr/share/hypnotix/hypnotix.ui.h:13
 msgid "Reset to defaults..."
-msgstr ""
+msgstr "Remontar a predefinite"
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Name:"
@@ -278,7 +278,7 @@ msgstr "URL:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:16
 msgid "Path:"
-msgstr ""
+msgstr "Itinere"
 
 #: usr/share/hypnotix/hypnotix.ui.h:17
 msgid "Cancel"
@@ -302,7 +302,7 @@ msgstr "Navigar ..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:22
 msgid "EPG:"
-msgstr ""
+msgstr "EPG:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:23
 msgid "Type:"
@@ -310,7 +310,7 @@ msgstr "Typo:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:24
 msgid "Are you sure you want to delete this provider?"
-msgstr ""
+msgstr "Desira tu vermente deler iste fornitor?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:25
 msgid "No"
@@ -322,11 +322,11 @@ msgstr "Si"
 
 #: usr/share/hypnotix/hypnotix.ui.h:27
 msgid "Are you sure you want to reset to the default providers?"
-msgstr ""
+msgstr "Desira tu vermente remontar a predefinite le fornitores?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:28
 msgid "Currently playing:"
-msgstr ""
+msgstr "Reproducente"
 
 #: usr/share/hypnotix/hypnotix.ui.h:29
 msgid "Show"
@@ -342,15 +342,15 @@ msgstr "Stoppar"
 
 #: usr/share/hypnotix/hypnotix.ui.h:36
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #: usr/share/hypnotix/hypnotix.ui.h:38
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: usr/share/hypnotix/shortcuts.ui.h:1
 msgid "Main shortcuts"
-msgstr ""
+msgstr "Vias breve principal"
 
 #: usr/share/hypnotix/shortcuts.ui.h:2
 msgid "Toggle Fullscreen"
