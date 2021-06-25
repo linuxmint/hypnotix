@@ -1,3 +1,10 @@
+hypnotix (1.9) uma; urgency=medium
+
+  * l10n: Update translations
+  * l10n: Generate files
+
+ -- Clement Lefebvre <root@linuxmint.com>  Fri, 25 Jun 2021 14:35:15 +0100
+
 hypnotix (1.8) uma; urgency=medium
 
   * l10n: Update POT
