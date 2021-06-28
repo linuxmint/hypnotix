@@ -16,7 +16,7 @@ Github: superolmo
 
 """
 
-__version__ = '0.1'
+__version__ = '0.4.0'
 __author__ = 'Claudio Olmi'
 
 from typing import List
@@ -75,7 +75,7 @@ class Channel():
             self.id = stream_info['stream_id']
             self.name = stream_name
             self.logo = stream_info['stream_icon']
-            self.logo_path = xtream.getLogoLocalPath(self.logo)
+            self.logo_path = xtream.get_logo_local_path(self.logo)
             self.group_title = group_title
             self.title = stream_name
 
@@ -112,7 +112,7 @@ class Channel():
                 )
             
             # Check that the constructed URL is valid
-            if not xtream.validateURL(self.url):
+            if not xtream.validate_url(self.url):
                 print("{} - Bad URL? `{}`".format(self.name, self.url))
 
     def export_json(self):
@@ -184,7 +184,7 @@ class Episode():
         self.av_info = episode_info['info']
 
         self.logo = series_info['cover']
-        self.logo_path = xtream.getLogoLocalPath(self.logo)
+        self.logo_path = xtream.get_logo_local_path(self.logo)
         
 
         self.url = "{}/series/{}/{}/{}.{}".format(
@@ -196,7 +196,7 @@ class Episode():
             )
 
         # Check that the constructed URL is valid
-        if not xtream.validateURL(self.url):
+        if not xtream.validate_url(self.url):
             print("{} - Bad URL? `{}`".format(self.name, self.url))
 
 class Serie():
@@ -221,10 +221,10 @@ class Serie():
         # Required by Hypnotix
         self.name = series_info['name']
         self.logo = series_info['cover']
-        self.logo_path = xtream.getLogoLocalPath(self.logo)
+        self.logo_path = xtream.get_logo_local_path(self.logo)
 
-        self.seasons = []
-        self.episodes = []
+        self.seasons = {}
+        self.episodes = {}
 
         # Check if category_id key is available
         if "series_id" in series_info.keys():
@@ -257,11 +257,11 @@ class XTream():
     username = ""
     password = ""
 
-    liveType = "Live"
-    vodType = "VOD"
-    seriesType = "Series"
+    live_type = "Live"
+    vod_type = "VOD"
+    series_type = "Series"
 
-    authData = {}
+    auth_data = {}
     authorization = {}
 
     groups = []
@@ -275,21 +275,33 @@ class XTream():
             "category_name":"xEverythingElse",
             "parent_id":0
         },
-        liveType
+        live_type
     )
     # If the cached JSON file is older than threshold_time_sec then load a new
     # JSON dictionary from the provider
     threshold_time_sec = 60*60*8
 
-    def __init__(self, provider_name: str, provider_username: str, provider_password: str, provider_url: str, cache_path: str = ""):
+    def __init__(self, 
+                provider_name: str, 
+                provider_username: str, 
+                provider_password: str, 
+                provider_url: str, 
+                cache_path: str = ""
+                ):
         """Initialize Xtream Class
 
         Args:
-            provider_name (str): Name of the IPTV provider
-            provider_username (str): User name of the IPTV provider
-            provider_password (str): Password of the IPTV provider
-            provider_url (str): URL of the IPTV provider
-            cache_path (str, optional): Location where to save loaded files. Defaults to "".
+            provider_name     (str):            Name of the IPTV provider
+            provider_username (str):            User name of the IPTV provider
+            provider_password (str):            Password of the IPTV provider
+            provider_url      (str):            URL of the IPTV provider
+            cache_path        (str, optional):  Location where to save loaded files. Defaults to empty string.
+
+        Returns: XTream Class Instance
+
+        - Note: If it fails to authorize with provided username and password,
+                auth_data will be an empty dictionary.
+
         """
         self.server = provider_url
         self.username = provider_username
@@ -311,11 +323,12 @@ class XTream():
 
         self.authenticate()
 
-    def search_stream(self, keyword: str, return_type: str = "LIST") -> List:
+    def search_stream(self, keyword: str, ignore_case: bool = True, return_type: str = "LIST") -> List:
         """Search for streams
 
         Args:
             keyword (str): Keyword to search for. Supports REGEX
+            ignore_case (bool, optional): True to ignore case during search. Defaults to "True".
             return_type (str, optional): Output format, 'LIST' or 'JSON'. Defaults to "LIST".
 
         Returns:
@@ -324,7 +337,10 @@ class XTream():
 
         search_result = []
         
-        regex = re.compile(keyword,re.IGNORECASE)
+        if ignore_case:
+            regex = re.compile(keyword,re.IGNORECASE)
+        else:
+            regex = re.compile(keyword)
 
         print("Checking {} movies".format(len(self.movies)))
         for stream in self.movies:
@@ -363,7 +379,7 @@ class XTream():
         """
         return "".join(x.lower() for x in string if x.isalnum())
 
-    def validateURL(self, url: str) -> bool:
+    def validate_url(self, url: str) -> bool:
         regex = re.compile(
             r'^(?:http|ftp)s?://' # http:// or https://
             r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain...
@@ -374,7 +390,7 @@ class XTream():
 
         return re.match(regex, url) is not None
 
-    def getLogoLocalPath(self, logoURL: str) -> str:
+    def get_logo_local_path(self, logo_url: str) -> str:
         """Convert the Logo URL to a local Logo Path
 
         Args:
@@ -384,14 +400,13 @@ class XTream():
             [type]: The logo path as a string or None
         """
         local_logo_path = None
-        if logoURL != None:
-            if not self.validateURL(logoURL):
-                #print("Bad URL? `{}`".format(logoURL))
-                logoURL = None
+        if logo_url != None:
+            if not self.validate_url(logo_url):
+                logo_url = None
             else:
                 local_logo_path = osp.join(self.cache_path, "{}-{}".format(
                     self.slugify(self.name), 
-                    self.slugify(osp.split(logoURL)[-1])
+                    self.slugify(osp.split(logo_url)[-1])
                     )
                 )
         return local_logo_path
@@ -402,21 +417,21 @@ class XTream():
 
     # Authentication returns information about the account and server:
     def authenticate(self):
-        self.authData = {}
+        self.auth_data = {}
         try:
             r = requests.get(
                 self.get_authenticate_URL()
                 )
-            self.authData = r.json()
+            self.auth_data = r.json()
             self.authorization = {
-                "username": self.authData["user_info"]["username"],
-                "password": self.authData["user_info"]["password"]
+                "username": self.auth_data["user_info"]["username"],
+                "password": self.auth_data["user_info"]["password"]
             }
         except requests.exceptions.ConnectionError:
             # If connection refused
             print("{} - Connection refused URL: {}".format(self.name, self.server))
 
-    def loadFromFile(self, filename) -> dict:
+    def load_from_file(self, filename) -> dict:
         """Try to load the distionary from file
 
         Args:
@@ -455,7 +470,7 @@ class XTream():
         else:
             return None
 
-    def saveToFile(self, data_list: dict, filename: str) -> bool:
+    def save_to_file(self, data_list: dict, filename: str) -> bool:
         """Save a dictionary to file
 
         This function will overwrite the file if already exists
@@ -488,23 +503,30 @@ class XTream():
     def load_iptv(self):
         """Load XTream IPTV
 
+        - Add all Live TV to XTream.channels
+        - Add all VOD to XTream.movies
+        - Add all Series to XTream.series
+          Series contains Seasons and Episodes. Those are not automatically
+          retrieved from the server to reduce the loading time.
+        - Add all groups to XTream.groups
+          Groups are for all three channel types, Live TV, VOD, and Series
+
         """
 
-        #loading_stream_type = self.liveType
-        for loading_stream_type in (self.liveType, self.vodType, self.seriesType):
+        for loading_stream_type in (self.live_type, self.vod_type, self.series_type):
             ## Get GROUPS
 
             # Try loading local file
             dt = 0
-            all_cat = self.loadFromFile("all_groups_{}.json".format(
+            all_cat = self.load_from_file("all_groups_{}.json".format(
                 loading_stream_type
             ))
             # If file empty or does not exists, download it from remote
             if all_cat == None:
                 # Load all Groups and save file locally
                 start = timer()
-                all_cat = self.categories(loading_stream_type)
-                self.saveToFile(all_cat,"all_groups_{}.json".format(
+                all_cat = self._load_categories_from_provider(loading_stream_type)
+                self.save_to_file(all_cat,"all_groups_{}.json".format(
                     loading_stream_type
                 ))
                 dt = timer()-start
@@ -517,18 +539,13 @@ class XTream():
                 ## Add GROUPS to dictionaries
 
                 # Add the catch-all-errors group
-                #  Add to xtream class
                 self.groups.append(self.catch_all_group)
-                #  Add to provider
-                #provider.groups.append(self.catch_all_group)
 
                 for cat_obj in all_cat:
                     # Create Group (Category)
                     new_group = Group(cat_obj, loading_stream_type)
                     #  Add to xtream class
                     self.groups.append(new_group)
-                    #  Add to provider
-                    #provider.groups.append(new_group)
             else:
                 print("Could not load {} Groups".format(loading_stream_type))
                 break
@@ -537,15 +554,15 @@ class XTream():
 
             # Try loading local file
             dt = 0
-            all_streams = self.loadFromFile("all_stream_{}.json".format(
+            all_streams = self.load_from_file("all_stream_{}.json".format(
                 loading_stream_type
             ))
             # If file empty or does not exists, download it from remote
             if all_streams == None:
                 # Load all Streams and save file locally
                 start = timer()
-                all_streams = self.streams(loading_stream_type)
-                self.saveToFile(all_streams,"all_stream_{}.json".format(
+                all_streams = self._load_streams_from_provider(loading_stream_type)
+                self.save_to_file(all_streams,"all_stream_{}.json".format(
                     loading_stream_type
                 ))
                 dt = timer()-start
@@ -579,8 +596,9 @@ class XTream():
                             group_title = the_group.name
                         else:
                             group_title = self.catch_all_group.name
+                            the_group = self.catch_all_group
 
-                        if loading_stream_type == self.seriesType:
+                        if loading_stream_type == self.series_type:
                             # Load all Series
                             new_series = Serie(self, stream_channel)
                             # To get all the Episodes for every Season of each 
@@ -597,16 +615,16 @@ class XTream():
                             )
 
                         # Save the new channel to the local list of channels
-                        if loading_stream_type == self.liveType:
+                        if loading_stream_type == self.live_type:
                             self.channels.append(new_channel)
-                        elif loading_stream_type == self.vodType:
+                        elif loading_stream_type == self.vod_type:
                             self.movies.append(new_channel)
                         else:
                             self.series.append(new_series)
 
                         # Add stream to the specific Group       
                         if the_group != None:
-                            if loading_stream_type != self.seriesType:
+                            if loading_stream_type != self.series_type:
                                 the_group.channels.append(new_channel)
                             else:
                                 the_group.series.append(new_series)
@@ -615,9 +633,14 @@ class XTream():
             else:
                 print("Could not load {} Streams".format(loading_stream_type))
 
-    def getSeriesInfoByID(self, get_series):
+    def get_series_info_by_id(self, get_series: dict):
+        """Get Seasons and Episodes for a Serie
+
+        Args:
+            get_series (dict): Serie dictionary
+        """
         start = timer()
-        series_seasons = self.seriesInfoByID(get_series.series_id)
+        series_seasons = self._load_series_info_by_id_from_provider(get_series.series_id)
         dt = timer()-start
         #print("Loaded in {:.3f} sec".format(dt))
         for series_info in series_seasons["seasons"]:
@@ -637,21 +660,21 @@ class XTream():
                         season.episodes[episode_info['title']] = new_episode_channel
 
     # GET Stream Categories
-    def categories(self, streamType: str):
-        """Get from provider all category for specific stream type
+    def _load_categories_from_provider(self, stream_type: str):
+        """Get from provider all category for specific stream type from provider
 
         Args:
-            streamType (str): Stream type can be Live, VOD, Series
+            stream_type (str): Stream type can be Live, VOD, Series
 
         Returns:
             [type]: JSON if successfull, otherwise None
         """
         theURL = ""
-        if streamType == self.liveType:
+        if stream_type == self.live_type:
             theURL = self.get_live_categories_URL()
-        elif streamType == self.vodType:
+        elif stream_type == self.vod_type:
             theURL = self.get_vod_cat_URL()
-        elif streamType == self.seriesType:
+        elif stream_type == self.series_type:
             theURL = self.get_series_cat_URL()
         else:
             theURL = ""
@@ -663,21 +686,21 @@ class XTream():
         return None
 
     # GET Streams
-    def streams(self, streamType: str):
+    def _load_streams_from_provider(self, stream_type: str):
         """Get from provider all streams for specific stream type
 
         Args:
-            streamType (str): Stream type can be Live, VOD, Series
+            stream_type (str): Stream type can be Live, VOD, Series
 
         Returns:
             [type]: JSON if successfull, otherwise None
         """
         theURL = ""
-        if streamType == self.liveType:
+        if stream_type == self.live_type:
             theURL = self.get_live_streams_URL()
-        elif streamType == self.vodType:
+        elif stream_type == self.vod_type:
             theURL = self.get_vod_streams_URL()
-        elif streamType == self.seriesType:
+        elif stream_type == self.series_type:
             theURL = self.get_series_URL()
         else:
             theURL = ""
@@ -688,15 +711,23 @@ class XTream():
         return None
 
     # GET Streams by Category
-    def streamsByCategory(self, streamType: str, category_id):
-        
+    def _load_streams_by_category_from_provider(self, stream_type: str, category_id):
+        """Get from provider all streams for specific stream type with category/group ID
+
+        Args:
+            stream_type (str): Stream type can be Live, VOD, Series
+            category_id ([type]): Category/Group ID.
+
+        Returns:
+            [type]: JSON if successfull, otherwise None
+        """
         theURL = ""
 
-        if streamType == self.liveType:
+        if stream_type == self.live_type:
             theURL = self.get_live_streams_URL_by_category(category_id)
-        elif streamType == self.vodType:
+        elif stream_type == self.vod_type:
             theURL = self.get_vod_streams_URL_by_category(category_id)
-        elif streamType == self.seriesType:
+        elif stream_type == self.series_type:
             theURL = self.get_series_URL_by_category(category_id)
         else:
             theURL = ""
@@ -707,7 +738,15 @@ class XTream():
         return None
 
     # GET SERIES Info
-    def seriesInfoByID(self, series_id):  
+    def _load_series_info_by_id_from_provider(self, series_id: str):
+        """Gets informations about a Serie
+
+        Args:
+            series_id (str): Serie ID as described in Group
+
+        Returns:
+            [type]: JSON if successfull, otherwise None
+        """
         r = requests.get(self.get_series_info_URL_by_ID(series_id)) 
         if r.status_code == 200:
             return r.json()

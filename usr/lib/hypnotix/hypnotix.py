@@ -453,7 +453,7 @@ class MainWindow():
         # If we are using xtream provider
         # Load every Episodes of every Season for this Series
         if self.active_provider.type_id == "xtream":
-            self.x.getSeriesInfoByID(self.active_serie)
+            self.x.get_series_info_by_id(self.active_serie)
 
         self.navigate_to("episodes_page")
         for child in self.episodes_box.get_children():
@@ -1288,7 +1288,7 @@ class MainWindow():
                         from xtream import XTream
                     # Download via Xtream
                     self.x = XTream(provider.name,provider.username,provider.password,provider.url,os.path.expanduser("~/.hypnotix/providers"))
-                    if self.x.authData != {}:
+                    if self.x.auth_data != {}:
                         print("XTREAM `{}` Loading Channels".format(provider.name))
                         self.x.load_iptv()
                         # Inform Provider of data
