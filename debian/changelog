@@ -1,3 +1,9 @@
+hypnotix (2.0) uma; urgency=medium
+
+  * Fix slovenian flag
+
+ -- Clement Lefebvre <root@linuxmint.com>  Wed, 14 Jul 2021 14:45:08 +0100
+
 hypnotix (1.9) uma; urgency=medium
 
   * l10n: Update translations
