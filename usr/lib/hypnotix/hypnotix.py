@@ -364,7 +364,7 @@ class MainWindow():
                 self.channels_flowbox.remove(child)
 
             if search:
-                search_bar_text = unidecode(self.search_bar.get_text()).lower()
+                search_bar_text = unidecode(self.search_bar.get_text()).lower().strip()
 
             for channel in channels:
                 if search:
@@ -529,7 +529,7 @@ class MainWindow():
             self.playback_bar.show()
 
     def on_search_button(self, widget):
-        if self.search_bar.get_text() != "":
+        if self.search_bar.get_text().strip() != "":
             self.show_channels(self.active_provider.channels, True)
 
     @idle_function
@@ -632,7 +632,7 @@ class MainWindow():
             self.headerbar.set_subtitle(_("Reset providers"))
 
         if search:
-            self.headerbar.set_subtitle(_("Search > %s" % self.search_bar.get_text()))
+            self.headerbar.set_subtitle(_("Search > %s" % self.search_bar.get_text().strip()))
 
     def open_keyboard_shortcuts(self, widget):
         gladefile = "/usr/share/hypnotix/shortcuts.ui"
@@ -1170,7 +1170,7 @@ class MainWindow():
         except Exception as e:
             print (e)
 
-        dlg.set_version("__DEB_VERSION__")
+        dlg.set_version("2.0")
         dlg.set_icon_name("hypnotix")
         dlg.set_logo_icon_name("hypnotix")
         dlg.set_website("https://www.github.com/linuxmint/hypnotix")
