@@ -1170,7 +1170,7 @@ class MainWindow():
         except Exception as e:
             print (e)
 
-        dlg.set_version("2.0")
+        dlg.set_version("__DEB_VERSION__")
         dlg.set_icon_name("hypnotix")
         dlg.set_logo_icon_name("hypnotix")
         dlg.set_website("https://www.github.com/linuxmint/hypnotix")
