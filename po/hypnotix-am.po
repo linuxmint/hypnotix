@@ -22,7 +22,7 @@ msgstr ""
 #: usr/lib/hypnotix/hypnotix.py:1140 generate_desktop_files:25
 #: usr/share/hypnotix/hypnotix.ui.h:1
 msgid "Hypnotix"
-msgstr ""
+msgstr "ሂፕኖቲክስ"
 
 #: usr/lib/hypnotix/hypnotix.py:223
 msgid "Keyboard Shortcuts"
@@ -30,7 +30,7 @@ msgstr "የ ፊደል ገበታ አቋራጮች"
 
 #: usr/lib/hypnotix/hypnotix.py:230 usr/share/hypnotix/hypnotix.ui.h:32
 msgid "Stream Information"
-msgstr ""
+msgstr "የዥረት መረጃ"
 
 #: usr/lib/hypnotix/hypnotix.py:238 usr/lib/hypnotix/hypnotix.py:1139
 msgid "About"
@@ -46,16 +46,16 @@ msgstr "M3U URL"
 
 #: usr/lib/hypnotix/hypnotix.py:257
 msgid "Local M3U File"
-msgstr ""
+msgstr "አካባቢያዊ M3U ፋይል"
 
 #: usr/lib/hypnotix/hypnotix.py:258
 msgid "Xtream API"
-msgstr ""
+msgstr "Xtream ኤፒአይ"
 
 #: usr/lib/hypnotix/hypnotix.py:429
 #, python-format
 msgid "Season %s"
-msgstr ""
+msgstr "ምዕራፍ %s"
 
 #: usr/lib/hypnotix/hypnotix.py:439
 #, python-format
@@ -156,11 +156,11 @@ msgstr "አቅጣጫዎች"
 
 #: usr/lib/hypnotix/hypnotix.py:721
 msgid "Aspect"
-msgstr ""
+msgstr "ገጽታ"
 
 #: usr/lib/hypnotix/hypnotix.py:723
 msgid "Pixel Format"
-msgstr ""
+msgstr "የፒክሰል ቅርጸት"
 
 #: usr/lib/hypnotix/hypnotix.py:725
 msgid "Gamma"
@@ -168,15 +168,15 @@ msgstr "ጋማ"
 
 #: usr/lib/hypnotix/hypnotix.py:727
 msgid "Bits Per Pixel"
-msgstr ""
+msgstr "ቢት በፒክሰል"
 
 #: usr/lib/hypnotix/hypnotix.py:733 usr/lib/hypnotix/hypnotix.py:759
 msgid "Codec"
-msgstr ""
+msgstr "ኮዴክ"
 
 #: usr/lib/hypnotix/hypnotix.py:742
 msgid "surround sound"
-msgstr ""
+msgstr "የዙሪያ ድምጽ"
 
 #: usr/lib/hypnotix/hypnotix.py:743
 msgid "Channels"
@@ -192,7 +192,7 @@ msgstr "አቀራረብ"
 
 #: usr/lib/hypnotix/hypnotix.py:753
 msgid "Channel Count"
-msgstr ""
+msgstr "የሰርጥ ብዛት"
 
 #: usr/lib/hypnotix/hypnotix.py:847
 #, python-format
@@ -242,7 +242,7 @@ msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:7
 msgid "List of MPV options"
-msgstr ""
+msgstr "የ MPV አማራጮች ዝርዝር"
 
 #: usr/share/hypnotix/hypnotix.ui.h:8
 msgid "Playback"
@@ -254,7 +254,7 @@ msgstr "የ ተጠቃሚ ወኪል"
 
 #: usr/share/hypnotix/hypnotix.ui.h:10
 msgid "Referrer"
-msgstr ""
+msgstr "አመላካች"
 
 #: usr/share/hypnotix/hypnotix.ui.h:11
 msgid "Network"
