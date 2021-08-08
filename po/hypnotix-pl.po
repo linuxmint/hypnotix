@@ -31,7 +31,7 @@ msgstr "Skróty klawiszowe"
 
 #: usr/lib/hypnotix/hypnotix.py:230 usr/share/hypnotix/hypnotix.ui.h:32
 msgid "Stream Information"
-msgstr ""
+msgstr "Informacje o strumieniu"
 
 #: usr/lib/hypnotix/hypnotix.py:238 usr/lib/hypnotix/hypnotix.py:1139
 msgid "About"
@@ -258,7 +258,7 @@ msgstr "Klient"
 
 #: usr/share/hypnotix/hypnotix.ui.h:10
 msgid "Referrer"
-msgstr ""
+msgstr "Polecający"
 
 #: usr/share/hypnotix/hypnotix.ui.h:11
 msgid "Network"
