@@ -1188,7 +1188,7 @@ class MainWindow():
         if ctrl and event.keyval == Gdk.KEY_r:
             self.reload(page=None, refresh=True)
         elif event.keyval == Gdk.KEY_F11 or \
-             event.keyval == Gdk.KEY_f or \
+             (event.keyval == Gdk.KEY_f and type(widget.get_focus()) != gi.repository.Gtk.Entry) or \
              (self.fullscreen and event.keyval == Gdk.KEY_Escape):
             self.toggle_fullscreen()
 
