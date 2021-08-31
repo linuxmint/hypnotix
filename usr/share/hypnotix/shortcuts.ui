@@ -23,7 +23,7 @@
               <object class="GtkShortcutsShortcut">
                 <property name="visible">1</property>
                 <property name="accelerator">F2</property>
-                <property name="title" translatable="yes">Show stream info</property>
+                <property name="title" translatable="yes">Stream Information</property>
               </object>
             </child>
             <child>
@@ -37,7 +37,7 @@
               <object class="GtkShortcutsShortcut">
                 <property name="visible">1</property>
                 <property name="accelerator">&lt;Control&gt;K</property>
-                <property name="title" translatable="yes">Show this shortcuts list</property>
+                <property name="title" translatable="yes">Keyboard Shortcuts</property>
               </object>
             </child>
             <child>
