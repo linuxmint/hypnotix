@@ -15,8 +15,36 @@
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">1</property>
+                <property name="accelerator">F1</property>
+                <property name="title" translatable="yes">About</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
+                <property name="accelerator">F2</property>
+                <property name="title" translatable="yes">Show stream info</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
                 <property name="accelerator">F11 f</property>
                 <property name="title" translatable="yes">Toggle Fullscreen</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
+                <property name="accelerator">&lt;Control&gt;K</property>
+                <property name="title" translatable="yes">Show this shortcuts list</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
+                <property name="accelerator">&lt;CONTROL&gt;Q &lt;CONTROL&gt;W</property>
+                <property name="title" translatable="yes">Quit</property>
               </object>
             </child>
           </object>
