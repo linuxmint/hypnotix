@@ -43,6 +43,13 @@
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">1</property>
+                <property name="accelerator">&lt;Control&gt;R</property>
+                <property name="title" translatable="yes">Redownload all providers</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
                 <property name="accelerator">&lt;CONTROL&gt;Q &lt;CONTROL&gt;W</property>
                 <property name="title" translatable="yes">Quit</property>
               </object>
