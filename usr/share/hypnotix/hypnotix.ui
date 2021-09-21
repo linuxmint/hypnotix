@@ -66,6 +66,9 @@
               </packing>
             </child>
           </object>
+          <packing>
+            <property name="position">1</property>
+          </packing>
         </child>
         <child>
           <object class="GtkSearchEntry" id="search_bar">
@@ -76,8 +79,7 @@
             <property name="placeholder_text" translatable="yes">Global search</property>
           </object>
           <packing>
-            <property name="left_attach">1</property>
-            <property name="top_attach">0</property>
+            <property name="position">2</property>
           </packing>
         </child>
         <child>
@@ -1036,6 +1038,50 @@
                                     <property name="position">1</property>
                                   </packing>
                                 </child>
+                                <child>
+                                  <object class="GtkGrid">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="valign">start</property>
+                                    <property name="margin_top">20</property>
+                                    <property name="margin_bottom">20</property>
+                                    <property name="row_spacing">12</property>
+                                    <property name="column_spacing">12</property>
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="tooltip_text" translatable="yes">This option only works when used with light desktop themes which support dark mode.</property>
+                                        <property name="halign">start</property>
+                                        <property name="valign">center</property>
+                                        <property name="label" translatable="yes">Prefer dark mode</property>
+                                        <attributes>
+                                          <attribute name="weight" value="bold"/>
+                                        </attributes>
+                                      </object>
+                                      <packing>
+                                        <property name="left_attach">0</property>
+                                        <property name="top_attach">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkSwitch" id="darkmode_switch">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="tooltip_text" translatable="yes">This option only works when used with light desktop themes which support dark mode.</property>
+                                      </object>
+                                      <packing>
+                                        <property name="left_attach">1</property>
+                                        <property name="top_attach">0</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="title" translatable="yes">Preferences</property>
+                                    <property name="icon_name">preferences-other-symbolic</property>
+                                    <property name="position">2</property>
+                                  </packing>
+                                </child>
                               </object>
                               <packing>
                                 <property name="expand">True</property>
@@ -1980,7 +2026,6 @@
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1992,7 +2037,6 @@
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2057,7 +2101,6 @@
                                       <object class="GtkLabel" id="average_bitrate_label_value">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2152,7 +2195,6 @@
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2164,7 +2206,6 @@
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2219,7 +2260,6 @@
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2231,7 +2271,6 @@
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2344,7 +2383,6 @@
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2356,7 +2394,6 @@
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2421,7 +2458,6 @@
                                       <object class="GtkLabel" id="average_bitrate_label_value1">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2516,7 +2552,6 @@
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2528,7 +2563,6 @@
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2583,7 +2617,6 @@
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2595,7 +2628,6 @@
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes"></property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>

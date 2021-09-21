@@ -16,6 +16,11 @@
       <summary></summary>
       <description></description>
     </key>
+    <key type="b" name="prefer-dark-mode">
+      <default>true</default>
+      <summary></summary>
+      <description></description>
+    </key>
     <key type="s" name="active-provider">
       <default>"Free-TV"</default>
       <summary>Provider selected by default</summary>

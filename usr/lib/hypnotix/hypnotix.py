@@ -153,6 +153,7 @@ class MainWindow():
             "info_section", "info_revealer", "info_name_label", "info_plot_label", "info_rating_label", "info_year_label", "close_info_button", \
             "info_genre_label", "info_duration_label", "info_votes_label", "info_pg_label", "divider_label", \
             "useragent_entry", "referer_entry", "mpv_entry", "mpv_link", \
+            "darkmode_switch",
             "mpv_stack", "spinner", "info_window_close_button", \
             "video_properties_box", "video_properties_label", \
             "colour_properties_box", "colour_properties_label", \
@@ -218,6 +219,12 @@ class MainWindow():
         self.bind_setting_widget("user-agent", self.useragent_entry)
         self.bind_setting_widget("http-referer", self.referer_entry)
         self.bind_setting_widget("mpv-options", self.mpv_entry)
+
+        #dark mode
+        prefer_dark_mode = self.settings.get_boolean("prefer-dark-mode")
+        Gtk.Settings.get_default().set_property("gtk-application-prefer-dark-theme", prefer_dark_mode)
+        self.darkmode_switch.set_active(prefer_dark_mode)
+        self.darkmode_switch.connect("notify::active", self.on_darkmode_switch_toggled)
 
         # Menubar
         accel_group = Gtk.AccelGroup()
@@ -485,6 +492,11 @@ class MainWindow():
 
     def on_entry_changed(self, widget, key):
         self.settings.set_string(key, widget.get_text())
+
+    def on_darkmode_switch_toggled(self, widget, key):
+        prefer_dark_mode = widget.get_active()
+        self.settings.set_boolean("prefer-dark-mode", prefer_dark_mode)
+        Gtk.Settings.get_default().set_property("gtk-application-prefer-dark-theme", prefer_dark_mode)
 
     @async_function
     def download_channel_logos(self, logos_to_refresh):
