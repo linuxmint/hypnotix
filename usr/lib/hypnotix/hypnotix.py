@@ -287,6 +287,7 @@ class MainWindow():
 
         self.window.show()
         self.playback_bar.hide()
+        self.search_bar.hide()
 
         # Historic bitrates of the currently playing media
         self.video_bitrates = []
@@ -543,6 +544,10 @@ class MainWindow():
     def on_search_button(self, widget):
         if self.search_bar.get_text().strip() != "":
             self.show_channels(self.active_provider.channels, True)
+        elif self.search_bar.is_visible():
+            self.search_bar.hide()
+        else:
+            self.search_bar.show()
 
     @idle_function
     def navigate_to(self, page, name="", search=False):
