@@ -191,7 +191,7 @@ class MainWindow():
         self.series_button.connect("clicked", self.show_groups, SERIES_GROUP)
         self.go_back_button.connect("clicked", self.on_go_back_button)
 
-        self.search_button.connect("clicked", self.on_search_button)
+        self.search_button.connect("toggled", self.on_search_button_toggled)
         self.search_bar.connect("activate", self.on_search_button)
 
         self.stop_button.connect("clicked", self.on_stop_button)
@@ -261,6 +261,15 @@ class MainWindow():
         key, mod = Gtk.accelerator_parse("<Control>W")
         item.add_accelerator("activate", accel_group, key, mod, Gtk.AccelFlags.VISIBLE)
         menu.append(item)
+
+        item = Gtk.ImageMenuItem(label=_("Find"))
+        image = Gtk.Image.new_from_icon_name("application-find-symbolic", Gtk.IconSize.MENU)
+        item.set_image(image)
+        item.connect('activate', self.on_ctrl_f)
+        key, mod = Gtk.accelerator_parse("<Control>F")
+        item.add_accelerator("activate", accel_group, key, mod, Gtk.AccelFlags.VISIBLE)
+        menu.append(item)
+
         menu.show_all()
 
         # Type combox box (in preferences)
@@ -541,13 +550,21 @@ class MainWindow():
         if self.active_channel != None:
             self.playback_bar.show()
 
+    def on_ctrl_f(self, widget):
+        if self.search_button.get_active():
+            self.search_button.set_active(False)
+        else:
+            self.search_button.set_active(True)
+
+    def on_search_button_toggled(self, widget):
+        if self.search_button.get_active():
+            self.search_bar.show()
+        else:
+            self.search_bar.hide()
+
     def on_search_button(self, widget):
         if self.search_bar.get_text().strip() != "":
             self.show_channels(self.active_provider.channels, True)
-        elif self.search_bar.is_visible():
-            self.search_bar.hide()
-        else:
-            self.search_bar.show()
 
     @idle_function
     def navigate_to(self, page, name="", search=False):
@@ -1205,7 +1222,7 @@ class MainWindow():
         if ctrl and event.keyval == Gdk.KEY_r:
             self.reload(page=None, refresh=True)
         elif event.keyval == Gdk.KEY_F11 or \
-             (event.keyval == Gdk.KEY_f and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry) or \
+             (event.keyval == Gdk.KEY_f and not ctrl and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry) or \
              (self.fullscreen and event.keyval == Gdk.KEY_Escape):
             self.toggle_fullscreen()
 
