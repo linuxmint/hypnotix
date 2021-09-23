@@ -36,6 +36,13 @@
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">1</property>
+                <property name="accelerator">&lt;Control&gt;F</property>
+                <property name="title" translatable="yes">Find</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
                 <property name="accelerator">&lt;Control&gt;K</property>
                 <property name="title" translatable="yes">Keyboard Shortcuts</property>
               </object>
