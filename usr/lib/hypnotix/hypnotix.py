@@ -192,7 +192,7 @@ class MainWindow():
         self.go_back_button.connect("clicked", self.on_go_back_button)
 
         self.search_button.connect("toggled", self.on_search_button_toggled)
-        self.search_bar.connect("activate", self.on_search_button)
+        self.search_bar.connect("activate", self.on_search_bar)
 
         self.stop_button.connect("clicked", self.on_stop_button)
         self.pause_button.connect("clicked", self.on_pause_button)
@@ -562,7 +562,7 @@ class MainWindow():
         else:
             self.search_bar.hide()
 
-    def on_search_button(self, widget):
+    def on_search_bar(self, widget):
         if self.search_bar.get_text().strip() != "":
             self.show_channels(self.active_provider.channels, True)
 
