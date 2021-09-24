@@ -98,6 +98,7 @@ class MainWindow():
         self.back_page = None # page to go back to if the back button is pressed
         self.active_channel = None
         self.fullscreen = False
+        self.latest_search_bar_text = ""
         self.mpv = None
         self.ia = IMDb()
 
@@ -378,12 +379,9 @@ class MainWindow():
             for child in self.channels_flowbox.get_children():
                 self.channels_flowbox.remove(child)
 
-            if search:
-                search_bar_text = unidecode(self.search_bar.get_text()).lower().strip()
-
             for channel in channels:
                 if search:
-                    if search_bar_text not in unidecode(channel.name).lower():
+                    if self.latest_search_bar_text not in unidecode(channel.name).lower():
                         continue
                 button = Gtk.Button()
                 button.connect("clicked", self.on_channel_button_clicked, channel)
@@ -406,6 +404,10 @@ class MainWindow():
                 self.download_channel_logos(logos_to_refresh)
         else:
             self.sidebar.hide()
+
+        if search:
+            self.search_bar.set_sensitive(True)             # Here is being reenabled too soon
+            self.search_bar.grab_focus_without_selecting()
 
     def show_vod(self, items):
         logos_to_refresh = []
@@ -561,7 +563,14 @@ class MainWindow():
             self.search_bar.hide()
 
     def on_search_bar(self, widget):
-        if self.search_bar.get_text().strip() != "":
+        search_bar_text = unidecode(self.search_bar.get_text()).lower().strip()
+
+        if not search_bar_text:
+            return
+
+        if search_bar_text != self.latest_search_bar_text:
+            self.latest_search_bar_text = search_bar_text
+            self.search_bar.set_sensitive(False)
             self.show_channels(self.active_provider.channels, True)
 
     @idle_function
@@ -1256,6 +1265,7 @@ class MainWindow():
         if page != None:
             self.navigate_to(page)
         self.status(None)
+        self.latest_search_bar_text = ""
 
     def force_reload(self):
         self.reload(page=None, refresh=True)
