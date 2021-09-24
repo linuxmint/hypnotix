@@ -406,7 +406,7 @@ class MainWindow():
             self.sidebar.hide()
 
         if search:
-            self.search_bar.set_sensitive(True)             # Here is being reenabled too soon
+            self.search_bar.set_sensitive(True)
             self.search_bar.grab_focus_without_selecting()
 
     def show_vod(self, items):
@@ -571,6 +571,9 @@ class MainWindow():
         if search_bar_text != self.latest_search_bar_text:
             self.latest_search_bar_text = search_bar_text
             self.search_bar.set_sensitive(False)
+            GLib.timeout_add_seconds(0.1, self.on_search)
+
+    def on_search(self):
             self.show_channels(self.active_provider.channels, True)
 
     @idle_function
