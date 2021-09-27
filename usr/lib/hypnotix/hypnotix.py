@@ -123,7 +123,6 @@ class MainWindow():
 
         provider = Gtk.CssProvider()
         provider.load_from_path("/usr/share/hypnotix/hypnotix.css")
-
         screen = Gdk.Display.get_default_screen(Gdk.Display.get_default())
         # I was unable to found instrospected version of this
         Gtk.StyleContext.add_provider_for_screen(
@@ -1183,7 +1182,7 @@ class MainWindow():
         dlg.set_program_name(_("Hypnotix"))
         dlg.set_comments(_("Watch TV"))
         try:
-            h = open('usr/share/common-licenses/GPL'),encoding="utf-8")
+            h = open('/usr/share/common-licenses/GPL', encoding="utf-8")
             s = h.readlines()
             gpl = ""
             for line in s:
