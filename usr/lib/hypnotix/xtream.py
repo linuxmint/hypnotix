@@ -422,11 +422,14 @@ class XTream():
             r = requests.get(
                 self.get_authenticate_URL()
                 )
-            self.auth_data = r.json()
-            self.authorization = {
-                "username": self.auth_data["user_info"]["username"],
-                "password": self.auth_data["user_info"]["password"]
-            }
+            if r.ok:
+                self.auth_data = r.json()
+                self.authorization = {
+                    "username": self.auth_data["user_info"]["username"],
+                    "password": self.auth_data["user_info"]["password"]
+                }
+            else:
+                print("Provider `{}` could not be loaded. Reason: `{} {}`".format(self.name,r.status_code, r.reason))
         except requests.exceptions.ConnectionError:
             # If connection refused
             print("{} - Connection refused URL: {}".format(self.name, self.server))
