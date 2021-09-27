@@ -39,13 +39,6 @@ gettext.bindtextdomain(APP, LOCALE_DIR)
 gettext.textdomain(APP)
 _ = gettext.gettext
 
-HYPNOTIX_HOME_PATH= os.path.abspath(
-    os.path.join(
-        os.path.dirname(os.path.realpath(__file__)),
-        "../../../"
-    )
-)
-
 PROVIDER_OBJ, PROVIDER_NAME = range(2)
 PROVIDER_TYPE_ID, PROVIDER_TYPE_NAME = range(2)
 
@@ -116,7 +109,7 @@ class MainWindow():
         # Used for redownloading timer
         self.reload_timeout_sec = 60*5
         self._timerid = -1
-        gladefile = os.path.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/hypnotix.ui")
+        gladefile = "usr/share/hypnotix/hypnotix.ui"
         self.builder = Gtk.Builder()
         self.builder.set_translation_domain(APP)
         self.builder.add_from_file(gladefile)
@@ -128,7 +121,7 @@ class MainWindow():
         self.info_window = self.builder.get_object("stream_info_window")
 
         provider = Gtk.CssProvider()
-        provider.load_from_path(os.path.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/hypnotix.css"))
+        provider.load_from_path("usr/share/hypnotix/hypnotix.css")
 
         screen = Gdk.Display.get_default_screen(Gdk.Display.get_default())
         # I was unable to found instrospected version of this
@@ -285,24 +278,9 @@ class MainWindow():
         self.provider_type_combo.set_active(0) # Select 1st type
         self.provider_type_combo.connect("changed", self.on_provider_type_combo_changed)
 
-        self.tv_logo.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size(
-            os.path.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/pictures/tv.svg"),
-            258,
-            258
-            )
-        )
-        self.movies_logo.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size(
-            os.path.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/pictures/movies.svg"),
-            258,
-            258
-            )
-        )
-        self.series_logo.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size(
-            os.path.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/pictures/series.svg"),
-            258,
-            258
-            )
-        )
+        self.tv_logo.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size("usr/share/hypnotix/pictures/tv.svg",258,258))
+        self.movies_logo.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size("usr/share/hypnotix/pictures/movies.svg",258,258))
+        self.series_logo.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size("usr/share/hypnotix/pictures/series.svg",258,258))
 
         self.reload(page="landing_page")
 
@@ -320,7 +298,7 @@ class MainWindow():
     def add_badge(self, word, box, added_words):
         if word not in added_words:
             for extension in ["svg", "png"]:
-                badge = os.path.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/pictures/badges/%s.%s" % (word, extension))
+                badge = "usr/share/hypnotix/pictures/badges/%s.%s" % (word, extension)
                 if os.path.exists(badge):
                     try:
                         pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(badge, -1, 16)
@@ -679,7 +657,7 @@ class MainWindow():
             self.headerbar.set_subtitle(_("Search > %s" % self.search_bar.get_text().strip()))
 
     def open_keyboard_shortcuts(self, widget):
-        gladefile = os.path.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/shortcuts.ui")
+        gladefile = "usr/share/hypnotix/shortcuts.ui"
         builder = Gtk.Builder()
         builder.set_translation_domain(APP)
         builder.add_from_file(gladefile)
@@ -1204,10 +1182,7 @@ class MainWindow():
         dlg.set_program_name(_("Hypnotix"))
         dlg.set_comments(_("Watch TV"))
         try:
-            h = open(
-                os.path.join(HYPNOTIX_HOME_PATH,'usr/share/common-licenses/GPL'),
-                encoding="utf-8"
-            )
+            h = open('usr/share/common-licenses/GPL'),encoding="utf-8")
             s = h.readlines()
             gpl = ""
             for line in s:
@@ -1307,12 +1282,7 @@ class MainWindow():
 
                 else:
                     # Load xtream class
-                    try:
-                        # Try loading from pyxtream PYPI module
-                        from pyxtream import XTream
-                    except ModuleNotFoundError:
-                        # If there was an error, load local copy
-                        from xtream import XTream
+                    from xtream import XTream
                     # Download via Xtream
                     self.x = XTream(provider.name,provider.username,provider.password,provider.url,os.path.expanduser("~/.hypnotix/providers"))
                     if self.x.auth_data != {}:
