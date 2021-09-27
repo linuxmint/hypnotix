@@ -1,20 +1,20 @@
-# Korean translation for linuxmint
-# Copyright (c) 2020 Rosetta Contributors and Canonical Ltd 2020
+# Albanian translation for linuxmint
+# Copyright (c) 2021 Rosetta Contributors and Canonical Ltd 2021
 # This file is distributed under the same license as the linuxmint package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2021-06-03 19:30+0100\n"
-"PO-Revision-Date: 2020-12-14 21:50+0000\n"
-"Last-Translator: Changmin Jang <Unknown>\n"
-"Language-Team: Korean <ko@li.org>\n"
+"PO-Revision-Date: 2021-06-18 08:10+0000\n"
+"Last-Translator: Algent Albrahimi <algent@protonmail.com>\n"
+"Language-Team: Albanian <sq@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Launchpad-Export-Date: 2021-06-25 10:43+0000\n"
 "X-Generator: Launchpad (build 40cc6dba4163ba9ca785b26ad91f43c87d70ba4d)\n"
 
@@ -22,11 +22,11 @@ msgstr ""
 #: usr/lib/hypnotix/hypnotix.py:1140 generate_desktop_files:25
 #: usr/share/hypnotix/hypnotix.ui.h:1
 msgid "Hypnotix"
-msgstr ""
+msgstr "Hypnotix"
 
 #: usr/lib/hypnotix/hypnotix.py:223
 msgid "Keyboard Shortcuts"
-msgstr "키보드 단축키"
+msgstr "Shkurtore Tastiere"
 
 #: usr/lib/hypnotix/hypnotix.py:230 usr/share/hypnotix/hypnotix.ui.h:32
 msgid "Stream Information"
@@ -34,90 +34,90 @@ msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:238 usr/lib/hypnotix/hypnotix.py:1139
 msgid "About"
-msgstr "정보"
+msgstr "Rreth"
 
 #: usr/lib/hypnotix/hypnotix.py:243
 msgid "Quit"
-msgstr "나가기"
+msgstr "Dilni"
 
 #: usr/lib/hypnotix/hypnotix.py:256
 msgid "M3U URL"
-msgstr ""
+msgstr "URL M3U"
 
 #: usr/lib/hypnotix/hypnotix.py:257
 msgid "Local M3U File"
-msgstr ""
+msgstr "Skedar Local M3U"
 
 #: usr/lib/hypnotix/hypnotix.py:258
 msgid "Xtream API"
-msgstr ""
+msgstr "Xtream API"
 
 #: usr/lib/hypnotix/hypnotix.py:429
 #, python-format
 msgid "Season %s"
-msgstr ""
+msgstr "Sezoni %s"
 
 #: usr/lib/hypnotix/hypnotix.py:439
 #, python-format
 msgid "Episode %s"
-msgstr ""
+msgstr "Episodi %s"
 
 #: usr/lib/hypnotix/hypnotix.py:529
 msgid "No provider selected"
-msgstr ""
+msgstr "Asnjë ofrues nuk është zgjedhur"
 
 #: usr/lib/hypnotix/hypnotix.py:551 usr/lib/hypnotix/hypnotix.py:563
 msgid "TV Channels"
-msgstr "TV 채널"
+msgstr "Kanalet televizive"
 
 #: usr/lib/hypnotix/hypnotix.py:553 usr/lib/hypnotix/hypnotix.py:578
 msgid "Movies"
-msgstr "영화"
+msgstr "Filma"
 
 #: usr/lib/hypnotix/hypnotix.py:555 usr/lib/hypnotix/hypnotix.py:585
 msgid "Series"
-msgstr "시리즈"
+msgstr "Seriale"
 
 #: usr/lib/hypnotix/hypnotix.py:566
 #, python-format
 msgid "TV Channels > %s"
-msgstr "TV 채널 > %s"
+msgstr "Kanalet televizive > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:581
 #, python-format
 msgid "Movies > %s"
-msgstr "영화 > %s"
+msgstr "Filma > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:588
 #, python-format
 msgid "Series > %s"
-msgstr "시리즈 > %s"
+msgstr "Seriale > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:596 usr/share/hypnotix/hypnotix.ui.h:5
 msgid "Preferences"
-msgstr "환경설정"
+msgstr "Parapëlqimet"
 
 #: usr/lib/hypnotix/hypnotix.py:600 usr/share/hypnotix/hypnotix.ui.h:4
 msgid "Providers"
-msgstr ""
+msgstr "Ofruesit"
 
 #: usr/lib/hypnotix/hypnotix.py:605
 #, python-format
 msgid "Edit %s"
-msgstr "%s 편집"
+msgstr "Redakto %s"
 
 #: usr/lib/hypnotix/hypnotix.py:607
 msgid "Add a new provider"
-msgstr ""
+msgstr "Shto një ofrues të ri"
 
 #: usr/lib/hypnotix/hypnotix.py:611
 #, python-format
 msgid "Delete %s"
-msgstr ""
+msgstr "Fshini %s"
 
 #: usr/lib/hypnotix/hypnotix.py:615
 msgid "Reset providers"
-msgstr ""
+msgstr "Rivendos ofruesit"
 
 #: usr/lib/hypnotix/hypnotix.py:653 usr/lib/hypnotix/hypnotix.py:657
 #: usr/lib/hypnotix/hypnotix.py:709 usr/lib/hypnotix/hypnotix.py:711
@@ -128,19 +128,19 @@ msgstr ""
 #: usr/lib/hypnotix/hypnotix.py:1119 usr/lib/hypnotix/hypnotix.py:1123
 #: usr/share/hypnotix/hypnotix.ui.h:33
 msgid "General"
-msgstr ""
+msgstr "Të përgjithshme"
 
 #: usr/lib/hypnotix/hypnotix.py:654 usr/lib/hypnotix/hypnotix.py:723
 #: usr/lib/hypnotix/hypnotix.py:725 usr/lib/hypnotix/hypnotix.py:727
 #: usr/lib/hypnotix/hypnotix.py:1093 usr/share/hypnotix/hypnotix.ui.h:35
 msgid "Color"
-msgstr ""
+msgstr "Ngjyra"
 
 #: usr/lib/hypnotix/hypnotix.py:658 usr/lib/hypnotix/hypnotix.py:743
 #: usr/lib/hypnotix/hypnotix.py:753 usr/lib/hypnotix/hypnotix.py:1095
 #: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Layout"
-msgstr ""
+msgstr "Paraqitja"
 
 #: usr/lib/hypnotix/hypnotix.py:694 usr/lib/hypnotix/hypnotix.py:695
 #: usr/lib/hypnotix/hypnotix.py:709 usr/lib/hypnotix/hypnotix.py:711
@@ -148,31 +148,31 @@ msgstr ""
 #: usr/lib/hypnotix/hypnotix.py:1119 usr/lib/hypnotix/hypnotix.py:1123
 #: usr/share/hypnotix/hypnotix.ui.h:34
 msgid "Average Bitrate"
-msgstr ""
+msgstr "Bitrate Mesatar"
 
 #: usr/lib/hypnotix/hypnotix.py:718
 msgid "Dimensions"
-msgstr ""
+msgstr "Përmasat"
 
 #: usr/lib/hypnotix/hypnotix.py:721
 msgid "Aspect"
-msgstr ""
+msgstr "Aspekti"
 
 #: usr/lib/hypnotix/hypnotix.py:723
 msgid "Pixel Format"
-msgstr ""
+msgstr "Formati Piksel"
 
 #: usr/lib/hypnotix/hypnotix.py:725
 msgid "Gamma"
-msgstr ""
+msgstr "Gama"
 
 #: usr/lib/hypnotix/hypnotix.py:727
 msgid "Bits Per Pixel"
-msgstr ""
+msgstr "Bit për Piksel"
 
 #: usr/lib/hypnotix/hypnotix.py:733 usr/lib/hypnotix/hypnotix.py:759
 msgid "Codec"
-msgstr ""
+msgstr "Kodeks"
 
 #: usr/lib/hypnotix/hypnotix.py:742
 msgid "surround sound"
@@ -180,7 +180,7 @@ msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:743
 msgid "Channels"
-msgstr ""
+msgstr "Kanalet"
 
 #: usr/lib/hypnotix/hypnotix.py:746
 msgid "Sample Rate"
@@ -188,7 +188,7 @@ msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:751
 msgid "Format"
-msgstr ""
+msgstr "Formati"
 
 #: usr/lib/hypnotix/hypnotix.py:753
 msgid "Channel Count"
@@ -217,11 +217,11 @@ msgstr[1] ""
 
 #: usr/lib/hypnotix/hypnotix.py:877
 msgid "Edit"
-msgstr ""
+msgstr "Redakto"
 
 #: usr/lib/hypnotix/hypnotix.py:887
 msgid "Remove"
-msgstr ""
+msgstr "Hiqe"
 
 #: usr/lib/hypnotix/hypnotix.py:979
 msgid "M3U Playlists"
@@ -230,19 +230,19 @@ msgstr ""
 #: usr/lib/hypnotix/hypnotix.py:1141 generate_desktop_files:25
 #: usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Watch TV"
-msgstr ""
+msgstr "Shiko TV"
 
 #: usr/share/hypnotix/hypnotix.ui.h:3
 msgid "Fullscreen"
-msgstr ""
+msgstr "Ekran i plotë"
 
 #: usr/share/hypnotix/hypnotix.ui.h:6
 msgid "MPV Options"
-msgstr ""
+msgstr "Opsionet MPV"
 
 #: usr/share/hypnotix/hypnotix.ui.h:7
 msgid "List of MPV options"
-msgstr ""
+msgstr "Lista e opsioneve MPV"
 
 #: usr/share/hypnotix/hypnotix.ui.h:8
 msgid "Playback"
@@ -250,39 +250,39 @@ msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:9
 msgid "User Agent"
-msgstr ""
+msgstr "Agjenti Përdorues"
 
 #: usr/share/hypnotix/hypnotix.ui.h:10
 msgid "Referrer"
-msgstr ""
+msgstr "Referues"
 
 #: usr/share/hypnotix/hypnotix.ui.h:11
 msgid "Network"
-msgstr ""
+msgstr "Rrjeti"
 
 #: usr/share/hypnotix/hypnotix.ui.h:12
 msgid "Add a new provider..."
-msgstr ""
+msgstr "Shto një ofrues të ri ..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:13
 msgid "Reset to defaults..."
-msgstr ""
+msgstr "Rivendos në parazgjedhjet ..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Name:"
-msgstr ""
+msgstr "Emri:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "URL:"
-msgstr ""
+msgstr "URL:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:16
 msgid "Path:"
-msgstr ""
+msgstr "Shtegu:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:17
 msgid "Cancel"
-msgstr ""
+msgstr "Anulo"
 
 #: usr/share/hypnotix/hypnotix.ui.h:18
 msgid "OK"
@@ -290,15 +290,15 @@ msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:19
 msgid "Username:"
-msgstr ""
+msgstr "Emri i përdoruesit:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:20
 msgid "Password:"
-msgstr ""
+msgstr "Fjalëkalimi:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:21
 msgid "Browse..."
-msgstr ""
+msgstr "Shfleto..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:22
 msgid "EPG:"
@@ -310,47 +310,47 @@ msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:24
 msgid "Are you sure you want to delete this provider?"
-msgstr ""
+msgstr "Je i sigurt që dëshiron ta fshish këtë ofrues?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:25
 msgid "No"
-msgstr ""
+msgstr "Jo"
 
 #: usr/share/hypnotix/hypnotix.ui.h:26
 msgid "Yes"
-msgstr ""
+msgstr "Po"
 
 #: usr/share/hypnotix/hypnotix.ui.h:27
 msgid "Are you sure you want to reset to the default providers?"
-msgstr ""
+msgstr "Jeni i sigurt që dëshironi të rivendosni te ofruesit e parazgjedhur?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:28
 msgid "Currently playing:"
-msgstr ""
+msgstr "Tani duke luajtur:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:29
 msgid "Show"
-msgstr ""
+msgstr "Shfaq"
 
 #: usr/share/hypnotix/hypnotix.ui.h:30
 msgid "Pause"
-msgstr ""
+msgstr "Pusho"
 
 #: usr/share/hypnotix/hypnotix.ui.h:31
 msgid "Stop"
-msgstr ""
+msgstr "Ndal"
 
 #: usr/share/hypnotix/hypnotix.ui.h:36
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #: usr/share/hypnotix/hypnotix.ui.h:38
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: usr/share/hypnotix/shortcuts.ui.h:1
 msgid "Main shortcuts"
-msgstr ""
+msgstr "Shkurtoret kryesore"
 
 #: usr/share/hypnotix/shortcuts.ui.h:2
 msgid "Toggle Fullscreen"

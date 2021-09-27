@@ -1,3 +1,25 @@
+hypnotix (2.0) uma; urgency=medium
+
+  * Fix slovenian flag
+
+ -- Clement Lefebvre <root@linuxmint.com>  Wed, 14 Jul 2021 14:45:08 +0100
+
+hypnotix (1.9) uma; urgency=medium
+
+  * l10n: Update translations
+  * l10n: Generate files
+
+ -- Clement Lefebvre <root@linuxmint.com>  Fri, 25 Jun 2021 14:35:15 +0100
+
+hypnotix (1.8) uma; urgency=medium
+
+  * l10n: Update POT
+  * packaging: Recommend youtube-dl
+  * l10n: Update translations
+  * l10n: Generate files
+
+ -- Clement Lefebvre <root@linuxmint.com>  Wed, 09 Jun 2021 16:03:34 +0100
+
 hypnotix (1.7) uma; urgency=medium
 
   [ Clement Lefebvre ]

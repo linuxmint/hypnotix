@@ -27,6 +27,8 @@ from imdb import IMDb
 
 from functools import partial
 
+from unidecode import unidecode
+
 setproctitle.setproctitle("hypnotix")
 
 # i18n
@@ -140,14 +142,9 @@ class MainWindow():
         self.edit_mode = False
 
         # Create variables to quickly access dynamic widgets
-        self.generic_channel_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(
-            os.path.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/generic_tv_logo.png"),
-            22,
-            22
-        )
-
-        widget_names = ["headerbar", "status_label", "status_bar", "sidebar", "go_back_button", "channels_box", \
-            "provider_button", "preferences_button", \
+        self.generic_channel_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size("/usr/share/hypnotix/generic_tv_logo.png", 22, 22)
+        widget_names = ["headerbar", "status_label", "status_bar", "sidebar", "go_back_button", "search_button", "search_bar", \
+            "channels_box", "provider_button", "preferences_button", \
             "mpv_drawing_area", "stack", "fullscreen_button", \
             "provider_ok_button", "provider_cancel_button", \
             "name_entry", "path_label", "path_entry", "browse_button", "url_label", "url_entry", \
@@ -165,6 +162,7 @@ class MainWindow():
             "info_section", "info_revealer", "info_name_label", "info_plot_label", "info_rating_label", "info_year_label", "close_info_button", \
             "info_genre_label", "info_duration_label", "info_votes_label", "info_pg_label", "divider_label", \
             "useragent_entry", "referer_entry", "mpv_entry", "mpv_link", \
+            "darkmode_switch",
             "mpv_stack", "spinner", "info_window_close_button", \
             "video_properties_box", "video_properties_label", \
             "colour_properties_box", "colour_properties_label", \
@@ -202,6 +200,9 @@ class MainWindow():
         self.series_button.connect("clicked", self.show_groups, SERIES_GROUP)
         self.go_back_button.connect("clicked", self.on_go_back_button)
 
+        self.search_button.connect("clicked", self.on_search_button)
+        self.search_bar.connect("activate", self.on_search_button)
+
         self.stop_button.connect("clicked", self.on_stop_button)
         self.pause_button.connect("clicked", self.on_pause_button)
         self.show_button.connect("clicked", self.on_show_button)
@@ -227,6 +228,12 @@ class MainWindow():
         self.bind_setting_widget("user-agent", self.useragent_entry)
         self.bind_setting_widget("http-referer", self.referer_entry)
         self.bind_setting_widget("mpv-options", self.mpv_entry)
+
+        #dark mode
+        prefer_dark_mode = self.settings.get_boolean("prefer-dark-mode")
+        Gtk.Settings.get_default().set_property("gtk-application-prefer-dark-theme", prefer_dark_mode)
+        self.darkmode_switch.set_active(prefer_dark_mode)
+        self.darkmode_switch.connect("notify::active", self.on_darkmode_switch_toggled)
 
         # Menubar
         accel_group = Gtk.AccelGroup()
@@ -380,14 +387,21 @@ class MainWindow():
             else:
                 self.show_vod(self.active_provider.series)
 
-    def show_channels(self, channels):
-        self.navigate_to("channels_page")
+    def show_channels(self, channels, search=False):
+        self.navigate_to("channels_page", '', search)
         if self.content_type == TV_GROUP:
             self.sidebar.show()
             logos_to_refresh = []
             for child in self.channels_flowbox.get_children():
                 self.channels_flowbox.remove(child)
+
+            if search:
+                search_bar_text = unidecode(self.search_bar.get_text()).lower().strip()
+
             for channel in channels:
+                if search:
+                    if search_bar_text not in unidecode(channel.name).lower():
+                        continue
                 button = Gtk.Button()
                 button.connect("clicked", self.on_channel_button_clicked, channel)
                 label = Gtk.Label()
@@ -509,6 +523,11 @@ class MainWindow():
     def on_entry_changed(self, widget, key):
         self.settings.set_string(key, widget.get_text())
 
+    def on_darkmode_switch_toggled(self, widget, key):
+        prefer_dark_mode = widget.get_active()
+        self.settings.set_boolean("prefer-dark-mode", prefer_dark_mode)
+        Gtk.Settings.get_default().set_property("gtk-application-prefer-dark-theme", prefer_dark_mode)
+
     @async_function
     def download_channel_logos(self, logos_to_refresh):
         headers = {
@@ -553,9 +572,14 @@ class MainWindow():
         if self.active_channel != None:
             self.playback_bar.show()
 
+    def on_search_button(self, widget):
+        if self.search_bar.get_text().strip() != "":
+            self.show_channels(self.active_provider.channels, True)
+
     @idle_function
-    def navigate_to(self, page, name=""):
+    def navigate_to(self, page, name="", search=False):
         self.go_back_button.show()
+        self.search_button.show()
         self.fullscreen_button.hide()
         self.stack.set_visible_child_name(page)
         provider = self.active_provider
@@ -650,6 +674,9 @@ class MainWindow():
             self.back_page = "providers_page"
             self.headerbar.set_title("Hypnotix")
             self.headerbar.set_subtitle(_("Reset providers"))
+
+        if search:
+            self.headerbar.set_subtitle(_("Search > %s" % self.search_bar.get_text().strip()))
 
     def open_keyboard_shortcuts(self, widget):
         gladefile = os.path.join(HYPNOTIX_HOME_PATH,"usr/share/hypnotix/shortcuts.ui")
@@ -1216,7 +1243,7 @@ class MainWindow():
         if ctrl and event.keyval == Gdk.KEY_r:
             self.reload(page=None, refresh=True)
         elif event.keyval == Gdk.KEY_F11 or \
-             event.keyval == Gdk.KEY_f or \
+             (event.keyval == Gdk.KEY_f and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry) or \
              (self.fullscreen and event.keyval == Gdk.KEY_Escape):
             self.toggle_fullscreen()
         # elif event.keyval == Gdk.KEY_Left:
