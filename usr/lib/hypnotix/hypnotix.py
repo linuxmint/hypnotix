@@ -557,6 +557,7 @@ class MainWindow():
             self.search_bar.hide()
 
     def on_search_bar(self, widget):
+        self.content_type = TV_GROUP
         search_bar_text = unidecode(self.search_bar.get_text()).lower()
         if search_bar_text != self.latest_search_bar_text:
             self.latest_search_bar_text = search_bar_text
