@@ -108,7 +108,9 @@ class MainWindow():
         self.x_pos = 0
         self.y_pos = 0
 
-        # Set the Glade file
+        # Used for redownloading timer
+        self.reload_timeout_sec = 60*5
+        self._timerid = -1
         gladefile = "/usr/share/hypnotix/hypnotix.ui"
         self.builder = Gtk.Builder()
         self.builder.set_translation_domain(APP)
@@ -290,8 +292,9 @@ class MainWindow():
 
         self.reload(page="landing_page")
 
-        # Redownload playlists after a little while...
-        GLib.timeout_add_seconds(60 * 5, self.force_reload)
+        # Redownload playlists by default
+        # This is going to get readjusted 
+        self._timerid = GLib.timeout_add_seconds(self.reload_timeout_sec, self.force_reload)
 
         self.window.show()
         self.playback_bar.hide()
@@ -441,6 +444,11 @@ class MainWindow():
     def show_episodes(self, serie):
         logos_to_refresh = []
         self.active_serie = serie
+        # If we are using xtream provider
+        # Load every Episodes of every Season for this Series
+        if self.active_provider.type_id == "xtream":
+            self.x.get_series_info_by_id(self.active_serie)
+
         self.navigate_to("episodes_page")
         for child in self.episodes_box.get_children():
             self.episodes_box.remove(child)
@@ -508,6 +516,8 @@ class MainWindow():
         }
         for channel, image in logos_to_refresh:
             if channel.logo_path == None:
+                continue
+            if os.path.isfile(channel.logo_path):
                 continue
             try:
                 response = requests.get(channel.logo, headers=headers, timeout=10, stream=True)
@@ -1244,13 +1254,39 @@ class MainWindow():
         self.application.quit()
 
     def on_key_press_event(self, widget, event):
-        ctrl = (event.state & Gdk.ModifierType.CONTROL_MASK)
+        # Get any active, but not pressed modifiers, like CapsLock and NumLock
+        persistant_modifiers = Gtk.accelerator_get_default_mod_mask()
+
+        # Determine the actively pressed modifier
+        modifier = event.get_state() & persistant_modifiers
+        # Bool of Control or Shift modifier states
+        ctrl = modifier == Gdk.ModifierType.CONTROL_MASK
+        shift = modifier == Gdk.ModifierType.SHIFT_MASK
+
         if ctrl and event.keyval == Gdk.KEY_r:
             self.reload(page=None, refresh=True)
         elif event.keyval == Gdk.KEY_F11 or \
              (event.keyval == Gdk.KEY_f and not ctrl and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry) or \
              (self.fullscreen and event.keyval == Gdk.KEY_Escape):
             self.toggle_fullscreen()
+        # elif event.keyval == Gdk.KEY_Left:
+        #     # Left of in the list
+        #     pass
+        # elif event.keyval == Gdk.KEY_Right:
+        #     # Right of in the list
+        #     pass
+        # elif event.keyval == Gdk.KEY_Up:
+        #     # Up of in the list
+        #     pass
+        # elif event.keyval == Gdk.KEY_Down:
+        #     # Down of in the list
+        #     pass
+        #elif event.keyval == Gdk.KEY_Escape:
+        #    # Go back one level
+        #    pass
+        # #elif event.keyval == Gdk.KEY_Return:
+        #     # Same as click
+        # #    pass
 
     @async_function
     def reload(self, page=None, refresh=False):
@@ -1259,23 +1295,66 @@ class MainWindow():
         for provider_info in self.settings.get_strv("providers"):
             try:
                 provider = Provider(name=None, provider_info=provider_info)
-                if refresh:
-                    self.status("Downloading playlist...", provider)
+                
+                # Add provider to list. This must be done so that it shows up in the
+                # list of providers for editing.
+                self.providers.append(provider)
+
+                if provider.type_id != "xtream":
+                    # Download M3U
+                    if refresh:
+                        self.status("Downloading playlist...", provider)
+                    else:
+                        self.status("Getting playlist...", provider)
+                    ret = self.manager.get_playlist(provider, refresh=refresh)
+                    if ret:
+                        self.status("Checking playlist...", provider)
+                        if (self.manager.check_playlist(provider)):
+                            self.status("Loading channels...", provider)
+                            self.manager.load_channels(provider)
+                            if provider.name == self.settings.get_string("active-provider"):
+                                self.active_provider = provider
+                            self.status(None)
+                            print("Loaded {} channels".format(len(self.providers[0].channels)))
+                            print("Loaded {} groups".format(len(self.providers[0].groups)))
+                            print("Loaded {} series".format(len(self.providers[0].series)))
+                            print("Loaded {} movies".format(len(self.providers[0].movies)))
+                    else:
+                        self.status("Failed to Download playlist from {}".format(provider.name),provider)
+
                 else:
-                    self.status("Getting playlist...", provider)
-                self.manager.get_playlist(provider, refresh=refresh)
-                self.status("Checking playlist...", provider)
-                if (self.manager.check_playlist(provider)):
-                    self.status("Loading channels...", provider)
-                    self.manager.load_channels(provider)
-                    self.providers.append(provider)
-                    if provider.name == self.settings.get_string("active-provider"):
-                        self.active_provider = provider
-                    self.status(None)
+                    # Load xtream class
+                    from xtream import XTream
+                    # Download via Xtream
+                    self.x = XTream(provider.name,provider.username,provider.password,provider.url,os.path.expanduser("~/.hypnotix/providers"))
+                    if self.x.auth_data != {}:
+                        print("XTREAM `{}` Loading Channels".format(provider.name))
+                        self.x.load_iptv()
+                        # Inform Provider of data
+                        provider.channels = self.x.channels
+                        provider.movies = self.x.movies
+                        provider.series = self.x.series
+                        provider.groups = self.x.groups
+
+                        # Change redownload timeout
+                        self.reload_timeout_sec = 60*60*2 # 2 hours
+                        if self._timerid:
+                            GLib.source_remove(self._timerid)
+                        self._timerid = GLib.timeout_add_seconds(self.reload_timeout_sec, self.force_reload)
+
+                        # If no errors, approve provider
+                        if provider.name == self.settings.get_string("active-provider"):
+                            self.active_provider = provider
+                        self.status(None)
+                    else:
+                        print("XTREAM Authentication Failed")
+
             except Exception as e:
                 print(e)
                 traceback.print_exc()
                 print("Couldn't parse provider info: ", provider_info)
+
+        # If there are more than 1 providers and no Active Provider, set to the first one
         if len(self.providers) > 0 and self.active_provider == None:
             self.active_provider = self.providers[0]
 

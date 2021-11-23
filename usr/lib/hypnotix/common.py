@@ -131,33 +131,71 @@ class Manager():
         if self.verbose:
             print(args)
 
-    def get_playlist(self, provider, refresh=False):
-        try:
-            if "file://" in provider.url:
-                # local file
-                provider.path = provider.url.replace("file://", "")
-            elif "://" in provider.url:
-                # Other protocol, assume it's http
-                if refresh or not os.path.exists(provider.path):
-                    headers = {
-                        'User-Agent': self.settings.get_string("user-agent"),
-                        'Referer': self.settings.get_string("http-referer")
-                    }
-                    response = requests.get(provider.url, headers=headers, timeout=10)
+    def get_playlist(self, provider, refresh=False) -> bool:
+        """Get the playlist from the provided URL
+
+        Args:
+            provider ([type]): [description]
+            refresh (bool, optional): [description]. Defaults to False.
+
+        Returns:
+            bool: True for SUCCESS, False for ERROR
+        """
+        ret_code = True
+        
+        if "file://" in provider.url:
+            # local file
+            provider.path = provider.url.replace("file://", "")
+
+        elif "://" in provider.url:
+            # Other protocol, assume it's http
+            if refresh or not os.path.exists(provider.path):
+                # Assume it is not going to make it
+                ret_code = False
+
+                headers = {
+                    'User-Agent': self.settings.get_string("user-agent"),
+                    'Referer': self.settings.get_string("http-referer")
+                }
+                try:
+                    response = requests.get(provider.url, headers=headers, timeout=(5,120), stream=True)
+
+                    # If there is an answer from the remote server
                     if response.status_code == 200:
-                        try:
-                            source = response.content.decode("UTF-8")
-                        except UnicodeDecodeError as e:
-                            source = response.content.decode("latin1")
+                        # Set downloaded size
+                        downloaded_bytes = 0
+                        # Get total playlist byte size
+                        total_content_size = int(response.headers['content-length'])
+                        # Set stream blocks
+                        block_bytes = int(4*1024*1024)     # 4 MB
+
+                        response.encoding = response.apparent_encoding
+                        #try:
+                        #    source = response.content.decode("UTF-8")
+                        #except UnicodeDecodeError as e:
+                        #    source = response.content.decode("latin1")
                         with open(provider.path, "w") as file:
-                            file.write(source)
+                            # Grab data by block_bytes
+                            for data in response.iter_content(block_bytes,decode_unicode=True):
+                                downloaded_bytes += block_bytes
+                                print("{} bytes".format(downloaded_bytes))                                
+                                file.write(str(data))
+                        if downloaded_bytes < total_content_size:
+                            print("The file size is incorrect, deleting")
+                            os.remove(provider.path)
+                        else:
+                            # Set the datatime when it was last retreived
+                            # self.settings.set_
+                            ret_code = True
                     else:
                         print("HTTP error %d while retrieving from %s!" % (response.status_code, provider.url))
-            else:
-                # No protocol, assume it's local
-                provider.path = provider.url
-        except Exception as e:
-            print(e)
+                except Exception as e:
+                    print(e)
+        else:
+            # No protocol, assume it's local
+            provider.path = provider.url
+
+        return ret_code
 
     def check_playlist(self, provider):
         legit = False
