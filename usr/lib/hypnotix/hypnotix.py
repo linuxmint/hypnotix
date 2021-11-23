@@ -293,7 +293,7 @@ class MainWindow():
         self.reload(page="landing_page")
 
         # Redownload playlists by default
-        # This is going to get readjusted 
+        # This is going to get readjusted
         self._timerid = GLib.timeout_add_seconds(self.reload_timeout_sec, self.force_reload)
 
         self.window.show()
@@ -1295,7 +1295,7 @@ class MainWindow():
         for provider_info in self.settings.get_strv("providers"):
             try:
                 provider = Provider(name=None, provider_info=provider_info)
-                
+
                 # Add provider to list. This must be done so that it shows up in the
                 # list of providers for editing.
                 self.providers.append(provider)
