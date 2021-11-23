@@ -1315,10 +1315,8 @@ class MainWindow():
                             if provider.name == self.settings.get_string("active-provider"):
                                 self.active_provider = provider
                             self.status(None)
-                            print("Loaded {} channels".format(len(self.providers[0].channels)))
-                            print("Loaded {} groups".format(len(self.providers[0].groups)))
-                            print("Loaded {} series".format(len(self.providers[0].series)))
-                            print("Loaded {} movies".format(len(self.providers[0].movies)))
+                            print("%s: %d channels, %d groups, %d series, %d movies" % (provider.name, \
+                                len(provider.channels), len(provider.groups), len(provider.series), len(provider.movies)))
                     else:
                         self.status("Failed to Download playlist from {}".format(provider.name),provider)
 
