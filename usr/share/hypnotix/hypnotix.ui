@@ -76,7 +76,7 @@
             <property name="can_focus">True</property>
             <property name="valign">center</property>
             <property name="hexpand">True</property>
-            <property name="placeholder_text" translatable="yes">Global search</property>
+            <property name="placeholder_text" translatable="yes">Search</property>
           </object>
           <packing>
             <property name="position">2</property>
