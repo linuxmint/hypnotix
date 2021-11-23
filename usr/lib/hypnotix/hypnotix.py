@@ -98,6 +98,7 @@ class MainWindow():
         self.back_page = None # page to go back to if the back button is pressed
         self.active_channel = None
         self.fullscreen = False
+        self.latest_search_bar_text = None
         self.mpv = None
         self.ia = IMDb()
 
@@ -191,8 +192,8 @@ class MainWindow():
         self.series_button.connect("clicked", self.show_groups, SERIES_GROUP)
         self.go_back_button.connect("clicked", self.on_go_back_button)
 
-        self.search_button.connect("clicked", self.on_search_button)
-        self.search_bar.connect("activate", self.on_search_button)
+        self.search_button.connect("toggled", self.on_search_button_toggled)
+        self.search_bar.connect("activate", self.on_search_bar)
 
         self.stop_button.connect("clicked", self.on_stop_button)
         self.pause_button.connect("clicked", self.on_pause_button)
@@ -252,6 +253,13 @@ class MainWindow():
         key, mod = Gtk.accelerator_parse("F1")
         item.add_accelerator("activate", accel_group, key, mod, Gtk.AccelFlags.VISIBLE)
         menu.append(item)
+        item = Gtk.ImageMenuItem(label=_("Find"))
+        image = Gtk.Image.new_from_icon_name("edit-find-symbolic", Gtk.IconSize.MENU)
+        item.set_image(image)
+        item.connect('activate', self.on_ctrl_f)
+        key, mod = Gtk.accelerator_parse("<Control>F")
+        item.add_accelerator("activate", accel_group, key, mod, Gtk.AccelFlags.VISIBLE)
+        menu.append(item)
         item = Gtk.ImageMenuItem(label=_("Quit"))
         image = Gtk.Image.new_from_icon_name("application-exit-symbolic", Gtk.IconSize.MENU)
         item.set_image(image)
@@ -287,6 +295,7 @@ class MainWindow():
 
         self.window.show()
         self.playback_bar.hide()
+        self.search_bar.hide()
 
         # Historic bitrates of the currently playing media
         self.video_bitrates = []
@@ -362,21 +371,14 @@ class MainWindow():
             else:
                 self.show_vod(self.active_provider.series)
 
-    def show_channels(self, channels, search=False):
-        self.navigate_to("channels_page", '', search)
+    def show_channels(self, channels):
+        self.navigate_to("channels_page")
         if self.content_type == TV_GROUP:
             self.sidebar.show()
             logos_to_refresh = []
             for child in self.channels_flowbox.get_children():
                 self.channels_flowbox.remove(child)
-
-            if search:
-                search_bar_text = unidecode(self.search_bar.get_text()).lower().strip()
-
             for channel in channels:
-                if search:
-                    if search_bar_text not in unidecode(channel.name).lower():
-                        continue
                 button = Gtk.Button()
                 button.connect("clicked", self.on_channel_button_clicked, channel)
                 label = Gtk.Label()
@@ -539,13 +541,60 @@ class MainWindow():
         self.navigate_to(self.back_page)
         if self.active_channel != None:
             self.playback_bar.show()
+        if self.active_group and self.back_page == "categories_page":
+            self.init_channels_flowbox()
 
-    def on_search_button(self, widget):
-        if self.search_bar.get_text().strip() != "":
-            self.show_channels(self.active_provider.channels, True)
+    def on_ctrl_f(self, widget):
+        if self.search_button.get_active():
+            self.search_button.set_active(False)
+        else:
+            self.search_button.set_active(True)
+
+    def on_search_button_toggled(self, widget):
+        if self.search_button.get_active():
+            self.search_bar.show()
+        else:
+            self.search_bar.hide()
+
+    def on_search_bar(self, widget):
+        self.content_type = TV_GROUP
+        search_bar_text = unidecode(self.search_bar.get_text()).lower()
+        if search_bar_text != self.latest_search_bar_text:
+            self.latest_search_bar_text = search_bar_text
+            self.search_bar.set_sensitive(False)
+            try:
+                self.status(_("Loading %d channels of provider %s, group %s...") % (len(self.active_provider.channels), self.active_provider.name, self.active_group.name))
+            except:
+                self.status(_("Loading %d channels of provider %s...") % (len(self.active_provider.channels), self.active_provider.name))
+            GLib.timeout_add_seconds(0.1, self.on_search)
+
+    def on_search(self):
+        def filter_func(child):
+            search_bar_text = unidecode(self.search_bar.get_text()).lower()
+            label_text = unidecode(child.get_children()[0].get_children()[0].get_children()[1].get_text()).lower()
+            if search_bar_text in label_text:
+                return True
+            else:
+                return False
+
+        self.channels_flowbox.set_filter_func(filter_func)
+        if not self.channels_flowbox.get_children():
+            self.show_channels(self.active_provider.channels)
+        self.status(None)
+        print("Filtering %d channel names containing the string '%s'..." % (len(self.channels_flowbox.get_children()), self.latest_search_bar_text))
+        self.search_bar.set_sensitive(True)
+        self.search_bar.grab_focus_without_selecting()
+        self.navigate_to("channels_page")
+
+    def init_channels_flowbox(self):
+        self.latest_search_bar_text = None
+        self.active_group = None
+        for child in self.channels_flowbox.get_children():
+            self.channels_flowbox.remove(child)
+        self.channels_flowbox.invalidate_filter()
 
     @idle_function
-    def navigate_to(self, page, name="", search=False):
+    def navigate_to(self, page, name=""):
         self.go_back_button.show()
         self.search_button.show()
         self.fullscreen_button.hide()
@@ -578,6 +627,7 @@ class MainWindow():
             self.headerbar.set_title(provider.name)
             if self.content_type == TV_GROUP:
                 self.headerbar.set_subtitle(_("TV Channels"))
+                self.init_channels_flowbox()
             elif self.content_type == MOVIES_GROUP:
                 self.headerbar.set_subtitle(_("Movies"))
             else:
@@ -642,9 +692,6 @@ class MainWindow():
             self.back_page = "providers_page"
             self.headerbar.set_title("Hypnotix")
             self.headerbar.set_subtitle(_("Reset providers"))
-
-        if search:
-            self.headerbar.set_subtitle(_("Search > %s" % self.search_bar.get_text().strip()))
 
     def open_keyboard_shortcuts(self, widget):
         gladefile = "/usr/share/hypnotix/shortcuts.ui"
@@ -927,6 +974,7 @@ class MainWindow():
     def on_provider_selected(self, widget, provider):
         self.active_provider = provider
         self.settings.set_string("active-provider", provider.name)
+        self.init_channels_flowbox()
         self.navigate_to("landing_page")
 
     def on_preferences_button(self, widget):
@@ -1200,7 +1248,7 @@ class MainWindow():
         if ctrl and event.keyval == Gdk.KEY_r:
             self.reload(page=None, refresh=True)
         elif event.keyval == Gdk.KEY_F11 or \
-             (event.keyval == Gdk.KEY_f and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry) or \
+             (event.keyval == Gdk.KEY_f and not ctrl and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry) or \
              (self.fullscreen and event.keyval == Gdk.KEY_Escape):
             self.toggle_fullscreen()
 
@@ -1236,6 +1284,7 @@ class MainWindow():
         if page != None:
             self.navigate_to(page)
         self.status(None)
+        self.latest_search_bar_text = None
 
     def force_reload(self):
         self.reload(page=None, refresh=True)
