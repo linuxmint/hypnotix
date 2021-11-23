@@ -1,3 +1,31 @@
+hypnotix (2.1) una; urgency=medium
+
+  [ lulol ]
+  * Add a basic global search box (#157)
+
+  [ Clement Lefebvre ]
+  * Add support for dark GTK theme variants
+
+  [ Kira ]
+  * Packaging: Depend on python3-unidecode (#166)
+
+  [ lulol ]
+  * Avoid race condition playing local content (#172)
+  * Search: Use a toggle button and simple fixes (#165)
+
+  [ Claudio Olmi ]
+  * Add support for XTream API (#148)
+
+  [ Clement Lefebvre ]
+  * l10n: Rename search entry text
+  * Fix debug print calls
+  * Delete trailing spaces
+  * Add more badges
+  * Search: grab focus, don't show menu item
+  * l10n: Update POT
+
+ -- Clement Lefebvre <root@linuxmint.com>  Tue, 23 Nov 2021 12:23:08 +0000
+
 hypnotix (2.0) uma; urgency=medium
 
   * Fix slovenian flag
