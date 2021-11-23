@@ -255,13 +255,6 @@ class MainWindow():
         key, mod = Gtk.accelerator_parse("F1")
         item.add_accelerator("activate", accel_group, key, mod, Gtk.AccelFlags.VISIBLE)
         menu.append(item)
-        item = Gtk.ImageMenuItem(label=_("Find"))
-        image = Gtk.Image.new_from_icon_name("edit-find-symbolic", Gtk.IconSize.MENU)
-        item.set_image(image)
-        item.connect('activate', self.on_ctrl_f)
-        key, mod = Gtk.accelerator_parse("<Control>F")
-        item.add_accelerator("activate", accel_group, key, mod, Gtk.AccelFlags.VISIBLE)
-        menu.append(item)
         item = Gtk.ImageMenuItem(label=_("Quit"))
         image = Gtk.Image.new_from_icon_name("application-exit-symbolic", Gtk.IconSize.MENU)
         item.set_image(image)
@@ -554,15 +547,10 @@ class MainWindow():
         if self.active_group and self.back_page == "categories_page":
             self.init_channels_flowbox()
 
-    def on_ctrl_f(self, widget):
-        if self.search_button.get_active():
-            self.search_button.set_active(False)
-        else:
-            self.search_button.set_active(True)
-
     def on_search_button_toggled(self, widget):
         if self.search_button.get_active():
             self.search_bar.show()
+            self.search_bar.grab_focus()
         else:
             self.search_bar.hide()
 
@@ -572,10 +560,6 @@ class MainWindow():
         if search_bar_text != self.latest_search_bar_text:
             self.latest_search_bar_text = search_bar_text
             self.search_bar.set_sensitive(False)
-            try:
-                self.status(_("Loading %d channels of provider %s, group %s...") % (len(self.active_provider.channels), self.active_provider.name, self.active_group.name))
-            except:
-                self.status(_("Loading %d channels of provider %s...") % (len(self.active_provider.channels), self.active_provider.name))
             GLib.timeout_add_seconds(0.1, self.on_search)
 
     def on_search(self):
@@ -1265,6 +1249,11 @@ class MainWindow():
 
         if ctrl and event.keyval == Gdk.KEY_r:
             self.reload(page=None, refresh=True)
+        elif ctrl and event.keyval == Gdk.KEY_f:
+            if self.search_button.get_active():
+                self.search_button.set_active(False)
+            else:
+                self.search_button.set_active(True)
         elif event.keyval == Gdk.KEY_F11 or \
              (event.keyval == Gdk.KEY_f and not ctrl and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry) or \
              (self.fullscreen and event.keyval == Gdk.KEY_Escape):
