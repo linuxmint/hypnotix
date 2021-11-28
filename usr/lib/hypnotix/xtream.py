@@ -7,7 +7,7 @@ It does not support M3U
 This application comes from the pyxtream library found at:
 https://pypi.org/project/pyxtream
 
-Part of this content comes from 
+Part of this content comes from
 https://github.com/chazlarson/py-xtream-codes/blob/master/xtream.py
 https://github.com/linuxmint/hypnotix
 
@@ -51,7 +51,7 @@ class Channel():
     added = ""
     epg_channel_id = ""
     added = ""
-    
+
     # This contains the raw JSON data
     raw = ""
 
@@ -85,7 +85,7 @@ class Channel():
 
             if stream_type == "live":
                 stream_extension = "ts"
-                
+
                 # Default to 0
                 self.is_adult = 0
                 # Check if is_adult key is available
@@ -110,7 +110,7 @@ class Channel():
                 stream_info['stream_id'],
                 stream_extension
                 )
-            
+
             # Check that the constructed URL is valid
             if not xtream.validate_url(self.url):
                 print("{} - Bad URL? `{}`".format(self.name, self.url))
@@ -156,7 +156,7 @@ class Group():
             ))
 
         self.name = group_info['category_name']
-        
+
         # Check if category_id key is available
         if "category_id" in group_info.keys():
             self.group_id = group_info['category_id']
@@ -185,7 +185,7 @@ class Episode():
 
         self.logo = series_info['cover']
         self.logo_path = xtream.get_logo_local_path(self.logo)
-        
+
 
         self.url = "{}/series/{}/{}/{}.{}".format(
             xtream.server,
@@ -229,15 +229,15 @@ class Serie():
         # Check if category_id key is available
         if "series_id" in series_info.keys():
             self.series_id = series_info['series_id']
-        
+
         # Check if plot key is available
         if "plot" in series_info.keys():
             self.plot = series_info['plot']
-        
+
         # Check if youtube_trailer key is available
         if "youtube_trailer" in series_info.keys():
             self.youtube_trailer = series_info['youtube_trailer']
-        
+
         # Check if genre key is available
         if "genre" in series_info.keys():
             self.genre = series_info['genre']
@@ -271,7 +271,7 @@ class XTream():
 
     catch_all_group = Group(
         {
-            "category_id": "9999", 
+            "category_id": "9999",
             "category_name":"xEverythingElse",
             "parent_id":0
         },
@@ -281,11 +281,11 @@ class XTream():
     # JSON dictionary from the provider
     threshold_time_sec = 60*60*8
 
-    def __init__(self, 
-                provider_name: str, 
-                provider_username: str, 
-                provider_password: str, 
-                provider_url: str, 
+    def __init__(self,
+                provider_name: str,
+                provider_username: str,
+                provider_password: str,
+                provider_url: str,
                 cache_path: str = ""
                 ):
         """Initialize Xtream Class
@@ -314,7 +314,7 @@ class XTream():
             if not osp.isdir(self.cache_path):
                 print("Cache Path is not a directory, using default '~/.xtream-cache/'")
                 self.cache_path == ""
-        
+
         # If the cache_path is still empty, use default
         if self.cache_path == "":
             self.cache_path = osp.expanduser("~/.xtream-cache/")
@@ -336,7 +336,7 @@ class XTream():
         """
 
         search_result = []
-        
+
         if ignore_case:
             regex = re.compile(keyword,re.IGNORECASE)
         else:
@@ -405,14 +405,14 @@ class XTream():
                 logo_url = None
             else:
                 local_logo_path = osp.join(self.cache_path, "{}-{}".format(
-                    self.slugify(self.name), 
+                    self.slugify(self.name),
                     self.slugify(osp.split(logo_url)[-1])
                     )
                 )
         return local_logo_path
 
 
-    # If you want to limit the displayed output data, 
+    # If you want to limit the displayed output data,
     # you can use params[offset]=X & params[items_per_page]=X on your call.
 
     # Authentication returns information about the account and server:
@@ -445,7 +445,7 @@ class XTream():
         """
         #Build the full path
         full_filename = osp.join(self.cache_path, "{}-{}".format(
-                self.slugify(self.name), 
+                self.slugify(self.name),
                 filename
         ))
 
@@ -455,7 +455,7 @@ class XTream():
 
             # Get the enlapsed seconds since last file update
             diff_time = time.time() - osp.getmtime(full_filename)
-            # If the file was updated less than the threshold time, 
+            # If the file was updated less than the threshold time,
             # it means that the file is still fresh, we can load it.
             # Otherwise skip and return None to force a re-download
             if self.threshold_time_sec > diff_time:
@@ -479,7 +479,7 @@ class XTream():
         This function will overwrite the file if already exists
 
         Args:
-            data_list (dict): Dictionary to save 
+            data_list (dict): Dictionary to save
             filename (str): Name of the file
 
         Returns:
@@ -487,7 +487,7 @@ class XTream():
         """
         #Build the full path
         full_filename = osp.join(self.cache_path, "{}-{}".format(
-                self.slugify(self.name), 
+                self.slugify(self.name),
                 filename
         ))
         # If the path makes sense, save the file
@@ -582,7 +582,7 @@ class XTream():
                         # Generate Group Title
                         if stream_channel['name'][0].isalnum():
 
-                            # Some channels have no group, 
+                            # Some channels have no group,
                             # so let's add them to the catche all group
                             if stream_channel['category_id'] == None:
                                 stream_channel['category_id'] = '9999'
@@ -595,7 +595,7 @@ class XTream():
                                 (x for x in self.groups if x.group_id == stream_channel['category_id']),
                                 None
                             )
-                            
+
                             if the_group != None:
                                 group_title = the_group.name
                             else:
@@ -605,16 +605,16 @@ class XTream():
                             if loading_stream_type == self.series_type:
                                 # Load all Series
                                 new_series = Serie(self, stream_channel)
-                                # To get all the Episodes for every Season of each 
-                                # Series is very time consuming, we will only 
-                                # populate the Series once the user click on the 
-                                # Series, the Seasons and Episodes will be loaded 
+                                # To get all the Episodes for every Season of each
+                                # Series is very time consuming, we will only
+                                # populate the Series once the user click on the
+                                # Series, the Seasons and Episodes will be loaded
                                 # using x.getSeriesInfoByID() function
 
                             else:
                                 new_channel = Channel(
-                                    self, 
-                                    group_title, 
+                                    self,
+                                    group_title,
                                     stream_channel
                                 )
 
@@ -626,7 +626,7 @@ class XTream():
                             else:
                                 self.series.append(new_series)
 
-                            # Add stream to the specific Group       
+                            # Add stream to the specific Group
                             if the_group != None:
                                 if loading_stream_type != self.series_type:
                                     the_group.channels.append(new_channel)
@@ -753,107 +753,107 @@ class XTream():
         Returns:
             [type]: JSON if successfull, otherwise None
         """
-        r = requests.get(self.get_series_info_URL_by_ID(series_id)) 
+        r = requests.get(self.get_series_info_URL_by_ID(series_id))
         if r.status_code == 200:
             return r.json()
         return r
-    # The seasons array, might be filled or might be completely empty. 
-    # If it is not empty, it will contain the cover, overview and the air date 
+    # The seasons array, might be filled or might be completely empty.
+    # If it is not empty, it will contain the cover, overview and the air date
     # of the selected season.
-    # In your APP if you want to display the series, you have to take that 
+    # In your APP if you want to display the series, you have to take that
     # from the episodes array.
 
     # GET VOD Info
-    def vodInfoByID(self, vod_id):  
-        r = requests.get(self.get_VOD_info_URL_by_ID(vod_id)) 
+    def vodInfoByID(self, vod_id):
+        r = requests.get(self.get_VOD_info_URL_by_ID(vod_id))
         return r
 
-    # GET short_epg for LIVE Streams (same as stalker portal, 
+    # GET short_epg for LIVE Streams (same as stalker portal,
     # prints the next X EPG that will play soon)
-    def liveEpgByStream(self, stream_id):  
-        r = requests.get(self.get_live_epg_URL_by_stream(stream_id)) 
+    def liveEpgByStream(self, stream_id):
+        r = requests.get(self.get_live_epg_URL_by_stream(stream_id))
         if r.status_code == 200:
             return r.json()
         return r
 
-    def liveEpgByStreamAndLimit(self, stream_id, limit):  
-        r = requests.get(self.get_live_epg_URL_by_stream_and_limit(stream_id, limit)) 
+    def liveEpgByStreamAndLimit(self, stream_id, limit):
+        r = requests.get(self.get_live_epg_URL_by_stream_and_limit(stream_id, limit))
         return r
 
-    #  GET ALL EPG for LIVE Streams (same as stalker portal, 
+    #  GET ALL EPG for LIVE Streams (same as stalker portal,
     # but it will print all epg listings regardless of the day)
-    def allLiveEpgByStream(self, stream_id):  
-        r = requests.get(self.get_all_live_epg_URL_by_stream(stream_id)) 
+    def allLiveEpgByStream(self, stream_id):
+        r = requests.get(self.get_all_live_epg_URL_by_stream(stream_id))
         return r
 
     # Full EPG List for all Streams
-    def allEpg(self):  
-        r = requests.get(self.get_all_epg_URL()) 
+    def allEpg(self):
+        r = requests.get(self.get_all_epg_URL())
         return r
 
 
     ## URL-builder methods
 
-    def get_authenticate_URL(self):  
-        URL = '%s/player_api.php?username=%s&password=%s' % (self.server, self.username, self.password) 
+    def get_authenticate_URL(self):
+        URL = '%s/player_api.php?username=%s&password=%s' % (self.server, self.username, self.password)
         return URL
 
-    def get_live_categories_URL(self):  
-        URL = '%s/player_api.php?username=%s&password=%s&action=%s' % (self.server, self.username, self.password, 'get_live_categories')  
+    def get_live_categories_URL(self):
+        URL = '%s/player_api.php?username=%s&password=%s&action=%s' % (self.server, self.username, self.password, 'get_live_categories')
         return URL
 
-    def get_live_streams_URL(self):  
-        URL = '%s/player_api.php?username=%s&password=%s&action=%s' % (self.server, self.username, self.password, 'get_live_streams')  
+    def get_live_streams_URL(self):
+        URL = '%s/player_api.php?username=%s&password=%s&action=%s' % (self.server, self.username, self.password, 'get_live_streams')
         return URL
 
-    def get_live_streams_URL_by_category(self, category_id):  
+    def get_live_streams_URL_by_category(self, category_id):
         URL = '%s/player_api.php?username=%s&password=%s&action=%s&category_id=%s' % (self.server, self.username, self.password, 'get_live_streams', category_id)
         return URL
 
-    def get_vod_cat_URL(self):  
-        URL = '%s/player_api.php?username=%s&password=%s&action=%s' % (self.server, self.username, self.password, 'get_vod_categories')  
+    def get_vod_cat_URL(self):
+        URL = '%s/player_api.php?username=%s&password=%s&action=%s' % (self.server, self.username, self.password, 'get_vod_categories')
         return URL
 
-    def get_vod_streams_URL(self):  
-        URL = '%s/player_api.php?username=%s&password=%s&action=%s' % (self.server, self.username, self.password, 'get_vod_streams')  
+    def get_vod_streams_URL(self):
+        URL = '%s/player_api.php?username=%s&password=%s&action=%s' % (self.server, self.username, self.password, 'get_vod_streams')
         return URL
 
-    def get_vod_streams_URL_by_category(self, category_id):  
+    def get_vod_streams_URL_by_category(self, category_id):
         URL = '%s/player_api.php?username=%s&password=%s&action=%s&category_id=%s' % (self.server, self.username, self.password, 'get_vod_streams', category_id)
         return URL
 
-    def get_series_cat_URL(self):  
-        URL = '%s/player_api.php?username=%s&password=%s&action=%s' % (self.server, self.username, self.password, 'get_series_categories')  
+    def get_series_cat_URL(self):
+        URL = '%s/player_api.php?username=%s&password=%s&action=%s' % (self.server, self.username, self.password, 'get_series_categories')
         return URL
 
-    def get_series_URL(self):  
-        URL = '%s/player_api.php?username=%s&password=%s&action=%s' % (self.server, self.username, self.password, 'get_series')  
+    def get_series_URL(self):
+        URL = '%s/player_api.php?username=%s&password=%s&action=%s' % (self.server, self.username, self.password, 'get_series')
         return URL
 
-    def get_series_URL_by_category(self, category_id):  
-        URL = '%s/player_api.php?username=%s&password=%s&action=%s&category_id=%s' % (self.server, self.username, self.password, 'get_series', category_id)  
+    def get_series_URL_by_category(self, category_id):
+        URL = '%s/player_api.php?username=%s&password=%s&action=%s&category_id=%s' % (self.server, self.username, self.password, 'get_series', category_id)
         return URL
 
-    def get_series_info_URL_by_ID(self, series_id):  
-        URL = '%s/player_api.php?username=%s&password=%s&action=%s&series_id=%s' % (self.server, self.username, self.password, 'get_series_info', series_id)  
+    def get_series_info_URL_by_ID(self, series_id):
+        URL = '%s/player_api.php?username=%s&password=%s&action=%s&series_id=%s' % (self.server, self.username, self.password, 'get_series_info', series_id)
         return URL
 
-    def get_VOD_info_URL_by_ID(self, vod_id):  
-        URL = '%s/player_api.php?username=%s&password=%s&action=%s&vod_id=%s' % (self.server, self.username, self.password, 'get_vod_info', vod_id)  
+    def get_VOD_info_URL_by_ID(self, vod_id):
+        URL = '%s/player_api.php?username=%s&password=%s&action=%s&vod_id=%s' % (self.server, self.username, self.password, 'get_vod_info', vod_id)
         return URL
 
-    def get_live_epg_URL_by_stream(self, stream_id):  
-        URL = '%s/player_api.php?username=%s&password=%s&action=%s&stream_id=%s' % (self.server, self.username, self.password, 'get_short_epg', stream_id)  
+    def get_live_epg_URL_by_stream(self, stream_id):
+        URL = '%s/player_api.php?username=%s&password=%s&action=%s&stream_id=%s' % (self.server, self.username, self.password, 'get_short_epg', stream_id)
         return URL
 
-    def get_live_epg_URL_by_stream_and_limit(self, stream_id, limit):  
-        URL = '%s/player_api.php?username=%s&password=%s&action=%s&stream_id=%s&limit=%s' % (self.server, self.username, self.password, 'get_short_epg', stream_id, limit)  
+    def get_live_epg_URL_by_stream_and_limit(self, stream_id, limit):
+        URL = '%s/player_api.php?username=%s&password=%s&action=%s&stream_id=%s&limit=%s' % (self.server, self.username, self.password, 'get_short_epg', stream_id, limit)
         return URL
 
-    def get_all_live_epg_URL_by_stream(self, stream_id):  
-        URL = '%s/player_api.php?username=%s&password=%s&action=%s&stream_id=%s' % (self.server, self.username, self.password, 'get_simple_data_table', stream_id)  
+    def get_all_live_epg_URL_by_stream(self, stream_id):
+        URL = '%s/player_api.php?username=%s&password=%s&action=%s&stream_id=%s' % (self.server, self.username, self.password, 'get_simple_data_table', stream_id)
         return URL
 
-    def get_all_epg_URL(self):  
-        URL = '%s/xmltv.php?username=%s&password=%s' % (self.server, self.username, self.password)  
+    def get_all_epg_URL(self):
+        URL = '%s/xmltv.php?username=%s&password=%s' % (self.server, self.username, self.password)
         return URL

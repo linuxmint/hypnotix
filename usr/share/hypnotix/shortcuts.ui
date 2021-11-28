@@ -36,6 +36,13 @@
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">1</property>
+                <property name="accelerator">&lt;Control&gt;F</property>
+                <property name="title" translatable="yes">Search</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
                 <property name="accelerator">&lt;Control&gt;K</property>
                 <property name="title" translatable="yes">Keyboard Shortcuts</property>
               </object>
@@ -44,7 +51,7 @@
               <object class="GtkShortcutsShortcut">
                 <property name="visible">1</property>
                 <property name="accelerator">&lt;Control&gt;R</property>
-                <property name="title" translatable="yes">Redownload all providers</property>
+                <property name="title" translatable="yes">Reload all providers</property>
               </object>
             </child>
             <child>

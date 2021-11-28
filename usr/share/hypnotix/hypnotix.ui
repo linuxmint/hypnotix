@@ -48,7 +48,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkButton" id="search_button">
+              <object class="GtkToggleButton" id="search_button">
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <child>
@@ -76,7 +76,7 @@
             <property name="can_focus">True</property>
             <property name="valign">center</property>
             <property name="hexpand">True</property>
-            <property name="placeholder_text" translatable="yes">Global search</property>
+            <property name="placeholder_text" translatable="yes">Search</property>
           </object>
           <packing>
             <property name="position">2</property>
