@@ -7,351 +7,368 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2021-06-03 19:30+0100\n"
-"PO-Revision-Date: 2020-12-14 21:50+0000\n"
-"Last-Translator: Changmin Jang <Unknown>\n"
+"POT-Creation-Date: 2021-11-23 12:21+0000\n"
+"PO-Revision-Date: 2021-11-27 11:01+0000\n"
+"Last-Translator: Jung-Kyu Park <bagjunggyu@gmail.com>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2021-06-25 10:43+0000\n"
-"X-Generator: Launchpad (build 40cc6dba4163ba9ca785b26ad91f43c87d70ba4d)\n"
+"X-Launchpad-Export-Date: 2021-12-06 15:07+0000\n"
+"X-Generator: Launchpad (build f92b6e0bb2624f8a9125e3f45b7621c6e230c5ff)\n"
 
-#: usr/lib/hypnotix/hypnotix.py:114 usr/lib/hypnotix/hypnotix.py:623
-#: usr/lib/hypnotix/hypnotix.py:1140 generate_desktop_files:25
+#: usr/lib/hypnotix/hypnotix.py:119 usr/lib/hypnotix/hypnotix.py:696
+#: usr/lib/hypnotix/hypnotix.py:1214 generate_desktop_files:25
 #: usr/share/hypnotix/hypnotix.ui.h:1
 msgid "Hypnotix"
-msgstr ""
+msgstr "히프노틱스"
 
-#: usr/lib/hypnotix/hypnotix.py:223
+#: usr/lib/hypnotix/hypnotix.py:238 usr/share/hypnotix/shortcuts.ui.h:6
 msgid "Keyboard Shortcuts"
 msgstr "키보드 단축키"
 
-#: usr/lib/hypnotix/hypnotix.py:230 usr/share/hypnotix/hypnotix.ui.h:32
+#: usr/lib/hypnotix/hypnotix.py:245 usr/share/hypnotix/hypnotix.ui.h:35
+#: usr/share/hypnotix/shortcuts.ui.h:3
 msgid "Stream Information"
-msgstr ""
+msgstr "스트림 정보"
 
-#: usr/lib/hypnotix/hypnotix.py:238 usr/lib/hypnotix/hypnotix.py:1139
+#: usr/lib/hypnotix/hypnotix.py:253 usr/lib/hypnotix/hypnotix.py:1213
+#: usr/share/hypnotix/shortcuts.ui.h:2
 msgid "About"
 msgstr "정보"
 
-#: usr/lib/hypnotix/hypnotix.py:243
+#: usr/lib/hypnotix/hypnotix.py:258 usr/share/hypnotix/shortcuts.ui.h:8
 msgid "Quit"
 msgstr "나가기"
 
-#: usr/lib/hypnotix/hypnotix.py:256
+#: usr/lib/hypnotix/hypnotix.py:271
 msgid "M3U URL"
-msgstr ""
+msgstr "M3U URL"
 
-#: usr/lib/hypnotix/hypnotix.py:257
+#: usr/lib/hypnotix/hypnotix.py:272
 msgid "Local M3U File"
-msgstr ""
+msgstr "로컬 M3U 파일"
 
-#: usr/lib/hypnotix/hypnotix.py:258
+#: usr/lib/hypnotix/hypnotix.py:273
 msgid "Xtream API"
-msgstr ""
+msgstr "Xtream API"
 
-#: usr/lib/hypnotix/hypnotix.py:429
+#: usr/lib/hypnotix/hypnotix.py:451
 #, python-format
 msgid "Season %s"
-msgstr ""
+msgstr "시즌 %s"
 
-#: usr/lib/hypnotix/hypnotix.py:439
+#: usr/lib/hypnotix/hypnotix.py:461
 #, python-format
 msgid "Episode %s"
-msgstr ""
+msgstr "에피소드 %s"
 
-#: usr/lib/hypnotix/hypnotix.py:529
+#: usr/lib/hypnotix/hypnotix.py:601
 msgid "No provider selected"
-msgstr ""
+msgstr "서비스 업체를 선택하세요"
 
-#: usr/lib/hypnotix/hypnotix.py:551 usr/lib/hypnotix/hypnotix.py:563
+#: usr/lib/hypnotix/hypnotix.py:623 usr/lib/hypnotix/hypnotix.py:636
 msgid "TV Channels"
 msgstr "TV 채널"
 
-#: usr/lib/hypnotix/hypnotix.py:553 usr/lib/hypnotix/hypnotix.py:578
+#: usr/lib/hypnotix/hypnotix.py:626 usr/lib/hypnotix/hypnotix.py:651
 msgid "Movies"
 msgstr "영화"
 
-#: usr/lib/hypnotix/hypnotix.py:555 usr/lib/hypnotix/hypnotix.py:585
+#: usr/lib/hypnotix/hypnotix.py:628 usr/lib/hypnotix/hypnotix.py:658
 msgid "Series"
 msgstr "시리즈"
 
-#: usr/lib/hypnotix/hypnotix.py:566
+#: usr/lib/hypnotix/hypnotix.py:639
 #, python-format
 msgid "TV Channels > %s"
 msgstr "TV 채널 > %s"
 
-#: usr/lib/hypnotix/hypnotix.py:581
+#: usr/lib/hypnotix/hypnotix.py:654
 #, python-format
 msgid "Movies > %s"
 msgstr "영화 > %s"
 
-#: usr/lib/hypnotix/hypnotix.py:588
+#: usr/lib/hypnotix/hypnotix.py:661
 #, python-format
 msgid "Series > %s"
 msgstr "시리즈 > %s"
 
-#: usr/lib/hypnotix/hypnotix.py:596 usr/share/hypnotix/hypnotix.ui.h:5
+#: usr/lib/hypnotix/hypnotix.py:669 usr/share/hypnotix/hypnotix.ui.h:6
 msgid "Preferences"
 msgstr "환경설정"
 
-#: usr/lib/hypnotix/hypnotix.py:600 usr/share/hypnotix/hypnotix.ui.h:4
+#: usr/lib/hypnotix/hypnotix.py:673 usr/share/hypnotix/hypnotix.ui.h:5
 msgid "Providers"
-msgstr ""
+msgstr "서비스 업체"
 
-#: usr/lib/hypnotix/hypnotix.py:605
+#: usr/lib/hypnotix/hypnotix.py:678
 #, python-format
 msgid "Edit %s"
 msgstr "%s 편집"
 
-#: usr/lib/hypnotix/hypnotix.py:607
+#: usr/lib/hypnotix/hypnotix.py:680
 msgid "Add a new provider"
-msgstr ""
+msgstr "새로운 서비스 업체를 추가합니다"
 
-#: usr/lib/hypnotix/hypnotix.py:611
+#: usr/lib/hypnotix/hypnotix.py:684
 #, python-format
 msgid "Delete %s"
-msgstr ""
+msgstr "삭제 %s"
 
-#: usr/lib/hypnotix/hypnotix.py:615
+#: usr/lib/hypnotix/hypnotix.py:688
 msgid "Reset providers"
-msgstr ""
+msgstr "서비스 업체 리셋"
 
-#: usr/lib/hypnotix/hypnotix.py:653 usr/lib/hypnotix/hypnotix.py:657
-#: usr/lib/hypnotix/hypnotix.py:709 usr/lib/hypnotix/hypnotix.py:711
-#: usr/lib/hypnotix/hypnotix.py:718 usr/lib/hypnotix/hypnotix.py:721
-#: usr/lib/hypnotix/hypnotix.py:733 usr/lib/hypnotix/hypnotix.py:746
-#: usr/lib/hypnotix/hypnotix.py:751 usr/lib/hypnotix/hypnotix.py:759
-#: usr/lib/hypnotix/hypnotix.py:1092 usr/lib/hypnotix/hypnotix.py:1094
-#: usr/lib/hypnotix/hypnotix.py:1119 usr/lib/hypnotix/hypnotix.py:1123
-#: usr/share/hypnotix/hypnotix.ui.h:33
+#: usr/lib/hypnotix/hypnotix.py:726 usr/lib/hypnotix/hypnotix.py:730
+#: usr/lib/hypnotix/hypnotix.py:782 usr/lib/hypnotix/hypnotix.py:784
+#: usr/lib/hypnotix/hypnotix.py:791 usr/lib/hypnotix/hypnotix.py:794
+#: usr/lib/hypnotix/hypnotix.py:806 usr/lib/hypnotix/hypnotix.py:819
+#: usr/lib/hypnotix/hypnotix.py:824 usr/lib/hypnotix/hypnotix.py:832
+#: usr/lib/hypnotix/hypnotix.py:1166 usr/lib/hypnotix/hypnotix.py:1168
+#: usr/lib/hypnotix/hypnotix.py:1193 usr/lib/hypnotix/hypnotix.py:1197
+#: usr/share/hypnotix/hypnotix.ui.h:36
 msgid "General"
-msgstr ""
+msgstr "등급"
 
-#: usr/lib/hypnotix/hypnotix.py:654 usr/lib/hypnotix/hypnotix.py:723
-#: usr/lib/hypnotix/hypnotix.py:725 usr/lib/hypnotix/hypnotix.py:727
-#: usr/lib/hypnotix/hypnotix.py:1093 usr/share/hypnotix/hypnotix.ui.h:35
+#: usr/lib/hypnotix/hypnotix.py:727 usr/lib/hypnotix/hypnotix.py:796
+#: usr/lib/hypnotix/hypnotix.py:798 usr/lib/hypnotix/hypnotix.py:800
+#: usr/lib/hypnotix/hypnotix.py:1167 usr/share/hypnotix/hypnotix.ui.h:38
 msgid "Color"
-msgstr ""
+msgstr "색상"
 
-#: usr/lib/hypnotix/hypnotix.py:658 usr/lib/hypnotix/hypnotix.py:743
-#: usr/lib/hypnotix/hypnotix.py:753 usr/lib/hypnotix/hypnotix.py:1095
-#: usr/share/hypnotix/hypnotix.ui.h:37
+#: usr/lib/hypnotix/hypnotix.py:731 usr/lib/hypnotix/hypnotix.py:816
+#: usr/lib/hypnotix/hypnotix.py:826 usr/lib/hypnotix/hypnotix.py:1169
+#: usr/share/hypnotix/hypnotix.ui.h:40
 msgid "Layout"
-msgstr ""
+msgstr "레이아웃"
 
-#: usr/lib/hypnotix/hypnotix.py:694 usr/lib/hypnotix/hypnotix.py:695
-#: usr/lib/hypnotix/hypnotix.py:709 usr/lib/hypnotix/hypnotix.py:711
-#: usr/lib/hypnotix/hypnotix.py:1115 usr/lib/hypnotix/hypnotix.py:1116
-#: usr/lib/hypnotix/hypnotix.py:1119 usr/lib/hypnotix/hypnotix.py:1123
-#: usr/share/hypnotix/hypnotix.ui.h:34
+#: usr/lib/hypnotix/hypnotix.py:767 usr/lib/hypnotix/hypnotix.py:768
+#: usr/lib/hypnotix/hypnotix.py:782 usr/lib/hypnotix/hypnotix.py:784
+#: usr/lib/hypnotix/hypnotix.py:1189 usr/lib/hypnotix/hypnotix.py:1190
+#: usr/lib/hypnotix/hypnotix.py:1193 usr/lib/hypnotix/hypnotix.py:1197
+#: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Average Bitrate"
-msgstr ""
+msgstr "평균 비트레이트"
 
-#: usr/lib/hypnotix/hypnotix.py:718
+#: usr/lib/hypnotix/hypnotix.py:791
 msgid "Dimensions"
-msgstr ""
+msgstr "크기"
 
-#: usr/lib/hypnotix/hypnotix.py:721
+#: usr/lib/hypnotix/hypnotix.py:794
 msgid "Aspect"
-msgstr ""
+msgstr "비율"
 
-#: usr/lib/hypnotix/hypnotix.py:723
+#: usr/lib/hypnotix/hypnotix.py:796
 msgid "Pixel Format"
-msgstr ""
+msgstr "픽셀 형식"
 
-#: usr/lib/hypnotix/hypnotix.py:725
+#: usr/lib/hypnotix/hypnotix.py:798
 msgid "Gamma"
-msgstr ""
+msgstr "감마"
 
-#: usr/lib/hypnotix/hypnotix.py:727
+#: usr/lib/hypnotix/hypnotix.py:800
 msgid "Bits Per Pixel"
-msgstr ""
+msgstr "픽셀당 비트 수"
 
-#: usr/lib/hypnotix/hypnotix.py:733 usr/lib/hypnotix/hypnotix.py:759
+#: usr/lib/hypnotix/hypnotix.py:806 usr/lib/hypnotix/hypnotix.py:832
 msgid "Codec"
-msgstr ""
+msgstr "코덱"
 
-#: usr/lib/hypnotix/hypnotix.py:742
+#: usr/lib/hypnotix/hypnotix.py:815
 msgid "surround sound"
-msgstr ""
+msgstr "서라운드 사운드"
 
-#: usr/lib/hypnotix/hypnotix.py:743
+#: usr/lib/hypnotix/hypnotix.py:816
 msgid "Channels"
-msgstr ""
+msgstr "채널"
 
-#: usr/lib/hypnotix/hypnotix.py:746
+#: usr/lib/hypnotix/hypnotix.py:819
 msgid "Sample Rate"
-msgstr ""
+msgstr "샘플 레이트"
 
-#: usr/lib/hypnotix/hypnotix.py:751
+#: usr/lib/hypnotix/hypnotix.py:824
 msgid "Format"
-msgstr ""
+msgstr "포맷"
 
-#: usr/lib/hypnotix/hypnotix.py:753
+#: usr/lib/hypnotix/hypnotix.py:826
 msgid "Channel Count"
-msgstr ""
+msgstr "채널 수"
 
-#: usr/lib/hypnotix/hypnotix.py:847
+#: usr/lib/hypnotix/hypnotix.py:920
 #, python-format
 msgid "%d TV channel"
 msgid_plural "%d TV channels"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d개 TV 채널"
 
-#: usr/lib/hypnotix/hypnotix.py:852
+#: usr/lib/hypnotix/hypnotix.py:925
 #, python-format
 msgid "%d movie"
 msgid_plural "%d movies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d개 영화"
 
-#: usr/lib/hypnotix/hypnotix.py:857
+#: usr/lib/hypnotix/hypnotix.py:930
 #, python-format
 msgid "%d series"
 msgid_plural "%d series"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d개 시리즈"
 
-#: usr/lib/hypnotix/hypnotix.py:877
+#: usr/lib/hypnotix/hypnotix.py:950
 msgid "Edit"
-msgstr ""
+msgstr "편집"
 
-#: usr/lib/hypnotix/hypnotix.py:887
+#: usr/lib/hypnotix/hypnotix.py:960
 msgid "Remove"
-msgstr ""
+msgstr "제거"
 
-#: usr/lib/hypnotix/hypnotix.py:979
+#: usr/lib/hypnotix/hypnotix.py:1053
 msgid "M3U Playlists"
-msgstr ""
+msgstr "M3U 재생 목록"
 
-#: usr/lib/hypnotix/hypnotix.py:1141 generate_desktop_files:25
+#: usr/lib/hypnotix/hypnotix.py:1215 generate_desktop_files:25
 #: usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Watch TV"
-msgstr ""
+msgstr "TV 보기"
 
-#: usr/share/hypnotix/hypnotix.ui.h:3
+#: usr/share/hypnotix/hypnotix.ui.h:3 usr/share/hypnotix/shortcuts.ui.h:5
+msgid "Search"
+msgstr "검색"
+
+#: usr/share/hypnotix/hypnotix.ui.h:4
 msgid "Fullscreen"
-msgstr ""
-
-#: usr/share/hypnotix/hypnotix.ui.h:6
-msgid "MPV Options"
-msgstr ""
+msgstr "전체 화면"
 
 #: usr/share/hypnotix/hypnotix.ui.h:7
-msgid "List of MPV options"
-msgstr ""
+msgid "MPV Options"
+msgstr "MPV 옵션"
 
 #: usr/share/hypnotix/hypnotix.ui.h:8
-msgid "Playback"
-msgstr ""
+msgid "List of MPV options"
+msgstr "MPV 옵션 목록"
 
 #: usr/share/hypnotix/hypnotix.ui.h:9
-msgid "User Agent"
-msgstr ""
+msgid "Playback"
+msgstr "재생"
 
 #: usr/share/hypnotix/hypnotix.ui.h:10
-msgid "Referrer"
-msgstr ""
+msgid "User Agent"
+msgstr "사용자 에이전트"
 
 #: usr/share/hypnotix/hypnotix.ui.h:11
-msgid "Network"
-msgstr ""
+msgid "Referrer"
+msgstr "참조자"
 
 #: usr/share/hypnotix/hypnotix.ui.h:12
-msgid "Add a new provider..."
-msgstr ""
+msgid "Network"
+msgstr "네트워크"
 
 #: usr/share/hypnotix/hypnotix.ui.h:13
-msgid "Reset to defaults..."
-msgstr ""
+msgid ""
+"This option only works when used with light desktop themes which support "
+"dark mode."
+msgstr "이 옵션은 다크 모드를 지원하는 밝은 데스크톱 테마와 함께 사용할 때만 적용됩니다."
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
-msgid "Name:"
-msgstr ""
+msgid "Prefer dark mode"
+msgstr "다크 모드 우선"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
-msgid "URL:"
-msgstr ""
+msgid "Add a new provider..."
+msgstr "새로운 서비스 업체 추가하기..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:16
-msgid "Path:"
-msgstr ""
+msgid "Reset to defaults..."
+msgstr "기본 값으로 리셋하기..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:17
-msgid "Cancel"
-msgstr ""
+msgid "Name:"
+msgstr "이름:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:18
-msgid "OK"
-msgstr ""
+msgid "URL:"
+msgstr "URL:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:19
-msgid "Username:"
-msgstr ""
+msgid "Path:"
+msgstr "경로:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:20
-msgid "Password:"
-msgstr ""
+msgid "Cancel"
+msgstr "취소"
 
 #: usr/share/hypnotix/hypnotix.ui.h:21
-msgid "Browse..."
-msgstr ""
+msgid "OK"
+msgstr "예"
 
 #: usr/share/hypnotix/hypnotix.ui.h:22
-msgid "EPG:"
-msgstr ""
+msgid "Username:"
+msgstr "사용자 이름:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:23
-msgid "Type:"
-msgstr ""
+msgid "Password:"
+msgstr "비밀번호:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:24
-msgid "Are you sure you want to delete this provider?"
-msgstr ""
+msgid "Browse..."
+msgstr "탐색..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:25
-msgid "No"
-msgstr ""
+msgid "EPG:"
+msgstr "EPG:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:26
-msgid "Yes"
-msgstr ""
+msgid "Type:"
+msgstr "종류:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:27
-msgid "Are you sure you want to reset to the default providers?"
-msgstr ""
+msgid "Are you sure you want to delete this provider?"
+msgstr "이 서비스 업체를 지우시겠습니까?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:28
-msgid "Currently playing:"
-msgstr ""
+msgid "No"
+msgstr "아니요"
 
 #: usr/share/hypnotix/hypnotix.ui.h:29
-msgid "Show"
-msgstr ""
+msgid "Yes"
+msgstr "예"
 
 #: usr/share/hypnotix/hypnotix.ui.h:30
-msgid "Pause"
-msgstr ""
+msgid "Are you sure you want to reset to the default providers?"
+msgstr "기본 서비스 업체로 리셋하시겠습니까?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:31
+msgid "Currently playing:"
+msgstr "현재 재생 중:"
+
+#: usr/share/hypnotix/hypnotix.ui.h:32
+msgid "Show"
+msgstr "보이기"
+
+#: usr/share/hypnotix/hypnotix.ui.h:33
+msgid "Pause"
+msgstr "일시 중지"
+
+#: usr/share/hypnotix/hypnotix.ui.h:34
 msgid "Stop"
-msgstr ""
+msgstr "중지"
 
-#: usr/share/hypnotix/hypnotix.ui.h:36
+#: usr/share/hypnotix/hypnotix.ui.h:39
 msgid "Video"
-msgstr ""
+msgstr "비디오"
 
-#: usr/share/hypnotix/hypnotix.ui.h:38
+#: usr/share/hypnotix/hypnotix.ui.h:41
 msgid "Audio"
-msgstr ""
+msgstr "오디오"
 
 #: usr/share/hypnotix/shortcuts.ui.h:1
 msgid "Main shortcuts"
-msgstr ""
+msgstr "주요 단축키"
 
-#: usr/share/hypnotix/shortcuts.ui.h:2
+#: usr/share/hypnotix/shortcuts.ui.h:4
 msgid "Toggle Fullscreen"
-msgstr ""
+msgstr "전체 화면 토글"
+
+#: usr/share/hypnotix/shortcuts.ui.h:7
+msgid "Reload all providers"
+msgstr "모두 다시 불러오기"
