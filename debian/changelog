@@ -1,3 +1,10 @@
+hypnotix (2.2) una; urgency=medium
+
+  * l10n: Update translations
+  * l10n: Update files
+
+ -- Clement Lefebvre <root@linuxmint.com>  Mon, 06 Dec 2021 15:33:32 +0000
+
 hypnotix (2.1) una; urgency=medium
 
   [ lulol ]
