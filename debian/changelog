@@ -1,3 +1,13 @@
+hypnotix (2.3) una; urgency=medium
+
+  [ Claudio Olmi ]
+  * Relaxing channel name check in Xtream API (#178)
+
+  [ Brenders ]
+  * Series: Fix parsing of episodes which name isn't a number (#180)
+
+ -- Clement Lefebvre <root@linuxmint.com>  Wed, 08 Dec 2021 15:25:28 +0000
+
 hypnotix (2.2) una; urgency=medium
 
   * l10n: Update translations
