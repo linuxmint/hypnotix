@@ -580,7 +580,7 @@ class XTream():
                 for stream_channel in all_streams:
                     if stream_channel['name'] != "":
                         # Generate Group Title
-                        if stream_channel['name'][0].isalnum():
+                        if stream_channel['name'][0].isascii():
 
                             # Some channels have no group,
                             # so let's add them to the catche all group
