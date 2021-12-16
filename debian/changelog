@@ -1,3 +1,11 @@
+hypnotix (2.4) una; urgency=medium
+
+  [ Michael Webster ]
+  * Use simpler country emblems.
+  * Fix some hidpi issues, increase initial window height to accomodate larger country badges.
+
+ -- Clement Lefebvre <root@linuxmint.com>  Thu, 16 Dec 2021 10:16:16 +0000
+
 hypnotix (2.3) una; urgency=medium
 
   [ Claudio Olmi ]
