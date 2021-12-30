@@ -92,7 +92,7 @@ class Channel():
         self.name = None
         self.logo = None
         self.logo_path = None
-        self.group_title = None
+        self.group_title = "Unsorted"
         self.title = None
         self.url = None
         match = EXTINF.fullmatch(info)
