@@ -1,3 +1,14 @@
+hypnotix (2.5) una; urgency=medium
+
+  [ Jonathon ]
+  * Fix symlink target for irak.svg (#187)
+
+  [ Clement Lefebvre ]
+  * Fix channels when no groups are present
+  * UI: Fix symbolic icon name
+
+ -- Clement Lefebvre <root@linuxmint.com>  Fri, 31 Dec 2021 12:03:09 +0000
+
 hypnotix (2.4) una; urgency=medium
 
   [ Michael Webster ]
