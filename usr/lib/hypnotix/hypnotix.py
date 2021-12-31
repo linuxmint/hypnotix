@@ -626,7 +626,6 @@ class MainWindow():
             self.headerbar.set_title(provider.name)
             if self.content_type == TV_GROUP:
                 self.headerbar.set_subtitle(_("TV Channels"))
-                self.init_channels_flowbox()
             elif self.content_type == MOVIES_GROUP:
                 self.headerbar.set_subtitle(_("Movies"))
             else:
