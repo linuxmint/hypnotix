@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2021-11-23 12:21+0000\n"
-"PO-Revision-Date: 2021-10-24 15:49+0000\n"
+"PO-Revision-Date: 2021-12-09 05:22+0000\n"
 "Last-Translator: Roffan <Unknown>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2021-12-06 15:07+0000\n"
-"X-Generator: Launchpad (build f92b6e0bb2624f8a9125e3f45b7621c6e230c5ff)\n"
+"X-Launchpad-Export-Date: 2021-12-31 12:26+0000\n"
+"X-Generator: Launchpad (build adb364d6a74a28e7b95d51cd30446ec16160de6c)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:119 usr/lib/hypnotix/hypnotix.py:696
 #: usr/lib/hypnotix/hypnotix.py:1214 generate_desktop_files:25
@@ -166,15 +166,15 @@ msgstr "Format Piksel"
 
 #: usr/lib/hypnotix/hypnotix.py:798
 msgid "Gamma"
-msgstr ""
+msgstr "Gamma"
 
 #: usr/lib/hypnotix/hypnotix.py:800
 msgid "Bits Per Pixel"
-msgstr ""
+msgstr "Bit per Piksel"
 
 #: usr/lib/hypnotix/hypnotix.py:806 usr/lib/hypnotix/hypnotix.py:832
 msgid "Codec"
-msgstr ""
+msgstr "Codec"
 
 #: usr/lib/hypnotix/hypnotix.py:815
 msgid "surround sound"
@@ -194,7 +194,7 @@ msgstr "Format"
 
 #: usr/lib/hypnotix/hypnotix.py:826
 msgid "Channel Count"
-msgstr ""
+msgstr "Jumlah Saluran"
 
 #: usr/lib/hypnotix/hypnotix.py:920
 #, python-format
@@ -233,7 +233,7 @@ msgstr "Tonton TV"
 
 #: usr/share/hypnotix/hypnotix.ui.h:3 usr/share/hypnotix/shortcuts.ui.h:5
 msgid "Search"
-msgstr ""
+msgstr "Cari"
 
 #: usr/share/hypnotix/hypnotix.ui.h:4
 msgid "Fullscreen"
@@ -268,6 +268,8 @@ msgid ""
 "This option only works when used with light desktop themes which support "
 "dark mode."
 msgstr ""
+"Opsi ini hanya berfungsi bila digunakan dengan tema desktop terang yang "
+"mendukung mode gelap."
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Prefer dark mode"
