@@ -275,7 +275,7 @@ class XTream():
             "category_name":"xEverythingElse",
             "parent_id":0
         },
-        live_type
+        ""
     )
     # If the cached JSON file is older than threshold_time_sec then load a new
     # JSON dictionary from the provider
@@ -541,14 +541,16 @@ class XTream():
                 ))
                 ## Add GROUPS to dictionaries
 
-                # Add the catch-all-errors group
-                self.groups.append(self.catch_all_group)
-
                 for cat_obj in all_cat:
                     # Create Group (Category)
                     new_group = Group(cat_obj, loading_stream_type)
                     #  Add to xtream class
                     self.groups.append(new_group)
+                    
+                # Add the catch-all-errors group
+                #self.groups.append(self.catch_all_group)
+                self.groups.append(Group({"category_id": "9999","category_name":"xEverythingElse","parent_id":0},loading_stream_type))
+                
             else:
                 print("Could not load {} Groups".format(loading_stream_type))
                 break
