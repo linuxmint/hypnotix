@@ -136,7 +136,6 @@ class MainWindow():
         self.edit_mode = False
 
         # Create variables to quickly access dynamic widgets
-        self.generic_channel_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size("/usr/share/hypnotix/generic_tv_logo.png", 22, 22)
         widget_names = ["headerbar", "status_label", "status_bar", "sidebar", "go_back_button", "search_button", "search_bar", \
             "channels_box", "provider_button", "preferences_button", \
             "mpv_drawing_area", "stack", "fullscreen_button", \
@@ -279,9 +278,9 @@ class MainWindow():
         self.provider_type_combo.set_active(0) # Select 1st type
         self.provider_type_combo.connect("changed", self.on_provider_type_combo_changed)
 
-        self.tv_logo.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size("/usr/share/hypnotix/pictures/tv.svg", 258, 258))
-        self.movies_logo.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size("/usr/share/hypnotix/pictures/movies.svg", 258, 258))
-        self.series_logo.set_from_pixbuf(GdkPixbuf.Pixbuf.new_from_file_at_size("/usr/share/hypnotix/pictures/series.svg", 258, 258))
+        self.tv_logo.set_from_surface(self.get_surface_for_file("/usr/share/hypnotix/pictures/tv.svg", 258, 258))
+        self.movies_logo.set_from_surface(self.get_surface_for_file("/usr/share/hypnotix/pictures/movies.svg", 258, 258))
+        self.series_logo.set_from_surface(self.get_surface_for_file("/usr/share/hypnotix/pictures/series.svg", 258, 258))
 
         self.reload(page="landing_page")
 
@@ -297,15 +296,29 @@ class MainWindow():
         self.video_bitrates = []
         self.audio_bitrates = []
 
+
+    def get_surface_for_file(self, filename, width, height):
+        scale = self.window.get_scale_factor()
+        if width != -1:
+            width = width * scale
+        if height != -1:
+            height = height * scale
+
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(filename, width, height)
+        surface = Gdk.cairo_surface_create_from_pixbuf(pixbuf, scale)
+        return surface
+
+    def get_surf_based_image(self, filename, width, height):
+        surf = self.get_surface_for_file(filename, width, height)
+        return Gtk.Image.new_from_surface(surf)
+
     def add_badge(self, word, box, added_words):
         if word not in added_words:
             for extension in ["svg", "png"]:
                 badge = "/usr/share/hypnotix/pictures/badges/%s.%s" % (word, extension)
                 if os.path.exists(badge):
                     try:
-                        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(badge, -1, 16)
-                        surface = Gdk.cairo_surface_create_from_pixbuf(pixbuf, self.window.get_scale_factor())
-                        image = Gtk.Image().new_from_surface(surface)
+                        image = self.get_surf_based_image(badge, -1, 32)
                         box.pack_start(image, False, False, 0)
                         added_words.append(word)
                         break
@@ -382,9 +395,7 @@ class MainWindow():
                 label.set_max_width_chars(30)
                 label.set_ellipsize(Pango.EllipsizeMode.END)
                 box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-                pixbuf = self.get_pixbuf(channel.logo_path)
-                surface = Gdk.cairo_surface_create_from_pixbuf(pixbuf, self.window.get_scale_factor())
-                image = Gtk.Image().new_from_surface(surface)
+                image = Gtk.Image().new_from_surface(self.get_channel_surface(channel.logo_path))
                 logos_to_refresh.append((channel, image))
                 box.pack_start(image, False, False, 0)
                 box.pack_start(label, False, False, 0)
@@ -413,9 +424,7 @@ class MainWindow():
             label.set_max_width_chars(30)
             label.set_ellipsize(Pango.EllipsizeMode.END)
             box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-            pixbuf = self.get_pixbuf(item.logo_path)
-            surface = Gdk.cairo_surface_create_from_pixbuf(pixbuf, self.window.get_scale_factor())
-            image = Gtk.Image().new_from_surface(surface)
+            image = Gtk.Image().new_from_surface(self.get_channel_surface(item.logo_path))
             logos_to_refresh.append((item, image))
             box.pack_start(image, False, False, 0)
             box.pack_start(label, False, False, 0)
@@ -462,9 +471,7 @@ class MainWindow():
                 label.set_max_width_chars(30)
                 label.set_ellipsize(Pango.EllipsizeMode.END)
                 box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-                pixbuf = self.get_pixbuf(episode.logo_path)
-                surface = Gdk.cairo_surface_create_from_pixbuf(pixbuf, self.window.get_scale_factor())
-                image = Gtk.Image().new_from_surface(surface)
+                image = Gtk.Image().new_from_surface(self.get_channel_surface(episode.logo_path))
                 logos_to_refresh.append((episode, image))
                 box.pack_start(image, False, False, 0)
                 box.pack_start(label, False, False, 0)
@@ -524,21 +531,19 @@ class MainWindow():
 
     @idle_function
     def refresh_channel_logo(self, channel, image):
-        pixbuf = self.get_pixbuf(channel.logo_path)
-        surface = Gdk.cairo_surface_create_from_pixbuf(pixbuf, self.window.get_scale_factor())
-        image.set_from_surface(surface)
+        image.set_from_surface(self.get_channel_surface(channel.logo_path))
 
-    def get_pixbuf(self, path):
+    def get_channel_surface(self, path):
         try:
             if self.content_type == TV_GROUP:
-                pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(path, 64, 32)
+                surface = self.get_surface_for_file(path, 64, 32)
             elif self.content_type == MOVIES_GROUP:
-                pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(path, 200, 200)
+                surface = self.get_surface_for_file(path, 200, 200)
             else:
-                pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(path, 200, 200)
+                surface = self.get_surface_for_file(path, 200, 200)
         except:
-            pixbuf = self.generic_channel_pixbuf
-        return pixbuf
+            surface = self.get_surface_for_file("/usr/share/hypnotix/generic_tv_logo.png", 22, 22)
+        return surface
 
     def on_go_back_button(self, widget):
         self.navigate_to(self.back_page)
@@ -621,7 +626,6 @@ class MainWindow():
             self.headerbar.set_title(provider.name)
             if self.content_type == TV_GROUP:
                 self.headerbar.set_subtitle(_("TV Channels"))
-                self.init_channels_flowbox()
             elif self.content_type == MOVIES_GROUP:
                 self.headerbar.set_subtitle(_("Movies"))
             else:

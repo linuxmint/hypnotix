@@ -10,7 +10,7 @@
   <object class="GtkWindow" id="main_window">
     <property name="can_focus">False</property>
     <property name="default_width">600</property>
-    <property name="default_height">400</property>
+    <property name="default_height">500</property>
     <property name="icon_name">hypnotix</property>
     <child type="titlebar">
       <object class="GtkHeaderBar" id="headerbar">
@@ -1182,7 +1182,7 @@
                                       <object class="GtkImage">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="icon_name">edit-add-symbolic</property>
+                                        <property name="icon_name">list-add-symbolic</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>

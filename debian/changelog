@@ -1,3 +1,45 @@
+hypnotix (2.6) una; urgency=medium
+
+  * l10n: Update translations
+
+ -- Clement Lefebvre <root@linuxmint.com>  Fri, 31 Dec 2021 12:43:52 +0000
+
+hypnotix (2.5) una; urgency=medium
+
+  [ Jonathon ]
+  * Fix symlink target for irak.svg (#187)
+
+  [ Clement Lefebvre ]
+  * Fix channels when no groups are present
+  * UI: Fix symbolic icon name
+
+ -- Clement Lefebvre <root@linuxmint.com>  Fri, 31 Dec 2021 12:03:09 +0000
+
+hypnotix (2.4) una; urgency=medium
+
+  [ Michael Webster ]
+  * Use simpler country emblems.
+  * Fix some hidpi issues, increase initial window height to accomodate larger country badges.
+
+ -- Clement Lefebvre <root@linuxmint.com>  Thu, 16 Dec 2021 10:16:16 +0000
+
+hypnotix (2.3) una; urgency=medium
+
+  [ Claudio Olmi ]
+  * Relaxing channel name check in Xtream API (#178)
+
+  [ Brenders ]
+  * Series: Fix parsing of episodes which name isn't a number (#180)
+
+ -- Clement Lefebvre <root@linuxmint.com>  Wed, 08 Dec 2021 15:25:28 +0000
+
+hypnotix (2.2) una; urgency=medium
+
+  * l10n: Update translations
+  * l10n: Update files
+
+ -- Clement Lefebvre <root@linuxmint.com>  Mon, 06 Dec 2021 15:33:32 +0000
+
 hypnotix (2.1) una; urgency=medium
 
   [ lulol ]
