@@ -13,8 +13,8 @@ import time
 import traceback
 
 # Force Xwayland
-if os.environ.get("WAYLAND_DISPLAY"):
-    os.environ['GDK_BACKEND'] = "x11"
+if "WAYLAND_DISPLAY" in os.environ:
+    os.environ["WAYLAND_DISPLAY"] = ""
 
 # Suppress GTK deprecation warnings
 warnings.filterwarnings("ignore")
@@ -1402,9 +1402,8 @@ class MainWindow():
         while not self.mpv_drawing_area.get_window() and not Gtk.events_pending():
             time.sleep(0.1)
 
-        gpuctx = "x11egl" if os.environ.get('WAYLAND_DISPLAY') else "auto"
         self.mpv = mpv.MPV(**options, script_opts='osc-layout=box,osc-seekbarstyle=bar,osc-deadzonesize=0,osc-minmousemove=3', input_default_bindings=True, \
-             input_vo_keyboard=True,osc=True, ytdl=True, wid=str(self.mpv_drawing_area.get_window().get_xid()), gpu_context=gpuctx)
+             input_vo_keyboard=True,osc=True, ytdl=True, wid=str(self.mpv_drawing_area.get_window().get_xid()))
 
     def on_mpv_drawing_area_draw(self, widget, cr):
         cr.set_source_rgb(0.0, 0.0, 0.0)
