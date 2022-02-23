@@ -12,7 +12,7 @@ import sys
 import time
 import traceback
 
-# Force Xwayland
+# Force X11 on a Wayland session
 if "WAYLAND_DISPLAY" in os.environ:
     os.environ["WAYLAND_DISPLAY"] = ""
 
