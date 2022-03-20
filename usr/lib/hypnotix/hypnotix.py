@@ -1317,7 +1317,7 @@ class MainWindow():
                     # Load xtream class
                     from xtream import XTream
                     # Download via Xtream
-                    self.x = XTream(provider.name,provider.username,provider.password,provider.url,os.path.expanduser("~/.hypnotix/providers"))
+                    self.x = XTream(provider.name,provider.username,provider.password,provider.url,os.path.expanduser("~/.cache/hypnotix/providers"))
                     if self.x.auth_data != {}:
                         print("XTREAM `{}` Loading Channels".format(provider.name))
                         self.x.load_iptv()

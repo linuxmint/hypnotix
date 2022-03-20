@@ -15,7 +15,7 @@ PARAMS = re.compile(r'(\S+)="(.*?)"')
 EXTINF = re.compile(r'^#EXTINF:(?P<duration>-?\d+?) ?(?P<params>.*),(?P<title>.*?)$')
 SERIES = re.compile(r"(?P<series>.*?) S(?P<season>.\d{1,2}).*E(?P<episode>.\d{1,2}.*)$", re.IGNORECASE)
 
-PROVIDERS_PATH = os.path.expanduser("~/.hypnotix/providers")
+PROVIDERS_PATH = os.path.expanduser("~/.cache/hypnotix/providers")
 
 TV_GROUP, MOVIES_GROUP, SERIES_GROUP = range(3)
 
