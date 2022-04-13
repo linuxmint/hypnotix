@@ -7,7 +7,7 @@ import shutil
 import string
 import threading
 import re
-from gi.repository import GObject
+from gi.repository import GLib, GObject
 from random import choice
 
 # M3U parsing regex
@@ -15,7 +15,7 @@ PARAMS = re.compile(r'(\S+)="(.*?)"')
 EXTINF = re.compile(r'^#EXTINF:(?P<duration>-?\d+?) ?(?P<params>.*),(?P<title>.*?)$')
 SERIES = re.compile(r"(?P<series>.*?) S(?P<season>.\d{1,2}).*E(?P<episode>.\d{1,2}.*)$", re.IGNORECASE)
 
-PROVIDERS_PATH = os.path.expanduser("~/.cache/hypnotix/providers")
+PROVIDERS_PATH = os.path.join(GLib.get_user_cache_dir(), "hypnotix/providers")
 
 TV_GROUP, MOVIES_GROUP, SERIES_GROUP = range(3)
 
