@@ -1283,7 +1283,7 @@ class MainWindow():
 
     @async_function
     def reload(self, page=None, refresh=False):
-        self.status("Loading providers...")
+        self.status(_("Loading providers..."))
         self.providers = []
         for provider_info in self.settings.get_strv("providers"):
             try:
@@ -1296,14 +1296,14 @@ class MainWindow():
                 if provider.type_id != "xtream":
                     # Download M3U
                     if refresh:
-                        self.status("Downloading playlist...", provider)
+                        self.status(_("Downloading playlist..."), provider)
                     else:
-                        self.status("Getting playlist...", provider)
+                        self.status(_("Getting playlist..."), provider)
                     ret = self.manager.get_playlist(provider, refresh=refresh)
                     if ret:
-                        self.status("Checking playlist...", provider)
+                        self.status(_("Checking playlist..."), provider)
                         if (self.manager.check_playlist(provider)):
-                            self.status("Loading channels...", provider)
+                            self.status(_("Loading channels..."), provider)
                             self.manager.load_channels(provider)
                             if provider.name == self.settings.get_string("active-provider"):
                                 self.active_provider = provider
@@ -1311,7 +1311,7 @@ class MainWindow():
                             print("%s: %d channels, %d groups, %d series, %d movies" % (provider.name, \
                                 len(provider.channels), len(provider.groups), len(provider.series), len(provider.movies)))
                     else:
-                        self.status("Failed to Download playlist from {}".format(provider.name),provider)
+                        self.status(_("Failed to Download playlist from {}").format(provider.name), provider)
 
                 else:
                     # Load xtream class
