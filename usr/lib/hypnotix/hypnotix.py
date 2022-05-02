@@ -12,6 +12,10 @@ import sys
 import time
 import traceback
 
+# Force X11 on a Wayland session
+if "WAYLAND_DISPLAY" in os.environ:
+    os.environ["WAYLAND_DISPLAY"] = ""
+
 # Suppress GTK deprecation warnings
 warnings.filterwarnings("ignore")
 
