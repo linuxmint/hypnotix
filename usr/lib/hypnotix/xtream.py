@@ -81,7 +81,7 @@ class Channel():
 
             # Check if category_id key is available
             if "category_id" in stream_info.keys():
-                self.group_id = stream_info['category_id']
+                self.group_id = int(stream_info['category_id'])
 
             if stream_type == "live":
                 stream_extension = "ts"
@@ -159,7 +159,7 @@ class Group():
 
         # Check if category_id key is available
         if "category_id" in group_info.keys():
-            self.group_id = group_info['category_id']
+            self.group_id = int(group_info['category_id'])
 
 class Episode():
     # Required by Hypnotix
@@ -228,7 +228,7 @@ class Serie():
 
         # Check if category_id key is available
         if "series_id" in series_info.keys():
-            self.series_id = series_info['series_id']
+            self.series_id = int(series_info['series_id'])
 
         # Check if plot key is available
         if "plot" in series_info.keys():
@@ -275,7 +275,7 @@ class XTream():
             "category_name":"xEverythingElse",
             "parent_id":0
         },
-        live_type
+        ""
     )
     # If the cached JSON file is older than threshold_time_sec then load a new
     # JSON dictionary from the provider
@@ -541,14 +541,16 @@ class XTream():
                 ))
                 ## Add GROUPS to dictionaries
 
-                # Add the catch-all-errors group
-                self.groups.append(self.catch_all_group)
-
                 for cat_obj in all_cat:
                     # Create Group (Category)
                     new_group = Group(cat_obj, loading_stream_type)
                     #  Add to xtream class
                     self.groups.append(new_group)
+                    
+                # Add the catch-all-errors group
+                #self.groups.append(self.catch_all_group)
+                self.groups.append(Group({"category_id": "9999","category_name":"xEverythingElse","parent_id":0},loading_stream_type))
+                
             else:
                 print("Could not load {} Groups".format(loading_stream_type))
                 break
@@ -592,7 +594,7 @@ class XTream():
                             # Find the first occurence of the group that the
                             # Channel or Stream is pointing to
                             the_group = next(
-                                (x for x in self.groups if x.group_id == stream_channel['category_id']),
+                                (x for x in self.groups if x.group_id == int(stream_channel['category_id'])),
                                 None
                             )
 
