@@ -566,6 +566,9 @@ class XTream():
                             #  Add to xtream class
                             self.groups.append(new_group)
 
+                        # Add the catch-all-errors group
+                        self.groups.append(Group({"category_id": "9999","category_name":"xEverythingElse","parent_id":0},loading_stream_type))
+
                         # Sort Categories
                         self.groups.sort(key=lambda x: x.name)
                     else:
@@ -630,7 +633,7 @@ class XTream():
                                 # Find the first occurence of the group that the
                                 # Channel or Stream is pointing to
                                 the_group = next(
-                                    (x for x in self.groups if x.group_id == stream_channel['category_id']),
+                                    (x for x in self.groups if x.group_id == int(stream_channel['category_id'])),
                                     None
                                 )
 
