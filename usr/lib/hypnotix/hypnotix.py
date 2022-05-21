@@ -585,7 +585,7 @@ class MainWindow():
             self.show_channels(self.active_provider.channels)
         print("Filtering %d channel names containing the string '%s'..." % (len(self.channels_flowbox.get_children()), self.latest_search_bar_text))
         if self.visible_search_results == 0:
-            self.status(_("No channel name (of %d) contains \"%s\". Clear the search box and press ENTER to restore the current list of channels.") % (len(self.channels_flowbox.get_children()), self.latest_search_bar_text))
+            self.status(_("No channels found"))
         else:
             self.status(None)
         self.search_bar.set_sensitive(True)
