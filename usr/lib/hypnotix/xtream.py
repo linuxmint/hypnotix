@@ -81,7 +81,7 @@ class Channel():
 
             # Check if category_id key is available
             if "category_id" in stream_info.keys():
-                self.group_id = stream_info['category_id']
+                self.group_id = int(stream_info['category_id'])
 
             if stream_type == "live":
                 stream_extension = "ts"
@@ -159,7 +159,7 @@ class Group():
 
         # Check if category_id key is available
         if "category_id" in group_info.keys():
-            self.group_id = group_info['category_id']
+            self.group_id = int(group_info['category_id'])
 
 class Episode():
     # Required by Hypnotix
@@ -228,7 +228,7 @@ class Serie():
 
         # Check if category_id key is available
         if "series_id" in series_info.keys():
-            self.series_id = series_info['series_id']
+            self.series_id = int(series_info['series_id'])
 
         # Check if plot key is available
         if "plot" in series_info.keys():
@@ -279,7 +279,7 @@ class XTream():
             "category_name":"xEverythingElse",
             "parent_id":0
         },
-        live_type
+        ""
     )
     # If the cached JSON file is older than threshold_time_sec then load a new
     # JSON dictionary from the provider
