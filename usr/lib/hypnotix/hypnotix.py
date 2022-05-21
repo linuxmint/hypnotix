@@ -103,6 +103,7 @@ class MainWindow():
         self.active_channel = None
         self.fullscreen = False
         self.latest_search_bar_text = None
+        self.visible_search_results = 0
         self.mpv = None
         self.ia = IMDb()
 
@@ -407,6 +408,7 @@ class MainWindow():
                 button.add(box)
                 self.channels_flowbox.add(button)
             self.channels_flowbox.show_all()
+            self.visible_search_results = len(self.channels_flowbox.get_children())
             if len(logos_to_refresh) > 0:
                 self.download_channel_logos(logos_to_refresh)
         else:
@@ -576,15 +578,20 @@ class MainWindow():
             search_bar_text = unidecode(self.search_bar.get_text()).lower()
             label_text = unidecode(child.get_children()[0].get_children()[0].get_children()[1].get_text()).lower()
             if search_bar_text in label_text:
+                self.visible_search_results += 1
                 return True
             else:
                 return False
 
+        self.visible_search_results = 0
         self.channels_flowbox.set_filter_func(filter_func)
         if not self.channels_flowbox.get_children():
             self.show_channels(self.active_provider.channels)
-        self.status(None)
         print("Filtering %d channel names containing the string '%s'..." % (len(self.channels_flowbox.get_children()), self.latest_search_bar_text))
+        if self.visible_search_results == 0:
+            self.status(_("No channels found"))
+        else:
+            self.status(None)
         self.search_bar.set_sensitive(True)
         self.search_bar.grab_focus_without_selecting()
         self.navigate_to("channels_page")
@@ -595,6 +602,7 @@ class MainWindow():
         for child in self.channels_flowbox.get_children():
             self.channels_flowbox.remove(child)
         self.channels_flowbox.invalidate_filter()
+        self.visible_search_results = 0
 
     @idle_function
     def navigate_to(self, page, name=""):
