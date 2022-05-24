@@ -394,6 +394,7 @@ class MainWindow():
                 self.channels_flowbox.remove(child)
             for channel in channels:
                 button = Gtk.Button()
+                button.set_tooltip_text(channel.name)
                 button.connect("clicked", self.on_channel_button_clicked, channel)
                 label = Gtk.Label()
                 label.set_text(channel.name)
@@ -421,6 +422,7 @@ class MainWindow():
             self.vod_flowbox.remove(child)
         for item in items:
             button = Gtk.Button()
+            button.set_tooltip_text(item.name)
             if self.content_type == MOVIES_GROUP:
                 button.connect("clicked", self.on_vod_movie_button_clicked, item)
             else:
@@ -471,6 +473,7 @@ class MainWindow():
             for episode_name in season.episodes.keys():
                 episode = season.episodes[episode_name]
                 button = Gtk.Button()
+                button.set_tooltip_text(episode_name)
                 button.connect("clicked", self.on_episode_button_clicked, episode)
                 label = Gtk.Label()
                 label.set_text(_("Episode %s") % episode_name)
