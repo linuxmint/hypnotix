@@ -1329,10 +1329,23 @@ class MainWindow():
                     # Load xtream class
                     from xtream import XTream
                     # Download via Xtream
-                    self.x = XTream(provider.name,provider.username,provider.password,provider.url,PROVIDERS_PATH)
+                    self.x = XTream(provider.name,
+                                    provider.username,
+                                    provider.password,
+                                    provider.url,
+                                    hide_adult_content=False,
+                                    cache_path=PROVIDERS_PATH
+                                    )
                     if self.x.auth_data != {}:
                         print("XTREAM `{}` Loading Channels".format(provider.name))
+                        # Save default cursor
+                        current_cursor = self.window.get_window().get_cursor()
+                        # Set waiting cursor
+                        self.window.get_window().set_cursor(Gdk.Cursor.new_from_name(Gdk.Display.get_default(), 'wait'))
+                        # Load data
                         self.x.load_iptv()
+                        # Restore default cursor
+                        self.window.get_window().set_cursor(current_cursor)
                         # Inform Provider of data
                         provider.channels = self.x.channels
                         provider.movies = self.x.movies
