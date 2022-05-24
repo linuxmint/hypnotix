@@ -103,7 +103,6 @@ class MainWindow():
         self.active_channel = None
         self.fullscreen = False
         self.latest_search_bar_text = None
-        self.visible_search_results = 0
         self.mpv = None
         self.ia = IMDb()
 
@@ -394,10 +393,10 @@ class MainWindow():
                 self.channels_flowbox.remove(child)
             for channel in channels:
                 button = Gtk.Button()
-                button.set_tooltip_text(channel.name)
                 button.connect("clicked", self.on_channel_button_clicked, channel)
                 label = Gtk.Label()
                 label.set_text(channel.name)
+                label.set_tooltip_text(channel.name)
                 label.set_max_width_chars(30)
                 label.set_ellipsize(Pango.EllipsizeMode.END)
                 box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
@@ -409,7 +408,6 @@ class MainWindow():
                 button.add(box)
                 self.channels_flowbox.add(button)
             self.channels_flowbox.show_all()
-            self.visible_search_results = len(self.channels_flowbox.get_children())
             if len(logos_to_refresh) > 0:
                 self.download_channel_logos(logos_to_refresh)
         else:
@@ -422,13 +420,13 @@ class MainWindow():
             self.vod_flowbox.remove(child)
         for item in items:
             button = Gtk.Button()
-            button.set_tooltip_text(item.name)
             if self.content_type == MOVIES_GROUP:
                 button.connect("clicked", self.on_vod_movie_button_clicked, item)
             else:
                 button.connect("clicked", self.on_vod_series_button_clicked, item)
             label = Gtk.Label()
             label.set_text(item.name)
+            label.set_tooltip_text(item.name)
             label.set_max_width_chars(30)
             label.set_ellipsize(Pango.EllipsizeMode.END)
             box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
@@ -473,10 +471,10 @@ class MainWindow():
             for episode_name in season.episodes.keys():
                 episode = season.episodes[episode_name]
                 button = Gtk.Button()
-                button.set_tooltip_text(episode_name)
                 button.connect("clicked", self.on_episode_button_clicked, episode)
                 label = Gtk.Label()
                 label.set_text(_("Episode %s") % episode_name)
+                label.set_tooltip_text(episode_name)
                 label.set_max_width_chars(30)
                 label.set_ellipsize(Pango.EllipsizeMode.END)
                 box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
@@ -581,20 +579,15 @@ class MainWindow():
             search_bar_text = unidecode(self.search_bar.get_text()).lower()
             label_text = unidecode(child.get_children()[0].get_children()[0].get_children()[1].get_text()).lower()
             if search_bar_text in label_text:
-                self.visible_search_results += 1
                 return True
             else:
                 return False
 
-        self.visible_search_results = 0
         self.channels_flowbox.set_filter_func(filter_func)
         if not self.channels_flowbox.get_children():
             self.show_channels(self.active_provider.channels)
+        self.status(None)
         print("Filtering %d channel names containing the string '%s'..." % (len(self.channels_flowbox.get_children()), self.latest_search_bar_text))
-        if self.visible_search_results == 0:
-            self.status(_("No channels found"))
-        else:
-            self.status(None)
         self.search_bar.set_sensitive(True)
         self.search_bar.grab_focus_without_selecting()
         self.navigate_to("channels_page")
@@ -605,7 +598,6 @@ class MainWindow():
         for child in self.channels_flowbox.get_children():
             self.channels_flowbox.remove(child)
         self.channels_flowbox.invalidate_filter()
-        self.visible_search_results = 0
 
     @idle_function
     def navigate_to(self, page, name=""):
@@ -1332,23 +1324,10 @@ class MainWindow():
                     # Load xtream class
                     from xtream import XTream
                     # Download via Xtream
-                    self.x = XTream(provider.name,
-                                    provider.username,
-                                    provider.password,
-                                    provider.url,
-                                    hide_adult_content=False,
-                                    cache_path=PROVIDERS_PATH
-                                    )
+                    self.x = XTream(provider.name,provider.username,provider.password,provider.url,os.path.expanduser("~/.hypnotix/providers"))
                     if self.x.auth_data != {}:
                         print("XTREAM `{}` Loading Channels".format(provider.name))
-                        # Save default cursor
-                        current_cursor = self.window.get_window().get_cursor()
-                        # Set waiting cursor
-                        self.window.get_window().set_cursor(Gdk.Cursor.new_from_name(Gdk.Display.get_default(), 'wait'))
-                        # Load data
                         self.x.load_iptv()
-                        # Restore default cursor
-                        self.window.get_window().set_cursor(current_cursor)
                         # Inform Provider of data
                         provider.channels = self.x.channels
                         provider.movies = self.x.movies
