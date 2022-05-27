@@ -965,7 +965,7 @@ class MainWindow():
             button.set_relief(Gtk.ReliefStyle.NONE)
             button.connect("clicked", self.on_edit_button_clicked, provider)
             image = Gtk.Image()
-            image.set_from_icon_name("list-edit-symbolic", Gtk.IconSize.BUTTON)
+            image.set_from_icon_name("document-properties-symbolic", Gtk.IconSize.BUTTON)
             button.set_tooltip_text(_("Edit"))
             button.add(image)
             box.pack_start(button, False, False, 0)
