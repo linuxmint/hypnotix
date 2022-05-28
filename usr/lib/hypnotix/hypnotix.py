@@ -11,6 +11,7 @@ import warnings
 import sys
 import time
 import traceback
+from pathlib import Path
 
 # Force X11 on a Wayland session
 if "WAYLAND_DISPLAY" in os.environ:
@@ -84,6 +85,17 @@ class MyApplication(Gtk.Application):
             window = MainWindow(self)
             self.add_window(window.window)
             window.window.show()
+
+
+def create_button_with_image(tooltip_text: str, icon_name: str) -> Gtk.Button:
+    button = Gtk.Button()
+    button.set_relief(Gtk.ReliefStyle.NONE)
+    button.set_tooltip_text(tooltip_text)
+    image = Gtk.Image()
+    image.set_from_icon_name(icon_name, Gtk.IconSize.BUTTON)
+    button.add(image)
+    return button
+
 
 class MainWindow():
 
@@ -961,23 +973,18 @@ class MainWindow():
             box.set_spacing(6)
 
             # Edit button
-            button = Gtk.Button()
-            button.set_relief(Gtk.ReliefStyle.NONE)
+            button = create_button_with_image(_("Edit"), "list-edit-symbolic")
             button.connect("clicked", self.on_edit_button_clicked, provider)
-            image = Gtk.Image()
-            image.set_from_icon_name("list-edit-symbolic", Gtk.IconSize.BUTTON)
-            button.set_tooltip_text(_("Edit"))
-            button.add(image)
+            box.pack_start(button, False, False, 0)
+
+            # Clear icon cache button
+            button = create_button_with_image(_("Clear icon cache"), "edit-clear-symbolic")
+            button.connect("clicked", self.on_clear_icon_cache_button_clicked, provider)
             box.pack_start(button, False, False, 0)
 
             # Remove button
-            button = Gtk.Button()
-            button.set_relief(Gtk.ReliefStyle.NONE)
+            button = create_button_with_image(_("Remove"), "edit-delete-symbolic")
             button.connect("clicked", self.on_delete_button_clicked, provider)
-            image = Gtk.Image()
-            image.set_from_icon_name("edit-delete-symbolic", Gtk.IconSize.BUTTON)
-            button.set_tooltip_text(_("Remove"))
-            button.add(image)
             box.pack_start(button, False, False, 0)
 
             self.providers_flowbox.add(box)
@@ -1016,6 +1023,12 @@ class MainWindow():
     def on_close_info_window(self, widget, event):
         self.info_window.hide()
         return True
+
+    @async_function
+    def on_clear_icon_cache_button_clicked(self, widget, provider: Provider):
+        for channel in provider.channels:
+            if channel.logo_path:
+                Path(channel.logo_path).unlink(missing_ok=True)
 
     def on_delete_button_clicked(self, widget, provider):
         self.navigate_to("delete_page", provider.name)
