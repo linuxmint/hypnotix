@@ -19,20 +19,16 @@ Github: superolmo
 __version__ = '0.5.0'
 __author__ = 'Claudio Olmi'
 
-from typing import List, Tuple
-import requests
+import json
+import re  # used for URL validation
 import time
 from os import path as osp
 from os import makedirs
-from os import remove
+from timeit import default_timer as timer  # Timing xtream json downloads
+from typing import List, Tuple
 
-# Timing xtream json downloads
-from timeit import default_timer as timer, timeit
+import requests
 
-import json
-
-# used for URL validation
-import re
 
 class Channel():
     # Required by Hypnotix
@@ -613,7 +609,7 @@ class XTream():
 
                             # Skip if the user chose to hide adult streams
                             if self.hide_adult_content and loading_stream_type == self.live_type:
-                                try: 
+                                try:
                                     if stream_channel['is_adult'] == "1":
                                         skip_stream = True
                                         skipped_adult_content = skipped_adult_content + 1
@@ -679,7 +675,7 @@ class XTream():
                                         the_group.series.append(new_series)
                                 else:
                                     print(" - Group not found `{}`".format(stream_channel['name']))
-                        
+
                         # Print information of which streams have been skipped
                         if self.hide_adult_content:
                             print(" - Skipped {} adult {} streams".format(skipped_adult_content, loading_stream_type))
@@ -687,7 +683,7 @@ class XTream():
                             print(" - Skipped {} unprintable {} streams".format(skipped_no_name_content, loading_stream_type))
                     else:
                         print(" - Could not load {} Streams".format(loading_stream_type))
-                    
+
                     self.state['loaded'] = True
 
             else:
