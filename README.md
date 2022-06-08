@@ -47,3 +47,21 @@ If you're using Wayland go the Hypnotix preferences and add the following to the
 Run Hypnotix with:
 
 `GDK_BACKEND=x11 hypnotix`
+
+# Ubuntu package (.deb) building and installation
+
+- git clone https://github.com/linuxmint/hypnotix.git
+
+- sudo apt install dh-make build-essential devscripts fakeroot
+
+- dpkg-buildpackage -us -uc (within Github main created dir: hypnotix)
+
+- Remove old (.deb) package and install new one with right mouse click on it and open with "Software Install"
+    
+    or
+
+- dpkg -i hypnotix_xx_all.deb
+
+- sudo apt -f install (to fix error)
+
+Now Ready to go!
