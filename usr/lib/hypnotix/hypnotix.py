@@ -11,6 +11,7 @@ import warnings
 import sys
 import time
 import traceback
+from pathlib import Path
 
 # Force X11 on a Wayland session
 if "WAYLAND_DISPLAY" in os.environ:
@@ -970,6 +971,16 @@ class MainWindow():
             button.add(image)
             box.pack_start(button, False, False, 0)
 
+            # Clear icon cache button
+            button = Gtk.Button()
+            button.set_relief(Gtk.ReliefStyle.NONE)
+            button.connect("clicked", self.on_clear_icon_cache_button_clicked, provider)
+            image = Gtk.Image()
+            image.set_from_icon_name("edit-clear-symbolic", Gtk.IconSize.BUTTON)
+            button.set_tooltip_text(_("Clear icon cache"))
+            button.add(image)
+            box.pack_start(button, False, False, 0)
+
             # Remove button
             button = Gtk.Button()
             button.set_relief(Gtk.ReliefStyle.NONE)
@@ -1016,6 +1027,12 @@ class MainWindow():
     def on_close_info_window(self, widget, event):
         self.info_window.hide()
         return True
+
+    @async_function
+    def on_clear_icon_cache_button_clicked(self, widget, provider: Provider):
+        for channel in provider.channels:
+            if channel.logo_path:
+                Path(channel.logo_path).unlink(missing_ok=True)
 
     def on_delete_button_clicked(self, widget, provider):
         self.navigate_to("delete_page", provider.name)
