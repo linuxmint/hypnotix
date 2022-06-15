@@ -1,3 +1,41 @@
+hypnotix (2.7) vanessa; urgency=medium
+
+  [ Carmina16 ]
+  * Mark missed strings for translatrion (#212)
+
+  [ lulol ]
+  * Make non translatable strings translatable #208 (#209)
+
+  [ Azureit ]
+  * Use XWayland as a workaround for Wayland support. (#205)
+
+  [ Arkadiy Illarionov ]
+  * Save providers to ~/.cache (#220)
+
+  [ AboBier ]
+  * Fix XTream API (#203)
+
+  [ lulol ]
+  * Show feedback in the status bar when search has no results (#210)
+
+  [ Claudio Olmi ]
+  * Improvements for XTream API (#217)
+
+  [ lulol ]
+  * Add widget tooltips with channel name (#228)
+
+  [ Clement Lefebvre ]
+  * Switch icon list-edit-symbolic -> xapp-edit-symbolic
+  *  Add 'Clear icon cache' button for provider #230
+
+  [ Arkadiy Illarionov ]
+  * Optimize imports (#231)
+
+  [ Clement Lefebvre ]
+  * l10n: Update POT
+
+ -- Clement Lefebvre <root@linuxmint.com>  Wed, 15 Jun 2022 17:41:13 +0200
+
 hypnotix (2.6) una; urgency=medium
 
   * l10n: Update translations
