@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-23 12:21+0000\n"
+"POT-Creation-Date: 2022-06-15 17:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,220 +18,267 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: usr/lib/hypnotix/hypnotix.py:119 usr/lib/hypnotix/hypnotix.py:696
-#: usr/lib/hypnotix/hypnotix.py:1214 generate_desktop_files:25
+#: usr/lib/hypnotix/hypnotix.py:123 usr/lib/hypnotix/hypnotix.py:714
+#: usr/lib/hypnotix/hypnotix.py:1248 generate_desktop_files:25
 #: usr/share/hypnotix/hypnotix.ui.h:1
 msgid "Hypnotix"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:238 usr/share/hypnotix/shortcuts.ui.h:6
+#: usr/lib/hypnotix/hypnotix.py:241 usr/share/hypnotix/shortcuts.ui.h:6
 msgid "Keyboard Shortcuts"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:245 usr/share/hypnotix/hypnotix.ui.h:35
+#: usr/lib/hypnotix/hypnotix.py:248 usr/share/hypnotix/hypnotix.ui.h:35
 #: usr/share/hypnotix/shortcuts.ui.h:3
 msgid "Stream Information"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:253 usr/lib/hypnotix/hypnotix.py:1213
+#: usr/lib/hypnotix/hypnotix.py:256 usr/lib/hypnotix/hypnotix.py:1247
 #: usr/share/hypnotix/shortcuts.ui.h:2
 msgid "About"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:258 usr/share/hypnotix/shortcuts.ui.h:8
+#: usr/lib/hypnotix/hypnotix.py:261 usr/share/hypnotix/shortcuts.ui.h:8
 msgid "Quit"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:271
+#: usr/lib/hypnotix/hypnotix.py:274
 msgid "M3U URL"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:272
+#: usr/lib/hypnotix/hypnotix.py:275
 msgid "Local M3U File"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:273
+#: usr/lib/hypnotix/hypnotix.py:276
 msgid "Xtream API"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:451
+#: usr/lib/hypnotix/hypnotix.py:467
 #, python-format
 msgid "Season %s"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:461
+#: usr/lib/hypnotix/hypnotix.py:478
 #, python-format
 msgid "Episode %s"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:601
+#: usr/lib/hypnotix/hypnotix.py:594
+msgid "No channels found"
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:620
 msgid "No provider selected"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:623 usr/lib/hypnotix/hypnotix.py:636
+#: usr/lib/hypnotix/hypnotix.py:621 usr/lib/hypnotix/hypnotix.py:630
+#, python-format
+msgid "TV Channels (%d)"
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:622 usr/lib/hypnotix/hypnotix.py:631
+#, python-format
+msgid "Movies (%d)"
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:623 usr/lib/hypnotix/hypnotix.py:632
+#, python-format
+msgid "Series (%d)"
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:642 usr/lib/hypnotix/hypnotix.py:654
 msgid "TV Channels"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:626 usr/lib/hypnotix/hypnotix.py:651
+#: usr/lib/hypnotix/hypnotix.py:644 usr/lib/hypnotix/hypnotix.py:669
 msgid "Movies"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:628 usr/lib/hypnotix/hypnotix.py:658
+#: usr/lib/hypnotix/hypnotix.py:646 usr/lib/hypnotix/hypnotix.py:676
 msgid "Series"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:639
+#: usr/lib/hypnotix/hypnotix.py:657
 #, python-format
 msgid "TV Channels > %s"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:654
+#: usr/lib/hypnotix/hypnotix.py:672
 #, python-format
 msgid "Movies > %s"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:661
+#: usr/lib/hypnotix/hypnotix.py:679
 #, python-format
 msgid "Series > %s"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:669 usr/share/hypnotix/hypnotix.ui.h:6
+#: usr/lib/hypnotix/hypnotix.py:687 usr/share/hypnotix/hypnotix.ui.h:6
 msgid "Preferences"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:673 usr/share/hypnotix/hypnotix.ui.h:5
+#: usr/lib/hypnotix/hypnotix.py:691 usr/share/hypnotix/hypnotix.ui.h:5
 msgid "Providers"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:678
+#: usr/lib/hypnotix/hypnotix.py:696
 #, python-format
 msgid "Edit %s"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:680
+#: usr/lib/hypnotix/hypnotix.py:698
 msgid "Add a new provider"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:684
+#: usr/lib/hypnotix/hypnotix.py:702
 #, python-format
 msgid "Delete %s"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:688
+#: usr/lib/hypnotix/hypnotix.py:706
 msgid "Reset providers"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:726 usr/lib/hypnotix/hypnotix.py:730
-#: usr/lib/hypnotix/hypnotix.py:782 usr/lib/hypnotix/hypnotix.py:784
-#: usr/lib/hypnotix/hypnotix.py:791 usr/lib/hypnotix/hypnotix.py:794
-#: usr/lib/hypnotix/hypnotix.py:806 usr/lib/hypnotix/hypnotix.py:819
-#: usr/lib/hypnotix/hypnotix.py:824 usr/lib/hypnotix/hypnotix.py:832
-#: usr/lib/hypnotix/hypnotix.py:1166 usr/lib/hypnotix/hypnotix.py:1168
-#: usr/lib/hypnotix/hypnotix.py:1193 usr/lib/hypnotix/hypnotix.py:1197
+#: usr/lib/hypnotix/hypnotix.py:744 usr/lib/hypnotix/hypnotix.py:748
+#: usr/lib/hypnotix/hypnotix.py:800 usr/lib/hypnotix/hypnotix.py:802
+#: usr/lib/hypnotix/hypnotix.py:809 usr/lib/hypnotix/hypnotix.py:812
+#: usr/lib/hypnotix/hypnotix.py:824 usr/lib/hypnotix/hypnotix.py:837
+#: usr/lib/hypnotix/hypnotix.py:842 usr/lib/hypnotix/hypnotix.py:850
+#: usr/lib/hypnotix/hypnotix.py:1200 usr/lib/hypnotix/hypnotix.py:1202
+#: usr/lib/hypnotix/hypnotix.py:1227 usr/lib/hypnotix/hypnotix.py:1231
 #: usr/share/hypnotix/hypnotix.ui.h:36
 msgid "General"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:727 usr/lib/hypnotix/hypnotix.py:796
-#: usr/lib/hypnotix/hypnotix.py:798 usr/lib/hypnotix/hypnotix.py:800
-#: usr/lib/hypnotix/hypnotix.py:1167 usr/share/hypnotix/hypnotix.ui.h:38
+#: usr/lib/hypnotix/hypnotix.py:745 usr/lib/hypnotix/hypnotix.py:814
+#: usr/lib/hypnotix/hypnotix.py:816 usr/lib/hypnotix/hypnotix.py:818
+#: usr/lib/hypnotix/hypnotix.py:1201 usr/share/hypnotix/hypnotix.ui.h:38
 msgid "Color"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:731 usr/lib/hypnotix/hypnotix.py:816
-#: usr/lib/hypnotix/hypnotix.py:826 usr/lib/hypnotix/hypnotix.py:1169
+#: usr/lib/hypnotix/hypnotix.py:749 usr/lib/hypnotix/hypnotix.py:834
+#: usr/lib/hypnotix/hypnotix.py:844 usr/lib/hypnotix/hypnotix.py:1203
 #: usr/share/hypnotix/hypnotix.ui.h:40
 msgid "Layout"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:767 usr/lib/hypnotix/hypnotix.py:768
-#: usr/lib/hypnotix/hypnotix.py:782 usr/lib/hypnotix/hypnotix.py:784
-#: usr/lib/hypnotix/hypnotix.py:1189 usr/lib/hypnotix/hypnotix.py:1190
-#: usr/lib/hypnotix/hypnotix.py:1193 usr/lib/hypnotix/hypnotix.py:1197
+#: usr/lib/hypnotix/hypnotix.py:785 usr/lib/hypnotix/hypnotix.py:786
+#: usr/lib/hypnotix/hypnotix.py:800 usr/lib/hypnotix/hypnotix.py:802
+#: usr/lib/hypnotix/hypnotix.py:1223 usr/lib/hypnotix/hypnotix.py:1224
+#: usr/lib/hypnotix/hypnotix.py:1227 usr/lib/hypnotix/hypnotix.py:1231
 #: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Average Bitrate"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:791
+#: usr/lib/hypnotix/hypnotix.py:809
 msgid "Dimensions"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:794
+#: usr/lib/hypnotix/hypnotix.py:812
 msgid "Aspect"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:796
+#: usr/lib/hypnotix/hypnotix.py:814
 msgid "Pixel Format"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:798
+#: usr/lib/hypnotix/hypnotix.py:816
 msgid "Gamma"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:800
+#: usr/lib/hypnotix/hypnotix.py:818
 msgid "Bits Per Pixel"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:806 usr/lib/hypnotix/hypnotix.py:832
+#: usr/lib/hypnotix/hypnotix.py:824 usr/lib/hypnotix/hypnotix.py:850
 msgid "Codec"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:815
+#: usr/lib/hypnotix/hypnotix.py:833
 msgid "surround sound"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:816
+#: usr/lib/hypnotix/hypnotix.py:834
 msgid "Channels"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:819
+#: usr/lib/hypnotix/hypnotix.py:837
 msgid "Sample Rate"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:824
+#: usr/lib/hypnotix/hypnotix.py:842
 msgid "Format"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:826
+#: usr/lib/hypnotix/hypnotix.py:844
 msgid "Channel Count"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:920
+#: usr/lib/hypnotix/hypnotix.py:938
 #, python-format
 msgid "%d TV channel"
 msgid_plural "%d TV channels"
 msgstr[0] ""
 msgstr[1] ""
 
-#: usr/lib/hypnotix/hypnotix.py:925
+#: usr/lib/hypnotix/hypnotix.py:943
 #, python-format
 msgid "%d movie"
 msgid_plural "%d movies"
 msgstr[0] ""
 msgstr[1] ""
 
-#: usr/lib/hypnotix/hypnotix.py:930
+#: usr/lib/hypnotix/hypnotix.py:948
 #, python-format
 msgid "%d series"
 msgid_plural "%d series"
 msgstr[0] ""
 msgstr[1] ""
 
-#: usr/lib/hypnotix/hypnotix.py:950
+#: usr/lib/hypnotix/hypnotix.py:968
 msgid "Edit"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:960
+#: usr/lib/hypnotix/hypnotix.py:978
+msgid "Clear icon cache"
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:988
 msgid "Remove"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:1053
+#: usr/lib/hypnotix/hypnotix.py:1087
 msgid "M3U Playlists"
 msgstr ""
 
-#: usr/lib/hypnotix/hypnotix.py:1215 generate_desktop_files:25
+#: usr/lib/hypnotix/hypnotix.py:1249 generate_desktop_files:25
 #: usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Watch TV"
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:1316
+msgid "Loading providers..."
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:1329
+msgid "Downloading playlist..."
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:1331
+msgid "Getting playlist..."
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:1334
+msgid "Checking playlist..."
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:1336
+msgid "Loading channels..."
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:1344
+msgid "Failed to Download playlist from {}"
 msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:3 usr/share/hypnotix/shortcuts.ui.h:5
