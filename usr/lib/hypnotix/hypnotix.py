@@ -1,16 +1,13 @@
 #!/usr/bin/python3
 import gettext
-import gi
 import locale
 import os
-import re
-import setproctitle
 import shutil
-import subprocess
-import warnings
 import sys
 import time
 import traceback
+import warnings
+from functools import partial
 from pathlib import Path
 
 # Force X11 on a Wayland session
@@ -20,19 +17,20 @@ if "WAYLAND_DISPLAY" in os.environ:
 # Suppress GTK deprecation warnings
 warnings.filterwarnings("ignore")
 
+import gi
 gi.require_version("Gtk", "3.0")
 gi.require_version('XApp', '1.0')
 from gi.repository import Gtk, Gdk, Gio, XApp, GdkPixbuf, GLib, Pango
 
-from common import *
-
 import mpv
-
+import requests
+import setproctitle
 from imdb import IMDb
-
-from functools import partial
-
 from unidecode import unidecode
+
+from common import Manager, Provider, BADGES, MOVIES_GROUP, PROVIDERS_PATH, SERIES_GROUP, TV_GROUP,\
+    async_function, idle_function
+
 
 setproctitle.setproctitle("hypnotix")
 

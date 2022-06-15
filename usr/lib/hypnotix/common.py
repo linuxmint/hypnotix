@@ -1,14 +1,10 @@
 #!/usr/bin/python3
-import configparser
-import gi
 import os
-import requests
-import shutil
-import string
-import threading
 import re
+import threading
+
+import requests
 from gi.repository import GLib, GObject
-from random import choice
 
 # M3U parsing regex
 PARAMS = re.compile(r'(\S+)="(.*?)"')
