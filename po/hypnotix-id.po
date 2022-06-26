@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2021-11-23 12:21+0000\n"
-"PO-Revision-Date: 2021-12-09 05:22+0000\n"
-"Last-Translator: Roffan <Unknown>\n"
+"PO-Revision-Date: 2022-02-12 11:57+0000\n"
+"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2021-12-31 12:26+0000\n"
-"X-Generator: Launchpad (build adb364d6a74a28e7b95d51cd30446ec16160de6c)\n"
+"X-Launchpad-Export-Date: 2022-06-26 11:30+0000\n"
+"X-Generator: Launchpad (build 51a2e4fa2e9b8e45f00904ad7f53546f45ac48a5)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:119 usr/lib/hypnotix/hypnotix.py:696
 #: usr/lib/hypnotix/hypnotix.py:1214 generate_desktop_files:25
@@ -31,7 +31,7 @@ msgstr "Pintasan Keyboard"
 #: usr/lib/hypnotix/hypnotix.py:245 usr/share/hypnotix/hypnotix.ui.h:35
 #: usr/share/hypnotix/shortcuts.ui.h:3
 msgid "Stream Information"
-msgstr ""
+msgstr "Informasi Stream"
 
 #: usr/lib/hypnotix/hypnotix.py:253 usr/lib/hypnotix/hypnotix.py:1213
 #: usr/share/hypnotix/shortcuts.ui.h:2
@@ -150,7 +150,7 @@ msgstr "Tata Letak"
 #: usr/lib/hypnotix/hypnotix.py:1193 usr/lib/hypnotix/hypnotix.py:1197
 #: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Average Bitrate"
-msgstr ""
+msgstr "Bitrate Rata-rata"
 
 #: usr/lib/hypnotix/hypnotix.py:791
 msgid "Dimensions"
@@ -178,7 +178,7 @@ msgstr "Codec"
 
 #: usr/lib/hypnotix/hypnotix.py:815
 msgid "surround sound"
-msgstr ""
+msgstr "suara surround"
 
 #: usr/lib/hypnotix/hypnotix.py:816
 msgid "Channels"
@@ -186,7 +186,7 @@ msgstr "Kanal"
 
 #: usr/lib/hypnotix/hypnotix.py:819
 msgid "Sample Rate"
-msgstr ""
+msgstr "Laju Cuplikan"
 
 #: usr/lib/hypnotix/hypnotix.py:824
 msgid "Format"
@@ -273,7 +273,7 @@ msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Prefer dark mode"
-msgstr ""
+msgstr "Lebih suka mode gelap"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Add a new provider..."
@@ -373,4 +373,4 @@ msgstr "Alihkan Layar Penuh"
 
 #: usr/share/hypnotix/shortcuts.ui.h:7
 msgid "Reload all providers"
-msgstr ""
+msgstr "Muat ulang semua penyedia"

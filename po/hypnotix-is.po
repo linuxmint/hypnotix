@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2021-11-23 12:21+0000\n"
-"PO-Revision-Date: 2021-09-22 16:39+0000\n"
+"PO-Revision-Date: 2022-01-04 08:33+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <is@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2021-12-31 12:26+0000\n"
-"X-Generator: Launchpad (build adb364d6a74a28e7b95d51cd30446ec16160de6c)\n"
+"X-Launchpad-Export-Date: 2022-06-26 11:30+0000\n"
+"X-Generator: Launchpad (build 51a2e4fa2e9b8e45f00904ad7f53546f45ac48a5)\n"
 "Language: is\n"
 
 #: usr/lib/hypnotix/hypnotix.py:119 usr/lib/hypnotix/hypnotix.py:696
@@ -238,7 +238,7 @@ msgstr "Horfa á sjónvarp"
 
 #: usr/share/hypnotix/hypnotix.ui.h:3 usr/share/hypnotix/shortcuts.ui.h:5
 msgid "Search"
-msgstr ""
+msgstr "Leita"
 
 #: usr/share/hypnotix/hypnotix.ui.h:4
 msgid "Fullscreen"
@@ -273,10 +273,12 @@ msgid ""
 "This option only works when used with light desktop themes which support "
 "dark mode."
 msgstr ""
+"Þetta virkar einungis þegar notað er með ljósum skjáborðsþemum sem styðja "
+"dökkan ham."
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Prefer dark mode"
-msgstr ""
+msgstr "Velja dökkan ham"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Add a new provider..."
@@ -377,4 +379,4 @@ msgstr "Víxla skjáfylli af/á"
 
 #: usr/share/hypnotix/shortcuts.ui.h:7
 msgid "Reload all providers"
-msgstr ""
+msgstr "Endurhlaða allar veitur"

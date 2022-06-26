@@ -1,24 +1,23 @@
-# Welsh translation for linuxmint
-# Copyright (c) 2020 Rosetta Contributors and Canonical Ltd 2020
+# Uzbek translation for linuxmint
+# Copyright (c) 2022 Rosetta Contributors and Canonical Ltd 2022
 # This file is distributed under the same license as the linuxmint package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2021-11-23 12:21+0000\n"
-"PO-Revision-Date: 2021-12-09 10:15+0000\n"
-"Last-Translator: Rhoslyn Prys <rprys@posteo.net>\n"
-"Language-Team: Welsh <cy@li.org>\n"
+"PO-Revision-Date: 2022-05-04 11:57+0000\n"
+"Last-Translator: Umidjon Almasov <umidjon@almasov.uz>\n"
+"Language-Team: Uzbek <uz@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 0 : n==2 ? 1 : (n != 8 && n != 11) ? "
-"2 : 3;\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Launchpad-Export-Date: 2022-06-26 11:30+0000\n"
 "X-Generator: Launchpad (build 51a2e4fa2e9b8e45f00904ad7f53546f45ac48a5)\n"
-"Language: cy\n"
+"Language: uz\n"
 
 #: usr/lib/hypnotix/hypnotix.py:119 usr/lib/hypnotix/hypnotix.py:696
 #: usr/lib/hypnotix/hypnotix.py:1214 generate_desktop_files:25
@@ -28,21 +27,21 @@ msgstr "Hypnotix"
 
 #: usr/lib/hypnotix/hypnotix.py:238 usr/share/hypnotix/shortcuts.ui.h:6
 msgid "Keyboard Shortcuts"
-msgstr "Llwybrau Byr Bysellfwrdd"
+msgstr "Klaviatura yorliqlari"
 
 #: usr/lib/hypnotix/hypnotix.py:245 usr/share/hypnotix/hypnotix.ui.h:35
 #: usr/share/hypnotix/shortcuts.ui.h:3
 msgid "Stream Information"
-msgstr "Gwybodaeth am y Ffrwd"
+msgstr "Oqim haqida ma’lumot"
 
 #: usr/lib/hypnotix/hypnotix.py:253 usr/lib/hypnotix/hypnotix.py:1213
 #: usr/share/hypnotix/shortcuts.ui.h:2
 msgid "About"
-msgstr "Ynghylch"
+msgstr "Haqida"
 
 #: usr/lib/hypnotix/hypnotix.py:258 usr/share/hypnotix/shortcuts.ui.h:8
 msgid "Quit"
-msgstr "Gadael"
+msgstr "Chiqish"
 
 #: usr/lib/hypnotix/hypnotix.py:271
 msgid "M3U URL"
@@ -50,78 +49,78 @@ msgstr "M3U URL"
 
 #: usr/lib/hypnotix/hypnotix.py:272
 msgid "Local M3U File"
-msgstr "Ffeil M3U leol"
+msgstr "Mahalliy M3U fayli"
 
 #: usr/lib/hypnotix/hypnotix.py:273
 msgid "Xtream API"
-msgstr "API Xtream"
+msgstr "Xtream API"
 
 #: usr/lib/hypnotix/hypnotix.py:451
 #, python-format
 msgid "Season %s"
-msgstr "Tymor %s"
+msgstr "Mavsum %s"
 
 #: usr/lib/hypnotix/hypnotix.py:461
 #, python-format
 msgid "Episode %s"
-msgstr "Pennod %s"
+msgstr "Epizod %s"
 
 #: usr/lib/hypnotix/hypnotix.py:601
 msgid "No provider selected"
-msgstr "Dim darparwr wedi'i ddewis"
+msgstr "Provayder tanlanmagan"
 
 #: usr/lib/hypnotix/hypnotix.py:623 usr/lib/hypnotix/hypnotix.py:636
 msgid "TV Channels"
-msgstr "Sianeli Teledu"
+msgstr "Telekanallar"
 
 #: usr/lib/hypnotix/hypnotix.py:626 usr/lib/hypnotix/hypnotix.py:651
 msgid "Movies"
-msgstr "Ffilmiau"
+msgstr "Filmlar"
 
 #: usr/lib/hypnotix/hypnotix.py:628 usr/lib/hypnotix/hypnotix.py:658
 msgid "Series"
-msgstr "Cyfres"
+msgstr "Seriallar"
 
 #: usr/lib/hypnotix/hypnotix.py:639
 #, python-format
 msgid "TV Channels > %s"
-msgstr "Sianeli Teledu > %s"
+msgstr "Telekanallar > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:654
 #, python-format
 msgid "Movies > %s"
-msgstr "Ffilmiau > %s"
+msgstr "Filmlar > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:661
 #, python-format
 msgid "Series > %s"
-msgstr "Cyfres > %s"
+msgstr "Seriallar > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:669 usr/share/hypnotix/hypnotix.ui.h:6
 msgid "Preferences"
-msgstr "Dewisiadau"
+msgstr "Parametrlar"
 
 #: usr/lib/hypnotix/hypnotix.py:673 usr/share/hypnotix/hypnotix.ui.h:5
 msgid "Providers"
-msgstr "Darparwyr"
+msgstr "Provayderlar"
 
 #: usr/lib/hypnotix/hypnotix.py:678
 #, python-format
 msgid "Edit %s"
-msgstr "Golygu %s"
+msgstr "%s ni tahrirlash"
 
 #: usr/lib/hypnotix/hypnotix.py:680
 msgid "Add a new provider"
-msgstr "Ychwanegu darparwr newydd"
+msgstr "Yangi provayder qo‘shish"
 
 #: usr/lib/hypnotix/hypnotix.py:684
 #, python-format
 msgid "Delete %s"
-msgstr "Dileu %s"
+msgstr "%s ni o‘chirish"
 
 #: usr/lib/hypnotix/hypnotix.py:688
 msgid "Reset providers"
-msgstr "Ailosod darparwyr"
+msgstr "Provayderlarni qayta sozlash"
 
 #: usr/lib/hypnotix/hypnotix.py:726 usr/lib/hypnotix/hypnotix.py:730
 #: usr/lib/hypnotix/hypnotix.py:782 usr/lib/hypnotix/hypnotix.py:784
@@ -132,19 +131,19 @@ msgstr "Ailosod darparwyr"
 #: usr/lib/hypnotix/hypnotix.py:1193 usr/lib/hypnotix/hypnotix.py:1197
 #: usr/share/hypnotix/hypnotix.ui.h:36
 msgid "General"
-msgstr "Cyffredinol"
+msgstr "Umumiy"
 
 #: usr/lib/hypnotix/hypnotix.py:727 usr/lib/hypnotix/hypnotix.py:796
 #: usr/lib/hypnotix/hypnotix.py:798 usr/lib/hypnotix/hypnotix.py:800
 #: usr/lib/hypnotix/hypnotix.py:1167 usr/share/hypnotix/hypnotix.ui.h:38
 msgid "Color"
-msgstr "Lliw"
+msgstr "Rang"
 
 #: usr/lib/hypnotix/hypnotix.py:731 usr/lib/hypnotix/hypnotix.py:816
 #: usr/lib/hypnotix/hypnotix.py:826 usr/lib/hypnotix/hypnotix.py:1169
 #: usr/share/hypnotix/hypnotix.ui.h:40
 msgid "Layout"
-msgstr "Cynllun"
+msgstr "Tartib"
 
 #: usr/lib/hypnotix/hypnotix.py:767 usr/lib/hypnotix/hypnotix.py:768
 #: usr/lib/hypnotix/hypnotix.py:782 usr/lib/hypnotix/hypnotix.py:784
@@ -152,151 +151,142 @@ msgstr "Cynllun"
 #: usr/lib/hypnotix/hypnotix.py:1193 usr/lib/hypnotix/hypnotix.py:1197
 #: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Average Bitrate"
-msgstr "Didradd Cyfartalog"
+msgstr "O‘rtacha bit tezligi"
 
 #: usr/lib/hypnotix/hypnotix.py:791
 msgid "Dimensions"
-msgstr "Dimensiynau"
+msgstr "O‘lchamlar"
 
 #: usr/lib/hypnotix/hypnotix.py:794
 msgid "Aspect"
-msgstr "Agwedd"
+msgstr "Ko‘rinish"
 
 #: usr/lib/hypnotix/hypnotix.py:796
 msgid "Pixel Format"
-msgstr "Fformat Picsel"
+msgstr "Piksel formati"
 
 #: usr/lib/hypnotix/hypnotix.py:798
 msgid "Gamma"
-msgstr "Gama"
+msgstr "Gamma"
 
 #: usr/lib/hypnotix/hypnotix.py:800
 msgid "Bits Per Pixel"
-msgstr "Didau Fesul Pixel"
+msgstr "Bit/piksel"
 
 #: usr/lib/hypnotix/hypnotix.py:806 usr/lib/hypnotix/hypnotix.py:832
 msgid "Codec"
-msgstr "Codec"
+msgstr "Kodek"
 
 #: usr/lib/hypnotix/hypnotix.py:815
 msgid "surround sound"
-msgstr "sain amgylchynu"
+msgstr "atrofdagi ovoz"
 
 #: usr/lib/hypnotix/hypnotix.py:816
 msgid "Channels"
-msgstr "Sianeli"
+msgstr "Kanallar"
 
 #: usr/lib/hypnotix/hypnotix.py:819
 msgid "Sample Rate"
-msgstr "Graddau Samplo"
+msgstr "Namuna tezligi"
 
 #: usr/lib/hypnotix/hypnotix.py:824
 msgid "Format"
-msgstr "Fformat"
+msgstr "Format"
 
 #: usr/lib/hypnotix/hypnotix.py:826
 msgid "Channel Count"
-msgstr "Cyfrif Sianeli"
+msgstr "Kanallar soni"
 
 #: usr/lib/hypnotix/hypnotix.py:920
 #, python-format
 msgid "%d TV channel"
 msgid_plural "%d TV channels"
-msgstr[0] "%d sianel deledu"
-msgstr[1] "%d sianel deledu"
-msgstr[2] "%d sianel deledu"
-msgstr[3] "%d sianel deledu"
+msgstr[0] "%d telekanal"
 
 #: usr/lib/hypnotix/hypnotix.py:925
 #, python-format
 msgid "%d movie"
 msgid_plural "%d movies"
-msgstr[0] "%d ffilm"
-msgstr[1] "%d ffilm"
-msgstr[2] "%d ffilm"
-msgstr[3] "%d ffilm"
+msgstr[0] "%d film"
 
 #: usr/lib/hypnotix/hypnotix.py:930
 #, python-format
 msgid "%d series"
 msgid_plural "%d series"
-msgstr[0] "%d cyfres"
-msgstr[1] "%d cyfres"
-msgstr[2] "%d cyfres"
-msgstr[3] "%d cyfres"
+msgstr[0] "%d serial"
 
 #: usr/lib/hypnotix/hypnotix.py:950
 msgid "Edit"
-msgstr "Golygu"
+msgstr "Tahrirlash"
 
 #: usr/lib/hypnotix/hypnotix.py:960
 msgid "Remove"
-msgstr "Tynnu"
+msgstr "Olib tashlash"
 
 #: usr/lib/hypnotix/hypnotix.py:1053
 msgid "M3U Playlists"
-msgstr "Rhestrau Chwarae M3U"
+msgstr "M3U pleylistlar"
 
 #: usr/lib/hypnotix/hypnotix.py:1215 generate_desktop_files:25
 #: usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Watch TV"
-msgstr "Gwylio teledu"
+msgstr "TV ko‘rish"
 
 #: usr/share/hypnotix/hypnotix.ui.h:3 usr/share/hypnotix/shortcuts.ui.h:5
 msgid "Search"
-msgstr "Chwilio"
+msgstr "Qidirish"
 
 #: usr/share/hypnotix/hypnotix.ui.h:4
 msgid "Fullscreen"
-msgstr "Sgrin Lawn"
+msgstr "To‘liq ekran"
 
 #: usr/share/hypnotix/hypnotix.ui.h:7
 msgid "MPV Options"
-msgstr "Dewisiadau MPV"
+msgstr "MPV parametrlari"
 
 #: usr/share/hypnotix/hypnotix.ui.h:8
 msgid "List of MPV options"
-msgstr "Rhestr o ddewisiadau MPV"
+msgstr "MPV parametrlari ro‘yxati"
 
 #: usr/share/hypnotix/hypnotix.ui.h:9
 msgid "Playback"
-msgstr "Chwarae"
+msgstr "Ijro etish"
 
 #: usr/share/hypnotix/hypnotix.ui.h:10
 msgid "User Agent"
-msgstr "Asiant Defnyddiwr"
+msgstr "Foydalanuvchi agenti"
 
 #: usr/share/hypnotix/hypnotix.ui.h:11
 msgid "Referrer"
-msgstr "Cyfeiriwr"
+msgstr "Yo‘naltiruvchi"
 
 #: usr/share/hypnotix/hypnotix.ui.h:12
 msgid "Network"
-msgstr "Rhwydwaith"
+msgstr "Tarmoq"
 
 #: usr/share/hypnotix/hypnotix.ui.h:13
 msgid ""
 "This option only works when used with light desktop themes which support "
 "dark mode."
 msgstr ""
-"Dim ond gyda themâu bwrdd gwaith golau sy'n cynnal y modd tywyll fydd y "
-"dewis hwn yn gweithio."
+"Ushbu parametr faqat qorong‘i rejimni qo‘llab-quvvatlaydigan och rangli ish "
+"stoli mavzulari bilan foydalanilganda ishlaydi."
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Prefer dark mode"
-msgstr "Dewis y modd tywyll"
+msgstr "Qorong‘i rejimni afzal ko‘rish"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Add a new provider..."
-msgstr "Ychwanegu darparwr newydd ..."
+msgstr "Yangi provayder qo‘shish..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:16
 msgid "Reset to defaults..."
-msgstr "Ailosod i'r rhagosodedig..."
+msgstr "Standart sozlamalarni tiklash..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:17
 msgid "Name:"
-msgstr "Enw:"
+msgstr "Nomi:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:18
 msgid "URL:"
@@ -304,84 +294,84 @@ msgstr "URL:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:19
 msgid "Path:"
-msgstr "Llwybr:"
+msgstr "Yo‘l:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:20
 msgid "Cancel"
-msgstr "Diddymu"
+msgstr "Bekor qilish"
 
 #: usr/share/hypnotix/hypnotix.ui.h:21
 msgid "OK"
-msgstr "Iawn"
+msgstr "OK"
 
 #: usr/share/hypnotix/hypnotix.ui.h:22
 msgid "Username:"
-msgstr "Enw defnyddiwr:"
+msgstr "Foydalanuvchi nomi:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:23
 msgid "Password:"
-msgstr "Cyfrinair:"
+msgstr "Parol:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:24
 msgid "Browse..."
-msgstr "Pori..."
+msgstr "Ko‘rib chiqish..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:25
 msgid "EPG:"
-msgstr "Rhaglenni:"
+msgstr "EPG:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:26
 msgid "Type:"
-msgstr "Math:"
+msgstr "Turi:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:27
 msgid "Are you sure you want to delete this provider?"
-msgstr "Ydych chi'n siŵr eich bod chi am ddileu'r darparwr hwn?"
+msgstr "Ushbu provayderni o‘chirishga ishonchingiz komilmi?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:28
 msgid "No"
-msgstr "Na"
+msgstr "Yo‘q"
 
 #: usr/share/hypnotix/hypnotix.ui.h:29
 msgid "Yes"
-msgstr "Iawn"
+msgstr "Ha"
 
 #: usr/share/hypnotix/hypnotix.ui.h:30
 msgid "Are you sure you want to reset to the default providers?"
-msgstr "Ydych chi'n siŵr eich bod chi am ailosod i'r darparwyr rhagosodedig?"
+msgstr "Standart provayderlarni tiklashga ishonchingiz komilmi?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:31
 msgid "Currently playing:"
-msgstr "Yn chwarae ar hyn o bryd:"
+msgstr "Hozir ijro etmoqda:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:32
 msgid "Show"
-msgstr "Dangos"
+msgstr "Ko‘rsatish"
 
 #: usr/share/hypnotix/hypnotix.ui.h:33
 msgid "Pause"
-msgstr "Oedi"
+msgstr "Pauza"
 
 #: usr/share/hypnotix/hypnotix.ui.h:34
 msgid "Stop"
-msgstr "Atal"
+msgstr "To‘xtash"
 
 #: usr/share/hypnotix/hypnotix.ui.h:39
 msgid "Video"
-msgstr "Fideo"
+msgstr "Video"
 
 #: usr/share/hypnotix/hypnotix.ui.h:41
 msgid "Audio"
-msgstr "Sain"
+msgstr "Audio"
 
 #: usr/share/hypnotix/shortcuts.ui.h:1
 msgid "Main shortcuts"
-msgstr "Prif lwybrau byr"
+msgstr "Asosiy yorliqlar"
 
 #: usr/share/hypnotix/shortcuts.ui.h:4
 msgid "Toggle Fullscreen"
-msgstr "Toglo'r sgrin lawn"
+msgstr "Toʻliq ekran rejimini almashtirish"
 
 #: usr/share/hypnotix/shortcuts.ui.h:7
 msgid "Reload all providers"
-msgstr "Ail lwytho pob darparwr"
+msgstr "Hamma provayderlarni qayta yuklash"

@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2021-11-23 12:21+0000\n"
-"PO-Revision-Date: 2021-06-08 07:45+0000\n"
-"Last-Translator: Vendelín Slezák <Unknown>\n"
+"PO-Revision-Date: 2022-02-10 19:29+0000\n"
+"Last-Translator: Adrián Bíro <biroadrian@protonmail.com>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Launchpad-Export-Date: 2021-12-31 12:26+0000\n"
-"X-Generator: Launchpad (build adb364d6a74a28e7b95d51cd30446ec16160de6c)\n"
+"X-Launchpad-Export-Date: 2022-06-26 11:30+0000\n"
+"X-Generator: Launchpad (build 51a2e4fa2e9b8e45f00904ad7f53546f45ac48a5)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:119 usr/lib/hypnotix/hypnotix.py:696
 #: usr/lib/hypnotix/hypnotix.py:1214 generate_desktop_files:25
@@ -31,7 +31,7 @@ msgstr "Klávesové skratky"
 #: usr/lib/hypnotix/hypnotix.py:245 usr/share/hypnotix/hypnotix.ui.h:35
 #: usr/share/hypnotix/shortcuts.ui.h:3
 msgid "Stream Information"
-msgstr ""
+msgstr "Informácie o dátach"
 
 #: usr/lib/hypnotix/hypnotix.py:253 usr/lib/hypnotix/hypnotix.py:1213
 #: usr/share/hypnotix/shortcuts.ui.h:2
@@ -57,16 +57,16 @@ msgstr "Xtream API"
 #: usr/lib/hypnotix/hypnotix.py:451
 #, python-format
 msgid "Season %s"
-msgstr ""
+msgstr "Séria %s"
 
 #: usr/lib/hypnotix/hypnotix.py:461
 #, python-format
 msgid "Episode %s"
-msgstr ""
+msgstr "Epizóda %s"
 
 #: usr/lib/hypnotix/hypnotix.py:601
 msgid "No provider selected"
-msgstr ""
+msgstr "Nebol zvolený žiadny poskytovateľ"
 
 #: usr/lib/hypnotix/hypnotix.py:623 usr/lib/hypnotix/hypnotix.py:636
 msgid "TV Channels"
@@ -162,7 +162,7 @@ msgstr "Aspekt"
 
 #: usr/lib/hypnotix/hypnotix.py:796
 msgid "Pixel Format"
-msgstr ""
+msgstr "Formát pixelov"
 
 #: usr/lib/hypnotix/hypnotix.py:798
 msgid "Gamma"
@@ -194,7 +194,7 @@ msgstr "Fromát"
 
 #: usr/lib/hypnotix/hypnotix.py:826
 msgid "Channel Count"
-msgstr ""
+msgstr "Počet kanálov"
 
 #: usr/lib/hypnotix/hypnotix.py:920
 #, python-format
@@ -236,7 +236,7 @@ msgstr "Pozerať TV"
 
 #: usr/share/hypnotix/hypnotix.ui.h:3 usr/share/hypnotix/shortcuts.ui.h:5
 msgid "Search"
-msgstr ""
+msgstr "Hľadať"
 
 #: usr/share/hypnotix/hypnotix.ui.h:4
 msgid "Fullscreen"
@@ -252,11 +252,11 @@ msgstr "Zoznam MPV možností"
 
 #: usr/share/hypnotix/hypnotix.ui.h:9
 msgid "Playback"
-msgstr ""
+msgstr "Prehrávanie"
 
 #: usr/share/hypnotix/hypnotix.ui.h:10
 msgid "User Agent"
-msgstr ""
+msgstr "User Agent"
 
 #: usr/share/hypnotix/hypnotix.ui.h:11
 msgid "Referrer"
@@ -271,10 +271,12 @@ msgid ""
 "This option only works when used with light desktop themes which support "
 "dark mode."
 msgstr ""
+"Táto možnosť funguje iba pri použití svetlých tém, ktoré podporujú tmavý "
+"režim."
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Prefer dark mode"
-msgstr ""
+msgstr "Uprednostniť zobrazenie v tmavom móde"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Add a new provider..."
@@ -282,7 +284,7 @@ msgstr "Pridať nového poskytovateľa"
 
 #: usr/share/hypnotix/hypnotix.ui.h:16
 msgid "Reset to defaults..."
-msgstr ""
+msgstr "Vrátiť do pôvodných nastavení"
 
 #: usr/share/hypnotix/hypnotix.ui.h:17
 msgid "Name:"
@@ -374,4 +376,4 @@ msgstr "Prepnúť na celú obrazovku"
 
 #: usr/share/hypnotix/shortcuts.ui.h:7
 msgid "Reload all providers"
-msgstr ""
+msgstr "Znovu načítať všetkých poskytovateľov"

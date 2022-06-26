@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2021-11-23 12:21+0000\n"
-"PO-Revision-Date: 2021-11-28 16:21+0000\n"
-"Last-Translator: Avi Markovitz <avi.markovitz@gmail.com>\n"
+"PO-Revision-Date: 2022-03-11 13:32+0000\n"
+"Last-Translator: Omer I.S. <Unknown>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2021-12-31 12:26+0000\n"
-"X-Generator: Launchpad (build adb364d6a74a28e7b95d51cd30446ec16160de6c)\n"
+"X-Launchpad-Export-Date: 2022-06-26 11:30+0000\n"
+"X-Generator: Launchpad (build 51a2e4fa2e9b8e45f00904ad7f53546f45ac48a5)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:119 usr/lib/hypnotix/hypnotix.py:696
 #: usr/lib/hypnotix/hypnotix.py:1214 generate_desktop_files:25
@@ -26,7 +26,7 @@ msgstr "היפנוטיקס"
 
 #: usr/lib/hypnotix/hypnotix.py:238 usr/share/hypnotix/shortcuts.ui.h:6
 msgid "Keyboard Shortcuts"
-msgstr "קיצורי מקלדת"
+msgstr "קיצורי מקשים"
 
 #: usr/lib/hypnotix/hypnotix.py:245 usr/share/hypnotix/hypnotix.ui.h:35
 #: usr/share/hypnotix/shortcuts.ui.h:3
@@ -44,7 +44,7 @@ msgstr "יציאה"
 
 #: usr/lib/hypnotix/hypnotix.py:271
 msgid "M3U URL"
-msgstr "מען URL M3U"
+msgstr "כתובת M3U"
 
 #: usr/lib/hypnotix/hypnotix.py:272
 msgid "Local M3U File"
