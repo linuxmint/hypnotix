@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2021-11-23 12:21+0000\n"
-"PO-Revision-Date: 2021-11-23 17:03+0000\n"
+"PO-Revision-Date: 2022-07-18 18:28+0000\n"
 "Last-Translator: Anton Hryb <Unknown>\n"
 "Language-Team: Belarusian <be@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Launchpad-Export-Date: 2022-06-26 11:30+0000\n"
-"X-Generator: Launchpad (build 51a2e4fa2e9b8e45f00904ad7f53546f45ac48a5)\n"
+"X-Launchpad-Export-Date: 2022-07-24 09:43+0000\n"
+"X-Generator: Launchpad (build 025a39fd866a641b6ae33074cda0d02a2c712d38)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:119 usr/lib/hypnotix/hypnotix.py:696
 #: usr/lib/hypnotix/hypnotix.py:1214 generate_desktop_files:25
@@ -312,7 +312,7 @@ msgstr "Добра"
 
 #: usr/share/hypnotix/hypnotix.ui.h:22
 msgid "Username:"
-msgstr "Імя карыстальніка:"
+msgstr "Карыстальнік:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:23
 msgid "Password:"
@@ -344,7 +344,7 @@ msgstr "Так"
 
 #: usr/share/hypnotix/hypnotix.ui.h:30
 msgid "Are you sure you want to reset to the default providers?"
-msgstr "Вы сапраўды жадаеце скінуць да перадвызначаных правайдэраў?"
+msgstr "Сапраўды жадаеце скінуць да перадвызначаных правайдэраў?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:31
 msgid "Currently playing:"

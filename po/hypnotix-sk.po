@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2021-11-23 12:21+0000\n"
-"PO-Revision-Date: 2022-02-10 19:29+0000\n"
-"Last-Translator: Adrián Bíro <biroadrian@protonmail.com>\n"
+"PO-Revision-Date: 2022-07-18 19:23+0000\n"
+"Last-Translator: menom <Unknown>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Launchpad-Export-Date: 2022-06-26 11:30+0000\n"
-"X-Generator: Launchpad (build 51a2e4fa2e9b8e45f00904ad7f53546f45ac48a5)\n"
+"X-Launchpad-Export-Date: 2022-07-24 09:43+0000\n"
+"X-Generator: Launchpad (build 025a39fd866a641b6ae33074cda0d02a2c712d38)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:119 usr/lib/hypnotix/hypnotix.py:696
 #: usr/lib/hypnotix/hypnotix.py:1214 generate_desktop_files:25
@@ -200,22 +200,25 @@ msgstr "Počet kanálov"
 #, python-format
 msgid "%d TV channel"
 msgid_plural "%d TV channels"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d TV kanál"
+msgstr[1] "%d TV kanály"
+msgstr[2] "%d TV kanálov"
 
 #: usr/lib/hypnotix/hypnotix.py:925
 #, python-format
 msgid "%d movie"
 msgid_plural "%d movies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d film"
+msgstr[1] "%d filmy"
+msgstr[2] "%d filmov"
 
 #: usr/lib/hypnotix/hypnotix.py:930
 #, python-format
 msgid "%d series"
 msgid_plural "%d series"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d seriál"
+msgstr[1] "%d seriály"
+msgstr[2] "%d seriálov"
 
 #: usr/lib/hypnotix/hypnotix.py:950
 msgid "Edit"

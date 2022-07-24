@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2021-11-23 12:21+0000\n"
-"PO-Revision-Date: 2021-11-25 15:49+0000\n"
+"PO-Revision-Date: 2022-07-03 11:57+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2022-06-26 11:30+0000\n"
-"X-Generator: Launchpad (build 51a2e4fa2e9b8e45f00904ad7f53546f45ac48a5)\n"
+"X-Launchpad-Export-Date: 2022-07-24 09:43+0000\n"
+"X-Generator: Launchpad (build 025a39fd866a641b6ae33074cda0d02a2c712d38)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:119 usr/lib/hypnotix/hypnotix.py:696
 #: usr/lib/hypnotix/hypnotix.py:1214 generate_desktop_files:25
@@ -344,7 +344,7 @@ msgstr "Tem a certeza que deseja repor para os fornecedores predefinidos?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:31
 msgid "Currently playing:"
-msgstr "Atualmente a repropuzir"
+msgstr "Atualmente a reproduzir:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:32
 msgid "Show"
