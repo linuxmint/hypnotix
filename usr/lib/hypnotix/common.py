@@ -161,7 +161,7 @@ class Manager():
                         # Set downloaded size
                         downloaded_bytes = 0
                         # Get total playlist byte size
-                        total_content_size = int(response.headers['content-length'])
+                        total_content_size = int(response.headers.get('content-length', 15))
                         # Set stream blocks
                         block_bytes = int(4*1024*1024)     # 4 MB
 
