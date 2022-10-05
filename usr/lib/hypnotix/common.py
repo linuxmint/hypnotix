@@ -1,4 +1,23 @@
 #!/usr/bin/python3
+
+# Copyright (C) 2020-2022 Linux Mint <root@linuxmint.com>
+#
+# This file is part of Hypnotix.
+#
+# Hypnotix is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Hypnotix is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Hypnotix  If not, see <http://www.gnu.org/licenses/>.
+#
+
 import os
 import re
 import threading
@@ -8,16 +27,15 @@ from gi.repository import GLib, GObject
 
 # M3U parsing regex
 PARAMS = re.compile(r'(\S+)="(.*?)"')
-EXTINF = re.compile(r'^#EXTINF:(?P<duration>-?\d+?) ?(?P<params>.*),(?P<title>.*?)$')
+EXT_INF = re.compile(r'^#EXTINF:(?P<duration>-?\d+?) ?(?P<params>.*),(?P<title>.*?)$')
 SERIES = re.compile(r"(?P<series>.*?) S(?P<season>.\d{1,2}).*E(?P<episode>.\d{1,2}.*)$", re.IGNORECASE)
 
 PROVIDERS_PATH = os.path.join(GLib.get_user_cache_dir(), "hypnotix", "providers")
 
 TV_GROUP, MOVIES_GROUP, SERIES_GROUP = range(3)
 
-BADGES = {}
-BADGES['musik'] = "music"
-BADGES['zeland'] = "newzealand"
+BADGES = {'musik': "music", 'zeland': "newzealand"}
+
 
 # Used as a decorator to run things in the background
 def async_function(func):
@@ -26,24 +44,30 @@ def async_function(func):
         thread.daemon = True
         thread.start()
         return thread
+
     return wrapper
 
-# Used as a decorator to run things in the main loop, from another thread
+
 def idle_function(func):
+    """ Used as a decorator to run things in the main loop, from another thread. """
+
     def wrapper(*args):
         GObject.idle_add(func, *args)
+
     return wrapper
 
+
 def slugify(string):
-    """
-    Normalizes string, converts to lowercase, removes non-alpha characters,
-    and converts spaces to hyphens.
+    """ Normalizes string, converts to lowercase,
+        removes non-alpha characters,
+        and converts spaces to hyphens.
     """
     return "".join(x.lower() for x in string if x.isalnum())
 
-class Provider():
+
+class Provider:
     def __init__(self, name, provider_info):
-        if provider_info != None:
+        if provider_info:
             self.name, self.type_id, self.url, self.username, self.password, self.epg = provider_info.split(":::")
         else:
             self.name = name
@@ -54,9 +78,10 @@ class Provider():
         self.series = []
 
     def get_info(self):
-        return "%s:::%s:::%s:::%s:::%s:::%s" % (self.name, self.type_id, self.url, self.username, self.password, self.epg)
+        return f"{self.name}:::{self.type_id}:::{self.url}:::{self.username}:::{self.password}:::{self.epg}"
 
-class Group():
+
+class Group:
     def __init__(self, name):
         if "VOD" in name.split():
             self.group_type = MOVIES_GROUP
@@ -68,7 +93,8 @@ class Group():
         self.channels = []
         self.series = []
 
-class Serie():
+
+class Serie:
     def __init__(self, name):
         self.name = name
         self.logo = None
@@ -76,14 +102,16 @@ class Serie():
         self.seasons = {}
         self.episodes = []
 
-class Season():
+
+class Season:
     def __init__(self, name):
         self.name = name
         self.episodes = {}
 
-class Channel():
-    def __init__(self, provider, info):
-        self.info = info
+
+class Channel:
+    def __init__(self, provider=None, info=None):
+        self.info = None
         self.id = None
         self.name = None
         self.logo = None
@@ -91,8 +119,13 @@ class Channel():
         self.group_title = None
         self.title = None
         self.url = None
-        match = EXTINF.fullmatch(info)
-        if match != None:
+
+        if provider and info:
+            self.init_data(info, provider)
+
+    def init_data(self, info, provider):
+        match = EXT_INF.fullmatch(info or "")
+        if match:
             res = match.groupdict()
             if 'params' in res:
                 params = dict(PARAMS.findall(res['params']))
@@ -104,9 +137,9 @@ class Channel():
                     self.group_title = params['group-title'].strip().replace(";", " ").replace("  ", " ")
             if 'title' in res:
                 self.title = res['title']
-        if self.name == None and "," in info:
+        if self.name is None and "," in info:
             self.name = info.split(",")[-1].strip()
-        if self.logo != None:
+        if self.logo:
             if self.logo.startswith("file://"):
                 self.logo_path = self.logo[7:]
             else:
@@ -117,9 +150,17 @@ class Channel():
                         break
                 if ext == ".jpeg":
                     ext = ".jpg"
-                self.logo_path = os.path.join(PROVIDERS_PATH, "%s-%s%s" % (slugify(provider.name), slugify(self.name), ext))
+                self.logo_path = os.path.join(PROVIDERS_PATH, f"{slugify(provider.name)}-{slugify(self.name)}{ext}")
 
-class Manager():
+    @staticmethod
+    def from_dict(data: dict):
+        ch = Channel()
+        for k, v in data.items():
+            setattr(ch, k, v)
+        return ch
+
+
+class Manager:
 
     def __init__(self, settings):
         os.system("mkdir -p '%s'" % PROVIDERS_PATH)
@@ -157,7 +198,7 @@ class Manager():
                     'Referer': self.settings.get_string("http-referer")
                 }
                 try:
-                    response = requests.get(provider.url, headers=headers, timeout=(5,120), stream=True)
+                    response = requests.get(provider.url, headers=headers, timeout=(5, 120), stream=True)
 
                     # If there is an answer from the remote server
                     if response.status_code == 200:
@@ -166,18 +207,18 @@ class Manager():
                         # Get total playlist byte size
                         total_content_size = int(response.headers.get('content-length', 15))
                         # Set stream blocks
-                        block_bytes = int(4*1024*1024)     # 4 MB
+                        block_bytes = int(4 * 1024 * 1024)  # 4 MB
 
                         response.encoding = response.apparent_encoding
-                        #try:
+                        # try:
                         #    source = response.content.decode("UTF-8")
-                        #except UnicodeDecodeError as e:
+                        # except UnicodeDecodeError as e:
                         #    source = response.content.decode("latin1")
                         with open(provider.path, "w") as file:
                             # Grab data by block_bytes
-                            for data in response.iter_content(block_bytes,decode_unicode=True):
+                            for data in response.iter_content(block_bytes, decode_unicode=True):
                                 downloaded_bytes += block_bytes
-                                print("{} bytes".format(downloaded_bytes))
+                                print(f"{downloaded_bytes} bytes")
                                 file.write(str(data))
                         if downloaded_bytes < total_content_size:
                             print("The file size is incorrect, deleting")
@@ -187,7 +228,7 @@ class Manager():
                             # self.settings.set_
                             ret_code = True
                     else:
-                        print("HTTP error %d while retrieving from %s!" % (response.status_code, provider.url))
+                        print(f"HTTP error {response.status_code} while retrieving from {provider.url}!")
                 except Exception as e:
                     print(e)
         else:
@@ -201,11 +242,11 @@ class Manager():
         if os.path.exists(provider.path):
             with open(provider.path, "r") as file:
                 content = file.read()
-                if ("#EXTM3U" in content and "#EXTINF" in content):
+                if "#EXTM3U" in content and "#EXTINF" in content:
                     legit = True
-                    self.debug("Content looks legit: %s" % provider.name)
+                    self.debug(f"Content looks legit: {provider.name}")
                 else:
-                    self.debug("Nope: %s" % provider.path)
+                    self.debug(f"Nope: {provider.path}")
         return legit
 
     def load_channels(self, provider):
@@ -224,14 +265,14 @@ class Manager():
                     continue
                 if "://" in line and not (line.startswith("#")):
                     self.debug("    ", line)
-                    if channel == None:
+                    if channel is None:
                         self.debug("    --> channel is None")
                         continue
-                    if channel.url != None:
+                    if channel.url:
                         # We already found the URL, skip the line
                         self.debug("    --> channel URL was already found")
                         continue
-                    if channel.name == None or "***" in channel.name:
+                    if channel.name is None or "***" in channel.name:
                         self.debug("    --> channel name is None")
                         continue
                     channel.url = line
@@ -239,14 +280,14 @@ class Manager():
 
                     serie = None
                     f = SERIES.fullmatch(channel.name)
-                    if f != None:
+                    if f:
                         res = f.groupdict()
                         series_name = res['series']
                         if series_name in series.keys():
                             serie = series[series_name]
                         else:
                             serie = Serie(series_name)
-                            #todo put in group
+                            # TODO put in group
                             provider.series.append(serie)
                             series[series_name] = serie
                             serie.logo = channel.logo
@@ -262,15 +303,15 @@ class Manager():
                         season.episodes[episode_name] = channel
                         serie.episodes.append(channel)
 
-                    if channel.group_title != None and channel.group_title.strip() != "":
-                        if group == None or group.name != channel.group_title:
+                    if channel.group_title and channel.group_title.strip() != "":
+                        if group is None or group.name != channel.group_title:
                             if channel.group_title in groups.keys():
                                 group = groups[channel.group_title]
                             else:
                                 group = Group(channel.group_title)
                                 provider.groups.append(group)
                                 groups[channel.group_title] = group
-                        if serie != None and serie not in group.series:
+                        if serie and serie not in group.series:
                             group.series.append(serie)
                         group.channels.append(channel)
                         if group.group_type == TV_GROUP:
@@ -279,3 +320,7 @@ class Manager():
                             provider.movies.append(channel)
                     else:
                         provider.channels.append(channel)
+
+
+if __name__ == '__main__':
+    pass
