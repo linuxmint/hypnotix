@@ -40,7 +40,7 @@ import gi
 
 gi.require_version("Gtk", "3.0")
 gi.require_version('XApp', '1.0')
-from gi.repository import Gtk, Gdk, Gio, XApp, GdkPixbuf, GLib, Pango
+from gi.repository import Gtk, Gdk, Gio, XApp, GdkPixbuf, GLib, Pango, GObject
 
 import mpv
 import requests
@@ -91,6 +91,9 @@ class HypnotixApplication(Gtk.Application):
 
     def __init__(self, **kwargs):
         super().__init__(flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE, **kwargs)
+        # Signals.
+        GObject.signal_new("error", self, GObject.SIGNAL_RUN_LAST, GObject.TYPE_PYOBJECT, (GObject.TYPE_PYOBJECT,))
+        self.connect("error", self.on_error)
 
         self.settings = Gio.Settings(schema_id="org.x.hypnotix")
         self.icon_theme = Gtk.IconTheme.get_default()
@@ -156,9 +159,9 @@ class HypnotixApplication(Gtk.Application):
                         "info_duration_label", "info_votes_label", "info_pg_label", "divider_label", "useragent_entry",
                         "referer_entry", "mpv_entry", "mpv_link", "darkmode_switch", "mpv_stack", "spinner",
                         "info_window_close_button", "video_properties_box", "video_properties_label",
-                        "colour_properties_box", "colour_properties_label",
-                        "audio_properties_box", "audio_properties_label",
-                        "layout_properties_box", "layout_properties_label"]
+                        "colour_properties_box", "colour_properties_label", "audio_properties_box",
+                        "audio_properties_label", "layout_properties_box", "layout_properties_label",
+                        "info_bar", "info_message_label"]
 
         for name in widget_names:
             widget = self.builder.get_object(name)
@@ -213,6 +216,8 @@ class HypnotixApplication(Gtk.Application):
 
         self.channels_flowbox.add_events(Gdk.EventMask.POINTER_MOTION_MASK)
         self.channels_flowbox.connect('motion-notify-event', self.on_mouse_hover)
+        # Info bar
+        self.info_bar.connect("response", lambda b, r: b.set_visible(False))
         # Settings widgets
         self.bind_setting_widget("user-agent", self.useragent_entry)
         self.bind_setting_widget("http-referer", self.referer_entry)
@@ -1399,8 +1404,11 @@ class HypnotixApplication(Gtk.Application):
         self.reinit_mpv()
 
     def reinit_mpv(self):
+        GLib.idle_add(self.info_bar.set_visible, False)
+
         if self.mpv:
             self.mpv.stop()
+
         options = {}
         try:
             mpv_options = self.settings.get_string("mpv-options")
@@ -1432,6 +1440,18 @@ class HypnotixApplication(Gtk.Application):
                            ytdl=True,
                            wid=str(self.mpv_drawing_area.get_window().get_xid()))
 
+        @self.mpv.event_callback(mpv.MpvEventID.END_FILE)
+        def on_end(event):
+            event = event.get("event", {})
+            if event.get("reason", mpv.MpvEventEndFile.ERROR) == mpv.MpvEventEndFile.ERROR:
+                error = event.get('error', mpv.ErrorCode.GENERIC)
+                print(f"Stream playback error: {error}")
+                msg = "Can't Playback!"
+                if error == mpv.ErrorCode.LOADING_FAILED:
+                    msg = "Can't open stream!"
+
+                GLib.idle_add(self.emit, "error", _(msg))
+
     def on_mpv_drawing_area_draw(self, widget, cr):
         cr.set_source_rgb(0.0, 0.0, 0.0)
         cr.paint()
@@ -1461,6 +1481,14 @@ class HypnotixApplication(Gtk.Application):
 
     def on_close_info_window_button_clicked(self, widget):
         self.info_window.hide()
+
+    def on_error(self, ap, msg=""):
+        self.show_info_message(msg, Gtk.MessageType.ERROR)
+
+    def show_info_message(self, msg, message_type=Gtk.MessageType.INFO):
+        self.info_bar.set_visible(True)
+        self.info_bar.set_message_type(message_type)
+        self.info_message_label.set_text(msg)
 
 
 if __name__ == "__main__":
