@@ -120,7 +120,6 @@ class HypnotixApplication(Gtk.Application):
 
         self.x_pos = 0
         self.y_pos = 0
-
         # Used for redownloading timer
         self.reload_timeout_sec = 60 * 5
         self._timer_id = -1
@@ -166,7 +165,7 @@ class HypnotixApplication(Gtk.Application):
         for name in widget_names:
             widget = self.builder.get_object(name)
             if widget is None:
-                print("Could not find widget %s!" % name)
+                print(f"Could not find widget {name}!")
                 sys.exit(1)
             else:
                 setattr(self, name, widget)
@@ -294,7 +293,6 @@ class HypnotixApplication(Gtk.Application):
 
     def do_activate(self):
         self.window.set_application(self)
-        self.window.set_wmclass("Hypnotix", "Hypnotix")
         self.window.set_wmclass("Hypnotix", "Hypnotix")
         self.window.present()
 
@@ -583,8 +581,10 @@ class HypnotixApplication(Gtk.Application):
         self.channels_flowbox.set_filter_func(filter_func)
         if not self.channels_flowbox.get_children():
             self.show_channels(self.active_provider.channels)
-        print("Filtering %d channel names containing the string '%s'..." % (
-            len(self.channels_flowbox.get_children()), self.latest_search_bar_text))
+
+        ch_count, search_text = len(self.channels_flowbox.get_children()), self.latest_search_bar_text
+        print(f"Filtering {ch_count} channel names containing the string '{search_text}'...")
+
         if self.visible_search_results == 0:
             self.status(_("No channels found"))
         else:
@@ -920,35 +920,34 @@ class HypnotixApplication(Gtk.Application):
             image.set_from_icon_name("tv-symbolic", Gtk.IconSize.BUTTON)
             labels_box.pack_start(image, False, False, 0)
             label = Gtk.Label()
-            label.set_markup("<b>%s</b>" % provider.name)
+            label.set_markup(f"<b>{provider.name}</b>")
             labels_box.pack_start(label, False, False, 0)
             num = len(provider.channels)
             if num > 0:
                 label = Gtk.Label()
-                label.set_text(gettext.ngettext("%d TV channel", "%d TV channels", num) % num)
+                label.set_text(gettext.ngettext(f"{num} TV channel", f"{num} TV channels", num))
                 labels_box.pack_start(label, False, False, 0)
             num = len(provider.movies)
             if num > 0:
                 label = Gtk.Label()
-                label.set_text(gettext.ngettext("%d movie", "%d movies", num) % num)
+                label.set_text(gettext.ngettext(f"{num} movie", f"{num} movies", num))
                 labels_box.pack_start(label, False, False, 0)
             num = len(provider.series)
             if num > 0:
                 label = Gtk.Label()
-                label.set_text(gettext.ngettext("%d series", "%d series", num) % num)
+                label.set_text(gettext.ngettext(f"{num} series", f"{num} series", num))
                 labels_box.pack_start(label, False, False, 0)
             button = Gtk.Button()
             button.connect("clicked", self.on_provider_selected, provider)
             label = Gtk.Label()
             if provider == self.active_provider:
-                label.set_text("%s %d (active)" % (provider.name, len(provider.channels)))
+                label.set_text(f"{provider.name} {len(provider.channels)} (active)")
             else:
                 label.set_text(provider.name)
             button.add(labels_box)
             box = Gtk.Box()
             box.pack_start(button, True, True, 0)
             box.set_spacing(6)
-
             # Edit button
             button = Gtk.Button()
             button.set_relief(Gtk.ReliefStyle.NONE)
