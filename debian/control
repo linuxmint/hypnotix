@@ -11,6 +11,7 @@ Architecture: all
 Depends: gir1.2-xapp-1.0 (>= 2.2.11),
          python3,
          python3-gi,
+         python3-requests,
          python3-setproctitle,
          python3-unidecode,
          xapps-common,
