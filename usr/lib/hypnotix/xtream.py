@@ -782,7 +782,7 @@ class XTream:
         series_seasons = self._load_series_info_by_id_from_provider(
             get_series.series_id
         )
-        dt = timer() - start
+        _ = timer() - start
         # print("Loaded in {:.3f} sec".format(dt))
         for series_info in series_seasons["seasons"]:
             season_name = series_info["name"]
