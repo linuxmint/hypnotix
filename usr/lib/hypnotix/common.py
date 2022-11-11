@@ -8,16 +8,18 @@ from gi.repository import GLib, GObject
 
 # M3U parsing regex
 PARAMS = re.compile(r'(\S+)="(.*?)"')
-EXTINF = re.compile(r'^#EXTINF:(?P<duration>-?\d+?) ?(?P<params>.*),(?P<title>.*?)$')
-SERIES = re.compile(r"(?P<series>.*?) S(?P<season>.\d{1,2}).*E(?P<episode>.\d{1,2}.*)$", re.IGNORECASE)
+EXTINF = re.compile(r"^#EXTINF:(?P<duration>-?\d+?) ?(?P<params>.*),(?P<title>.*?)$")
+SERIES = re.compile(
+    r"(?P<series>.*?) S(?P<season>.\d{1,2}).*E(?P<episode>.\d{1,2}.*)$", re.IGNORECASE
+)
 
 PROVIDERS_PATH = os.path.join(GLib.get_user_cache_dir(), "hypnotix", "providers")
 
 TV_GROUP, MOVIES_GROUP, SERIES_GROUP = range(3)
 
 BADGES = {}
-BADGES['musik'] = "music"
-BADGES['zeland'] = "newzealand"
+BADGES["musik"] = "music"
+BADGES["zeland"] = "newzealand"
 
 # Used as a decorator to run things in the background
 def async_function(func):
@@ -26,13 +28,17 @@ def async_function(func):
         thread.daemon = True
         thread.start()
         return thread
+
     return wrapper
+
 
 # Used as a decorator to run things in the main loop, from another thread
 def idle_function(func):
     def wrapper(*args):
         GObject.idle_add(func, *args)
+
     return wrapper
+
 
 def slugify(string):
     """
@@ -41,10 +47,18 @@ def slugify(string):
     """
     return "".join(x.lower() for x in string if x.isalnum())
 
-class Provider():
+
+class Provider:
     def __init__(self, name, provider_info):
         if provider_info != None:
-            self.name, self.type_id, self.url, self.username, self.password, self.epg = provider_info.split(":::")
+            (
+                self.name,
+                self.type_id,
+                self.url,
+                self.username,
+                self.password,
+                self.epg,
+            ) = provider_info.split(":::")
         else:
             self.name = name
         self.path = os.path.join(PROVIDERS_PATH, slugify(self.name))
@@ -54,9 +68,17 @@ class Provider():
         self.series = []
 
     def get_info(self):
-        return "%s:::%s:::%s:::%s:::%s:::%s" % (self.name, self.type_id, self.url, self.username, self.password, self.epg)
+        return "%s:::%s:::%s:::%s:::%s:::%s" % (
+            self.name,
+            self.type_id,
+            self.url,
+            self.username,
+            self.password,
+            self.epg,
+        )
 
-class Group():
+
+class Group:
     def __init__(self, name):
         if "VOD" in name.split():
             self.group_type = MOVIES_GROUP
@@ -68,7 +90,8 @@ class Group():
         self.channels = []
         self.series = []
 
-class Serie():
+
+class Serie:
     def __init__(self, name):
         self.name = name
         self.logo = None
@@ -76,12 +99,14 @@ class Serie():
         self.seasons = {}
         self.episodes = []
 
-class Season():
+
+class Season:
     def __init__(self, name):
         self.name = name
         self.episodes = {}
 
-class Channel():
+
+class Channel:
     def __init__(self, provider, info):
         self.info = info
         self.id = None
@@ -94,17 +119,22 @@ class Channel():
         match = EXTINF.fullmatch(info)
         if match != None:
             res = match.groupdict()
-            if 'params' in res:
-                params = dict(PARAMS.findall(res['params']))
-                if "tvg-name" in params and params['tvg-name'].strip() != "":
-                    self.name = params['tvg-name'].strip()
-                if "tvg-logo" in params and params['tvg-logo'].strip() != "":
-                    self.logo = params['tvg-logo'].strip()
-                if "group-title" in params and params['group-title'].strip() != "":
-                    self.group_title = params['group-title'].strip().replace(";", " ").replace("  ", " ")
-            if 'title' in res:
-                self.title = res['title']
-        if self.name == None and "," in info:
+            if "params" in res:
+                params = dict(PARAMS.findall(res["params"]))
+                if "tvg-name" in params and params["tvg-name"].strip() != "":
+                    self.name = params["tvg-name"].strip()
+                if "tvg-logo" in params and params["tvg-logo"].strip() != "":
+                    self.logo = params["tvg-logo"].strip()
+                if "group-title" in params and params["group-title"].strip() != "":
+                    self.group_title = (
+                        params["group-title"]
+                        .strip()
+                        .replace(";", " ")
+                        .replace("  ", " ")
+                    )
+            if "title" in res:
+                self.title = res["title"]
+        if self.name is None and "," in info:
             self.name = info.split(",")[-1].strip()
         if self.logo != None:
             if self.logo.startswith("file://"):
@@ -117,10 +147,13 @@ class Channel():
                         break
                 if ext == ".jpeg":
                     ext = ".jpg"
-                self.logo_path = os.path.join(PROVIDERS_PATH, "%s-%s%s" % (slugify(provider.name), slugify(self.name), ext))
+                self.logo_path = os.path.join(
+                    PROVIDERS_PATH,
+                    "%s-%s%s" % (slugify(provider.name), slugify(self.name), ext),
+                )
 
-class Manager():
 
+class Manager:
     def __init__(self, settings):
         os.system("mkdir -p '%s'" % PROVIDERS_PATH)
         self.verbose = False
@@ -153,29 +186,35 @@ class Manager():
                 ret_code = False
 
                 headers = {
-                    'User-Agent': self.settings.get_string("user-agent"),
-                    'Referer': self.settings.get_string("http-referer")
+                    "User-Agent": self.settings.get_string("user-agent"),
+                    "Referer": self.settings.get_string("http-referer"),
                 }
                 try:
-                    response = requests.get(provider.url, headers=headers, timeout=(5,120), stream=True)
+                    response = requests.get(
+                        provider.url, headers=headers, timeout=(5, 120), stream=True
+                    )
 
                     # If there is an answer from the remote server
                     if response.status_code == 200:
                         # Set downloaded size
                         downloaded_bytes = 0
                         # Get total playlist byte size
-                        total_content_size = int(response.headers.get('content-length', 15))
+                        total_content_size = int(
+                            response.headers.get("content-length", 15)
+                        )
                         # Set stream blocks
-                        block_bytes = int(4*1024*1024)     # 4 MB
+                        block_bytes = int(4 * 1024 * 1024)  # 4 MB
 
                         response.encoding = response.apparent_encoding
-                        #try:
+                        # try:
                         #    source = response.content.decode("UTF-8")
-                        #except UnicodeDecodeError as e:
+                        # except UnicodeDecodeError as e:
                         #    source = response.content.decode("latin1")
                         with open(provider.path, "w") as file:
                             # Grab data by block_bytes
-                            for data in response.iter_content(block_bytes,decode_unicode=True):
+                            for data in response.iter_content(
+                                block_bytes, decode_unicode=True
+                            ):
                                 downloaded_bytes += block_bytes
                                 print("{} bytes".format(downloaded_bytes))
                                 file.write(str(data))
@@ -187,7 +226,10 @@ class Manager():
                             # self.settings.set_
                             ret_code = True
                     else:
-                        print("HTTP error %d while retrieving from %s!" % (response.status_code, provider.url))
+                        print(
+                            "HTTP error %d while retrieving from %s!"
+                            % (response.status_code, provider.url)
+                        )
                 except Exception as e:
                     print(e)
         else:
@@ -201,7 +243,7 @@ class Manager():
         if os.path.exists(provider.path):
             with open(provider.path, "r") as file:
                 content = file.read()
-                if ("#EXTM3U" in content and "#EXTINF" in content):
+                if "#EXTM3U" in content and "#EXTINF" in content:
                     legit = True
                     self.debug("Content looks legit: %s" % provider.name)
                 else:
@@ -224,14 +266,14 @@ class Manager():
                     continue
                 if "://" in line and not (line.startswith("#")):
                     self.debug("    ", line)
-                    if channel == None:
+                    if channel is None:
                         self.debug("    --> channel is None")
                         continue
                     if channel.url != None:
                         # We already found the URL, skip the line
                         self.debug("    --> channel URL was already found")
                         continue
-                    if channel.name == None or "***" in channel.name:
+                    if channel.name is None or "***" in channel.name:
                         self.debug("    --> channel name is None")
                         continue
                     channel.url = line
@@ -241,29 +283,32 @@ class Manager():
                     f = SERIES.fullmatch(channel.name)
                     if f != None:
                         res = f.groupdict()
-                        series_name = res['series']
+                        series_name = res["series"]
                         if series_name in series.keys():
                             serie = series[series_name]
                         else:
                             serie = Serie(series_name)
-                            #todo put in group
+                            # todo put in group
                             provider.series.append(serie)
                             series[series_name] = serie
                             serie.logo = channel.logo
                             serie.logo_path = channel.logo_path
-                        season_name = res['season']
+                        season_name = res["season"]
                         if season_name in serie.seasons.keys():
                             season = serie.seasons[season_name]
                         else:
                             season = Season(season_name)
                             serie.seasons[season_name] = season
 
-                        episode_name = res['episode']
+                        episode_name = res["episode"]
                         season.episodes[episode_name] = channel
                         serie.episodes.append(channel)
 
-                    if channel.group_title != None and channel.group_title.strip() != "":
-                        if group == None or group.name != channel.group_title:
+                    if (
+                        channel.group_title != None
+                        and channel.group_title.strip() != ""
+                    ):
+                        if group is None or group.name != channel.group_title:
                             if channel.group_title in groups.keys():
                                 group = groups[channel.group_title]
                             else:
