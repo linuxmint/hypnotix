@@ -821,7 +821,7 @@ class XTream:
         except requests.exceptions.TooManyRedirects:
             print(" - TooManyRedirects")
 
-        except requests.exceptions.ReadTimeout as e:
+        except requests.exceptions.ReadTimeout:
             print(" - Timeout while loading data")
 
         return None
