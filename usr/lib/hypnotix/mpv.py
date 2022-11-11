@@ -1055,7 +1055,7 @@ class MPV(object):
 
     def revert_seek(self):
         """Mapped mpv revert_seek command, see man mpv(1)."""
-        self.command('revert_seek');
+        self.command('revert_seek')
 
     def frame_step(self):
         """Mapped mpv frame-step command, see man mpv(1)."""
