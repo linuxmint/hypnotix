@@ -1761,7 +1761,7 @@ class MPV(object):
                 return rv
             else:
                 raise TypeError('_get_property only supports NODE and OSD_STRING formats.')
-        except PropertyUnavailableError as ex:
+        except PropertyUnavailableError:
             return None
 
     def _set_property(self, name, value):
