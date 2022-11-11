@@ -1751,7 +1751,7 @@ class MPV(object):
         self.check_core_alive()
         out = create_string_buffer(sizeof(MpvNode))
         try:
-            cval = _mpv_get_property(self.handle, name.encode('utf-8'), fmt, out)
+            _ = _mpv_get_property(self.handle, name.encode('utf-8'), fmt, out)
 
             if fmt is MpvFormat.OSD_STRING:
                 return cast(out, POINTER(c_char_p)).contents.value.decode('utf-8')
