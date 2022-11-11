@@ -1777,13 +1777,13 @@ class MPV(object):
         return self._get_property(_py_to_mpv(name), lazy_decoder)
 
     def __setattr__(self, name, value):
-            try:
-                if name != 'handle' and not name.startswith('_'):
-                    self._set_property(_py_to_mpv(name), value)
-                else:
-                    super().__setattr__(name, value)
-            except AttributeError:
+        try:
+            if name != 'handle' and not name.startswith('_'):
+                self._set_property(_py_to_mpv(name), value)
+            else:
                 super().__setattr__(name, value)
+        except AttributeError:
+            super().__setattr__(name, value)
 
     def __dir__(self):
         return super().__dir__() + [ name.replace('-', '_') for name in self.property_list ]
