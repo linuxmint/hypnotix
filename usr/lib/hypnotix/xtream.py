@@ -368,7 +368,7 @@ class XTream:
                 search_result.append(stream.export_json())
 
         if return_type == "JSON":
-            if search_result != None:
+            if search_result is not None:
                 print("Found {} results `{}`".format(len(search_result), keyword))
                 return json.dumps(search_result, ensure_ascii=False)
         else:
@@ -411,7 +411,7 @@ class XTream:
             [type]: The logo path as a string or None
         """
         local_logo_path = None
-        if logo_url != None:
+        if logo_url is not None:
             if not self._validate_url(logo_url):
                 logo_url = None
             else:
@@ -502,7 +502,7 @@ class XTream:
         Returns:
             bool: True if successfull, False if error
         """
-        if data_list != None:
+        if data_list is not None:
 
             # Build the full path
             full_filename = osp.join(
@@ -562,7 +562,7 @@ class XTream:
                         dt = timer() - start
 
                     # If we got the GROUPS data, show the statistics and load GROUPS
-                    if all_cat != None:
+                    if all_cat is not None:
                         print(
                             "Loaded {} {} Groups in {:.3f} seconds".format(
                                 len(all_cat), loading_stream_type, dt
@@ -618,7 +618,7 @@ class XTream:
                         dt = timer() - start
 
                     # If we got the STREAMS data, show the statistics and load Streams
-                    if all_streams != None:
+                    if all_streams is not None:
                         print(
                             "Loaded {} {} Streams in {:.3f} seconds".format(
                                 len(all_streams), loading_stream_type, dt
@@ -681,7 +681,7 @@ class XTream:
                                 )
 
                                 # Set group title
-                                if the_group != None:
+                                if the_group is not None:
                                     group_title = the_group.name
                                 else:
                                     group_title = self.catch_all_group.name
@@ -717,7 +717,7 @@ class XTream:
                                     self.series.append(new_series)
 
                                 # Add stream to the specific Group
-                                if the_group != None:
+                                if the_group is not None:
                                     if loading_stream_type != self.series_type:
                                         the_group.channels.append(new_channel)
                                     else:

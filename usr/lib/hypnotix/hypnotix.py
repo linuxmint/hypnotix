@@ -471,17 +471,17 @@ class MainWindow:
     def on_category_button_clicked(self, widget, group):
         self.active_group = group
         if self.content_type == TV_GROUP:
-            if group != None:
+            if group is not None:
                 self.show_channels(group.channels)
             else:
                 self.show_channels(self.active_provider.channels)
         elif self.content_type == MOVIES_GROUP:
-            if group != None:
+            if group is not None:
                 self.show_vod(group.channels)
             else:
                 self.show_vod(self.active_provider.movies)
         elif self.content_type == SERIES_GROUP:
-            if group != None:
+            if group is not None:
                 self.show_vod(group.series)
             else:
                 self.show_vod(self.active_provider.series)
@@ -669,7 +669,7 @@ class MainWindow:
 
     def on_go_back_button(self, widget):
         self.navigate_to(self.back_page)
-        if self.active_channel != None:
+        if self.active_channel is not None:
             self.playback_bar.show()
         if self.active_group and self.back_page == "categories_page":
             self.init_channels_flowbox()
@@ -852,7 +852,7 @@ class MainWindow:
     @async_function
     def play_async(self, channel):
         print("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
-        if channel != None and channel.url != None:
+        if channel is not None and channel.url is not None:
             # os.system("mpv --wid=%s %s &" % (self.wid, channel.url))
             # self.mpv_drawing_area.show()
             self.info_menu_item.set_sensitive(False)
@@ -987,14 +987,14 @@ class MainWindow:
         match = None
         for movie in movies:
             self.ia.update(movie)
-            if movie.get("plot") != None:
+            if movie.get("plot") is not None:
                 match = movie
                 break
         self.refresh_info_section(match)
 
     @idle_function
     def refresh_info_section(self, movie):
-        if movie != None:
+        if movie is not None:
             self.set_imdb_info(movie, "title", self.info_name_label)
             self.set_imdb_info(movie, "plot outline", self.info_plot_label)
             self.set_imdb_info(movie, "rating", self.info_rating_label)
@@ -1007,7 +1007,7 @@ class MainWindow:
 
     def set_imdb_info(self, movie, field, widget):
         value = movie.get(field)
-        if value != None:
+        if value is not None:
             if field == "plot":
                 value = value[0].split("::")[0]
             elif field == "genres":
@@ -1598,7 +1598,7 @@ class MainWindow:
 
         self.refresh_providers_page()
 
-        if page != None:
+        if page is not None:
             self.navigate_to(page)
         self.status(None)
         self.latest_search_bar_text = None
@@ -1614,7 +1614,7 @@ class MainWindow:
             self.status_label.hide()
             return
         self.status_label.show()
-        if provider != None:
+        if provider is not None:
             self.status_label.set_text("%s: %s" % (provider.name, string))
             print("%s: %s" % (provider.name, string))
         else:
@@ -1625,7 +1625,7 @@ class MainWindow:
         self.reinit_mpv()
 
     def reinit_mpv(self):
-        if self.mpv != None:
+        if self.mpv is not None:
             self.mpv.stop()
         options = {}
         try:

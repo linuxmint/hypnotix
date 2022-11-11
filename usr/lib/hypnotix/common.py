@@ -50,7 +50,7 @@ def slugify(string):
 
 class Provider:
     def __init__(self, name, provider_info):
-        if provider_info != None:
+        if provider_info is not None:
             (
                 self.name,
                 self.type_id,
@@ -117,7 +117,7 @@ class Channel:
         self.title = None
         self.url = None
         match = EXTINF.fullmatch(info)
-        if match != None:
+        if match is not None:
             res = match.groupdict()
             if "params" in res:
                 params = dict(PARAMS.findall(res["params"]))
@@ -136,7 +136,7 @@ class Channel:
                 self.title = res["title"]
         if self.name is None and "," in info:
             self.name = info.split(",")[-1].strip()
-        if self.logo != None:
+        if self.logo is not None:
             if self.logo.startswith("file://"):
                 self.logo_path = self.logo[7:]
             else:
@@ -269,7 +269,7 @@ class Manager:
                     if channel is None:
                         self.debug("    --> channel is None")
                         continue
-                    if channel.url != None:
+                    if channel.url is not None:
                         # We already found the URL, skip the line
                         self.debug("    --> channel URL was already found")
                         continue
@@ -281,7 +281,7 @@ class Manager:
 
                     serie = None
                     f = SERIES.fullmatch(channel.name)
-                    if f != None:
+                    if f is not None:
                         res = f.groupdict()
                         series_name = res["series"]
                         if series_name in series.keys():
@@ -305,7 +305,7 @@ class Manager:
                         serie.episodes.append(channel)
 
                     if (
-                        channel.group_title != None
+                        channel.group_title is not None
                         and channel.group_title.strip() != ""
                     ):
                         if group is None or group.name != channel.group_title:
@@ -315,7 +315,7 @@ class Manager:
                                 group = Group(channel.group_title)
                                 provider.groups.append(group)
                                 groups[channel.group_title] = group
-                        if serie != None and serie not in group.series:
+                        if serie is not None and serie not in group.series:
                             group.series.append(serie)
                         group.channels.append(channel)
                         if group.group_type == TV_GROUP:
