@@ -1267,7 +1267,7 @@ class MPV(object):
         """Mapped mpv discnav command, see man mpv(1)."""
         self.command('discnav', command)
 
-    def mouse(x, y, button=None, mode='single'):
+    def mouse(self, x, y, button=None, mode='single'):
         """Mapped mpv mouse command, see man mpv(1)."""
         if button is None:
             self.command('mouse', x, y, mode)
