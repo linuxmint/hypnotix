@@ -661,7 +661,7 @@ class MainWindow:
                 surface = self.get_surface_for_file(path, 200, 200)
             else:
                 surface = self.get_surface_for_file(path, 200, 200)
-        except:
+        except Exception:
             surface = self.get_surface_for_file(
                 "/usr/share/hypnotix/generic_tv_logo.png", 22, 22
             )
