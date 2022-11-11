@@ -1456,7 +1456,7 @@ class MainWindow:
         modifier = event.get_state() & persistant_modifiers
         # Bool of Control or Shift modifier states
         ctrl = modifier == Gdk.ModifierType.CONTROL_MASK
-        shift = modifier == Gdk.ModifierType.SHIFT_MASK
+        _ = modifier == Gdk.ModifierType.SHIFT_MASK
 
         if ctrl and event.keyval == Gdk.KEY_r:
             self.reload(page=None, refresh=True)
