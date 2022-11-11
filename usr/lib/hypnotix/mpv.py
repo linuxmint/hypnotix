@@ -866,7 +866,7 @@ class MPV(object):
 
                 if eid == MpvEventID.PROPERTY_CHANGE:
                     pc = devent['event']
-                    name, value, _fmt = pc['name'], pc['value'], pc['format']
+                    name, value, _ = pc['name'], pc['value'], pc['format']
                     for handler in self._property_handlers[name]:
                         handler(name, value)
 
