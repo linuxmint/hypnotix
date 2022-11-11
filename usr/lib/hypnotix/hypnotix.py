@@ -549,7 +549,7 @@ class MainWindow:
             self.download_channel_logos(logos_to_refresh)
 
     def remove_word(self, word, string):
-        if not " " in string:
+        if " " not in string:
             return string
         words = string.split()
         if word in string:
@@ -1334,7 +1334,7 @@ class MainWindow:
         url = widget.get_text().strip()
         if url == "":
             return ""
-        if not "://" in url:
+        if "://" not in url:
             if type_id == PROVIDER_TYPE_LOCAL:
                 url = "file://%s" % url
             else:
