@@ -652,7 +652,7 @@ class XTream:
                                         self._save_to_file_skipped_streams(
                                             stream_channel
                                         )
-                                except:
+                                except Exception:
                                     print(
                                         " - Stream does not have `is_adult` key:\n\t`{}`".format(
                                             json.dumps(stream_channel)
