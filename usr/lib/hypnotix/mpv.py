@@ -884,7 +884,7 @@ class MPV(object):
                     _mpv_detach_destroy(self._event_handle)
                     return
 
-            except Exception as e:
+            except Exception:
                 print('Exception inside python-mpv event loop:', file=sys.stderr)
                 traceback.print_exc()
 
