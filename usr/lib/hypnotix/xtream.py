@@ -426,7 +426,7 @@ class XTream:
     def authenticate(self):
         """Login to provider"""
         # If we have not yet successfully authenticated, attempt authentication
-        if self.state["authenticated"] == False:
+        if self.state["authenticated"] is False:
             # Erase any previous data
             self.auth_data = {}
             try:
@@ -534,8 +534,8 @@ class XTream:
 
         """
         # If pyxtream has already authenticated the connection and not loaded the data, start loading
-        if self.state["authenticated"] == True:
-            if self.state["loaded"] == False:
+        if self.state["authenticated"] is True:
+            if self.state["loaded"] is False:
 
                 for loading_stream_type in (
                     self.live_type,
