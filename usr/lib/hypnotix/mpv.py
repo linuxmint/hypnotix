@@ -1741,7 +1741,7 @@ class MPV(object):
         self._python_stream_catchall = cb
         def unregister():
             if self._python_stream_catchall is not cb:
-                    raise RuntimeError('This catch-all python stream has already been unregistered')
+                raise RuntimeError('This catch-all python stream has already been unregistered')
             self._python_stream_catchall = None
         cb.unregister = unregister
         return cb
