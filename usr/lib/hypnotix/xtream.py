@@ -786,7 +786,7 @@ class XTream:
         # print("Loaded in {:.3f} sec".format(dt))
         for series_info in series_seasons["seasons"]:
             season_name = series_info["name"]
-            season_key = series_info["season_number"]
+            _ = series_info["season_number"]
             season = Season(season_name)
             get_series.seasons[season_name] = season
             if "episodes" in series_seasons.keys():
