@@ -21,7 +21,7 @@ import gi
 
 gi.require_version("Gtk", "3.0")
 gi.require_version("XApp", "1.0")
-from gi.repository import Gtk, Gdk, Gio, GdkPixbuf, GLib, Pango
+from gi.repository import Gtk, Gdk, Gio, XApp, GdkPixbuf, GLib, Pango
 
 import mpv
 import requests
