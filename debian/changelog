@@ -1,3 +1,22 @@
+hypnotix (3.0) vera; urgency=medium
+
+  [ Michael Webster ]
+  * Add github workflow.
+
+  [ woxcab ]
+  * Fix error when the Content-Length header is missing (#241)
+
+  [ Dmitriy Yefremov ]
+  * Fixed disabling osc via MPV options (#240) (#242)
+
+  [ fire-hawk-86 ]
+  * Update common.py (#244)
+
+  [ atzlinux ]
+  * d/control: Depends:  add python3-requests
+
+ -- Clement Lefebvre <root@linuxmint.com>  Mon, 21 Nov 2022 11:47:43 +0000
+
 hypnotix (2.9) vanessa; urgency=medium
 
   * l10n: Update translations
