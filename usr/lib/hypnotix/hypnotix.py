@@ -29,17 +29,8 @@ import setproctitle
 from imdb import IMDb
 from unidecode import unidecode
 
-from common import (
-    Manager,
-    Provider,
-    BADGES,
-    MOVIES_GROUP,
-    PROVIDERS_PATH,
-    SERIES_GROUP,
-    TV_GROUP,
-    async_function,
-    idle_function,
-)
+from common import Manager, Provider, BADGES, MOVIES_GROUP, PROVIDERS_PATH, SERIES_GROUP, TV_GROUP,\
+    async_function, idle_function
 
 
 setproctitle.setproctitle("hypnotix")
@@ -144,7 +135,8 @@ class MainWindow:
         screen = Gdk.Display.get_default_screen(Gdk.Display.get_default())
         # I was unable to found instrospected version of this
         Gtk.StyleContext.add_provider_for_screen(
-            screen, provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+            screen, provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
 
         # Prefs variables
@@ -252,9 +244,7 @@ class MainWindow:
         self.fullscreen_button.connect("clicked", self.on_fullscreen_button_clicked)
 
         self.info_window.connect("delete-event", self.on_close_info_window)
-        self.info_window_close_button.connect(
-            "clicked", self.on_close_info_window_button_clicked
-        )
+        self.info_window_close_button.connect("clicked", self.on_close_info_window_button_clicked)
 
         self.provider_ok_button.connect("clicked", self.on_provider_ok_button)
         self.provider_cancel_button.connect("clicked", self.on_provider_cancel_button)
@@ -299,9 +289,7 @@ class MainWindow:
 
         # dark mode
         prefer_dark_mode = self.settings.get_boolean("prefer-dark-mode")
-        Gtk.Settings.get_default().set_property(
-            "gtk-application-prefer-dark-theme", prefer_dark_mode
-        )
+        Gtk.Settings.get_default().set_property("gtk-application-prefer-dark-theme", prefer_dark_mode)
         self.darkmode_switch.set_active(prefer_dark_mode)
         self.darkmode_switch.connect("notify::active", self.on_darkmode_switch_toggled)
 
@@ -310,41 +298,29 @@ class MainWindow:
         self.window.add_accel_group(accel_group)
         menu = self.builder.get_object("main_menu")
         item = Gtk.ImageMenuItem()
-        item.set_image(
-            Gtk.Image.new_from_icon_name(
-                "preferences-desktop-keyboard-shortcuts-symbolic", Gtk.IconSize.MENU
-            )
-        )
+        item.set_image(Gtk.Image.new_from_icon_name("preferences-desktop-keyboard-shortcuts-symbolic", Gtk.IconSize.MENU))
         item.set_label(_("Keyboard Shortcuts"))
         item.connect("activate", self.open_keyboard_shortcuts)
         key, mod = Gtk.accelerator_parse("<Control>K")
         item.add_accelerator("activate", accel_group, key, mod, Gtk.AccelFlags.VISIBLE)
         menu.append(item)
         self.info_menu_item = Gtk.ImageMenuItem()
-        self.info_menu_item.set_image(
-            Gtk.Image.new_from_icon_name("dialog-information", Gtk.IconSize.MENU)
-        )
+        self.info_menu_item.set_image(Gtk.Image.new_from_icon_name("dialog-information", Gtk.IconSize.MENU))
         self.info_menu_item.set_label(_("Stream Information"))
         self.info_menu_item.connect("activate", self.open_info)
         key, mod = Gtk.accelerator_parse("F2")
-        self.info_menu_item.add_accelerator(
-            "activate", accel_group, key, mod, Gtk.AccelFlags.VISIBLE
-        )
+        self.info_menu_item.add_accelerator("activate", accel_group, key, mod, Gtk.AccelFlags.VISIBLE)
         self.info_menu_item.set_sensitive(False)
         menu.append(self.info_menu_item)
         item = Gtk.ImageMenuItem()
-        item.set_image(
-            Gtk.Image.new_from_icon_name("help-about-symbolic", Gtk.IconSize.MENU)
-        )
+        item.set_image(Gtk.Image.new_from_icon_name("help-about-symbolic", Gtk.IconSize.MENU))
         item.set_label(_("About"))
         item.connect("activate", self.open_about)
         key, mod = Gtk.accelerator_parse("F1")
         item.add_accelerator("activate", accel_group, key, mod, Gtk.AccelFlags.VISIBLE)
         menu.append(item)
         item = Gtk.ImageMenuItem(label=_("Quit"))
-        image = Gtk.Image.new_from_icon_name(
-            "application-exit-symbolic", Gtk.IconSize.MENU
-        )
+        image = Gtk.Image.new_from_icon_name("application-exit-symbolic", Gtk.IconSize.MENU)
         item.set_image(image)
         item.connect("activate", self.on_menu_quit)
         key, mod = Gtk.accelerator_parse("<Control>Q")
@@ -367,27 +343,15 @@ class MainWindow:
         self.provider_type_combo.set_active(0)  # Select 1st type
         self.provider_type_combo.connect("changed", self.on_provider_type_combo_changed)
 
-        self.tv_logo.set_from_surface(
-            self.get_surface_for_file("/usr/share/hypnotix/pictures/tv.svg", 258, 258)
-        )
-        self.movies_logo.set_from_surface(
-            self.get_surface_for_file(
-                "/usr/share/hypnotix/pictures/movies.svg", 258, 258
-            )
-        )
-        self.series_logo.set_from_surface(
-            self.get_surface_for_file(
-                "/usr/share/hypnotix/pictures/series.svg", 258, 258
-            )
-        )
+        self.tv_logo.set_from_surface(self.get_surface_for_file("/usr/share/hypnotix/pictures/tv.svg", 258, 258))
+        self.movies_logo.set_from_surface(self.get_surface_for_file("/usr/share/hypnotix/pictures/movies.svg", 258, 258))
+        self.series_logo.set_from_surface(self.get_surface_for_file("/usr/share/hypnotix/pictures/series.svg", 258, 258))
 
         self.reload(page="landing_page")
 
         # Redownload playlists by default
         # This is going to get readjusted
-        self._timerid = GLib.timeout_add_seconds(
-            self.reload_timeout_sec, self.force_reload
-        )
+        self._timerid = GLib.timeout_add_seconds(self.reload_timeout_sec, self.force_reload)
 
         self.window.show()
         self.playback_bar.hide()
@@ -443,15 +407,9 @@ class MainWindow:
             if self.content_type == TV_GROUP:
                 label.set_text("%s (%d)" % (group.name, len(group.channels)))
             elif self.content_type == MOVIES_GROUP:
-                label.set_text(
-                    "%s (%d)"
-                    % (self.remove_word("VOD", group.name), len(group.channels))
-                )
+                label.set_text("%s (%d)" % (self.remove_word("VOD", group.name), len(group.channels)))
             else:
-                label.set_text(
-                    "%s (%d)"
-                    % (self.remove_word("SERIES", group.name), len(group.series))
-                )
+                label.set_text("%s (%d)" % (self.remove_word("SERIES", group.name), len(group.series)))
             box = Gtk.Box()
             name = group.name.lower().replace("(", " ").replace(")", " ")
             added_words = []
@@ -502,9 +460,7 @@ class MainWindow:
                 label.set_max_width_chars(30)
                 label.set_ellipsize(Pango.EllipsizeMode.END)
                 box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-                image = Gtk.Image().new_from_surface(
-                    self.get_channel_surface(channel.logo_path)
-                )
+                image = Gtk.Image().new_from_surface(self.get_channel_surface(channel.logo_path))
                 logos_to_refresh.append((channel, image))
                 box.pack_start(image, False, False, 0)
                 box.pack_start(label, False, False, 0)
@@ -535,9 +491,7 @@ class MainWindow:
             label.set_max_width_chars(30)
             label.set_ellipsize(Pango.EllipsizeMode.END)
             box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-            image = Gtk.Image().new_from_surface(
-                self.get_channel_surface(item.logo_path)
-            )
+            image = Gtk.Image().new_from_surface(self.get_channel_surface(item.logo_path))
             logos_to_refresh.append((item, image))
             box.pack_start(image, False, False, 0)
             box.pack_start(label, False, False, 0)
@@ -585,9 +539,7 @@ class MainWindow:
                 label.set_max_width_chars(30)
                 label.set_ellipsize(Pango.EllipsizeMode.END)
                 box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-                image = Gtk.Image().new_from_surface(
-                    self.get_channel_surface(episode.logo_path)
-                )
+                image = Gtk.Image().new_from_surface(self.get_channel_surface(episode.logo_path))
                 logos_to_refresh.append((episode, image))
                 box.pack_start(image, False, False, 0)
                 box.pack_start(label, False, False, 0)
@@ -622,9 +574,7 @@ class MainWindow:
     def on_darkmode_switch_toggled(self, widget, key):
         prefer_dark_mode = widget.get_active()
         self.settings.set_boolean("prefer-dark-mode", prefer_dark_mode)
-        Gtk.Settings.get_default().set_property(
-            "gtk-application-prefer-dark-theme", prefer_dark_mode
-        )
+        Gtk.Settings.get_default().set_property("gtk-application-prefer-dark-theme", prefer_dark_mode)
 
     @async_function
     def download_channel_logos(self, logos_to_refresh):
@@ -638,9 +588,7 @@ class MainWindow:
             if os.path.isfile(channel.logo_path):
                 continue
             try:
-                response = requests.get(
-                    channel.logo, headers=headers, timeout=10, stream=True
-                )
+                response = requests.get(channel.logo, headers=headers, timeout=10, stream=True)
                 if response.status_code == 200:
                     response.raw.decode_content = True
                     with open(channel.logo_path, "wb") as f:
@@ -662,9 +610,7 @@ class MainWindow:
             else:
                 surface = self.get_surface_for_file(path, 200, 200)
         except Exception:
-            surface = self.get_surface_for_file(
-                "/usr/share/hypnotix/generic_tv_logo.png", 22, 22
-            )
+            surface = self.get_surface_for_file("/usr/share/hypnotix/generic_tv_logo.png", 22, 22)
         return surface
 
     def on_go_back_button(self, widget):
@@ -692,9 +638,7 @@ class MainWindow:
     def on_search(self):
         def filter_func(child):
             search_bar_text = unidecode(self.search_bar.get_text()).lower()
-            label_text = unidecode(
-                child.get_children()[0].get_children()[0].get_children()[1].get_text()
-            ).lower()
+            label_text = unidecode(child.get_children()[0].get_children()[0].get_children()[1].get_text()).lower()
             if search_bar_text in label_text:
                 self.visible_search_results += 1
                 return True
@@ -705,10 +649,7 @@ class MainWindow:
         self.channels_flowbox.set_filter_func(filter_func)
         if not self.channels_flowbox.get_children():
             self.show_channels(self.active_provider.channels)
-        print(
-            "Filtering %d channel names containing the string '%s'..."
-            % (len(self.channels_flowbox.get_children()), self.latest_search_bar_text)
-        )
+        print("Filtering %d channel names containing the string '%s'..." % (len(self.channels_flowbox.get_children()), self.latest_search_bar_text))
         if self.visible_search_results == 0:
             self.status(_("No channels found"))
         else:
@@ -773,9 +714,7 @@ class MainWindow:
                     self.headerbar.set_subtitle(_("TV Channels"))
                 else:
                     self.back_page = "categories_page"
-                    self.headerbar.set_subtitle(
-                        _("TV Channels > %s") % self.active_group.name
-                    )
+                    self.headerbar.set_subtitle(_("TV Channels > %s") % self.active_group.name)
             elif self.content_type == MOVIES_GROUP:
                 self.headerbar.set_subtitle(self.active_channel.name)
                 self.back_page = "vod_page"
@@ -790,18 +729,14 @@ class MainWindow:
                     self.headerbar.set_subtitle(_("Movies"))
                 else:
                     self.back_page = "categories_page"
-                    self.headerbar.set_subtitle(
-                        _("Movies > %s") % self.active_group.name
-                    )
+                    self.headerbar.set_subtitle(_("Movies > %s") % self.active_group.name)
             else:
                 if self.active_group is None:
                     self.back_page = "landing_page"
                     self.headerbar.set_subtitle(_("Series"))
                 else:
                     self.back_page = "categories_page"
-                    self.headerbar.set_subtitle(
-                        _("Series > %s") % self.active_group.name
-                    )
+                    self.headerbar.set_subtitle(_("Series > %s") % self.active_group.name)
         elif page == "episodes_page":
             self.back_page = "vod_page"
             self.headerbar.set_title(provider.name)
@@ -931,10 +866,7 @@ class MainWindow:
         if not params or not type(params) == dict:
             return
         if "w" in params and "h" in params:
-            self.video_properties[_("General")][_("Dimensions")] = "%sx%s" % (
-                params["w"],
-                params["h"],
-            )
+            self.video_properties[_("General")][_("Dimensions")] = "%sx%s" % (params["w"],params["h"])
         if "aspect" in params:
             aspect = round(float(params["aspect"]), 2)
             self.video_properties[_("General")][_("Aspect")] = "%s" % aspect
@@ -943,9 +875,7 @@ class MainWindow:
         if "gamma" in params:
             self.video_properties[_("Color")][_("Gamma")] = params["gamma"]
         if "average-bpp" in params:
-            self.video_properties[_("Color")][_("Bits Per Pixel")] = params[
-                "average-bpp"
-            ]
+            self.video_properties[_("Color")][_("Bits Per Pixel")] = params["average-bpp"]
 
     @idle_function
     def on_video_format(self, property, vformat):
@@ -971,9 +901,7 @@ class MainWindow:
                 fmt = AUDIO_SAMPLE_FORMATS[fmt]
             self.audio_properties[_("General")][_("Format")] = fmt
         if "channel-count" in params:
-            self.audio_properties[_("Layout")][_("Channel Count")] = params[
-                "channel-count"
-            ]
+            self.audio_properties[_("Layout")][_("Channel Count")] = params["channel-count"]
 
     @idle_function
     def on_audio_codec(self, property, codec):
@@ -1067,9 +995,7 @@ class MainWindow:
             num = len(provider.channels)
             if num > 0:
                 label = Gtk.Label()
-                label.set_text(
-                    gettext.ngettext("%d TV channel", "%d TV channels", num) % num
-                )
+                label.set_text(gettext.ngettext("%d TV channel", "%d TV channels", num) % num)
                 labels_box.pack_start(label, False, False, 0)
             num = len(provider.movies)
             if num > 0:
@@ -1085,9 +1011,7 @@ class MainWindow:
             button.connect("clicked", self.on_provider_selected, provider)
             label = Gtk.Label()
             if provider == self.active_provider:
-                label.set_text(
-                    "%s %d (active)" % (provider.name, len(provider.channels))
-                )
+                label.set_text("%s %d (active)" % (provider.name, len(provider.channels)))
             else:
                 label.set_text(provider.name)
             button.add(labels_box)
@@ -1217,15 +1141,8 @@ class MainWindow:
         self.reload(page="providers_page")
 
     def on_browse_button(self, widget):
-        dialog = Gtk.FileChooserDialog(
-            parent=self.window, action=Gtk.FileChooserAction.OPEN
-        )
-        dialog.add_buttons(
-            Gtk.STOCK_CANCEL,
-            Gtk.ResponseType.CANCEL,
-            Gtk.STOCK_OPEN,
-            Gtk.ResponseType.OK,
-        )
+        dialog = Gtk.FileChooserDialog(parent=self.window, action=Gtk.FileChooserAction.OPEN)
+        dialog.add_buttons(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL, Gtk.STOCK_OPEN, Gtk.ResponseType.OK)
         filter_m3u = Gtk.FileFilter()
         filter_m3u.set_name(_("M3U Playlists"))
         filter_m3u.add_pattern("*.m3u*")
@@ -1247,9 +1164,7 @@ class MainWindow:
         self.reload(page="providers_page", refresh=True)
 
     def on_provider_type_combo_changed(self, widget):
-        type_id = self.provider_type_combo.get_model()[
-            self.provider_type_combo.get_active()
-        ][PROVIDER_TYPE_ID]
+        type_id = self.provider_type_combo.get_model()[self.provider_type_combo.get_active()][PROVIDER_TYPE_ID]
         self.set_provider_type(type_id)
 
     def set_provider_type(self, type_id):
@@ -1294,9 +1209,7 @@ class MainWindow:
             widget.show()
 
     def on_provider_ok_button(self, widget):
-        type_id = self.provider_type_combo.get_model()[
-            self.provider_type_combo.get_active()
-        ][PROVIDER_TYPE_ID]
+        type_id = self.provider_type_combo.get_model()[self.provider_type_combo.get_active()][PROVIDER_TYPE_ID]
         name = self.name_entry.get_text()
         if self.edit_mode:
             provider = self.marked_provider
@@ -1323,9 +1236,7 @@ class MainWindow:
             self.provider_ok_button.set_sensitive(True)
 
     def get_url(self):
-        type_id = self.provider_type_combo.get_model()[
-            self.provider_type_combo.get_active()
-        ][PROVIDER_TYPE_ID]
+        type_id = self.provider_type_combo.get_model()[self.provider_type_combo.get_active()][PROVIDER_TYPE_ID]
         if type_id == PROVIDER_TYPE_LOCAL:
             widget = self.path_entry
         else:
@@ -1367,17 +1278,11 @@ class MainWindow:
 
         for section, props in zip(sections, props):
             for prop_k, prop_v in props.items():
-                box = Gtk.Box(
-                    orientation=Gtk.Orientation.HORIZONTAL,
-                    margin_left=24,
-                    margin_right=24,
-                    margin_top=6,
-                    margin_bottom=6,
-                )
+                box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL,
+                    margin_left=24, margin_right=24, margin_top=6, margin_bottom=6)
                 box.set_halign(Gtk.Align.FILL)
-                box_inner = Gtk.Box(
-                    orientation=Gtk.Orientation.HORIZONTAL, spacing=14 * 12, expand=True
-                )
+                box_inner = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL,
+                    spacing=14 * 12, expand=True)
                 k = Gtk.Label(label=prop_k, margin_top=12, margin_bottom=12)
                 k.set_halign(Gtk.Align.START)
                 v = Gtk.Label(label=prop_v, margin_top=12, margin_bottom=12)
@@ -1393,17 +1298,11 @@ class MainWindow:
                         label.set_text(properties[_("Average Bitrate")])
                     return True
 
-                if (
-                    prop_k == _("Average Bitrate")
-                    and props == self.video_properties[_("General")]
-                ):
+                if prop_k == _("Average Bitrate") and props == self.video_properties[_("General")]:
                     cb = partial(update_bitrate, v, props)
                     GLib.timeout_add_seconds(UPDATE_BR_INTERVAL, cb)
 
-                elif (
-                    prop_k == _("Average Bitrate")
-                    and props == self.audio_properties[_("General")]
-                ):
+                elif prop_k == _("Average Bitrate") and props == self.audio_properties[_("General")]:
                     cb = partial(update_bitrate, v, props)
                     GLib.timeout_add_seconds(UPDATE_BR_INTERVAL, cb)
 
@@ -1456,7 +1355,7 @@ class MainWindow:
         modifier = event.get_state() & persistant_modifiers
         # Bool of Control or Shift modifier states
         ctrl = modifier == Gdk.ModifierType.CONTROL_MASK
-        _ = modifier == Gdk.ModifierType.SHIFT_MASK
+        shift = modifier == Gdk.ModifierType.SHIFT_MASK
 
         if ctrl and event.keyval == Gdk.KEY_r:
             self.reload(page=None, refresh=True)
@@ -1465,15 +1364,9 @@ class MainWindow:
                 self.search_button.set_active(False)
             else:
                 self.search_button.set_active(True)
-        elif (
-            event.keyval == Gdk.KEY_F11
-            or (
-                event.keyval == Gdk.KEY_f
-                and not ctrl
-                and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry
-            )
-            or (self.fullscreen and event.keyval == Gdk.KEY_Escape)
-        ):
+        elif event.keyval == Gdk.KEY_F11 or \
+                (event.keyval == Gdk.KEY_f and not ctrl and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry) or \
+                (self.fullscreen and event.keyval == Gdk.KEY_Escape):
             self.toggle_fullscreen()
         # elif event.keyval == Gdk.KEY_Left:
         #     # Left of in the list
@@ -1518,28 +1411,13 @@ class MainWindow:
                         if self.manager.check_playlist(provider):
                             self.status(_("Loading channels..."), provider)
                             self.manager.load_channels(provider)
-                            if provider.name == self.settings.get_string(
-                                "active-provider"
-                            ):
+                            if provider.name == self.settings.get_string("active-provider"):
                                 self.active_provider = provider
                             self.status(None)
-                            print(
-                                "%s: %d channels, %d groups, %d series, %d movies"
-                                % (
-                                    provider.name,
-                                    len(provider.channels),
-                                    len(provider.groups),
-                                    len(provider.series),
-                                    len(provider.movies),
-                                )
-                            )
+                            print("%s: %d channels, %d groups, %d series, %d movies" % (provider.name, \
+                                len(provider.channels), len(provider.groups), len(provider.series), len(provider.movies)))
                     else:
-                        self.status(
-                            _("Failed to Download playlist from {}").format(
-                                provider.name
-                            ),
-                            provider,
-                        )
+                        self.status(_("Failed to Download playlist from {}").format(provider.name), provider)
 
                 else:
                     # Load xtream class
@@ -1559,9 +1437,7 @@ class MainWindow:
                         # Save default cursor
                         current_cursor = self.window.get_window().get_cursor()
                         # Set waiting cursor
-                        self.window.get_window().set_cursor(
-                            Gdk.Cursor.new_from_name(Gdk.Display.get_default(), "wait")
-                        )
+                        self.window.get_window().set_cursor(Gdk.Cursor.new_from_name(Gdk.Display.get_default(), "wait"))
                         # Load data
                         self.x.load_iptv()
                         # Restore default cursor
@@ -1576,9 +1452,7 @@ class MainWindow:
                         self.reload_timeout_sec = 60 * 60 * 2  # 2 hours
                         if self._timerid:
                             GLib.source_remove(self._timerid)
-                        self._timerid = GLib.timeout_add_seconds(
-                            self.reload_timeout_sec, self.force_reload
-                        )
+                        self._timerid = GLib.timeout_add_seconds(self.reload_timeout_sec, self.force_reload)
 
                         # If no errors, approve provider
                         if provider.name == self.settings.get_string("active-provider"):
