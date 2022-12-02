@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2021-11-23 12:21+0000\n"
-"PO-Revision-Date: 2021-01-05 15:04+0000\n"
-"Last-Translator: Stephan Woidowski <swoidowski@t-online.de>\n"
+"PO-Revision-Date: 2022-08-30 19:11+0000\n"
+"Last-Translator: Andi Chandler <Unknown>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2022-07-24 09:43+0000\n"
-"X-Generator: Launchpad (build 025a39fd866a641b6ae33074cda0d02a2c712d38)\n"
+"X-Launchpad-Export-Date: 2022-12-02 13:17+0000\n"
+"X-Generator: Launchpad (build 51cef3d08dff1e227b5ada709bd67280c567d4be)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:119 usr/lib/hypnotix/hypnotix.py:696
 #: usr/lib/hypnotix/hypnotix.py:1214 generate_desktop_files:25
@@ -31,7 +31,7 @@ msgstr "Keyboard Shortcuts"
 #: usr/lib/hypnotix/hypnotix.py:245 usr/share/hypnotix/hypnotix.ui.h:35
 #: usr/share/hypnotix/shortcuts.ui.h:3
 msgid "Stream Information"
-msgstr ""
+msgstr "Stream Information"
 
 #: usr/lib/hypnotix/hypnotix.py:253 usr/lib/hypnotix/hypnotix.py:1213
 #: usr/share/hypnotix/shortcuts.ui.h:2
@@ -130,19 +130,19 @@ msgstr "Reset providers"
 #: usr/lib/hypnotix/hypnotix.py:1193 usr/lib/hypnotix/hypnotix.py:1197
 #: usr/share/hypnotix/hypnotix.ui.h:36
 msgid "General"
-msgstr ""
+msgstr "General"
 
 #: usr/lib/hypnotix/hypnotix.py:727 usr/lib/hypnotix/hypnotix.py:796
 #: usr/lib/hypnotix/hypnotix.py:798 usr/lib/hypnotix/hypnotix.py:800
 #: usr/lib/hypnotix/hypnotix.py:1167 usr/share/hypnotix/hypnotix.ui.h:38
 msgid "Color"
-msgstr ""
+msgstr "Colour"
 
 #: usr/lib/hypnotix/hypnotix.py:731 usr/lib/hypnotix/hypnotix.py:816
 #: usr/lib/hypnotix/hypnotix.py:826 usr/lib/hypnotix/hypnotix.py:1169
 #: usr/share/hypnotix/hypnotix.ui.h:40
 msgid "Layout"
-msgstr ""
+msgstr "Layout"
 
 #: usr/lib/hypnotix/hypnotix.py:767 usr/lib/hypnotix/hypnotix.py:768
 #: usr/lib/hypnotix/hypnotix.py:782 usr/lib/hypnotix/hypnotix.py:784
@@ -150,51 +150,51 @@ msgstr ""
 #: usr/lib/hypnotix/hypnotix.py:1193 usr/lib/hypnotix/hypnotix.py:1197
 #: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Average Bitrate"
-msgstr ""
+msgstr "Average Bitrate"
 
 #: usr/lib/hypnotix/hypnotix.py:791
 msgid "Dimensions"
-msgstr ""
+msgstr "Dimensions"
 
 #: usr/lib/hypnotix/hypnotix.py:794
 msgid "Aspect"
-msgstr ""
+msgstr "Aspect"
 
 #: usr/lib/hypnotix/hypnotix.py:796
 msgid "Pixel Format"
-msgstr ""
+msgstr "Pixel Format"
 
 #: usr/lib/hypnotix/hypnotix.py:798
 msgid "Gamma"
-msgstr ""
+msgstr "Gamma"
 
 #: usr/lib/hypnotix/hypnotix.py:800
 msgid "Bits Per Pixel"
-msgstr ""
+msgstr "Bits Per Pixel"
 
 #: usr/lib/hypnotix/hypnotix.py:806 usr/lib/hypnotix/hypnotix.py:832
 msgid "Codec"
-msgstr ""
+msgstr "Codec"
 
 #: usr/lib/hypnotix/hypnotix.py:815
 msgid "surround sound"
-msgstr ""
+msgstr "surround sound"
 
 #: usr/lib/hypnotix/hypnotix.py:816
 msgid "Channels"
-msgstr ""
+msgstr "Channels"
 
 #: usr/lib/hypnotix/hypnotix.py:819
 msgid "Sample Rate"
-msgstr ""
+msgstr "Sample Rate"
 
 #: usr/lib/hypnotix/hypnotix.py:824
 msgid "Format"
-msgstr ""
+msgstr "Format"
 
 #: usr/lib/hypnotix/hypnotix.py:826
 msgid "Channel Count"
-msgstr ""
+msgstr "Channel Count"
 
 #: usr/lib/hypnotix/hypnotix.py:920
 #, python-format
@@ -236,7 +236,7 @@ msgstr "Watch TV"
 
 #: usr/share/hypnotix/hypnotix.ui.h:3 usr/share/hypnotix/shortcuts.ui.h:5
 msgid "Search"
-msgstr ""
+msgstr "Search"
 
 #: usr/share/hypnotix/hypnotix.ui.h:4
 msgid "Fullscreen"
@@ -271,10 +271,12 @@ msgid ""
 "This option only works when used with light desktop themes which support "
 "dark mode."
 msgstr ""
+"This option only works when used with light desktop themes which support "
+"dark mode."
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Prefer dark mode"
-msgstr ""
+msgstr "Prefer dark mode"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Add a new provider..."
@@ -358,11 +360,11 @@ msgstr "Stop"
 
 #: usr/share/hypnotix/hypnotix.ui.h:39
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #: usr/share/hypnotix/hypnotix.ui.h:41
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: usr/share/hypnotix/shortcuts.ui.h:1
 msgid "Main shortcuts"
@@ -374,4 +376,4 @@ msgstr "Toggle Fullscreen"
 
 #: usr/share/hypnotix/shortcuts.ui.h:7
 msgid "Reload all providers"
-msgstr ""
+msgstr "Reload all providers"

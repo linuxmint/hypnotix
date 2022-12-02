@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2021-11-23 12:21+0000\n"
-"PO-Revision-Date: 2021-06-15 02:21+0000\n"
+"PO-Revision-Date: 2022-09-07 15:01+0000\n"
 "Last-Translator: karm <melo@carmu.com>\n"
 "Language-Team: Interlingua <ia@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2022-07-24 09:43+0000\n"
-"X-Generator: Launchpad (build 025a39fd866a641b6ae33074cda0d02a2c712d38)\n"
+"X-Launchpad-Export-Date: 2022-12-02 13:17+0000\n"
+"X-Generator: Launchpad (build 51cef3d08dff1e227b5ada709bd67280c567d4be)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:119 usr/lib/hypnotix/hypnotix.py:696
 #: usr/lib/hypnotix/hypnotix.py:1214 generate_desktop_files:25
@@ -236,7 +236,7 @@ msgstr "Reguardar TV"
 
 #: usr/share/hypnotix/hypnotix.ui.h:3 usr/share/hypnotix/shortcuts.ui.h:5
 msgid "Search"
-msgstr ""
+msgstr "Cercar"
 
 #: usr/share/hypnotix/hypnotix.ui.h:4
 msgid "Fullscreen"
@@ -271,10 +271,12 @@ msgid ""
 "This option only works when used with light desktop themes which support "
 "dark mode."
 msgstr ""
+"Iste option functiona solo quando usate con luce themas de scriptorio clar "
+"que supporta le modo obscur."
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Prefer dark mode"
-msgstr ""
+msgstr "Preferer le modo obscur"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Add a new provider..."
@@ -374,4 +376,4 @@ msgstr "Alternar plen schermo"
 
 #: usr/share/hypnotix/shortcuts.ui.h:7
 msgid "Reload all providers"
-msgstr ""
+msgstr "Recargar tote le fornitores"
