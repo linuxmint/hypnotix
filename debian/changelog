@@ -1,3 +1,9 @@
+hypnotix (3.1) vanessa; urgency=medium
+
+  * l10n: Update translations
+
+ -- Clement Lefebvre <root@linuxmint.com>  Fri, 02 Dec 2022 17:26:23 +0000
+
 hypnotix (3.0) vera; urgency=medium
 
   [ Michael Webster ]
