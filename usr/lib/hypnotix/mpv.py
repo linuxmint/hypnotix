@@ -525,10 +525,12 @@ _mpv_free_node_contents = backend.mpv_free_node_contents
 backend.mpv_create.restype = MpvHandle
 _mpv_create = backend.mpv_create
 
+_API_VER = _mpv_client_api_version()[0]
+
+_handle_func('mpv_destroy' if _API_VER > 1 else 'mpv_detach_destroy', [], None, errcheck=None)
 _handle_func('mpv_create_client',           [c_char_p],                                 MpvHandle, notnull_errcheck)
 _handle_func('mpv_client_name',             [],                                         c_char_p, errcheck=None)
 _handle_func('mpv_initialize',              [],                                         c_int, ec_errcheck)
-_handle_func('mpv_detach_destroy',          [],                                         None, errcheck=None)
 _handle_func('mpv_terminate_destroy',       [],                                         None, errcheck=None)
 _handle_func('mpv_load_config_file',        [c_char_p],                                 c_int, ec_errcheck)
 _handle_func('mpv_get_time_us',             [],                                         c_ulonglong, errcheck=None)
@@ -881,7 +883,7 @@ class MPV(object):
                         self._message_handlers[target](*args)
 
                 if eid == MpvEventID.SHUTDOWN:
-                    _mpv_detach_destroy(self._event_handle)
+                    _mpv_destroy(self._event_handle) if _API_VER > 1 else _mpv_detach_destroy(self._event_handle)
                     return
 
             except Exception as e:
