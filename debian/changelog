@@ -1,3 +1,10 @@
+hypnotix (3.2) vera; urgency=medium
+
+  [ DYefremov ]
+  * fixed work with API ver. 2 (#254)
+
+ -- Clement Lefebvre <root@linuxmint.com>  Fri, 06 Jan 2023 16:36:05 +0000
+
 hypnotix (3.1) vanessa; urgency=medium
 
   * l10n: Update translations
