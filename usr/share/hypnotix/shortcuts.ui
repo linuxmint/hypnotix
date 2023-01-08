@@ -29,6 +29,13 @@
             <child>
               <object class="GtkShortcutsShortcut">
                 <property name="visible">1</property>
+                <property name="accelerator">Left Right</property>
+                <property name="title" translatable="yes">Play previous/next channel</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
                 <property name="accelerator">F11 f</property>
                 <property name="title" translatable="yes">Toggle Fullscreen</property>
               </object>

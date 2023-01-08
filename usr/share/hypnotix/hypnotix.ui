@@ -11,6 +11,7 @@
     <property name="can_focus">False</property>
     <property name="default_width">600</property>
     <property name="default_height">500</property>
+    <property name="window_position">center</property>
     <property name="icon_name">hypnotix</property>
     <child type="titlebar">
       <object class="GtkHeaderBar" id="headerbar">
@@ -457,12 +458,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <child>
-                              <object class="GtkFlowBox" id="channels_flowbox">
+                              <object class="GtkListBox" id="channels_listbox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="margin_right">12</property>
-                                <property name="min_children_per_line">1</property>
-                                <property name="max_children_per_line">1</property>
                               </object>
                             </child>
                           </object>

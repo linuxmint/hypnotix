@@ -67,6 +67,31 @@ AUDIO_SAMPLE_FORMATS = { "u16": "unsigned 16 bits", \
     "dbl" : "double", \
     "dblp": "double, planar"}
 
+
+class ChannelWidget(Gtk.ListBoxRow):
+    """ A custom widget for displaying and holding channel data. """
+
+    def __init__(self, channel, logo, **kwargs):
+        super().__init__(**kwargs)
+        self._channel = channel
+        self.set_tooltip_text(channel.name)
+
+        frame = Gtk.Frame()
+        label = Gtk.Label(channel.name)
+        label.set_max_width_chars(30)
+        label.set_ellipsize(Pango.EllipsizeMode.END)
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, border_width=6)
+        box.pack_start(logo, False, False, 0)
+        box.pack_start(label, False, False, 0)
+        box.set_spacing(6)
+        frame.add(box)
+        self.add(frame)
+
+    @property
+    def channel(self):
+        return self._channel
+
+
 class MyApplication(Gtk.Application):
     # Main initialization routine
     def __init__(self, application_id, flags):
@@ -75,7 +100,7 @@ class MyApplication(Gtk.Application):
 
     def activate(self, application):
         windows = self.get_windows()
-        if (len(windows) > 0):
+        if len(windows) > 0:
             window = windows[0]
             window.present()
             window.show()
@@ -84,7 +109,8 @@ class MyApplication(Gtk.Application):
             self.add_window(window.window)
             window.window.show()
 
-class MainWindow():
+
+class MainWindow:
 
     def __init__(self, application):
 
@@ -108,9 +134,6 @@ class MainWindow():
 
         self.video_properties = {}
         self.audio_properties = {}
-
-        self.x_pos = 0
-        self.y_pos = 0
 
         # Used for redownloading timer
         self.reload_timeout_sec = 60*5
@@ -149,7 +172,7 @@ class MainWindow():
             "tv_logo", "movies_logo", "series_logo", "tv_button", "movies_button", "series_button", \
             "tv_label", "movies_label", "series_label", \
             "categories_flowbox", \
-            "channels_flowbox", \
+            "channels_listbox", \
             "vod_flowbox", \
             "episodes_box", \
             "stop_button", "pause_button", "show_button", "playback_label", "playback_bar", \
@@ -218,15 +241,14 @@ class MainWindow():
 
         self.close_info_button.connect("clicked", self.on_close_info_button)
 
-        self.channels_flowbox.add_events(Gdk.EventMask.POINTER_MOTION_MASK)
-        self.channels_flowbox.connect('motion-notify-event', self.on_mouse_hover)
+        self.channels_listbox.connect("row-activated", self.on_channel_activated)
 
         # Settings widgets
         self.bind_setting_widget("user-agent", self.useragent_entry)
         self.bind_setting_widget("http-referer", self.referer_entry)
         self.bind_setting_widget("mpv-options", self.mpv_entry)
 
-        #dark mode
+        # Dark mode
         prefer_dark_mode = self.settings.get_boolean("prefer-dark-mode")
         Gtk.Settings.get_default().set_property("gtk-application-prefer-dark-theme", prefer_dark_mode)
         self.darkmode_switch.set_active(prefer_dark_mode)
@@ -388,27 +410,17 @@ class MainWindow():
         self.navigate_to("channels_page")
         if self.content_type == TV_GROUP:
             self.sidebar.show()
+            for child in self.channels_listbox.get_children():
+                self.channels_listbox.remove(child)
+
             logos_to_refresh = []
-            for child in self.channels_flowbox.get_children():
-                self.channels_flowbox.remove(child)
             for channel in channels:
-                button = Gtk.Button()
-                button.set_tooltip_text(channel.name)
-                button.connect("clicked", self.on_channel_button_clicked, channel)
-                label = Gtk.Label()
-                label.set_text(channel.name)
-                label.set_max_width_chars(30)
-                label.set_ellipsize(Pango.EllipsizeMode.END)
-                box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
                 image = Gtk.Image().new_from_surface(self.get_channel_surface(channel.logo_path))
                 logos_to_refresh.append((channel, image))
-                box.pack_start(image, False, False, 0)
-                box.pack_start(label, False, False, 0)
-                box.set_spacing(6)
-                button.add(box)
-                self.channels_flowbox.add(button)
-            self.channels_flowbox.show_all()
-            self.visible_search_results = len(self.channels_flowbox.get_children())
+                self.channels_listbox.add(ChannelWidget(channel, image))
+
+            self.channels_listbox.show_all()
+            self.visible_search_results = len(self.channels_listbox.get_children())
             if len(logos_to_refresh) > 0:
                 self.download_channel_logos(logos_to_refresh)
         else:
@@ -558,7 +570,7 @@ class MainWindow():
         if self.active_channel != None:
             self.playback_bar.show()
         if self.active_group and self.back_page == "categories_page":
-            self.init_channels_flowbox()
+            self.init_channels_listbox()
 
     def on_search_button_toggled(self, widget):
         if self.search_button.get_active():
@@ -586,10 +598,10 @@ class MainWindow():
                 return False
 
         self.visible_search_results = 0
-        self.channels_flowbox.set_filter_func(filter_func)
-        if not self.channels_flowbox.get_children():
+        self.channels_listbox.set_filter_func(filter_func)
+        if not self.channels_listbox.get_children():
             self.show_channels(self.active_provider.channels)
-        print("Filtering %d channel names containing the string '%s'..." % (len(self.channels_flowbox.get_children()), self.latest_search_bar_text))
+        print("Filtering %d channel names containing the string '%s'..." % (len(self.channels_listbox.get_children()), self.latest_search_bar_text))
         if self.visible_search_results == 0:
             self.status(_("No channels found"))
         else:
@@ -598,12 +610,12 @@ class MainWindow():
         self.search_bar.grab_focus_without_selecting()
         self.navigate_to("channels_page")
 
-    def init_channels_flowbox(self):
+    def init_channels_listbox(self):
         self.latest_search_bar_text = None
         self.active_group = None
-        for child in self.channels_flowbox.get_children():
-            self.channels_flowbox.remove(child)
-        self.channels_flowbox.invalidate_filter()
+        for child in self.channels_listbox.get_children():
+            self.channels_listbox.remove(child)
+        self.channels_listbox.invalidate_filter()
         self.visible_search_results = 0
 
     @idle_function
@@ -714,19 +726,23 @@ class MainWindow():
         window.set_title(_("Hypnotix"))
         window.show()
 
-    def on_channel_button_clicked(self, widget, channel):
-        child = self.channels_flowbox.get_child_at_pos(self.x_pos, self.y_pos)
-        self.channels_flowbox.select_child(child)
-        self.active_channel = channel
-        self.play_async(channel)
+    def on_channel_activated(self, box, widget):
+        self.active_channel = widget.channel
+        self.play_async(self.active_channel)
 
-    def on_mouse_hover(self, widget, event):
-        self.x_pos = event.x
-        self.y_pos = event.y
+    def on_prev_channel(self):
+        if self.stack.get_visible_child_name() == "channels_page":
+            self.channels_listbox.do_move_cursor(self.channels_listbox, Gtk.MovementStep.DISPLAY_LINES, -1)
+            self.channels_listbox.do_activate_cursor_row(self.channels_listbox)
+
+    def on_next_channel(self):
+        if self.stack.get_visible_child_name() == "channels_page":
+            self.channels_listbox.do_move_cursor(self.channels_listbox, Gtk.MovementStep.DISPLAY_LINES, 1)
+            self.channels_listbox.do_activate_cursor_row(self.channels_listbox)
 
     @async_function
     def play_async(self, channel):
-        print ("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
+        print("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
         if channel != None and channel.url != None:
             #os.system("mpv --wid=%s %s &" % (self.wid, channel.url))
             # self.mpv_drawing_area.show()
@@ -996,7 +1012,7 @@ class MainWindow():
     def on_provider_selected(self, widget, provider):
         self.active_provider = provider
         self.settings.set_string("active-provider", provider.name)
-        self.init_channels_flowbox()
+        self.init_channels_listbox()
         self.navigate_to("landing_page")
 
     def on_preferences_button(self, widget):
@@ -1292,12 +1308,10 @@ class MainWindow():
              (event.keyval == Gdk.KEY_f and not ctrl and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry) or \
              (self.fullscreen and event.keyval == Gdk.KEY_Escape):
             self.toggle_fullscreen()
-        # elif event.keyval == Gdk.KEY_Left:
-        #     # Left of in the list
-        #     pass
-        # elif event.keyval == Gdk.KEY_Right:
-        #     # Right of in the list
-        #     pass
+        elif event.keyval == Gdk.KEY_Left:
+            self.on_prev_channel()
+        elif event.keyval == Gdk.KEY_Right:
+            self.on_next_channel()
         # elif event.keyval == Gdk.KEY_Up:
         #     # Up of in the list
         #     pass
