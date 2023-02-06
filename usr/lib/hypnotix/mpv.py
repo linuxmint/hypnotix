@@ -591,7 +591,7 @@ if hasattr(backend, 'mpv_get_sub_api'):
 def _mpv_coax_proptype(value, proptype=str):
     """Intelligently coax the given python value into something that can be understood as a proptype property."""
     if type(value) is bytes:
-        return value;
+        return value
     elif type(value) is bool:
         return b'yes' if value else b'no'
     elif proptype in (str, int, float):
@@ -599,29 +599,29 @@ def _mpv_coax_proptype(value, proptype=str):
     else:
         raise TypeError('Cannot coax value of type {} into property type {}'.format(type(value), proptype))
 
-def _make_node_str_list(l):
+def _make_node_str_list(pl):
     """Take a list of python objects and make a MPV string node array from it.
 
-    As an example, the python list ``l = [ "foo", 23, false ]`` will result in the following MPV node object::
+    As an example, the python list ``pl = [ "foo", 23, false ]`` will result in the following MPV node object::
 
         struct mpv_node {
             .format = MPV_NODE_ARRAY,
             .u.list = *(struct mpv_node_array){
                 .num = len(l),
                 .keys = NULL,
-                .values = struct mpv_node[len(l)] {
-                    { .format = MPV_NODE_STRING, .u.string = l[0] },
-                    { .format = MPV_NODE_STRING, .u.string = l[1] },
+                .values = struct mpv_node[len(pl)] {
+                    { .format = MPV_NODE_STRING, .u.string = pl[0] },
+                    { .format = MPV_NODE_STRING, .u.string = pl[1] },
                     ...
                 }
             }
         }
     """
-    char_ps = [ c_char_p(_mpv_coax_proptype(e, str)) for e in l ]
+    char_ps = [ c_char_p(_mpv_coax_proptype(e, str)) for e in pl ]
     node_list = MpvNodeList(
-        num=len(l),
+        num=len(pl),
         keys=None,
-        values=( MpvNode * len(l))( *[ MpvNode(
+        values=( MpvNode * len(pl))( *[ MpvNode(
                 format=MpvFormat.STRING,
                 val=MpvNodeUnion(string=p))
             for p in char_ps ]))
@@ -886,7 +886,7 @@ class MPV(object):
                     _mpv_destroy(self._event_handle) if _API_VER > 1 else _mpv_detach_destroy(self._event_handle)
                     return
 
-            except Exception as e:
+            except Exception:
                 print('Exception inside python-mpv event loop:', file=sys.stderr)
                 traceback.print_exc()
 
@@ -1057,7 +1057,7 @@ class MPV(object):
 
     def revert_seek(self):
         """Mapped mpv revert_seek command, see man mpv(1)."""
-        self.command('revert_seek');
+        self.command('revert_seek')
 
     def frame_step(self):
         """Mapped mpv frame-step command, see man mpv(1)."""
@@ -1269,7 +1269,7 @@ class MPV(object):
         """Mapped mpv discnav command, see man mpv(1)."""
         self.command('discnav', command)
 
-    def mouse(x, y, button=None, mode='single'):
+    def mouse(self, x, y, button=None, mode='single'):
         """Mapped mpv mouse command, see man mpv(1)."""
         if button is None:
             self.command('mouse', x, y, mode)
@@ -1743,7 +1743,7 @@ class MPV(object):
         self._python_stream_catchall = cb
         def unregister():
             if self._python_stream_catchall is not cb:
-                    raise RuntimeError('This catch-all python stream has already been unregistered')
+                raise RuntimeError('This catch-all python stream has already been unregistered')
             self._python_stream_catchall = None
         cb.unregister = unregister
         return cb
@@ -1763,7 +1763,7 @@ class MPV(object):
                 return rv
             else:
                 raise TypeError('_get_property only supports NODE and OSD_STRING formats.')
-        except PropertyUnavailableError as ex:
+        except PropertyUnavailableError:
             return None
 
     def _set_property(self, name, value):
@@ -1779,13 +1779,13 @@ class MPV(object):
         return self._get_property(_py_to_mpv(name), lazy_decoder)
 
     def __setattr__(self, name, value):
-            try:
-                if name != 'handle' and not name.startswith('_'):
-                    self._set_property(_py_to_mpv(name), value)
-                else:
-                    super().__setattr__(name, value)
-            except AttributeError:
+        try:
+            if name != 'handle' and not name.startswith('_'):
+                self._set_property(_py_to_mpv(name), value)
+            else:
                 super().__setattr__(name, value)
+        except AttributeError:
+            super().__setattr__(name, value)
 
     def __dir__(self):
         return super().__dir__() + [ name.replace('-', '_') for name in self.property_list ]

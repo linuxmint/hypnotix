@@ -26,13 +26,17 @@ def async_function(func):
         thread.daemon = True
         thread.start()
         return thread
+
     return wrapper
+
 
 # Used as a decorator to run things in the main loop, from another thread
 def idle_function(func):
     def wrapper(*args):
         GObject.idle_add(func, *args)
+
     return wrapper
+
 
 def slugify(string):
     """
@@ -41,9 +45,10 @@ def slugify(string):
     """
     return "".join(x.lower() for x in string if x.isalnum())
 
-class Provider():
+
+class Provider:
     def __init__(self, name, provider_info):
-        if provider_info != None:
+        if provider_info is not None:
             self.name, self.type_id, self.url, self.username, self.password, self.epg = provider_info.split(":::")
         else:
             self.name = name
@@ -56,7 +61,8 @@ class Provider():
     def get_info(self):
         return "%s:::%s:::%s:::%s:::%s:::%s" % (self.name, self.type_id, self.url, self.username, self.password, self.epg)
 
-class Group():
+
+class Group:
     def __init__(self, name):
         if "VOD" in name.split():
             self.group_type = MOVIES_GROUP
@@ -68,7 +74,8 @@ class Group():
         self.channels = []
         self.series = []
 
-class Serie():
+
+class Serie:
     def __init__(self, name):
         self.name = name
         self.logo = None
@@ -76,12 +83,14 @@ class Serie():
         self.seasons = {}
         self.episodes = []
 
-class Season():
+
+class Season:
     def __init__(self, name):
         self.name = name
         self.episodes = {}
 
-class Channel():
+
+class Channel:
     def __init__(self, provider, info):
         self.info = info
         self.id = None
@@ -92,7 +101,7 @@ class Channel():
         self.title = None
         self.url = None
         match = EXTINF.fullmatch(info)
-        if match != None:
+        if match is not None:
             res = match.groupdict()
             if 'params' in res:
                 params = dict(PARAMS.findall(res['params']))
@@ -104,9 +113,9 @@ class Channel():
                     self.group_title = params['group-title'].strip().replace(";", " ").replace("  ", " ")
             if 'title' in res:
                 self.title = res['title']
-        if self.name == None and "," in info:
+        if self.name is None and "," in info:
             self.name = info.split(",")[-1].strip()
-        if self.logo != None:
+        if self.logo is not None:
             if self.logo.startswith("file://"):
                 self.logo_path = self.logo[7:]
             else:
@@ -119,8 +128,8 @@ class Channel():
                     ext = ".jpg"
                 self.logo_path = os.path.join(PROVIDERS_PATH, "%s-%s%s" % (slugify(provider.name), slugify(self.name), ext))
 
-class Manager():
 
+class Manager:
     def __init__(self, settings):
         os.system("mkdir -p '%s'" % PROVIDERS_PATH)
         self.verbose = False
@@ -166,12 +175,12 @@ class Manager():
                         # Get total playlist byte size
                         total_content_size = int(response.headers.get('content-length', 15))
                         # Set stream blocks
-                        block_bytes = int(4*1024*1024)     # 4 MB
+                        block_bytes = int(4 * 1024 * 1024)  # 4 MB
 
                         response.encoding = response.apparent_encoding
-                        #try:
+                        # try:
                         #    source = response.content.decode("UTF-8")
-                        #except UnicodeDecodeError as e:
+                        # except UnicodeDecodeError as e:
                         #    source = response.content.decode("latin1")
                         with open(provider.path, "w") as file:
                             # Grab data by block_bytes
@@ -201,7 +210,7 @@ class Manager():
         if os.path.exists(provider.path):
             with open(provider.path, "r") as file:
                 content = file.read()
-                if ("#EXTM3U" in content and "#EXTINF" in content):
+                if "#EXTM3U" in content and "#EXTINF" in content:
                     legit = True
                     self.debug("Content looks legit: %s" % provider.name)
                 else:
@@ -224,14 +233,14 @@ class Manager():
                     continue
                 if "://" in line and not (line.startswith("#")):
                     self.debug("    ", line)
-                    if channel == None:
+                    if channel is None:
                         self.debug("    --> channel is None")
                         continue
-                    if channel.url != None:
+                    if channel.url is not None:
                         # We already found the URL, skip the line
                         self.debug("    --> channel URL was already found")
                         continue
-                    if channel.name == None or "***" in channel.name:
+                    if channel.name is None or "***" in channel.name:
                         self.debug("    --> channel name is None")
                         continue
                     channel.url = line
@@ -239,14 +248,14 @@ class Manager():
 
                     serie = None
                     f = SERIES.fullmatch(channel.name)
-                    if f != None:
+                    if f is not None:
                         res = f.groupdict()
                         series_name = res['series']
                         if series_name in series.keys():
                             serie = series[series_name]
                         else:
                             serie = Serie(series_name)
-                            #todo put in group
+                            # todo put in group
                             provider.series.append(serie)
                             series[series_name] = serie
                             serie.logo = channel.logo
@@ -262,15 +271,15 @@ class Manager():
                         season.episodes[episode_name] = channel
                         serie.episodes.append(channel)
 
-                    if channel.group_title != None and channel.group_title.strip() != "":
-                        if group == None or group.name != channel.group_title:
+                    if channel.group_title is not None and channel.group_title.strip() != "":
+                        if group is None or group.name != channel.group_title:
                             if channel.group_title in groups.keys():
                                 group = groups[channel.group_title]
                             else:
                                 group = Group(channel.group_title)
                                 provider.groups.append(group)
                                 groups[channel.group_title] = group
-                        if serie != None and serie not in group.series:
+                        if serie is not None and serie not in group.series:
                             group.series.append(serie)
                         group.channels.append(channel)
                         if group.group_type == TV_GROUP:

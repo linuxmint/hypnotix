@@ -18,8 +18,9 @@ if "WAYLAND_DISPLAY" in os.environ:
 warnings.filterwarnings("ignore")
 
 import gi
+
 gi.require_version("Gtk", "3.0")
-gi.require_version('XApp', '1.0')
+gi.require_version("XApp", "1.0")
 from gi.repository import Gtk, Gdk, Gio, XApp, GdkPixbuf, GLib, Pango
 
 import mpv
@@ -35,7 +36,7 @@ from common import Manager, Provider, BADGES, MOVIES_GROUP, PROVIDERS_PATH, SERI
 setproctitle.setproctitle("hypnotix")
 
 # i18n
-APP = 'hypnotix'
+APP = "hypnotix"
 LOCALE_DIR = "/usr/share/locale"
 locale.bindtextdomain(APP, LOCALE_DIR)
 gettext.bindtextdomain(APP, LOCALE_DIR)
@@ -57,15 +58,18 @@ PROVIDER_TYPE_XTREAM = "xtream"
 
 UPDATE_BR_INTERVAL = 5
 
-AUDIO_SAMPLE_FORMATS = { "u16": "unsigned 16 bits", \
-    "s16": "signed 16 bits", \
-    "s16p": "signed 16 bits, planar", \
-    "flt" : "float", \
-    "float" : "float", \
-    "fltp" : "float, planar", \
-    "floatp" : "float, planar", \
-    "dbl" : "double", \
-    "dblp": "double, planar"}
+AUDIO_SAMPLE_FORMATS = {
+    "u16": "unsigned 16 bits",
+    "s16": "signed 16 bits",
+    "s16p": "signed 16 bits, planar",
+    "flt": "float",
+    "float": "float",
+    "fltp": "float, planar",
+    "floatp": "float, planar",
+    "dbl": "double",
+    "dblp": "double, planar",
+}
+
 
 class MyApplication(Gtk.Application):
     # Main initialization routine
@@ -75,7 +79,7 @@ class MyApplication(Gtk.Application):
 
     def activate(self, application):
         windows = self.get_windows()
-        if (len(windows) > 0):
+        if len(windows) > 0:
             window = windows[0]
             window.present()
             window.show()
@@ -84,8 +88,8 @@ class MyApplication(Gtk.Application):
             self.add_window(window.window)
             window.window.show()
 
-class MainWindow():
 
+class MainWindow:
     def __init__(self, application):
 
         self.application = application
@@ -97,8 +101,8 @@ class MainWindow():
         self.active_group = None
         self.active_serie = None
         self.marked_provider = None
-        self.content_type = TV_GROUP # content being browsed
-        self.back_page = None # page to go back to if the back button is pressed
+        self.content_type = TV_GROUP  # content being browsed
+        self.back_page = None  # page to go back to if the back button is pressed
         self.active_channel = None
         self.fullscreen = False
         self.latest_search_bar_text = None
@@ -113,7 +117,7 @@ class MainWindow():
         self.y_pos = 0
 
         # Used for redownloading timer
-        self.reload_timeout_sec = 60*5
+        self.reload_timeout_sec = 60 * 5
         self._timerid = -1
         gladefile = "/usr/share/hypnotix/hypnotix.ui"
         self.builder = Gtk.Builder()
@@ -140,35 +144,92 @@ class MainWindow():
         self.edit_mode = False
 
         # Create variables to quickly access dynamic widgets
-        widget_names = ["headerbar", "status_label", "status_bar", "sidebar", "go_back_button", "search_button", "search_bar", \
-            "channels_box", "provider_button", "preferences_button", \
-            "mpv_drawing_area", "stack", "fullscreen_button", \
-            "provider_ok_button", "provider_cancel_button", \
-            "name_entry", "path_label", "path_entry", "browse_button", "url_label", "url_entry", \
-            "username_label", "username_entry", "password_label", "password_entry", "epg_label", "epg_entry", \
-            "tv_logo", "movies_logo", "series_logo", "tv_button", "movies_button", "series_button", \
-            "tv_label", "movies_label", "series_label", \
-            "categories_flowbox", \
-            "channels_flowbox", \
-            "vod_flowbox", \
-            "episodes_box", \
-            "stop_button", "pause_button", "show_button", "playback_label", "playback_bar", \
-            "providers_flowbox", "new_provider_button", "reset_providers_button", \
-            "delete_no_button", "delete_yes_button", \
-            "reset_no_button", "reset_yes_button", \
-            "info_section", "info_revealer", "info_name_label", "info_plot_label", "info_rating_label", "info_year_label", "close_info_button", \
-            "info_genre_label", "info_duration_label", "info_votes_label", "info_pg_label", "divider_label", \
-            "useragent_entry", "referer_entry", "mpv_entry", "mpv_link", \
+        widget_names = [
+            "headerbar",
+            "status_label",
+            "status_bar",
+            "sidebar",
+            "go_back_button",
+            "search_button",
+            "search_bar",
+            "channels_box",
+            "provider_button",
+            "preferences_button",
+            "mpv_drawing_area",
+            "stack",
+            "fullscreen_button",
+            "provider_ok_button",
+            "provider_cancel_button",
+            "name_entry",
+            "path_label",
+            "path_entry",
+            "browse_button",
+            "url_label",
+            "url_entry",
+            "username_label",
+            "username_entry",
+            "password_label",
+            "password_entry",
+            "epg_label",
+            "epg_entry",
+            "tv_logo",
+            "movies_logo",
+            "series_logo",
+            "tv_button",
+            "movies_button",
+            "series_button",
+            "tv_label",
+            "movies_label",
+            "series_label",
+            "categories_flowbox",
+            "channels_flowbox",
+            "vod_flowbox",
+            "episodes_box",
+            "stop_button",
+            "pause_button",
+            "show_button",
+            "playback_label",
+            "playback_bar",
+            "providers_flowbox",
+            "new_provider_button",
+            "reset_providers_button",
+            "delete_no_button",
+            "delete_yes_button",
+            "reset_no_button",
+            "reset_yes_button",
+            "info_section",
+            "info_revealer",
+            "info_name_label",
+            "info_plot_label",
+            "info_rating_label",
+            "info_year_label",
+            "close_info_button",
+            "info_genre_label",
+            "info_duration_label",
+            "info_votes_label",
+            "info_pg_label",
+            "divider_label",
+            "useragent_entry",
+            "referer_entry",
+            "mpv_entry",
+            "mpv_link",
             "darkmode_switch",
-            "mpv_stack", "spinner", "info_window_close_button", \
-            "video_properties_box", "video_properties_label", \
-            "colour_properties_box", "colour_properties_label", \
-            "audio_properties_box", "audio_properties_label", \
-            "layout_properties_box", "layout_properties_label"]
+            "mpv_stack",
+            "spinner",
+            "info_window_close_button",
+            "video_properties_box",
+            "video_properties_label",
+            "colour_properties_box",
+            "colour_properties_label",
+            "audio_properties_box",
+            "audio_properties_label",
+            "layout_properties_box",
+            "layout_properties_label",
+        ]
 
         for name in widget_names:
             widget = self.builder.get_object(name)
-            if widget == None:
+            if widget is None:
                 print("Could not find widget %s!" % name)
                 sys.exit(1)
             else:
@@ -177,7 +238,7 @@ class MainWindow():
         self.divider_label.set_text("/10")
 
         # Widget signals
-        self.window.connect("key-press-event",self.on_key_press_event)
+        self.window.connect("key-press-event", self.on_key_press_event)
         self.mpv_drawing_area.connect("realize", self.on_mpv_drawing_area_realize)
         self.mpv_drawing_area.connect("draw", self.on_mpv_drawing_area_draw)
         self.fullscreen_button.connect("clicked", self.on_fullscreen_button_clicked)
@@ -219,14 +280,14 @@ class MainWindow():
         self.close_info_button.connect("clicked", self.on_close_info_button)
 
         self.channels_flowbox.add_events(Gdk.EventMask.POINTER_MOTION_MASK)
-        self.channels_flowbox.connect('motion-notify-event', self.on_mouse_hover)
+        self.channels_flowbox.connect("motion-notify-event", self.on_mouse_hover)
 
         # Settings widgets
         self.bind_setting_widget("user-agent", self.useragent_entry)
         self.bind_setting_widget("http-referer", self.referer_entry)
         self.bind_setting_widget("mpv-options", self.mpv_entry)
 
-        #dark mode
+        # dark mode
         prefer_dark_mode = self.settings.get_boolean("prefer-dark-mode")
         Gtk.Settings.get_default().set_property("gtk-application-prefer-dark-theme", prefer_dark_mode)
         self.darkmode_switch.set_active(prefer_dark_mode)
@@ -261,7 +322,7 @@ class MainWindow():
         item = Gtk.ImageMenuItem(label=_("Quit"))
         image = Gtk.Image.new_from_icon_name("application-exit-symbolic", Gtk.IconSize.MENU)
         item.set_image(image)
-        item.connect('activate', self.on_menu_quit)
+        item.connect("activate", self.on_menu_quit)
         key, mod = Gtk.accelerator_parse("<Control>Q")
         item.add_accelerator("activate", accel_group, key, mod, Gtk.AccelFlags.VISIBLE)
         key, mod = Gtk.accelerator_parse("<Control>W")
@@ -270,16 +331,16 @@ class MainWindow():
         menu.show_all()
 
         # Type combox box (in preferences)
-        model = Gtk.ListStore(str,str) # PROVIDER_TYPE_ID, PROVIDER_TYPE_NAME
-        model.append([PROVIDER_TYPE_URL,_("M3U URL")])
-        model.append([PROVIDER_TYPE_LOCAL,_("Local M3U File")])
-        model.append([PROVIDER_TYPE_XTREAM,_("Xtream API")])
+        model = Gtk.ListStore(str, str)  # PROVIDER_TYPE_ID, PROVIDER_TYPE_NAME
+        model.append([PROVIDER_TYPE_URL, _("M3U URL")])
+        model.append([PROVIDER_TYPE_LOCAL, _("Local M3U File")])
+        model.append([PROVIDER_TYPE_XTREAM, _("Xtream API")])
         self.provider_type_combo = self.builder.get_object("provider_type_combo")
         renderer = Gtk.CellRendererText()
         self.provider_type_combo.pack_start(renderer, True)
         self.provider_type_combo.add_attribute(renderer, "text", PROVIDER_TYPE_NAME)
         self.provider_type_combo.set_model(model)
-        self.provider_type_combo.set_active(0) # Select 1st type
+        self.provider_type_combo.set_active(0)  # Select 1st type
         self.provider_type_combo.connect("changed", self.on_provider_type_combo_changed)
 
         self.tv_logo.set_from_surface(self.get_surface_for_file("/usr/share/hypnotix/pictures/tv.svg", 258, 258))
@@ -299,7 +360,6 @@ class MainWindow():
         # Historic bitrates of the currently playing media
         self.video_bitrates = []
         self.audio_bitrates = []
-
 
     def get_surface_for_file(self, filename, width, height):
         scale = self.window.get_scale_factor()
@@ -369,17 +429,17 @@ class MainWindow():
     def on_category_button_clicked(self, widget, group):
         self.active_group = group
         if self.content_type == TV_GROUP:
-            if group != None:
+            if group is not None:
                 self.show_channels(group.channels)
             else:
                 self.show_channels(self.active_provider.channels)
         elif self.content_type == MOVIES_GROUP:
-            if group != None:
+            if group is not None:
                 self.show_vod(group.channels)
             else:
                 self.show_vod(self.active_provider.movies)
         elif self.content_type == SERIES_GROUP:
-            if group != None:
+            if group is not None:
                 self.show_vod(group.series)
             else:
                 self.show_vod(self.active_provider.series)
@@ -443,7 +503,7 @@ class MainWindow():
             self.download_channel_logos(logos_to_refresh)
 
     def remove_word(self, word, string):
-        if not " " in string:
+        if " " not in string:
             return string
         words = string.split()
         if word in string:
@@ -519,11 +579,11 @@ class MainWindow():
     @async_function
     def download_channel_logos(self, logos_to_refresh):
         headers = {
-            'User-Agent': self.settings.get_string("user-agent"),
-            'Referer': self.settings.get_string("http-referer")
+            "User-Agent": self.settings.get_string("user-agent"),
+            "Referer": self.settings.get_string("http-referer"),
         }
         for channel, image in logos_to_refresh:
-            if channel.logo_path == None:
+            if channel.logo_path is None:
                 continue
             if os.path.isfile(channel.logo_path):
                 continue
@@ -531,7 +591,7 @@ class MainWindow():
                 response = requests.get(channel.logo, headers=headers, timeout=10, stream=True)
                 if response.status_code == 200:
                     response.raw.decode_content = True
-                    with open(channel.logo_path, 'wb') as f:
+                    with open(channel.logo_path, "wb") as f:
                         shutil.copyfileobj(response.raw, f)
                         self.refresh_channel_logo(channel, image)
             except Exception as e:
@@ -549,13 +609,13 @@ class MainWindow():
                 surface = self.get_surface_for_file(path, 200, 200)
             else:
                 surface = self.get_surface_for_file(path, 200, 200)
-        except:
+        except Exception:
             surface = self.get_surface_for_file("/usr/share/hypnotix/generic_tv_logo.png", 22, 22)
         return surface
 
     def on_go_back_button(self, widget):
         self.navigate_to(self.back_page)
-        if self.active_channel != None:
+        if self.active_channel is not None:
             self.playback_bar.show()
         if self.active_group and self.back_page == "categories_page":
             self.init_channels_flowbox()
@@ -616,7 +676,7 @@ class MainWindow():
         if page == "landing_page":
             self.back_page = None
             self.headerbar.set_title("Hypnotix")
-            if provider == None:
+            if provider is None:
                 self.headerbar.set_subtitle(_("No provider selected"))
                 self.tv_label.set_text(_("TV Channels (%d)") % 0)
                 self.movies_label.set_text(_("Movies (%d)") % 0)
@@ -649,7 +709,7 @@ class MainWindow():
             self.playback_bar.hide()
             self.headerbar.set_title(provider.name)
             if self.content_type == TV_GROUP:
-                if self.active_group == None:
+                if self.active_group is None:
                     self.back_page = "landing_page"
                     self.headerbar.set_subtitle(_("TV Channels"))
                 else:
@@ -664,14 +724,14 @@ class MainWindow():
         elif page == "vod_page":
             self.headerbar.set_title(provider.name)
             if self.content_type == MOVIES_GROUP:
-                if self.active_group == None:
+                if self.active_group is None:
                     self.back_page = "landing_page"
                     self.headerbar.set_subtitle(_("Movies"))
                 else:
                     self.back_page = "categories_page"
                     self.headerbar.set_subtitle(_("Movies > %s") % self.active_group.name)
             else:
-                if self.active_group == None:
+                if self.active_group is None:
                     self.back_page = "landing_page"
                     self.headerbar.set_subtitle(_("Series"))
                 else:
@@ -726,9 +786,9 @@ class MainWindow():
 
     @async_function
     def play_async(self, channel):
-        print ("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
-        if channel != None and channel.url != None:
-            #os.system("mpv --wid=%s %s &" % (self.wid, channel.url))
+        print("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
+        if channel is not None and channel.url is not None:
+            # os.system("mpv --wid=%s %s &" % (self.wid, channel.url))
             # self.mpv_drawing_area.show()
             self.info_menu_item.set_sensitive(False)
             self.before_play(channel)
@@ -855,27 +915,27 @@ class MainWindow():
         match = None
         for movie in movies:
             self.ia.update(movie)
-            if movie.get('plot') != None:
+            if movie.get("plot") is not None:
                 match = movie
                 break
         self.refresh_info_section(match)
 
     @idle_function
     def refresh_info_section(self, movie):
-        if movie != None:
-            self.set_imdb_info(movie, 'title', self.info_name_label)
-            self.set_imdb_info(movie, 'plot outline', self.info_plot_label)
-            self.set_imdb_info(movie, 'rating', self.info_rating_label)
-            self.set_imdb_info(movie, 'votes', self.info_votes_label)
-            self.set_imdb_info(movie, 'year', self.info_year_label)
-            self.set_imdb_info(movie, 'genres', self.info_genre_label)
-            self.set_imdb_info(movie, 'runtimes', self.info_duration_label)
-            self.set_imdb_info(movie, 'certificates', self.info_pg_label)
+        if movie is not None:
+            self.set_imdb_info(movie, "title", self.info_name_label)
+            self.set_imdb_info(movie, "plot outline", self.info_plot_label)
+            self.set_imdb_info(movie, "rating", self.info_rating_label)
+            self.set_imdb_info(movie, "votes", self.info_votes_label)
+            self.set_imdb_info(movie, "year", self.info_year_label)
+            self.set_imdb_info(movie, "genres", self.info_genre_label)
+            self.set_imdb_info(movie, "runtimes", self.info_duration_label)
+            self.set_imdb_info(movie, "certificates", self.info_pg_label)
             self.info_revealer.set_reveal_child(True)
 
     def set_imdb_info(self, movie, field, widget):
         value = movie.get(field)
-        if value != None:
+        if value is not None:
             if field == "plot":
                 value = value[0].split("::")[0]
             elif field == "genres":
@@ -1092,9 +1152,9 @@ class MainWindow():
             self.path_entry.set_text(dialog.get_filename())
         dialog.destroy()
 
-######################
-#### PREFERENCES #####
-######################
+    ######################
+    #### PREFERENCES #####
+    ######################
 
     def save(self):
         provider_strings = []
@@ -1108,11 +1168,19 @@ class MainWindow():
         self.set_provider_type(type_id)
 
     def set_provider_type(self, type_id):
-        widgets = [self.path_entry, self.path_label, self.browse_button, \
-                   self.url_entry, self.url_label, \
-                   self.username_entry, self.username_label, \
-                   self.password_entry, self.password_label, \
-                   self.epg_label, self.epg_entry]
+        widgets = [
+            self.path_entry,
+            self.path_label,
+            self.browse_button,
+            self.url_entry,
+            self.url_label,
+            self.username_entry,
+            self.username_label,
+            self.password_entry,
+            self.password_label,
+            self.epg_label,
+            self.epg_entry,
+        ]
         for widget in widgets:
             widget.hide()
         visible_widgets = []
@@ -1177,30 +1245,36 @@ class MainWindow():
         url = widget.get_text().strip()
         if url == "":
             return ""
-        if not "://" in url:
+        if "://" not in url:
             if type_id == PROVIDER_TYPE_LOCAL:
                 url = "file://%s" % url
             else:
                 url = "http://%s" % url
         return url
 
-##############################
+    ##############################
     def open_info(self, widget):
         """
         Display a dialog containing information about the currently
         playing stream based on properties emitted by MPV during playback
         """
-        sections = [self.video_properties_box, self.colour_properties_box, \
-            self.audio_properties_box, self.layout_properties_box]
+        sections = [
+            self.video_properties_box,
+            self.colour_properties_box,
+            self.audio_properties_box,
+            self.layout_properties_box,
+        ]
 
         for section in sections:
             for child in section.get_children():
                 section.remove(child)
 
-        props = [self.video_properties[_("General")], \
-            self.video_properties[_("Color")], \
-            self.audio_properties[_("General")], \
-            self.audio_properties[_("Layout")]]
+        props = [
+            self.video_properties[_("General")],
+            self.video_properties[_("Color")],
+            self.audio_properties[_("General")],
+            self.audio_properties[_("Layout")],
+        ]
 
         for section, props in zip(sections, props):
             for prop_k, prop_v in props.items():
@@ -1208,7 +1282,7 @@ class MainWindow():
                     margin_left=24, margin_right=24, margin_top=6, margin_bottom=6)
                 box.set_halign(Gtk.Align.FILL)
                 box_inner = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL,
-                    spacing=14*12, expand=True)
+                    spacing=14 * 12, expand=True)
                 k = Gtk.Label(label=prop_k, margin_top=12, margin_bottom=12)
                 k.set_halign(Gtk.Align.START)
                 v = Gtk.Label(label=prop_v, margin_top=12, margin_bottom=12)
@@ -1248,7 +1322,7 @@ class MainWindow():
         dlg.set_program_name(_("Hypnotix"))
         dlg.set_comments(_("Watch TV"))
         try:
-            h = open('/usr/share/common-licenses/GPL', encoding="utf-8")
+            h = open("/usr/share/common-licenses/GPL", encoding="utf-8")
             s = h.readlines()
             gpl = ""
             for line in s:
@@ -1256,15 +1330,17 @@ class MainWindow():
             h.close()
             dlg.set_license(gpl)
         except Exception as e:
-            print (e)
+            print(e)
 
         dlg.set_version("__DEB_VERSION__")
         dlg.set_icon_name("hypnotix")
         dlg.set_logo_icon_name("hypnotix")
         dlg.set_website("https://www.github.com/linuxmint/hypnotix")
+
         def close(w, res):
             if res == Gtk.ResponseType.CANCEL or res == Gtk.ResponseType.DELETE_EVENT:
                 w.destroy()
+
         dlg.connect("response", close)
         dlg.show()
 
@@ -1289,8 +1365,8 @@ class MainWindow():
             else:
                 self.search_button.set_active(True)
         elif event.keyval == Gdk.KEY_F11 or \
-             (event.keyval == Gdk.KEY_f and not ctrl and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry) or \
-             (self.fullscreen and event.keyval == Gdk.KEY_Escape):
+                (event.keyval == Gdk.KEY_f and not ctrl and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry) or \
+                (self.fullscreen and event.keyval == Gdk.KEY_Escape):
             self.toggle_fullscreen()
         # elif event.keyval == Gdk.KEY_Left:
         #     # Left of in the list
@@ -1304,7 +1380,7 @@ class MainWindow():
         # elif event.keyval == Gdk.KEY_Down:
         #     # Down of in the list
         #     pass
-        #elif event.keyval == Gdk.KEY_Escape:
+        # elif event.keyval == Gdk.KEY_Escape:
         #    # Go back one level
         #    pass
         # #elif event.keyval == Gdk.KEY_Return:
@@ -1332,7 +1408,7 @@ class MainWindow():
                     ret = self.manager.get_playlist(provider, refresh=refresh)
                     if ret:
                         self.status(_("Checking playlist..."), provider)
-                        if (self.manager.check_playlist(provider)):
+                        if self.manager.check_playlist(provider):
                             self.status(_("Loading channels..."), provider)
                             self.manager.load_channels(provider)
                             if provider.name == self.settings.get_string("active-provider"):
@@ -1346,20 +1422,22 @@ class MainWindow():
                 else:
                     # Load xtream class
                     from xtream import XTream
+
                     # Download via Xtream
-                    self.x = XTream(provider.name,
-                                    provider.username,
-                                    provider.password,
-                                    provider.url,
-                                    hide_adult_content=False,
-                                    cache_path=PROVIDERS_PATH
-                                    )
+                    self.x = XTream(
+                        provider.name,
+                        provider.username,
+                        provider.password,
+                        provider.url,
+                        hide_adult_content=False,
+                        cache_path=PROVIDERS_PATH,
+                    )
                     if self.x.auth_data != {}:
                         print("XTREAM `{}` Loading Channels".format(provider.name))
                         # Save default cursor
                         current_cursor = self.window.get_window().get_cursor()
                         # Set waiting cursor
-                        self.window.get_window().set_cursor(Gdk.Cursor.new_from_name(Gdk.Display.get_default(), 'wait'))
+                        self.window.get_window().set_cursor(Gdk.Cursor.new_from_name(Gdk.Display.get_default(), "wait"))
                         # Load data
                         self.x.load_iptv()
                         # Restore default cursor
@@ -1371,7 +1449,7 @@ class MainWindow():
                         provider.groups = self.x.groups
 
                         # Change redownload timeout
-                        self.reload_timeout_sec = 60*60*2 # 2 hours
+                        self.reload_timeout_sec = 60 * 60 * 2  # 2 hours
                         if self._timerid:
                             GLib.source_remove(self._timerid)
                         self._timerid = GLib.timeout_add_seconds(self.reload_timeout_sec, self.force_reload)
@@ -1389,12 +1467,12 @@ class MainWindow():
                 print("Couldn't parse provider info: ", provider_info)
 
         # If there are more than 1 providers and no Active Provider, set to the first one
-        if len(self.providers) > 0 and self.active_provider == None:
+        if len(self.providers) > 0 and self.active_provider is None:
             self.active_provider = self.providers[0]
 
         self.refresh_providers_page()
 
-        if page != None:
+        if page is not None:
             self.navigate_to(page)
         self.status(None)
         self.latest_search_bar_text = None
@@ -1405,12 +1483,12 @@ class MainWindow():
 
     @idle_function
     def status(self, string, provider=None):
-        if string == None:
+        if string is None:
             self.status_label.set_text("")
             self.status_label.hide()
             return
         self.status_label.show()
-        if provider != None:
+        if provider is not None:
             self.status_label.set_text("%s: %s" % (provider.name, string))
             print("%s: %s" % (provider.name, string))
         else:
@@ -1421,7 +1499,7 @@ class MainWindow():
         self.reinit_mpv()
 
     def reinit_mpv(self):
-        if self.mpv != None:
+        if self.mpv is not None:
             self.mpv.stop()
         options = {}
         try:
@@ -1446,13 +1524,15 @@ class MainWindow():
             # To prevent 'multiple values for keyword argument'!
             osc = options.pop("osc") != "no"
 
-        self.mpv = mpv.MPV(**options,
-                           script_opts="osc-layout=box,osc-seekbarstyle=bar,osc-deadzonesize=0,osc-minmousemove=3",
-                           input_default_bindings=True,
-                           input_vo_keyboard=True,
-                           osc=osc,
-                           ytdl=True,
-                           wid=str(self.mpv_drawing_area.get_window().get_xid()))
+        self.mpv = mpv.MPV(
+            **options,
+            script_opts="osc-layout=box,osc-seekbarstyle=bar,osc-deadzonesize=0,osc-minmousemove=3",
+            input_default_bindings=True,
+            input_vo_keyboard=True,
+            osc=osc,
+            ytdl=True,
+            wid=str(self.mpv_drawing_area.get_window().get_xid())
+        )
 
     def on_mpv_drawing_area_draw(self, widget, cr):
         cr.set_source_rgb(0.0, 0.0, 0.0)
@@ -1461,7 +1541,7 @@ class MainWindow():
     def toggle_fullscreen(self):
         if self.stack.get_visible_child_name() == "channels_page":
             # Toggle state
-            self.fullscreen = (not self.fullscreen)
+            self.fullscreen = not self.fullscreen
             if self.fullscreen:
                 # Fullscreen mode
                 self.window.fullscreen()
@@ -1483,6 +1563,7 @@ class MainWindow():
 
     def on_close_info_window_button_clicked(self, widget):
         self.info_window.hide()
+
 
 if __name__ == "__main__":
     application = MyApplication("org.x.hypnotix", Gio.ApplicationFlags.FLAGS_NONE)
