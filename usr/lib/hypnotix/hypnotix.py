@@ -26,12 +26,14 @@ from gi.repository import Gtk, Gdk, Gio, XApp, GdkPixbuf, GLib, Pango
 import mpv
 import requests
 import setproctitle
-from imdb import IMDb
+from imdb import IMDb, IMDbError
 from unidecode import unidecode
 
-from common import Manager, Provider, BADGES, MOVIES_GROUP, PROVIDERS_PATH, SERIES_GROUP, TV_GROUP,\
-    async_function, idle_function
+from common import (BADGES, MOVIES_GROUP, PROVIDERS_PATH, SERIES_GROUP,
+                    TV_GROUP, Manager, Provider, async_function, idle_function)
 
+# Load xtream class
+from xtream import XTream
 
 setproctitle.setproctitle("hypnotix")
 
@@ -233,6 +235,8 @@ class MainWindow:
             "mpv_entry",
             "mpv_link",
             "darkmode_switch",
+            "adult_switch",
+            "empty_groups_switch",
             "mpv_stack",
             "spinner",
             "info_window_close_button",
@@ -310,6 +314,18 @@ class MainWindow:
         Gtk.Settings.get_default().set_property("gtk-application-prefer-dark-theme", prefer_dark_mode)
         self.darkmode_switch.set_active(prefer_dark_mode)
         self.darkmode_switch.connect("notify::active", self.on_darkmode_switch_toggled)
+
+        # hide adult stream
+        self.prefer_hide_adult = self.adult_switch.get_active()
+        self.prefer_hide_adult = self.settings.get_boolean("prefer-hide-adult")
+        self.adult_switch.set_active(self.prefer_hide_adult)
+        self.adult_switch.connect("notify::active", self.on_hide_adult_switch_toggled)
+
+        # hide empty groups stream
+        self.prefer_hide_empty_groups = self.empty_groups_switch.get_active()
+        self.prefer_hide_empty_groups = self.settings.get_boolean("prefer-hide-empty-groups")
+        self.empty_groups_switch.set_active(self.prefer_hide_empty_groups)
+        self.empty_groups_switch.connect("notify::active", self.on_hide_empty_groups_switch_toggled)
 
         # Menubar
         accel_group = Gtk.AccelGroup()
@@ -416,8 +432,21 @@ class MainWindow:
         self.active_group = None
         found_groups = False
         for group in self.active_provider.groups:
-            if group.group_type != self.content_type:
+            # Skip if the group is not from the current displayed content type
+            if (group.group_type != self.content_type):
                 continue
+            if self.prefer_hide_empty_groups:
+                # Skip group with empty channels
+                if (self.content_type != SERIES_GROUP) and (len(group.channels) == 0):
+                    continue
+                # Skip group with empty series
+                if (self.content_type == SERIES_GROUP) and (len(group.series) == 0):
+                    continue
+            # Check if need to skip channels marked as adult in TV and Movies groups
+            if self.prefer_hide_adult:
+                if self.content_type != SERIES_GROUP:
+                    if (group.channels[0].is_adult == 1):
+                        continue
             found_groups = True
             button = Gtk.Button()
             button.connect("clicked", self.on_category_button_clicked, group)
@@ -583,6 +612,14 @@ class MainWindow:
         prefer_dark_mode = widget.get_active()
         self.settings.set_boolean("prefer-dark-mode", prefer_dark_mode)
         Gtk.Settings.get_default().set_property("gtk-application-prefer-dark-theme", prefer_dark_mode)
+
+    def on_hide_adult_switch_toggled(self, widget, key):
+        self.prefer_hide_adult = widget.get_active()
+        self.settings.set_boolean("prefer-hide-adult", self.prefer_hide_adult)
+
+    def on_hide_empty_groups_switch_toggled(self, widget, key):
+        self.prefer_hide_empty_groups = widget.get_active()
+        self.settings.set_boolean("prefer-hide-empty-groups", self.prefer_hide_empty_groups)
 
     @async_function
     def download_channel_logos(self, logos_to_refresh):
@@ -923,7 +960,11 @@ class MainWindow:
 
     @async_function
     def get_imdb_details(self, name):
-        movies = self.ia.search_movie(name)
+        movies = []
+        try:
+            movies = self.ia.search_movie(name)
+        except IMDbError:
+            print("IMDB Redirect Error will be fixed in IMDbPY latest version")
         match = None
         for movie in movies:
             self.ia.update(movie)
@@ -1401,6 +1442,10 @@ class MainWindow:
     def reload(self, page=None, refresh=False):
         self.status(_("Loading providers..."))
         self.providers = []
+        headers = {
+            'User-Agent': self.settings.get_string("user-agent"),
+            'Referer': self.settings.get_string("http-referer")
+        }
         for provider_info in self.settings.get_strv("providers"):
             try:
                 provider = Provider(name=None, provider_info=provider_info)
@@ -1430,20 +1475,19 @@ class MainWindow:
                         self.status(_("Failed to Download playlist from {}").format(provider.name), provider)
 
                 else:
-                    # Load xtream class
-                    from xtream import XTream
-
                     # Download via Xtream
                     self.x = XTream(
+                        self.status,
                         provider.name,
                         provider.username,
                         provider.password,
                         provider.url,
-                        hide_adult_content=False,
+                        headers=headers,
+                        hide_adult_content=self.prefer_hide_adult,
                         cache_path=PROVIDERS_PATH,
                     )
                     if self.x.auth_data != {}:
-                        print("XTREAM `{}` Loading Channels".format(provider.name))
+                        self.status("Loading Channels...", provider)
                         # Save default cursor
                         current_cursor = self.window.get_window().get_cursor()
                         # Set waiting cursor
@@ -1492,7 +1536,7 @@ class MainWindow:
         return False
 
     @idle_function
-    def status(self, string, provider=None):
+    def status(self, string, provider=None, guiOnly=False):
         if string is None:
             self.status_label.set_text("")
             self.status_label.hide()
@@ -1500,10 +1544,12 @@ class MainWindow:
         self.status_label.show()
         if provider is not None:
             self.status_label.set_text("%s: %s" % (provider.name, string))
-            print("%s: %s" % (provider.name, string))
+            if not guiOnly:
+                print("%s: %s" % (provider.name, string))
         else:
             self.status_label.set_text(string)
-            print(string)
+            if not guiOnly:
+                print(string)
 
     def on_mpv_drawing_area_realize(self, widget):
         self.reinit_mpv()

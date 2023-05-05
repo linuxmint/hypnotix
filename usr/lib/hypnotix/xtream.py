@@ -16,16 +16,17 @@ Github: superolmo
 
 """
 
-__version__ = "0.5.0"
+__version__ = "0.6.0"
 __author__ = "Claudio Olmi"
 
 import json
 import re  # used for URL validation
 import time
-from os import path as osp
 from os import makedirs
+from os import path as osp
+from sys import stdout
 from timeit import default_timer as timer  # Timing xtream json downloads
-from typing import List, Tuple
+from typing import List, Tuple, Protocol
 
 import requests
 
@@ -249,6 +250,8 @@ class Season:
         self.name = name
         self.episodes = {}
 
+class MyStatus(Protocol):
+    def __call__(self, string: str, guiOnly: bool) -> None: ...
 
 class XTream:
 
@@ -269,6 +272,8 @@ class XTream:
     series = []
     movies = []
 
+    connection_headers = {}
+
     state = {"authenticated": False, "loaded": False}
 
     hide_adult_content = False
@@ -287,12 +292,14 @@ class XTream:
 
     def __init__(
         self,
+        update_status: MyStatus,
         provider_name: str,
         provider_username: str,
         provider_password: str,
         provider_url: str,
+        headers: dict = {},
         hide_adult_content: bool = False,
-        cache_path: str = "",
+        cache_path: str = ""
     ):
         """Initialize Xtream Class
 
@@ -301,8 +308,9 @@ class XTream:
             provider_username (str):            User name of the IPTV provider
             provider_password (str):            Password of the IPTV provider
             provider_url      (str):            URL of the IPTV provider
-            hide_adult_content(bool):           When `True` hide stream that are marked for adult
-            cache_path        (str, optional):  Location where to save loaded files. Defaults to empty string.
+            headers           (dict):           Requests Headers
+            hide_adult_content(bool, optional): When `True` hide stream that are marked for adult
+            cache_path        (str, optional):  Location where to save loaded files. Defaults to empty string
 
         Returns: XTream Class Instance
 
@@ -316,6 +324,7 @@ class XTream:
         self.name = provider_name
         self.cache_path = cache_path
         self.hide_adult_content = hide_adult_content
+        self.update_status = update_status
 
         # if the cache_path is specified, test that it is a directory
         if self.cache_path != "":
@@ -329,6 +338,8 @@ class XTream:
             self.cache_path = osp.expanduser("~/.xtream-cache/")
             if not osp.isdir(self.cache_path):
                 makedirs(self.cache_path, exist_ok=True)
+
+        self.connection_headers = headers
 
         self.authenticate()
 
@@ -427,9 +438,20 @@ class XTream:
         if self.state["authenticated"] is False:
             # Erase any previous data
             self.auth_data = {}
-            try:
-                # Request authentication, wait 4 seconds maximum
-                r = requests.get(self.get_authenticate_URL(), timeout=(4))
+            # Loop through 30 seconds
+            i = 0
+            r = None
+            while i < 30:
+                try:
+                    # Request authentication, wait 4 seconds maximum
+                    r = requests.get(self.get_authenticate_URL(), timeout=(4), headers=self.connection_headers)
+                    i = 31
+                except requests.exceptions.ConnectionError:
+                    time.sleep(1)
+                    print(i)
+                    i += 1
+
+            if r != None:
                 # If the answer is ok, process data and change state
                 if r.ok:
                     self.auth_data = r.json()
@@ -438,11 +460,12 @@ class XTream:
                         "password": self.auth_data["user_info"]["password"],
                     }
                     self.state["authenticated"] = True
+                    #if "https_port" in self.auth_data["server_info"]:
+                    #    self.server = "https://" + self.auth_data["server_info"]["url"] + ":" + self.auth_data["server_info"]["https_port"]
                 else:
-                    print("Provider `{}` could not be loaded. Reason: `{} {}`".format(self.name, r.status_code, r.reason))
-            except requests.exceptions.ConnectionError:
-                # If connection refused
-                print("{} - Connection refused URL: {}".format(self.name, self.server))
+                    self.update_status("{}: Provider could not be loaded. Reason: `{} {}`".format(self.name, r.status_code, r.reason))
+            else:
+                self.update_status("{}: Provider refused the connection".format(self.name))
 
     def _load_from_file(self, filename) -> dict:
         """Try to load the dictionary from file
@@ -553,9 +576,12 @@ class XTream:
 
                     # If we got the GROUPS data, show the statistics and load GROUPS
                     if all_cat is not None:
-                        print("Loaded {} {} Groups in {:.3f} seconds".format(
-                            len(all_cat), loading_stream_type, dt
-                        ))
+                        self.update_status(
+                            "{}: Loaded {} {} Groups in {:.3f} seconds".format(
+                                self.name, len(all_cat), loading_stream_type, dt
+                            )
+                        )
+
                         ## Add GROUPS to dictionaries
 
                         # Add the catch-all-errors group
@@ -595,16 +621,31 @@ class XTream:
 
                     # If we got the STREAMS data, show the statistics and load Streams
                     if all_streams is not None:
-                        print("Loaded {} {} Streams in {:.3f} seconds".format(
-                            len(all_streams), loading_stream_type, dt
+                        print("{}: Loaded {} {} Streams in {:.3f} seconds".format(
+                            self.name, len(all_streams), loading_stream_type, dt
                         ))
                         ## Add Streams to dictionaries
 
                         skipped_adult_content = 0
                         skipped_no_name_content = 0
 
+                        numberOfStreams = len(all_streams)
+                        currentStream = 0
+                        # Calculate 1% of total number of streams
+                        # This is used to slow down the progress bar
+                        onePercentNumberOfStreams = numberOfStreams/100
+
+                        # Inform the user
+                        self.update_status("{}: Processing {} {} Streams".format(self.name, numberOfStreams, loading_stream_type), None, True)
+
                         for stream_channel in all_streams:
                             skip_stream = False
+                            currentStream += 1
+
+                            # Show download progress every 1% of total number of streams
+                            if (currentStream < onePercentNumberOfStreams):
+                                progress(currentStream,numberOfStreams,"Processing {} Streams".format(loading_stream_type))
+                                onePercentNumberOfStreams *= 2
 
                             # Skip if the name of the stream is empty
                             if stream_channel["name"] == "":
@@ -678,7 +719,7 @@ class XTream:
                                         the_group.series.append(new_series)
                                 else:
                                     print(" - Group not found `{}`".format(stream_channel["name"]))
-
+                        print("\n")
                         # Print information of which streams have been skipped
                         if self.hide_adult_content:
                             print(" - Skipped {} adult {} streams".format(skipped_adult_content, loading_stream_type))
@@ -711,18 +752,20 @@ class XTream:
             return False
 
     def get_series_info_by_id(self, get_series: dict):
-        """Get Seasons and Episodes for a Serie
+        """Get Seasons and Episodes for a Series
 
         Args:
-            get_series (dict): Serie dictionary
+            get_series (dict): Series dictionary
         """
         start = timer()
         series_seasons = self._load_series_info_by_id_from_provider(get_series.series_id)
         dt = timer() - start
-        # print("Loaded in {:.3f} sec".format(dt))
+        if series_seasons["seasons"] == None:
+            series_seasons["seasons"] = [{"name": "Season 1", "cover": series_seasons["info"]["cover"]}]
+
         for series_info in series_seasons["seasons"]:
             season_name = series_info["name"]
-            season_key = series_info["season_number"]
+            #season_key = series_info["season_number"]
             season = Season(season_name)
             get_series.seasons[season_name] = season
             if "episodes" in series_seasons.keys():
@@ -743,22 +786,29 @@ class XTream:
         Returns:
             [type]: JSON dictionary of the loaded data, or None
         """
-        try:
-            r = requests.get(URL, timeout=timeout)
-            if r.status_code == 200:
-                return r.json()
+        i = 0
+        while i < 10:
+            time.sleep(1)
+            try:
+                r = requests.get(URL, timeout=timeout, headers=self.connection_headers)
+                i = 20
+                if r.status_code == 200:
+                    return r.json()
+            except requests.exceptions.ConnectionError:
+                print(" - Connection Error")
+                i += 1
 
-        except requests.exceptions.ConnectionError:
-            print(" - Connection Error")
+            except requests.exceptions.HTTPError:
+                print(" - HTTP Error")
+                i += 1
 
-        except requests.exceptions.HTTPError:
-            print(" - HTTP Error")
+            except requests.exceptions.TooManyRedirects:
+                print(" - TooManyRedirects")
+                i += 1
 
-        except requests.exceptions.TooManyRedirects:
-            print(" - TooManyRedirects")
-
-        except requests.exceptions.ReadTimeout:
-            print(" - Timeout while loading data")
+            except requests.exceptions.ReadTimeout:
+                print(" - Timeout while loading data")
+                i += 1
 
         return None
 
@@ -933,3 +983,33 @@ class XTream:
     def get_all_epg_URL(self):
         URL = "%s/xmltv.php?username=%s&password=%s" % (self.server, self.username, self.password)
         return URL
+
+# The MIT License (MIT)
+# Copyright (c) 2016 Vladimir Ignatev
+#
+# Permission is hereby granted, free of charge, to any person obtaining 
+# a copy of this software and associated documentation files (the "Software"), 
+# to deal in the Software without restriction, including without limitation 
+# the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+# and/or sell copies of the Software, and to permit persons to whom the Software 
+# is furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included 
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+# INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+# PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+# FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT
+# OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
+# OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+def progress(count, total, status=''):
+    bar_len = 60
+    filled_len = int(round(bar_len * count / float(total)))
+
+    percents = round(100.0 * count / float(total), 1)
+    bar = '=' * filled_len + '-' * (bar_len - filled_len)
+
+    stdout.write('[%s] %s%s ...%s\r' % (bar, percents, '%', status))
+    stdout.flush()  # As suggested by Rom Ruben (see: http://stackoverflow.com/questions/3173320/text-progress-bar-in-the-console/27871113#comment50529068_27871113)

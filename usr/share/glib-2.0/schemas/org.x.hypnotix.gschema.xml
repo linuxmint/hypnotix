@@ -21,6 +21,16 @@
       <summary></summary>
       <description></description>
     </key>
+    <key type="b" name="prefer-hide-adult">
+      <default>true</default>
+      <summary></summary>
+      <description></description>
+    </key>
+    <key type="b" name="prefer-hide-empty-groups">
+      <default>true</default>
+      <summary></summary>
+      <description></description>
+    </key>
     <key type="s" name="active-provider">
       <default>"Free-TV"</default>
       <summary>Provider selected by default</summary>
