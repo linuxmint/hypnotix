@@ -553,7 +553,7 @@ class MainWindow:
         # If we are using xtream provider
         # Load every Episodes of every Season for this Series
         if self.active_provider.type_id == "xtream":
-            self.x.get_series_info_by_id(self.active_serie)
+            serie.xtream.get_series_info_by_id(self.active_serie)
 
         self.navigate_to("episodes_page")
         for child in self.episodes_box.get_children():
@@ -1480,7 +1480,7 @@ class MainWindow:
 
                 else:
                     # Download via Xtream
-                    self.x = XTream(
+                    x = XTream(
                         self.status,
                         provider.name,
                         provider.username,
@@ -1490,15 +1490,15 @@ class MainWindow:
                         hide_adult_content=self.prefer_hide_adult,
                         cache_path=PROVIDERS_PATH,
                     )
-                    if self.x.auth_data != {}:
+                    if x.auth_data != {}:
                         self.status("Loading Channels...", provider)
                         # Load data
-                        self.x.load_iptv()
+                        x.load_iptv()
                         # Inform Provider of data
-                        provider.channels = self.x.channels
-                        provider.movies = self.x.movies
-                        provider.series = self.x.series
-                        provider.groups = self.x.groups
+                        provider.channels = x.channels
+                        provider.movies = x.movies
+                        provider.series = x.series
+                        provider.groups = x.groups
 
                         # Change redownload timeout
                         self.reload_timeout_sec = 60 * 60 * 2  # 2 hours
