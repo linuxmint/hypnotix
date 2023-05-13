@@ -262,6 +262,7 @@ class MainWindow:
 
         # Widget signals
         self.window.connect("key-press-event", self.on_key_press_event)
+        self.window.connect("realize", self.on_window_realize)
         self.mpv_drawing_area.connect("realize", self.on_mpv_drawing_area_realize)
         self.mpv_drawing_area.connect("draw", self.on_mpv_drawing_area_draw)
         self.fullscreen_button.connect("clicked", self.on_fullscreen_button_clicked)
@@ -381,12 +382,11 @@ class MainWindow:
         self.movies_logo.set_from_surface(self.get_surface_for_file("/usr/share/hypnotix/pictures/movies.svg", 258, 258))
         self.series_logo.set_from_surface(self.get_surface_for_file("/usr/share/hypnotix/pictures/series.svg", 258, 258))
 
-        self.reload(page="landing_page")
-
         # Redownload playlists by default
         # This is going to get readjusted
         self._timerid = GLib.timeout_add_seconds(self.reload_timeout_sec, self.force_reload)
 
+        self.current_cursor = None
         self.window.show()
         self.playback_bar.hide()
         self.search_bar.hide()
@@ -553,7 +553,7 @@ class MainWindow:
         # If we are using xtream provider
         # Load every Episodes of every Season for this Series
         if self.active_provider.type_id == "xtream":
-            self.x.get_series_info_by_id(self.active_serie)
+            serie.xtream.get_series_info_by_id(self.active_serie)
 
         self.navigate_to("episodes_page")
         for child in self.episodes_box.get_children():
@@ -833,7 +833,6 @@ class MainWindow:
             self.channels_listbox.do_move_cursor(self.channels_listbox, Gtk.MovementStep.DISPLAY_LINES, 1)
             self.channels_listbox.do_activate_cursor_row(self.channels_listbox)
 
-    @async_function
     def play_async(self, channel):
         print("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
         if channel is not None and channel.url is not None:
@@ -843,8 +842,12 @@ class MainWindow:
             self.before_play(channel)
             self.reinit_mpv()
             self.mpv.play(channel.url)
-            self.mpv.wait_until_playing()
-            self.after_play(channel)
+            self.wait_for_mpv_playing(channel)
+
+    @async_function
+    def wait_for_mpv_playing(self, channel):
+        self.mpv.wait_until_playing()
+        self.after_play(channel)
 
     @idle_function
     def before_play(self, channel):
@@ -1441,6 +1444,7 @@ class MainWindow:
     @async_function
     def reload(self, page=None, refresh=False):
         self.status(_("Loading providers..."))
+        self.start_loading_cursor()
         self.providers = []
         headers = {
             'User-Agent': self.settings.get_string("user-agent"),
@@ -1476,7 +1480,7 @@ class MainWindow:
 
                 else:
                     # Download via Xtream
-                    self.x = XTream(
+                    x = XTream(
                         self.status,
                         provider.name,
                         provider.username,
@@ -1486,21 +1490,15 @@ class MainWindow:
                         hide_adult_content=self.prefer_hide_adult,
                         cache_path=PROVIDERS_PATH,
                     )
-                    if self.x.auth_data != {}:
+                    if x.auth_data != {}:
                         self.status("Loading Channels...", provider)
-                        # Save default cursor
-                        current_cursor = self.window.get_window().get_cursor()
-                        # Set waiting cursor
-                        self.window.get_window().set_cursor(Gdk.Cursor.new_from_name(Gdk.Display.get_default(), "wait"))
                         # Load data
-                        self.x.load_iptv()
-                        # Restore default cursor
-                        self.window.get_window().set_cursor(current_cursor)
+                        x.load_iptv()
                         # Inform Provider of data
-                        provider.channels = self.x.channels
-                        provider.movies = self.x.movies
-                        provider.series = self.x.series
-                        provider.groups = self.x.groups
+                        provider.channels = x.channels
+                        provider.movies = x.movies
+                        provider.series = x.series
+                        provider.groups = x.groups
 
                         # Change redownload timeout
                         self.reload_timeout_sec = 60 * 60 * 2  # 2 hours
@@ -1531,6 +1529,20 @@ class MainWindow:
         self.status(None)
         self.latest_search_bar_text = None
 
+        self.end_loading_cursor()
+
+    @idle_function
+    def start_loading_cursor(self):
+        # Restore default cursor
+        self.current_cursor = self.window.get_window().get_cursor()
+        self.window.get_window().set_cursor(Gdk.Cursor.new_from_name(Gdk.Display.get_default(), "wait"))
+
+    @idle_function
+    def end_loading_cursor(self):
+        # Restore default cursor
+        self.window.get_window().set_cursor(self.current_cursor)
+        self.current_cursor = None
+
     def force_reload(self):
         self.reload(page=None, refresh=True)
         return False
@@ -1554,6 +1566,9 @@ class MainWindow:
     def on_mpv_drawing_area_realize(self, widget):
         self.reinit_mpv()
 
+    def on_window_realize(self, widget):
+        self.reload(page="landing_page")
+
     def reinit_mpv(self):
         if self.mpv is not None:
             self.mpv.stop()
@@ -1572,13 +1587,16 @@ class MainWindow:
         options["user_agent"] = self.settings.get_string("user-agent")
         options["referrer"] = self.settings.get_string("http-referer")
 
-        while not self.mpv_drawing_area.get_window() and not Gtk.events_pending():
-            time.sleep(0.1)
-
         osc = True
         if "osc" in options:
             # To prevent 'multiple values for keyword argument'!
             osc = options.pop("osc") != "no"
+
+        # This is a race - depending on whether you do tv shows or movies, the drawing area may or may not
+        # already be realized - just make sure it's done by this point so there's a window to give to the mpv
+        # initializer.
+        if not self.mpv_drawing_area.get_realized():
+            self.mpv_drawing_area.realize()
 
         self.mpv = mpv.MPV(
             **options,

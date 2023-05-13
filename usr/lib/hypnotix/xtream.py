@@ -216,6 +216,7 @@ class Serie:
     def __init__(self, xtream: object, series_info):
         # Raw JSON Series
         self.raw = series_info
+        self.xtream = xtream
 
         # Required by Hypnotix
         self.name = series_info["name"]
@@ -254,27 +255,9 @@ class MyStatus(Protocol):
     def __call__(self, string: str, guiOnly: bool) -> None: ...
 
 class XTream:
-
-    name = ""
-    server = ""
-    username = ""
-    password = ""
-
     live_type = "Live"
     vod_type = "VOD"
     series_type = "Series"
-
-    auth_data = {}
-    authorization = {}
-
-    groups = []
-    channels = []
-    series = []
-    movies = []
-
-    connection_headers = {}
-
-    state = {"authenticated": False, "loaded": False}
 
     hide_adult_content = False
 
@@ -318,6 +301,15 @@ class XTream:
                 auth_data will be an empty dictionary.
 
         """
+
+        self.state = {"authenticated": False, "loaded": False}
+        self.auth_data = {}
+        self.authorization = {}
+        self.groups = []
+        self.channels = []
+        self.series = []
+        self.movies = []
+
         self.server = provider_url
         self.username = provider_username
         self.password = provider_password
