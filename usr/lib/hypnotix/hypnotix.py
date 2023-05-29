@@ -306,10 +306,7 @@ class MainWindow:
         self.bind_setting_widget("mpv-options", self.mpv_entry)
 
         # Dark mode
-        prefer_dark_mode = self.settings.get_boolean("prefer-dark-mode")
-        Gtk.Settings.get_default().set_property("gtk-application-prefer-dark-theme", prefer_dark_mode)
-        self.darkmode_switch.set_active(prefer_dark_mode)
-        self.darkmode_switch.connect("notify::active", self.on_darkmode_switch_toggled)
+        XApp.DarkModeManager(prefer_dark_mode=True)
 
         # Menubar
         accel_group = Gtk.AccelGroup()
@@ -578,11 +575,6 @@ class MainWindow:
 
     def on_entry_changed(self, widget, key):
         self.settings.set_string(key, widget.get_text())
-
-    def on_darkmode_switch_toggled(self, widget, key):
-        prefer_dark_mode = widget.get_active()
-        self.settings.set_boolean("prefer-dark-mode", prefer_dark_mode)
-        Gtk.Settings.get_default().set_property("gtk-application-prefer-dark-theme", prefer_dark_mode)
 
     @async_function
     def download_channel_logos(self, logos_to_refresh):
