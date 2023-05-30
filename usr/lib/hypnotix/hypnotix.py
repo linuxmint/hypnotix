@@ -232,7 +232,6 @@ class MainWindow:
             "referer_entry",
             "mpv_entry",
             "mpv_link",
-            "darkmode_switch",
             "mpv_stack",
             "spinner",
             "info_window_close_button",
@@ -305,8 +304,9 @@ class MainWindow:
         self.bind_setting_widget("http-referer", self.referer_entry)
         self.bind_setting_widget("mpv-options", self.mpv_entry)
 
-        # Dark mode
-        XApp.DarkModeManager(prefer_dark_mode=True)
+        # Dark mode manager
+        # keep a reference to it (otherwise it gets randomly garbage collected)
+        self.dark_mode_manager = XApp.DarkModeManager.new(prefer_dark_mode=True)
 
         # Menubar
         accel_group = Gtk.AccelGroup()
