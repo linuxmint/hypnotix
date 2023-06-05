@@ -1,3 +1,25 @@
+hypnotix (3.3) victoria; urgency=medium
+
+  [ Bruno Cabral ]
+  * Lint changes (#251)
+
+  [ DYefremov ]
+  * Added shortcuts support to zap through channels (#232)
+
+  [ Peter Dave Hello ]
+  * Add zh_TW Traditional Chinese locale (#275)
+
+  [ Clement Lefebvre ]
+  * Dark mode: Delegate to libxapp
+  * gsettings: Remove prefer-dark-mode
+  * Fix dark mode support
+  * l10n: Update POT
+
+  [ Michael Webster ]
+  * Add xapp to workflow.
+
+ -- Clement Lefebvre <root@linuxmint.com>  Mon, 05 Jun 2023 13:44:28 +0100
+
 hypnotix (3.2) vera; urgency=medium
 
   [ DYefremov ]
