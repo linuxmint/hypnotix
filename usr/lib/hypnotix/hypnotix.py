@@ -1419,7 +1419,7 @@ class MainWindow:
                             print("%s: %d channels, %d groups, %d series, %d movies" % (provider.name, \
                                 len(provider.channels), len(provider.groups), len(provider.series), len(provider.movies)))
                     else:
-                        self.status(_("Failed to Download playlist from {}").format(provider.name), provider)
+                        self.status(_("Failed to download playlist from %s") %  provider.name, provider)
 
                 else:
                     # Load xtream class

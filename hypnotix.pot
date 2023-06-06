@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-30 14:07+0100\n"
+"POT-Creation-Date: 2023-06-06 13:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -278,7 +278,8 @@ msgid "Loading channels..."
 msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:1422
-msgid "Failed to Download playlist from {}"
+#, python-format
+msgid "Failed to download playlist from %s"
 msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:3 usr/share/hypnotix/shortcuts.ui.h:6
