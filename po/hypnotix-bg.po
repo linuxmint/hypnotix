@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2021-11-23 12:21+0000\n"
+"POT-Creation-Date: 2023-06-06 13:22+0100\n"
 "PO-Revision-Date: 2022-09-21 18:34+0000\n"
 "Last-Translator: Nikolay Trifonov <trifonov88@gmail.com>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
@@ -15,226 +15,274 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2022-12-02 13:17+0000\n"
-"X-Generator: Launchpad (build 51cef3d08dff1e227b5ada709bd67280c567d4be)\n"
+"X-Launchpad-Export-Date: 2023-06-08 10:22+0000\n"
+"X-Generator: Launchpad (build 620cd5280e3a973662e263ebf9346837ed657a46)\n"
 
-#: usr/lib/hypnotix/hypnotix.py:119 usr/lib/hypnotix/hypnotix.py:696
-#: usr/lib/hypnotix/hypnotix.py:1214 generate_desktop_files:25
+#: usr/lib/hypnotix/hypnotix.py:146 usr/lib/hypnotix/hypnotix.py:774
+#: usr/lib/hypnotix/hypnotix.py:1326 generate_desktop_files:25
 #: usr/share/hypnotix/hypnotix.ui.h:1
 msgid "Hypnotix"
 msgstr "Hypnotix"
 
-#: usr/lib/hypnotix/hypnotix.py:238 usr/share/hypnotix/shortcuts.ui.h:6
+#: usr/lib/hypnotix/hypnotix.py:317 usr/share/hypnotix/shortcuts.ui.h:7
 msgid "Keyboard Shortcuts"
 msgstr "Клавишни комбинации"
 
-#: usr/lib/hypnotix/hypnotix.py:245 usr/share/hypnotix/hypnotix.ui.h:35
+#: usr/lib/hypnotix/hypnotix.py:324 usr/share/hypnotix/hypnotix.ui.h:33
 #: usr/share/hypnotix/shortcuts.ui.h:3
 msgid "Stream Information"
 msgstr "Информация за видеопотока"
 
-#: usr/lib/hypnotix/hypnotix.py:253 usr/lib/hypnotix/hypnotix.py:1213
+#: usr/lib/hypnotix/hypnotix.py:332 usr/lib/hypnotix/hypnotix.py:1325
 #: usr/share/hypnotix/shortcuts.ui.h:2
 msgid "About"
 msgstr "За програмата"
 
-#: usr/lib/hypnotix/hypnotix.py:258 usr/share/hypnotix/shortcuts.ui.h:8
+#: usr/lib/hypnotix/hypnotix.py:337 usr/share/hypnotix/shortcuts.ui.h:9
 msgid "Quit"
 msgstr "Изход"
 
-#: usr/lib/hypnotix/hypnotix.py:271
+#: usr/lib/hypnotix/hypnotix.py:350
 msgid "M3U URL"
 msgstr "M3U адрес"
 
-#: usr/lib/hypnotix/hypnotix.py:272
+#: usr/lib/hypnotix/hypnotix.py:351
 msgid "Local M3U File"
 msgstr "Локален M3U файл"
 
-#: usr/lib/hypnotix/hypnotix.py:273
+#: usr/lib/hypnotix/hypnotix.py:352
 msgid "Xtream API"
 msgstr "Xtream API"
 
-#: usr/lib/hypnotix/hypnotix.py:451
+#: usr/lib/hypnotix/hypnotix.py:532
 #, python-format
 msgid "Season %s"
 msgstr "Сезон %s"
 
-#: usr/lib/hypnotix/hypnotix.py:461
+#: usr/lib/hypnotix/hypnotix.py:543
 #, python-format
 msgid "Episode %s"
 msgstr "Епизод %s"
 
-#: usr/lib/hypnotix/hypnotix.py:601
+#: usr/lib/hypnotix/hypnotix.py:654
+msgid "No channels found"
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:680
 msgid "No provider selected"
 msgstr "Не е избран доставчик"
 
-#: usr/lib/hypnotix/hypnotix.py:623 usr/lib/hypnotix/hypnotix.py:636
+#: usr/lib/hypnotix/hypnotix.py:681 usr/lib/hypnotix/hypnotix.py:690
+#, python-format
+msgid "TV Channels (%d)"
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:682 usr/lib/hypnotix/hypnotix.py:691
+#, python-format
+msgid "Movies (%d)"
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:683 usr/lib/hypnotix/hypnotix.py:692
+#, python-format
+msgid "Series (%d)"
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:702 usr/lib/hypnotix/hypnotix.py:714
 msgid "TV Channels"
 msgstr "ТВ Канали"
 
-#: usr/lib/hypnotix/hypnotix.py:626 usr/lib/hypnotix/hypnotix.py:651
+#: usr/lib/hypnotix/hypnotix.py:704 usr/lib/hypnotix/hypnotix.py:729
 msgid "Movies"
 msgstr "Филми"
 
-#: usr/lib/hypnotix/hypnotix.py:628 usr/lib/hypnotix/hypnotix.py:658
+#: usr/lib/hypnotix/hypnotix.py:706 usr/lib/hypnotix/hypnotix.py:736
 msgid "Series"
 msgstr "Поредица"
 
-#: usr/lib/hypnotix/hypnotix.py:639
+#: usr/lib/hypnotix/hypnotix.py:717
 #, python-format
 msgid "TV Channels > %s"
 msgstr "ТВ Канали > %s"
 
-#: usr/lib/hypnotix/hypnotix.py:654
+#: usr/lib/hypnotix/hypnotix.py:732
 #, python-format
 msgid "Movies > %s"
 msgstr "Филми > %s"
 
-#: usr/lib/hypnotix/hypnotix.py:661
+#: usr/lib/hypnotix/hypnotix.py:739
 #, python-format
 msgid "Series > %s"
 msgstr "Поредици > %s"
 
-#: usr/lib/hypnotix/hypnotix.py:669 usr/share/hypnotix/hypnotix.ui.h:6
+#: usr/lib/hypnotix/hypnotix.py:747 usr/share/hypnotix/hypnotix.ui.h:6
 msgid "Preferences"
 msgstr "Предпочитания"
 
-#: usr/lib/hypnotix/hypnotix.py:673 usr/share/hypnotix/hypnotix.ui.h:5
+#: usr/lib/hypnotix/hypnotix.py:751 usr/share/hypnotix/hypnotix.ui.h:5
 msgid "Providers"
 msgstr "Доставчици"
 
-#: usr/lib/hypnotix/hypnotix.py:678
+#: usr/lib/hypnotix/hypnotix.py:756
 #, python-format
 msgid "Edit %s"
 msgstr "Редактиране на %s"
 
-#: usr/lib/hypnotix/hypnotix.py:680
+#: usr/lib/hypnotix/hypnotix.py:758
 msgid "Add a new provider"
 msgstr "Добави нов доставчик"
 
-#: usr/lib/hypnotix/hypnotix.py:684
+#: usr/lib/hypnotix/hypnotix.py:762
 #, python-format
 msgid "Delete %s"
 msgstr "Изтриване на %s"
 
-#: usr/lib/hypnotix/hypnotix.py:688
+#: usr/lib/hypnotix/hypnotix.py:766
 msgid "Reset providers"
 msgstr "Изтриване на доставчиците"
 
-#: usr/lib/hypnotix/hypnotix.py:726 usr/lib/hypnotix/hypnotix.py:730
-#: usr/lib/hypnotix/hypnotix.py:782 usr/lib/hypnotix/hypnotix.py:784
-#: usr/lib/hypnotix/hypnotix.py:791 usr/lib/hypnotix/hypnotix.py:794
-#: usr/lib/hypnotix/hypnotix.py:806 usr/lib/hypnotix/hypnotix.py:819
-#: usr/lib/hypnotix/hypnotix.py:824 usr/lib/hypnotix/hypnotix.py:832
-#: usr/lib/hypnotix/hypnotix.py:1166 usr/lib/hypnotix/hypnotix.py:1168
-#: usr/lib/hypnotix/hypnotix.py:1193 usr/lib/hypnotix/hypnotix.py:1197
-#: usr/share/hypnotix/hypnotix.ui.h:36
+#: usr/lib/hypnotix/hypnotix.py:808 usr/lib/hypnotix/hypnotix.py:812
+#: usr/lib/hypnotix/hypnotix.py:864 usr/lib/hypnotix/hypnotix.py:866
+#: usr/lib/hypnotix/hypnotix.py:873 usr/lib/hypnotix/hypnotix.py:876
+#: usr/lib/hypnotix/hypnotix.py:888 usr/lib/hypnotix/hypnotix.py:901
+#: usr/lib/hypnotix/hypnotix.py:906 usr/lib/hypnotix/hypnotix.py:914
+#: usr/lib/hypnotix/hypnotix.py:1277 usr/lib/hypnotix/hypnotix.py:1279
+#: usr/lib/hypnotix/hypnotix.py:1305 usr/lib/hypnotix/hypnotix.py:1309
+#: usr/share/hypnotix/hypnotix.ui.h:34
 msgid "General"
 msgstr "Общи"
 
-#: usr/lib/hypnotix/hypnotix.py:727 usr/lib/hypnotix/hypnotix.py:796
-#: usr/lib/hypnotix/hypnotix.py:798 usr/lib/hypnotix/hypnotix.py:800
-#: usr/lib/hypnotix/hypnotix.py:1167 usr/share/hypnotix/hypnotix.ui.h:38
+#: usr/lib/hypnotix/hypnotix.py:809 usr/lib/hypnotix/hypnotix.py:878
+#: usr/lib/hypnotix/hypnotix.py:880 usr/lib/hypnotix/hypnotix.py:882
+#: usr/lib/hypnotix/hypnotix.py:1278 usr/share/hypnotix/hypnotix.ui.h:36
 msgid "Color"
 msgstr "Цвят"
 
-#: usr/lib/hypnotix/hypnotix.py:731 usr/lib/hypnotix/hypnotix.py:816
-#: usr/lib/hypnotix/hypnotix.py:826 usr/lib/hypnotix/hypnotix.py:1169
-#: usr/share/hypnotix/hypnotix.ui.h:40
+#: usr/lib/hypnotix/hypnotix.py:813 usr/lib/hypnotix/hypnotix.py:898
+#: usr/lib/hypnotix/hypnotix.py:908 usr/lib/hypnotix/hypnotix.py:1280
+#: usr/share/hypnotix/hypnotix.ui.h:38
 msgid "Layout"
 msgstr "Оформление"
 
-#: usr/lib/hypnotix/hypnotix.py:767 usr/lib/hypnotix/hypnotix.py:768
-#: usr/lib/hypnotix/hypnotix.py:782 usr/lib/hypnotix/hypnotix.py:784
-#: usr/lib/hypnotix/hypnotix.py:1189 usr/lib/hypnotix/hypnotix.py:1190
-#: usr/lib/hypnotix/hypnotix.py:1193 usr/lib/hypnotix/hypnotix.py:1197
-#: usr/share/hypnotix/hypnotix.ui.h:37
+#: usr/lib/hypnotix/hypnotix.py:849 usr/lib/hypnotix/hypnotix.py:850
+#: usr/lib/hypnotix/hypnotix.py:864 usr/lib/hypnotix/hypnotix.py:866
+#: usr/lib/hypnotix/hypnotix.py:1301 usr/lib/hypnotix/hypnotix.py:1302
+#: usr/lib/hypnotix/hypnotix.py:1305 usr/lib/hypnotix/hypnotix.py:1309
+#: usr/share/hypnotix/hypnotix.ui.h:35
 msgid "Average Bitrate"
 msgstr "Среден битов поток"
 
-#: usr/lib/hypnotix/hypnotix.py:791
+#: usr/lib/hypnotix/hypnotix.py:873
 msgid "Dimensions"
 msgstr "Размери"
 
-#: usr/lib/hypnotix/hypnotix.py:794
+#: usr/lib/hypnotix/hypnotix.py:876
 msgid "Aspect"
 msgstr "Съотношение"
 
-#: usr/lib/hypnotix/hypnotix.py:796
+#: usr/lib/hypnotix/hypnotix.py:878
 msgid "Pixel Format"
 msgstr "Формат на пикселите"
 
-#: usr/lib/hypnotix/hypnotix.py:798
+#: usr/lib/hypnotix/hypnotix.py:880
 msgid "Gamma"
 msgstr "Гама"
 
-#: usr/lib/hypnotix/hypnotix.py:800
+#: usr/lib/hypnotix/hypnotix.py:882
 msgid "Bits Per Pixel"
 msgstr "Битове за пиксел"
 
-#: usr/lib/hypnotix/hypnotix.py:806 usr/lib/hypnotix/hypnotix.py:832
+#: usr/lib/hypnotix/hypnotix.py:888 usr/lib/hypnotix/hypnotix.py:914
 msgid "Codec"
 msgstr "Кодек"
 
-#: usr/lib/hypnotix/hypnotix.py:815
+#: usr/lib/hypnotix/hypnotix.py:897
 msgid "surround sound"
 msgstr "съраунд звук"
 
-#: usr/lib/hypnotix/hypnotix.py:816
+#: usr/lib/hypnotix/hypnotix.py:898
 msgid "Channels"
 msgstr "Канали"
 
-#: usr/lib/hypnotix/hypnotix.py:819
+#: usr/lib/hypnotix/hypnotix.py:901
 msgid "Sample Rate"
 msgstr "Честота на дискретизация"
 
-#: usr/lib/hypnotix/hypnotix.py:824
+#: usr/lib/hypnotix/hypnotix.py:906
 msgid "Format"
 msgstr "Формат"
 
-#: usr/lib/hypnotix/hypnotix.py:826
+#: usr/lib/hypnotix/hypnotix.py:908
 msgid "Channel Count"
 msgstr "Брой на каналите"
 
-#: usr/lib/hypnotix/hypnotix.py:920
+#: usr/lib/hypnotix/hypnotix.py:1002
 #, python-format
 msgid "%d TV channel"
 msgid_plural "%d TV channels"
 msgstr[0] "%d ТВ Канал"
 msgstr[1] "%d ТВ Канали"
 
-#: usr/lib/hypnotix/hypnotix.py:925
+#: usr/lib/hypnotix/hypnotix.py:1007
 #, python-format
 msgid "%d movie"
 msgid_plural "%d movies"
 msgstr[0] "%d филм"
 msgstr[1] "%d филми"
 
-#: usr/lib/hypnotix/hypnotix.py:930
+#: usr/lib/hypnotix/hypnotix.py:1012
 #, python-format
 msgid "%d series"
 msgid_plural "%d series"
 msgstr[0] "%d серия"
 msgstr[1] "%d серии"
 
-#: usr/lib/hypnotix/hypnotix.py:950
+#: usr/lib/hypnotix/hypnotix.py:1032
 msgid "Edit"
 msgstr "Редактиране"
 
-#: usr/lib/hypnotix/hypnotix.py:960
+#: usr/lib/hypnotix/hypnotix.py:1042
+msgid "Clear icon cache"
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:1052
 msgid "Remove"
 msgstr "Премахване"
 
-#: usr/lib/hypnotix/hypnotix.py:1053
+#: usr/lib/hypnotix/hypnotix.py:1151
 msgid "M3U Playlists"
 msgstr "M3U списъци"
 
-#: usr/lib/hypnotix/hypnotix.py:1215 generate_desktop_files:25
+#: usr/lib/hypnotix/hypnotix.py:1327 generate_desktop_files:25
 #: usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Watch TV"
 msgstr "Гледане на телевизия"
 
-#: usr/share/hypnotix/hypnotix.ui.h:3 usr/share/hypnotix/shortcuts.ui.h:5
+#: usr/lib/hypnotix/hypnotix.py:1394
+msgid "Loading providers..."
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:1407
+msgid "Downloading playlist..."
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:1409
+msgid "Getting playlist..."
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:1412
+msgid "Checking playlist..."
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:1414
+msgid "Loading channels..."
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:1422
+#, python-format
+msgid "Failed to download playlist from %s"
+msgstr ""
+
+#: usr/share/hypnotix/hypnotix.ui.h:3 usr/share/hypnotix/shortcuts.ui.h:6
 msgid "Search"
 msgstr "Търсене"
 
@@ -267,102 +315,90 @@ msgid "Network"
 msgstr "Мрежа"
 
 #: usr/share/hypnotix/hypnotix.ui.h:13
-msgid ""
-"This option only works when used with light desktop themes which support "
-"dark mode."
-msgstr ""
-"Тази опция работи само в комбинация със светли теми които поддържат тъмен "
-"режим."
-
-#: usr/share/hypnotix/hypnotix.ui.h:14
-msgid "Prefer dark mode"
-msgstr "Предпочитане на тъмен режим"
-
-#: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Add a new provider..."
 msgstr "Добави доставчик..."
 
-#: usr/share/hypnotix/hypnotix.ui.h:16
+#: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Reset to defaults..."
 msgstr "Нулиране до настройките по подразбиране"
 
-#: usr/share/hypnotix/hypnotix.ui.h:17
+#: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Name:"
 msgstr "Име:"
 
-#: usr/share/hypnotix/hypnotix.ui.h:18
+#: usr/share/hypnotix/hypnotix.ui.h:16
 msgid "URL:"
 msgstr "URL адрес:"
 
-#: usr/share/hypnotix/hypnotix.ui.h:19
+#: usr/share/hypnotix/hypnotix.ui.h:17
 msgid "Path:"
 msgstr "Пътека:"
 
-#: usr/share/hypnotix/hypnotix.ui.h:20
+#: usr/share/hypnotix/hypnotix.ui.h:18
 msgid "Cancel"
 msgstr "Отмяна"
 
-#: usr/share/hypnotix/hypnotix.ui.h:21
+#: usr/share/hypnotix/hypnotix.ui.h:19
 msgid "OK"
 msgstr "ОК"
 
-#: usr/share/hypnotix/hypnotix.ui.h:22
+#: usr/share/hypnotix/hypnotix.ui.h:20
 msgid "Username:"
 msgstr "Потребителско име:"
 
-#: usr/share/hypnotix/hypnotix.ui.h:23
+#: usr/share/hypnotix/hypnotix.ui.h:21
 msgid "Password:"
 msgstr "Парола:"
 
-#: usr/share/hypnotix/hypnotix.ui.h:24
+#: usr/share/hypnotix/hypnotix.ui.h:22
 msgid "Browse..."
 msgstr "Преглед..."
 
-#: usr/share/hypnotix/hypnotix.ui.h:25
+#: usr/share/hypnotix/hypnotix.ui.h:23
 msgid "EPG:"
 msgstr "EPG:"
 
-#: usr/share/hypnotix/hypnotix.ui.h:26
+#: usr/share/hypnotix/hypnotix.ui.h:24
 msgid "Type:"
 msgstr "Вид:"
 
-#: usr/share/hypnotix/hypnotix.ui.h:27
+#: usr/share/hypnotix/hypnotix.ui.h:25
 msgid "Are you sure you want to delete this provider?"
 msgstr "Сигурни ли сте че искате да изтриете този доставчик?"
 
-#: usr/share/hypnotix/hypnotix.ui.h:28
+#: usr/share/hypnotix/hypnotix.ui.h:26
 msgid "No"
 msgstr "Не"
 
-#: usr/share/hypnotix/hypnotix.ui.h:29
+#: usr/share/hypnotix/hypnotix.ui.h:27
 msgid "Yes"
 msgstr "Да"
 
-#: usr/share/hypnotix/hypnotix.ui.h:30
+#: usr/share/hypnotix/hypnotix.ui.h:28
 msgid "Are you sure you want to reset to the default providers?"
 msgstr "Сигурни ли сте че искате да нулирате настройките?"
 
-#: usr/share/hypnotix/hypnotix.ui.h:31
+#: usr/share/hypnotix/hypnotix.ui.h:29
 msgid "Currently playing:"
 msgstr "В момента върви:"
 
-#: usr/share/hypnotix/hypnotix.ui.h:32
+#: usr/share/hypnotix/hypnotix.ui.h:30
 msgid "Show"
 msgstr "Покажи"
 
-#: usr/share/hypnotix/hypnotix.ui.h:33
+#: usr/share/hypnotix/hypnotix.ui.h:31
 msgid "Pause"
 msgstr "Пауза"
 
-#: usr/share/hypnotix/hypnotix.ui.h:34
+#: usr/share/hypnotix/hypnotix.ui.h:32
 msgid "Stop"
 msgstr "Спри"
 
-#: usr/share/hypnotix/hypnotix.ui.h:39
+#: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Video"
 msgstr "Видео"
 
-#: usr/share/hypnotix/hypnotix.ui.h:41
+#: usr/share/hypnotix/hypnotix.ui.h:39
 msgid "Audio"
 msgstr "Аудио"
 
@@ -371,9 +407,13 @@ msgid "Main shortcuts"
 msgstr "Главни клавиши по подразбиране"
 
 #: usr/share/hypnotix/shortcuts.ui.h:4
+msgid "Play previous/next channel"
+msgstr ""
+
+#: usr/share/hypnotix/shortcuts.ui.h:5
 msgid "Toggle Fullscreen"
 msgstr "Превключване на цял екран"
 
-#: usr/share/hypnotix/shortcuts.ui.h:7
+#: usr/share/hypnotix/shortcuts.ui.h:8
 msgid "Reload all providers"
 msgstr "Презареди всички доставчици"

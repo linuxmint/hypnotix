@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2021-11-23 12:21+0000\n"
+"POT-Creation-Date: 2023-06-06 13:22+0100\n"
 "PO-Revision-Date: 2021-12-08 11:34+0000\n"
 "Last-Translator: Asier Iturralde Sarasola <Unknown>\n"
 "Language-Team: Basque <eu@li.org>\n"
@@ -15,226 +15,274 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2022-12-02 13:17+0000\n"
-"X-Generator: Launchpad (build 51cef3d08dff1e227b5ada709bd67280c567d4be)\n"
+"X-Launchpad-Export-Date: 2023-06-08 10:22+0000\n"
+"X-Generator: Launchpad (build 620cd5280e3a973662e263ebf9346837ed657a46)\n"
 
-#: usr/lib/hypnotix/hypnotix.py:119 usr/lib/hypnotix/hypnotix.py:696
-#: usr/lib/hypnotix/hypnotix.py:1214 generate_desktop_files:25
+#: usr/lib/hypnotix/hypnotix.py:146 usr/lib/hypnotix/hypnotix.py:774
+#: usr/lib/hypnotix/hypnotix.py:1326 generate_desktop_files:25
 #: usr/share/hypnotix/hypnotix.ui.h:1
 msgid "Hypnotix"
 msgstr "Hypnotix"
 
-#: usr/lib/hypnotix/hypnotix.py:238 usr/share/hypnotix/shortcuts.ui.h:6
+#: usr/lib/hypnotix/hypnotix.py:317 usr/share/hypnotix/shortcuts.ui.h:7
 msgid "Keyboard Shortcuts"
 msgstr "Laster-teklak"
 
-#: usr/lib/hypnotix/hypnotix.py:245 usr/share/hypnotix/hypnotix.ui.h:35
+#: usr/lib/hypnotix/hypnotix.py:324 usr/share/hypnotix/hypnotix.ui.h:33
 #: usr/share/hypnotix/shortcuts.ui.h:3
 msgid "Stream Information"
 msgstr "Transmisioaren informazioa"
 
-#: usr/lib/hypnotix/hypnotix.py:253 usr/lib/hypnotix/hypnotix.py:1213
+#: usr/lib/hypnotix/hypnotix.py:332 usr/lib/hypnotix/hypnotix.py:1325
 #: usr/share/hypnotix/shortcuts.ui.h:2
 msgid "About"
 msgstr "Honi buruz"
 
-#: usr/lib/hypnotix/hypnotix.py:258 usr/share/hypnotix/shortcuts.ui.h:8
+#: usr/lib/hypnotix/hypnotix.py:337 usr/share/hypnotix/shortcuts.ui.h:9
 msgid "Quit"
 msgstr "Irten"
 
-#: usr/lib/hypnotix/hypnotix.py:271
+#: usr/lib/hypnotix/hypnotix.py:350
 msgid "M3U URL"
 msgstr "M3U URLa"
 
-#: usr/lib/hypnotix/hypnotix.py:272
+#: usr/lib/hypnotix/hypnotix.py:351
 msgid "Local M3U File"
 msgstr "M3U fitxategi lokala"
 
-#: usr/lib/hypnotix/hypnotix.py:273
+#: usr/lib/hypnotix/hypnotix.py:352
 msgid "Xtream API"
 msgstr "Xtream API"
 
-#: usr/lib/hypnotix/hypnotix.py:451
+#: usr/lib/hypnotix/hypnotix.py:532
 #, python-format
 msgid "Season %s"
 msgstr "%s. denboraldia"
 
-#: usr/lib/hypnotix/hypnotix.py:461
+#: usr/lib/hypnotix/hypnotix.py:543
 #, python-format
 msgid "Episode %s"
 msgstr "%s. atala"
 
-#: usr/lib/hypnotix/hypnotix.py:601
+#: usr/lib/hypnotix/hypnotix.py:654
+msgid "No channels found"
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:680
 msgid "No provider selected"
 msgstr "Ez da hornitzailerik hautatu"
 
-#: usr/lib/hypnotix/hypnotix.py:623 usr/lib/hypnotix/hypnotix.py:636
+#: usr/lib/hypnotix/hypnotix.py:681 usr/lib/hypnotix/hypnotix.py:690
+#, python-format
+msgid "TV Channels (%d)"
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:682 usr/lib/hypnotix/hypnotix.py:691
+#, python-format
+msgid "Movies (%d)"
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:683 usr/lib/hypnotix/hypnotix.py:692
+#, python-format
+msgid "Series (%d)"
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:702 usr/lib/hypnotix/hypnotix.py:714
 msgid "TV Channels"
 msgstr "TB kateak"
 
-#: usr/lib/hypnotix/hypnotix.py:626 usr/lib/hypnotix/hypnotix.py:651
+#: usr/lib/hypnotix/hypnotix.py:704 usr/lib/hypnotix/hypnotix.py:729
 msgid "Movies"
 msgstr "Filmak"
 
-#: usr/lib/hypnotix/hypnotix.py:628 usr/lib/hypnotix/hypnotix.py:658
+#: usr/lib/hypnotix/hypnotix.py:706 usr/lib/hypnotix/hypnotix.py:736
 msgid "Series"
 msgstr "Telesailak"
 
-#: usr/lib/hypnotix/hypnotix.py:639
+#: usr/lib/hypnotix/hypnotix.py:717
 #, python-format
 msgid "TV Channels > %s"
 msgstr "TB kateak > %s"
 
-#: usr/lib/hypnotix/hypnotix.py:654
+#: usr/lib/hypnotix/hypnotix.py:732
 #, python-format
 msgid "Movies > %s"
 msgstr "Filmak > %s"
 
-#: usr/lib/hypnotix/hypnotix.py:661
+#: usr/lib/hypnotix/hypnotix.py:739
 #, python-format
 msgid "Series > %s"
 msgstr "Telesailak > %s"
 
-#: usr/lib/hypnotix/hypnotix.py:669 usr/share/hypnotix/hypnotix.ui.h:6
+#: usr/lib/hypnotix/hypnotix.py:747 usr/share/hypnotix/hypnotix.ui.h:6
 msgid "Preferences"
 msgstr "Hobespenak"
 
-#: usr/lib/hypnotix/hypnotix.py:673 usr/share/hypnotix/hypnotix.ui.h:5
+#: usr/lib/hypnotix/hypnotix.py:751 usr/share/hypnotix/hypnotix.ui.h:5
 msgid "Providers"
 msgstr "Hornitzaileak"
 
-#: usr/lib/hypnotix/hypnotix.py:678
+#: usr/lib/hypnotix/hypnotix.py:756
 #, python-format
 msgid "Edit %s"
 msgstr "Editatu %s"
 
-#: usr/lib/hypnotix/hypnotix.py:680
+#: usr/lib/hypnotix/hypnotix.py:758
 msgid "Add a new provider"
 msgstr "Gehitu hornitzaile berri bat"
 
-#: usr/lib/hypnotix/hypnotix.py:684
+#: usr/lib/hypnotix/hypnotix.py:762
 #, python-format
 msgid "Delete %s"
 msgstr "Ezabatu %s"
 
-#: usr/lib/hypnotix/hypnotix.py:688
+#: usr/lib/hypnotix/hypnotix.py:766
 msgid "Reset providers"
 msgstr "Berrezarri hornitzaileak"
 
-#: usr/lib/hypnotix/hypnotix.py:726 usr/lib/hypnotix/hypnotix.py:730
-#: usr/lib/hypnotix/hypnotix.py:782 usr/lib/hypnotix/hypnotix.py:784
-#: usr/lib/hypnotix/hypnotix.py:791 usr/lib/hypnotix/hypnotix.py:794
-#: usr/lib/hypnotix/hypnotix.py:806 usr/lib/hypnotix/hypnotix.py:819
-#: usr/lib/hypnotix/hypnotix.py:824 usr/lib/hypnotix/hypnotix.py:832
-#: usr/lib/hypnotix/hypnotix.py:1166 usr/lib/hypnotix/hypnotix.py:1168
-#: usr/lib/hypnotix/hypnotix.py:1193 usr/lib/hypnotix/hypnotix.py:1197
-#: usr/share/hypnotix/hypnotix.ui.h:36
+#: usr/lib/hypnotix/hypnotix.py:808 usr/lib/hypnotix/hypnotix.py:812
+#: usr/lib/hypnotix/hypnotix.py:864 usr/lib/hypnotix/hypnotix.py:866
+#: usr/lib/hypnotix/hypnotix.py:873 usr/lib/hypnotix/hypnotix.py:876
+#: usr/lib/hypnotix/hypnotix.py:888 usr/lib/hypnotix/hypnotix.py:901
+#: usr/lib/hypnotix/hypnotix.py:906 usr/lib/hypnotix/hypnotix.py:914
+#: usr/lib/hypnotix/hypnotix.py:1277 usr/lib/hypnotix/hypnotix.py:1279
+#: usr/lib/hypnotix/hypnotix.py:1305 usr/lib/hypnotix/hypnotix.py:1309
+#: usr/share/hypnotix/hypnotix.ui.h:34
 msgid "General"
 msgstr "Orokorra"
 
-#: usr/lib/hypnotix/hypnotix.py:727 usr/lib/hypnotix/hypnotix.py:796
-#: usr/lib/hypnotix/hypnotix.py:798 usr/lib/hypnotix/hypnotix.py:800
-#: usr/lib/hypnotix/hypnotix.py:1167 usr/share/hypnotix/hypnotix.ui.h:38
+#: usr/lib/hypnotix/hypnotix.py:809 usr/lib/hypnotix/hypnotix.py:878
+#: usr/lib/hypnotix/hypnotix.py:880 usr/lib/hypnotix/hypnotix.py:882
+#: usr/lib/hypnotix/hypnotix.py:1278 usr/share/hypnotix/hypnotix.ui.h:36
 msgid "Color"
 msgstr "Kolorea"
 
-#: usr/lib/hypnotix/hypnotix.py:731 usr/lib/hypnotix/hypnotix.py:816
-#: usr/lib/hypnotix/hypnotix.py:826 usr/lib/hypnotix/hypnotix.py:1169
-#: usr/share/hypnotix/hypnotix.ui.h:40
+#: usr/lib/hypnotix/hypnotix.py:813 usr/lib/hypnotix/hypnotix.py:898
+#: usr/lib/hypnotix/hypnotix.py:908 usr/lib/hypnotix/hypnotix.py:1280
+#: usr/share/hypnotix/hypnotix.ui.h:38
 msgid "Layout"
 msgstr "Diseinua"
 
-#: usr/lib/hypnotix/hypnotix.py:767 usr/lib/hypnotix/hypnotix.py:768
-#: usr/lib/hypnotix/hypnotix.py:782 usr/lib/hypnotix/hypnotix.py:784
-#: usr/lib/hypnotix/hypnotix.py:1189 usr/lib/hypnotix/hypnotix.py:1190
-#: usr/lib/hypnotix/hypnotix.py:1193 usr/lib/hypnotix/hypnotix.py:1197
-#: usr/share/hypnotix/hypnotix.ui.h:37
+#: usr/lib/hypnotix/hypnotix.py:849 usr/lib/hypnotix/hypnotix.py:850
+#: usr/lib/hypnotix/hypnotix.py:864 usr/lib/hypnotix/hypnotix.py:866
+#: usr/lib/hypnotix/hypnotix.py:1301 usr/lib/hypnotix/hypnotix.py:1302
+#: usr/lib/hypnotix/hypnotix.py:1305 usr/lib/hypnotix/hypnotix.py:1309
+#: usr/share/hypnotix/hypnotix.ui.h:35
 msgid "Average Bitrate"
 msgstr "Batezbesteko bit-emaria"
 
-#: usr/lib/hypnotix/hypnotix.py:791
+#: usr/lib/hypnotix/hypnotix.py:873
 msgid "Dimensions"
 msgstr "Neurriak"
 
-#: usr/lib/hypnotix/hypnotix.py:794
+#: usr/lib/hypnotix/hypnotix.py:876
 msgid "Aspect"
 msgstr "Aspektua"
 
-#: usr/lib/hypnotix/hypnotix.py:796
+#: usr/lib/hypnotix/hypnotix.py:878
 msgid "Pixel Format"
 msgstr "Pixelen formatua"
 
-#: usr/lib/hypnotix/hypnotix.py:798
+#: usr/lib/hypnotix/hypnotix.py:880
 msgid "Gamma"
 msgstr "Gamma"
 
-#: usr/lib/hypnotix/hypnotix.py:800
+#: usr/lib/hypnotix/hypnotix.py:882
 msgid "Bits Per Pixel"
 msgstr "Bitak pixeleko"
 
-#: usr/lib/hypnotix/hypnotix.py:806 usr/lib/hypnotix/hypnotix.py:832
+#: usr/lib/hypnotix/hypnotix.py:888 usr/lib/hypnotix/hypnotix.py:914
 msgid "Codec"
 msgstr "Kodeka"
 
-#: usr/lib/hypnotix/hypnotix.py:815
+#: usr/lib/hypnotix/hypnotix.py:897
 msgid "surround sound"
 msgstr "surround soinua"
 
-#: usr/lib/hypnotix/hypnotix.py:816
+#: usr/lib/hypnotix/hypnotix.py:898
 msgid "Channels"
 msgstr "Kanalak"
 
-#: usr/lib/hypnotix/hypnotix.py:819
+#: usr/lib/hypnotix/hypnotix.py:901
 msgid "Sample Rate"
 msgstr "Lagintze-abiadura"
 
-#: usr/lib/hypnotix/hypnotix.py:824
+#: usr/lib/hypnotix/hypnotix.py:906
 msgid "Format"
 msgstr "Formatua"
 
-#: usr/lib/hypnotix/hypnotix.py:826
+#: usr/lib/hypnotix/hypnotix.py:908
 msgid "Channel Count"
 msgstr "Kanal kopurua"
 
-#: usr/lib/hypnotix/hypnotix.py:920
+#: usr/lib/hypnotix/hypnotix.py:1002
 #, python-format
 msgid "%d TV channel"
 msgid_plural "%d TV channels"
 msgstr[0] "TB kanal %d"
 msgstr[1] "%d TB kanal"
 
-#: usr/lib/hypnotix/hypnotix.py:925
+#: usr/lib/hypnotix/hypnotix.py:1007
 #, python-format
 msgid "%d movie"
 msgid_plural "%d movies"
 msgstr[0] "Film %d"
 msgstr[1] "%d film"
 
-#: usr/lib/hypnotix/hypnotix.py:930
+#: usr/lib/hypnotix/hypnotix.py:1012
 #, python-format
 msgid "%d series"
 msgid_plural "%d series"
 msgstr[0] "Telesail %d"
 msgstr[1] "%d telesail"
 
-#: usr/lib/hypnotix/hypnotix.py:950
+#: usr/lib/hypnotix/hypnotix.py:1032
 msgid "Edit"
 msgstr "Editatu"
 
-#: usr/lib/hypnotix/hypnotix.py:960
+#: usr/lib/hypnotix/hypnotix.py:1042
+msgid "Clear icon cache"
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:1052
 msgid "Remove"
 msgstr "Kendu"
 
-#: usr/lib/hypnotix/hypnotix.py:1053
+#: usr/lib/hypnotix/hypnotix.py:1151
 msgid "M3U Playlists"
 msgstr "M3U erreprodukzio-zerrendak"
 
-#: usr/lib/hypnotix/hypnotix.py:1215 generate_desktop_files:25
+#: usr/lib/hypnotix/hypnotix.py:1327 generate_desktop_files:25
 #: usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Watch TV"
 msgstr "Ikusi TB"
 
-#: usr/share/hypnotix/hypnotix.ui.h:3 usr/share/hypnotix/shortcuts.ui.h:5
+#: usr/lib/hypnotix/hypnotix.py:1394
+msgid "Loading providers..."
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:1407
+msgid "Downloading playlist..."
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:1409
+msgid "Getting playlist..."
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:1412
+msgid "Checking playlist..."
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:1414
+msgid "Loading channels..."
+msgstr ""
+
+#: usr/lib/hypnotix/hypnotix.py:1422
+#, python-format
+msgid "Failed to download playlist from %s"
+msgstr ""
+
+#: usr/share/hypnotix/hypnotix.ui.h:3 usr/share/hypnotix/shortcuts.ui.h:6
 msgid "Search"
 msgstr "Bilatu"
 
@@ -267,102 +315,90 @@ msgid "Network"
 msgstr "Sarea"
 
 #: usr/share/hypnotix/hypnotix.ui.h:13
-msgid ""
-"This option only works when used with light desktop themes which support "
-"dark mode."
-msgstr ""
-"Aukera hau modu iluna onartzen duten mahaigaineko itxura argiekin bakarrik "
-"dabil."
-
-#: usr/share/hypnotix/hypnotix.ui.h:14
-msgid "Prefer dark mode"
-msgstr "Hobetsi modu iluna"
-
-#: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Add a new provider..."
 msgstr "Gehitu hornitzaile berri bat..."
 
-#: usr/share/hypnotix/hypnotix.ui.h:16
+#: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Reset to defaults..."
 msgstr "Berrezarri balio lehenetsiak..."
 
-#: usr/share/hypnotix/hypnotix.ui.h:17
+#: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Name:"
 msgstr "Izena:"
 
-#: usr/share/hypnotix/hypnotix.ui.h:18
+#: usr/share/hypnotix/hypnotix.ui.h:16
 msgid "URL:"
 msgstr "URLa:"
 
-#: usr/share/hypnotix/hypnotix.ui.h:19
+#: usr/share/hypnotix/hypnotix.ui.h:17
 msgid "Path:"
 msgstr "Bide-izena:"
 
-#: usr/share/hypnotix/hypnotix.ui.h:20
+#: usr/share/hypnotix/hypnotix.ui.h:18
 msgid "Cancel"
 msgstr "Utzi"
 
-#: usr/share/hypnotix/hypnotix.ui.h:21
+#: usr/share/hypnotix/hypnotix.ui.h:19
 msgid "OK"
 msgstr "Ados"
 
-#: usr/share/hypnotix/hypnotix.ui.h:22
+#: usr/share/hypnotix/hypnotix.ui.h:20
 msgid "Username:"
 msgstr "Erabiltzaile-izena:"
 
-#: usr/share/hypnotix/hypnotix.ui.h:23
+#: usr/share/hypnotix/hypnotix.ui.h:21
 msgid "Password:"
 msgstr "Pasahitza:"
 
-#: usr/share/hypnotix/hypnotix.ui.h:24
+#: usr/share/hypnotix/hypnotix.ui.h:22
 msgid "Browse..."
 msgstr "Arakatu..."
 
-#: usr/share/hypnotix/hypnotix.ui.h:25
+#: usr/share/hypnotix/hypnotix.ui.h:23
 msgid "EPG:"
 msgstr "EPG:"
 
-#: usr/share/hypnotix/hypnotix.ui.h:26
+#: usr/share/hypnotix/hypnotix.ui.h:24
 msgid "Type:"
 msgstr "Mota:"
 
-#: usr/share/hypnotix/hypnotix.ui.h:27
+#: usr/share/hypnotix/hypnotix.ui.h:25
 msgid "Are you sure you want to delete this provider?"
 msgstr "Ziur zaude hornitzaile hau ezabatu nahi duzula?"
 
-#: usr/share/hypnotix/hypnotix.ui.h:28
+#: usr/share/hypnotix/hypnotix.ui.h:26
 msgid "No"
 msgstr "Ez"
 
-#: usr/share/hypnotix/hypnotix.ui.h:29
+#: usr/share/hypnotix/hypnotix.ui.h:27
 msgid "Yes"
 msgstr "Bai"
 
-#: usr/share/hypnotix/hypnotix.ui.h:30
+#: usr/share/hypnotix/hypnotix.ui.h:28
 msgid "Are you sure you want to reset to the default providers?"
 msgstr "Ziur zaude hornitzaile lehenetsiak berrezarri nahi dituzula?"
 
-#: usr/share/hypnotix/hypnotix.ui.h:31
+#: usr/share/hypnotix/hypnotix.ui.h:29
 msgid "Currently playing:"
 msgstr "Une honetan erreproduzitzen:"
 
-#: usr/share/hypnotix/hypnotix.ui.h:32
+#: usr/share/hypnotix/hypnotix.ui.h:30
 msgid "Show"
 msgstr "Erakutsi"
 
-#: usr/share/hypnotix/hypnotix.ui.h:33
+#: usr/share/hypnotix/hypnotix.ui.h:31
 msgid "Pause"
 msgstr "Pausatu"
 
-#: usr/share/hypnotix/hypnotix.ui.h:34
+#: usr/share/hypnotix/hypnotix.ui.h:32
 msgid "Stop"
 msgstr "Gelditu"
 
-#: usr/share/hypnotix/hypnotix.ui.h:39
+#: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Video"
 msgstr "Bideoa"
 
-#: usr/share/hypnotix/hypnotix.ui.h:41
+#: usr/share/hypnotix/hypnotix.ui.h:39
 msgid "Audio"
 msgstr "Audioa"
 
@@ -371,9 +407,13 @@ msgid "Main shortcuts"
 msgstr "Lasterbide nagusiak"
 
 #: usr/share/hypnotix/shortcuts.ui.h:4
+msgid "Play previous/next channel"
+msgstr ""
+
+#: usr/share/hypnotix/shortcuts.ui.h:5
 msgid "Toggle Fullscreen"
 msgstr "Txandakatu pantaila osoa"
 
-#: usr/share/hypnotix/shortcuts.ui.h:7
+#: usr/share/hypnotix/shortcuts.ui.h:8
 msgid "Reload all providers"
 msgstr "Kargatu berriz hornitzaile guztiak"
