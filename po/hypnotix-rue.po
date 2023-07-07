@@ -1,20 +1,21 @@
-# Slovak translation for linuxmint
-# Copyright (c) 2021 Rosetta Contributors and Canonical Ltd 2021
+# Rusyn translation for linuxmint
+# Copyright (c) 2023 Rosetta Contributors and Canonical Ltd 2023
 # This file is distributed under the same license as the linuxmint package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2023-06-06 13:22+0100\n"
-"PO-Revision-Date: 2023-06-10 09:05+0000\n"
-"Last-Translator: menom <Unknown>\n"
-"Language-Team: Slovak <sk@li.org>\n"
+"PO-Revision-Date: 2023-07-01 17:17+0000\n"
+"Last-Translator: Vondrosh tvmc <Unknown>\n"
+"Language-Team: Rusyn <rue@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Launchpad-Export-Date: 2023-07-07 12:58+0000\n"
 "X-Generator: Launchpad (build 2ac9e3bf4ab511504f8fc651371e24a6a047ba12)\n"
 
@@ -26,21 +27,21 @@ msgstr "Hypnotix"
 
 #: usr/lib/hypnotix/hypnotix.py:317 usr/share/hypnotix/shortcuts.ui.h:7
 msgid "Keyboard Shortcuts"
-msgstr "Klávesové skratky"
+msgstr "Комбінації клопок"
 
 #: usr/lib/hypnotix/hypnotix.py:324 usr/share/hypnotix/hypnotix.ui.h:33
 #: usr/share/hypnotix/shortcuts.ui.h:3
 msgid "Stream Information"
-msgstr "Informácie o dátach"
+msgstr "Інформація за потук"
 
 #: usr/lib/hypnotix/hypnotix.py:332 usr/lib/hypnotix/hypnotix.py:1325
 #: usr/share/hypnotix/shortcuts.ui.h:2
 msgid "About"
-msgstr "O aplikácii"
+msgstr "За"
 
 #: usr/lib/hypnotix/hypnotix.py:337 usr/share/hypnotix/shortcuts.ui.h:9
 msgid "Quit"
-msgstr "Ukončiť"
+msgstr "Лишити"
 
 #: usr/lib/hypnotix/hypnotix.py:350
 msgid "M3U URL"
@@ -48,7 +49,7 @@ msgstr "M3U URL"
 
 #: usr/lib/hypnotix/hypnotix.py:351
 msgid "Local M3U File"
-msgstr "Lokálny súbor M3U"
+msgstr "Локалный файл M3U"
 
 #: usr/lib/hypnotix/hypnotix.py:352
 msgid "Xtream API"
@@ -57,88 +58,88 @@ msgstr "Xtream API"
 #: usr/lib/hypnotix/hypnotix.py:532
 #, python-format
 msgid "Season %s"
-msgstr "Séria %s"
+msgstr "Сезон %s"
 
 #: usr/lib/hypnotix/hypnotix.py:543
 #, python-format
 msgid "Episode %s"
-msgstr "Epizóda %s"
+msgstr "Серія %s"
 
 #: usr/lib/hypnotix/hypnotix.py:654
 msgid "No channels found"
-msgstr "Nenašli sa žiadne kanály"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:680
 msgid "No provider selected"
-msgstr "Nebol zvolený žiadny poskytovateľ"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:681 usr/lib/hypnotix/hypnotix.py:690
 #, python-format
 msgid "TV Channels (%d)"
-msgstr "TV kanály (%d)"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:682 usr/lib/hypnotix/hypnotix.py:691
 #, python-format
 msgid "Movies (%d)"
-msgstr "Filmy (%d)"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:683 usr/lib/hypnotix/hypnotix.py:692
 #, python-format
 msgid "Series (%d)"
-msgstr "Seriály (%d)"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:702 usr/lib/hypnotix/hypnotix.py:714
 msgid "TV Channels"
-msgstr "Televízne kanály"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:704 usr/lib/hypnotix/hypnotix.py:729
 msgid "Movies"
-msgstr "Filmy"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:706 usr/lib/hypnotix/hypnotix.py:736
 msgid "Series"
-msgstr "Série"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:717
 #, python-format
 msgid "TV Channels > %s"
-msgstr "Televízne kanály > %s"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:732
 #, python-format
 msgid "Movies > %s"
-msgstr "Filmy > %s"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:739
 #, python-format
 msgid "Series > %s"
-msgstr "Série > %s"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:747 usr/share/hypnotix/hypnotix.ui.h:6
 msgid "Preferences"
-msgstr "Nastavenia"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:751 usr/share/hypnotix/hypnotix.ui.h:5
 msgid "Providers"
-msgstr "Poskytovatelia"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:756
 #, python-format
 msgid "Edit %s"
-msgstr "Upraviť %s"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:758
 msgid "Add a new provider"
-msgstr "Pridať nového poskytovateľa"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:762
 #, python-format
 msgid "Delete %s"
-msgstr "Odstrániť %s"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:766
 msgid "Reset providers"
-msgstr "Resetovať poskytovateľov"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:808 usr/lib/hypnotix/hypnotix.py:812
 #: usr/lib/hypnotix/hypnotix.py:864 usr/lib/hypnotix/hypnotix.py:866
@@ -149,19 +150,19 @@ msgstr "Resetovať poskytovateľov"
 #: usr/lib/hypnotix/hypnotix.py:1305 usr/lib/hypnotix/hypnotix.py:1309
 #: usr/share/hypnotix/hypnotix.ui.h:34
 msgid "General"
-msgstr "Všeobecné"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:809 usr/lib/hypnotix/hypnotix.py:878
 #: usr/lib/hypnotix/hypnotix.py:880 usr/lib/hypnotix/hypnotix.py:882
 #: usr/lib/hypnotix/hypnotix.py:1278 usr/share/hypnotix/hypnotix.ui.h:36
 msgid "Color"
-msgstr "Farba"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:813 usr/lib/hypnotix/hypnotix.py:898
 #: usr/lib/hypnotix/hypnotix.py:908 usr/lib/hypnotix/hypnotix.py:1280
 #: usr/share/hypnotix/hypnotix.ui.h:38
 msgid "Layout"
-msgstr "Vzhľad"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:849 usr/lib/hypnotix/hypnotix.py:850
 #: usr/lib/hypnotix/hypnotix.py:864 usr/lib/hypnotix/hypnotix.py:866
@@ -169,254 +170,251 @@ msgstr "Vzhľad"
 #: usr/lib/hypnotix/hypnotix.py:1305 usr/lib/hypnotix/hypnotix.py:1309
 #: usr/share/hypnotix/hypnotix.ui.h:35
 msgid "Average Bitrate"
-msgstr "Priemerný dátový tok"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:873
 msgid "Dimensions"
-msgstr "Rozmery"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:876
 msgid "Aspect"
-msgstr "Aspekt"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:878
 msgid "Pixel Format"
-msgstr "Formát pixelov"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:880
 msgid "Gamma"
-msgstr "Gamma"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:882
 msgid "Bits Per Pixel"
-msgstr "Počet bitov na pixel"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:888 usr/lib/hypnotix/hypnotix.py:914
 msgid "Codec"
-msgstr "Kódek"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:897
 msgid "surround sound"
-msgstr "priestorový zvuk"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:898
 msgid "Channels"
-msgstr "Kanály"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:901
 msgid "Sample Rate"
-msgstr "Vzorkovacia frekvencia"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:906
 msgid "Format"
-msgstr "Fromát"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:908
 msgid "Channel Count"
-msgstr "Počet kanálov"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:1002
 #, python-format
 msgid "%d TV channel"
 msgid_plural "%d TV channels"
-msgstr[0] "%d TV kanál"
-msgstr[1] "%d TV kanály"
-msgstr[2] "%d TV kanálov"
+msgstr[0] ""
+msgstr[1] ""
 
 #: usr/lib/hypnotix/hypnotix.py:1007
 #, python-format
 msgid "%d movie"
 msgid_plural "%d movies"
-msgstr[0] "%d film"
-msgstr[1] "%d filmy"
-msgstr[2] "%d filmov"
+msgstr[0] ""
+msgstr[1] ""
 
 #: usr/lib/hypnotix/hypnotix.py:1012
 #, python-format
 msgid "%d series"
 msgid_plural "%d series"
-msgstr[0] "%d seriál"
-msgstr[1] "%d seriály"
-msgstr[2] "%d seriálov"
+msgstr[0] ""
+msgstr[1] ""
 
 #: usr/lib/hypnotix/hypnotix.py:1032
 msgid "Edit"
-msgstr "Upraviť"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:1042
 msgid "Clear icon cache"
-msgstr "Vymažte vyrovnávaciu pamäť ikon"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:1052
 msgid "Remove"
-msgstr "Odstrániť"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:1151
 msgid "M3U Playlists"
-msgstr "M3U Playlisty"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:1327 generate_desktop_files:25
 #: usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Watch TV"
-msgstr "Pozerať TV"
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:1394
 msgid "Loading providers..."
-msgstr "Načítavajú sa poskytovatelia..."
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:1407
 msgid "Downloading playlist..."
-msgstr "Sťahuje sa playlist..."
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:1409
 msgid "Getting playlist..."
-msgstr "Získava sa playlist..."
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:1412
 msgid "Checking playlist..."
-msgstr "Kontroluje sa playlist..."
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:1414
 msgid "Loading channels..."
-msgstr "Načítavajú sa kanály..."
+msgstr ""
 
 #: usr/lib/hypnotix/hypnotix.py:1422
 #, python-format
 msgid "Failed to download playlist from %s"
-msgstr "Sťahovanie zoznamu skladieb z %s zlyhalo"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:3 usr/share/hypnotix/shortcuts.ui.h:6
 msgid "Search"
-msgstr "Hľadať"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:4
 msgid "Fullscreen"
-msgstr "Celá obrazovka"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:7
 msgid "MPV Options"
-msgstr "Možnosti MPV"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:8
 msgid "List of MPV options"
-msgstr "Zoznam MPV možností"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:9
 msgid "Playback"
-msgstr "Prehrávanie"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:10
 msgid "User Agent"
-msgstr "User Agent"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:11
 msgid "Referrer"
-msgstr "Referent"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:12
 msgid "Network"
-msgstr "Sieť"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:13
 msgid "Add a new provider..."
-msgstr "Pridať nového poskytovateľa"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Reset to defaults..."
-msgstr "Vrátiť do pôvodných nastavení"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Name:"
-msgstr "Názov:"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:16
 msgid "URL:"
-msgstr "URL:"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:17
 msgid "Path:"
-msgstr "Cesta:"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:18
 msgid "Cancel"
-msgstr "Zrušiť"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:19
 msgid "OK"
-msgstr "OK"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:20
 msgid "Username:"
-msgstr "Používateľské meno:"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:21
 msgid "Password:"
-msgstr "Heslo:"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:22
 msgid "Browse..."
-msgstr "Prehliadať..."
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:23
 msgid "EPG:"
-msgstr "EPG:"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:24
 msgid "Type:"
-msgstr "Typ:"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:25
 msgid "Are you sure you want to delete this provider?"
-msgstr "Ste si istý že chcete vymazať tohoto poskytovateľa?"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:26
 msgid "No"
-msgstr "Nie"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:27
 msgid "Yes"
-msgstr "Áno"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:28
 msgid "Are you sure you want to reset to the default providers?"
-msgstr "Ste si istý že chcete nastaviť pôvodných poskytovateľov<"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:29
 msgid "Currently playing:"
-msgstr "Práve sa prehráva:"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:30
 msgid "Show"
-msgstr "Zobraziť"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:31
 msgid "Pause"
-msgstr "Pozastaviť"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:32
 msgid "Stop"
-msgstr "Zastaviť"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Video"
-msgstr "Video"
+msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:39
 msgid "Audio"
-msgstr "Zvuk"
+msgstr ""
 
 #: usr/share/hypnotix/shortcuts.ui.h:1
 msgid "Main shortcuts"
-msgstr "Hlavné klávesové skratky"
+msgstr ""
 
 #: usr/share/hypnotix/shortcuts.ui.h:4
 msgid "Play previous/next channel"
-msgstr "Prehrať predošlý / ďalší kanál"
+msgstr ""
 
 #: usr/share/hypnotix/shortcuts.ui.h:5
 msgid "Toggle Fullscreen"
-msgstr "Prepnúť na celú obrazovku"
+msgstr ""
 
 #: usr/share/hypnotix/shortcuts.ui.h:8
 msgid "Reload all providers"
-msgstr "Znovu načítať všetkých poskytovateľov"
+msgstr ""

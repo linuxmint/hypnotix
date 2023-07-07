@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2023-06-08 10:22+0000\n"
-"X-Generator: Launchpad (build 620cd5280e3a973662e263ebf9346837ed657a46)\n"
+"X-Launchpad-Export-Date: 2023-07-07 12:58+0000\n"
+"X-Generator: Launchpad (build 2ac9e3bf4ab511504f8fc651371e24a6a047ba12)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:146 usr/lib/hypnotix/hypnotix.py:774
 #: usr/lib/hypnotix/hypnotix.py:1326 generate_desktop_files:25

@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2023-06-06 13:22+0100\n"
-"PO-Revision-Date: 2023-06-01 22:33+0000\n"
+"PO-Revision-Date: 2023-06-11 22:18+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2023-06-08 10:22+0000\n"
-"X-Generator: Launchpad (build 620cd5280e3a973662e263ebf9346837ed657a46)\n"
+"X-Launchpad-Export-Date: 2023-07-07 12:58+0000\n"
+"X-Generator: Launchpad (build 2ac9e3bf4ab511504f8fc651371e24a6a047ba12)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:146 usr/lib/hypnotix/hypnotix.py:774
 #: usr/lib/hypnotix/hypnotix.py:1326 generate_desktop_files:25
@@ -280,7 +280,7 @@ msgstr "A carregar canais..."
 #: usr/lib/hypnotix/hypnotix.py:1422
 #, python-format
 msgid "Failed to download playlist from %s"
-msgstr ""
+msgstr "Falha ao transferir a lista de reprodução de %s"
 
 #: usr/share/hypnotix/hypnotix.ui.h:3 usr/share/hypnotix/shortcuts.ui.h:6
 msgid "Search"

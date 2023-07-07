@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2023-06-06 13:22+0100\n"
-"PO-Revision-Date: 2023-03-25 11:51+0000\n"
-"Last-Translator: Mr.Ravi <Unknown>\n"
+"PO-Revision-Date: 2023-06-13 12:22+0000\n"
+"Last-Translator: parham <Unknown>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2023-06-08 10:22+0000\n"
-"X-Generator: Launchpad (build 620cd5280e3a973662e263ebf9346837ed657a46)\n"
+"X-Launchpad-Export-Date: 2023-07-07 12:58+0000\n"
+"X-Generator: Launchpad (build 2ac9e3bf4ab511504f8fc651371e24a6a047ba12)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:146 usr/lib/hypnotix/hypnotix.py:774
 #: usr/lib/hypnotix/hypnotix.py:1326 generate_desktop_files:25
@@ -31,12 +31,12 @@ msgstr "میانبرهای صفحه کلید"
 #: usr/lib/hypnotix/hypnotix.py:324 usr/share/hypnotix/hypnotix.ui.h:33
 #: usr/share/hypnotix/shortcuts.ui.h:3
 msgid "Stream Information"
-msgstr "اطلاعات جریان"
+msgstr "اطلاعات استریم"
 
 #: usr/lib/hypnotix/hypnotix.py:332 usr/lib/hypnotix/hypnotix.py:1325
 #: usr/share/hypnotix/shortcuts.ui.h:2
 msgid "About"
-msgstr "درباره"
+msgstr "درباره‌ی برنامه"
 
 #: usr/lib/hypnotix/hypnotix.py:337 usr/share/hypnotix/shortcuts.ui.h:9
 msgid "Quit"
@@ -66,26 +66,26 @@ msgstr "قسمت %s"
 
 #: usr/lib/hypnotix/hypnotix.py:654
 msgid "No channels found"
-msgstr ""
+msgstr "کانالی یافت نشد"
 
 #: usr/lib/hypnotix/hypnotix.py:680
 msgid "No provider selected"
-msgstr "هیچ ارايه دهنده‌ای انتخاب نشده"
+msgstr "ارائه دهنده ای انتخاب نشده است"
 
 #: usr/lib/hypnotix/hypnotix.py:681 usr/lib/hypnotix/hypnotix.py:690
 #, python-format
 msgid "TV Channels (%d)"
-msgstr ""
+msgstr "کانال های تلویزیونی (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:682 usr/lib/hypnotix/hypnotix.py:691
 #, python-format
 msgid "Movies (%d)"
-msgstr ""
+msgstr "فیلم‌ها (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:683 usr/lib/hypnotix/hypnotix.py:692
 #, python-format
 msgid "Series (%d)"
-msgstr ""
+msgstr "سریال ها (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:702 usr/lib/hypnotix/hypnotix.py:714
 msgid "TV Channels"
@@ -239,7 +239,7 @@ msgstr "ویرایش"
 
 #: usr/lib/hypnotix/hypnotix.py:1042
 msgid "Clear icon cache"
-msgstr ""
+msgstr "پاک کردن مخزن تصاویر"
 
 #: usr/lib/hypnotix/hypnotix.py:1052
 msgid "Remove"
@@ -256,28 +256,28 @@ msgstr "تماشای تلویزیون"
 
 #: usr/lib/hypnotix/hypnotix.py:1394
 msgid "Loading providers..."
-msgstr ""
+msgstr "در حال بارگیری ارائه دهندگان..."
 
 #: usr/lib/hypnotix/hypnotix.py:1407
 msgid "Downloading playlist..."
-msgstr ""
+msgstr "در حال دانلود لیست پخش..."
 
 #: usr/lib/hypnotix/hypnotix.py:1409
 msgid "Getting playlist..."
-msgstr ""
+msgstr "در حال دریافت لیست پخش..."
 
 #: usr/lib/hypnotix/hypnotix.py:1412
 msgid "Checking playlist..."
-msgstr ""
+msgstr "در حال بررسی لیست پخش..."
 
 #: usr/lib/hypnotix/hypnotix.py:1414
 msgid "Loading channels..."
-msgstr ""
+msgstr "در حال بارگیری کانال ها..."
 
 #: usr/lib/hypnotix/hypnotix.py:1422
 #, python-format
 msgid "Failed to download playlist from %s"
-msgstr ""
+msgstr "لیست پخش از %s بارگیری نشد"
 
 #: usr/share/hypnotix/hypnotix.ui.h:3 usr/share/hypnotix/shortcuts.ui.h:6
 msgid "Search"
@@ -405,7 +405,7 @@ msgstr "میانبر‌های اصلی"
 
 #: usr/share/hypnotix/shortcuts.ui.h:4
 msgid "Play previous/next channel"
-msgstr ""
+msgstr "پخش کانال قبلی/ بعدی"
 
 #: usr/share/hypnotix/shortcuts.ui.h:5
 msgid "Toggle Fullscreen"

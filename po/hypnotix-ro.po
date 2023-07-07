@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2023-06-06 13:22+0100\n"
-"PO-Revision-Date: 2021-12-14 19:49+0000\n"
+"PO-Revision-Date: 2023-06-12 10:16+0000\n"
 "Last-Translator: Vladm <Unknown>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n == 1 ? 0: (((n % 100 > 19) || ((n % 100 "
 "== 0) && (n != 0))) ? 2: 1));\n"
-"X-Launchpad-Export-Date: 2023-06-08 10:22+0000\n"
-"X-Generator: Launchpad (build 620cd5280e3a973662e263ebf9346837ed657a46)\n"
+"X-Launchpad-Export-Date: 2023-07-07 12:58+0000\n"
+"X-Generator: Launchpad (build 2ac9e3bf4ab511504f8fc651371e24a6a047ba12)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:146 usr/lib/hypnotix/hypnotix.py:774
 #: usr/lib/hypnotix/hypnotix.py:1326 generate_desktop_files:25
@@ -67,7 +67,7 @@ msgstr "Episodul %s"
 
 #: usr/lib/hypnotix/hypnotix.py:654
 msgid "No channels found"
-msgstr ""
+msgstr "Nu s-au găsit canale"
 
 #: usr/lib/hypnotix/hypnotix.py:680
 msgid "No provider selected"
@@ -76,17 +76,17 @@ msgstr "Niciun furnizor selectat"
 #: usr/lib/hypnotix/hypnotix.py:681 usr/lib/hypnotix/hypnotix.py:690
 #, python-format
 msgid "TV Channels (%d)"
-msgstr ""
+msgstr "Canale TV (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:682 usr/lib/hypnotix/hypnotix.py:691
 #, python-format
 msgid "Movies (%d)"
-msgstr ""
+msgstr "Filme (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:683 usr/lib/hypnotix/hypnotix.py:692
 #, python-format
 msgid "Series (%d)"
-msgstr ""
+msgstr "Seriale (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:702 usr/lib/hypnotix/hypnotix.py:714
 msgid "TV Channels"
@@ -246,7 +246,7 @@ msgstr "Editează"
 
 #: usr/lib/hypnotix/hypnotix.py:1042
 msgid "Clear icon cache"
-msgstr ""
+msgstr "Șterge memoria pentru iconițe"
 
 #: usr/lib/hypnotix/hypnotix.py:1052
 msgid "Remove"
@@ -263,28 +263,28 @@ msgstr "Privește TV"
 
 #: usr/lib/hypnotix/hypnotix.py:1394
 msgid "Loading providers..."
-msgstr ""
+msgstr "Se încarcă furnizorii..."
 
 #: usr/lib/hypnotix/hypnotix.py:1407
 msgid "Downloading playlist..."
-msgstr ""
+msgstr "Se desarcă playlist-ul..."
 
 #: usr/lib/hypnotix/hypnotix.py:1409
 msgid "Getting playlist..."
-msgstr ""
+msgstr "Se obține playlist-ul..."
 
 #: usr/lib/hypnotix/hypnotix.py:1412
 msgid "Checking playlist..."
-msgstr ""
+msgstr "Se verifică playlist-ul..."
 
 #: usr/lib/hypnotix/hypnotix.py:1414
 msgid "Loading channels..."
-msgstr ""
+msgstr "Se încarcă canalele..."
 
 #: usr/lib/hypnotix/hypnotix.py:1422
 #, python-format
 msgid "Failed to download playlist from %s"
-msgstr ""
+msgstr "Nu s-a putut descărca playlist-ul de la %s"
 
 #: usr/share/hypnotix/hypnotix.ui.h:3 usr/share/hypnotix/shortcuts.ui.h:6
 msgid "Search"
@@ -412,7 +412,7 @@ msgstr "Comenzi rapide principale"
 
 #: usr/share/hypnotix/shortcuts.ui.h:4
 msgid "Play previous/next channel"
-msgstr ""
+msgstr "Redă canalul anterior/următor"
 
 #: usr/share/hypnotix/shortcuts.ui.h:5
 msgid "Toggle Fullscreen"
