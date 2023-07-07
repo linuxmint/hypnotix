@@ -1,3 +1,9 @@
+hypnotix (3.5) victoria; urgency=medium
+
+  * l10n: Update translations
+
+ -- Clement Lefebvre <root@linuxmint.com>  Fri, 07 Jul 2023 16:57:04 +0200
+
 hypnotix (3.4) vera; urgency=medium
 
   [ Clement Lefebvre ]
