@@ -511,7 +511,7 @@ class MainWindow:
         if " " not in string:
             return string
         words = string.split()
-        if word in string:
+        if word in words:
             words.remove(word)
         return " ".join(words)
 
