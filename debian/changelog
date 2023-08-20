@@ -1,3 +1,14 @@
+hypnotix (3.6) faye; urgency=medium
+
+  [ cute-sakura ]
+  * debian/control: add libmpv2 (#287)
+  * debian/control: recommend yt-dlp (#288)
+
+  [ Niclas Thall ]
+  * fix: ensure word is in the list (#290)
+
+ -- Clement Lefebvre <root@linuxmint.com>  Sun, 20 Aug 2023 15:16:32 +0200
+
 hypnotix (3.5) victoria; urgency=medium
 
   * l10n: Update translations
