@@ -310,11 +310,9 @@ class MainWindow:
         self.bind_setting_widget("http-referer", self.referer_entry)
         self.bind_setting_widget("mpv-options", self.mpv_entry)
 
-        # Dark mode
-        prefer_dark_mode = self.settings.get_boolean("prefer-dark-mode")
-        Gtk.Settings.get_default().set_property("gtk-application-prefer-dark-theme", prefer_dark_mode)
-        self.darkmode_switch.set_active(prefer_dark_mode)
-        self.darkmode_switch.connect("notify::active", self.on_darkmode_switch_toggled)
+        # Dark mode manager
+        # keep a reference to it (otherwise it gets randomly garbage collected)
+        self.dark_mode_manager = XApp.DarkModeManager.new(prefer_dark_mode=True)
 
         # hide adult stream
         self.prefer_hide_adult = self.adult_switch.get_active()
@@ -543,7 +541,7 @@ class MainWindow:
         if " " not in string:
             return string
         words = string.split()
-        if word in string:
+        if word in words:
             words.remove(word)
         return " ".join(words)
 
@@ -1476,7 +1474,7 @@ class MainWindow:
                             print("%s: %d channels, %d groups, %d series, %d movies" % (provider.name, \
                                 len(provider.channels), len(provider.groups), len(provider.series), len(provider.movies)))
                     else:
-                        self.status(_("Failed to Download playlist from {}").format(provider.name), provider)
+                        self.status(_("Failed to download playlist from %s") %  provider.name, provider)
 
                 else:
                     # Download via Xtream

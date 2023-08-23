@@ -19,7 +19,7 @@ It can support multiple IPTV providers of the following types:
 
 # Requirements
 
-- libxapp 1.4+
+- libxapp 2.6+
 - libmpv
 - python3-imdbpy (for Older Mint and Debian releases get it from https://packages.ubuntu.com/focal/all/python3-imdbpy/download)
 
