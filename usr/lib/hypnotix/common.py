@@ -15,10 +15,6 @@ PROVIDERS_PATH = os.path.join(GLib.get_user_cache_dir(), "hypnotix", "providers"
 
 TV_GROUP, MOVIES_GROUP, SERIES_GROUP = range(3)
 
-BADGES = {}
-BADGES['musik'] = "music"
-BADGES['zeland'] = "newzealand"
-
 # Used as a decorator to run things in the background
 def async_function(func):
     def wrapper(*args, **kwargs):
