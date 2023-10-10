@@ -327,7 +327,7 @@ class MainWindow:
         item.add_accelerator("activate", accel_group, key, mod, Gtk.AccelFlags.VISIBLE)
         menu.append(item)
         self.info_menu_item = Gtk.ImageMenuItem()
-        self.info_menu_item.set_image(Gtk.Image.new_from_icon_name("dialog-information", Gtk.IconSize.MENU))
+        self.info_menu_item.set_image(Gtk.Image.new_from_icon_name("dialog-information-symbolic", Gtk.IconSize.MENU))
         self.info_menu_item.set_label(_("Stream Information"))
         self.info_menu_item.connect("activate", self.open_info)
         key, mod = Gtk.accelerator_parse("F2")
