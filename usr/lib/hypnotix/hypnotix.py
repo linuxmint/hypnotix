@@ -179,11 +179,15 @@ class MainWindow:
             "search_button",
             "search_bar",
             "channels_box",
-            "provider_button",
-            "preferences_button",
+            "current_provider_label",
             "mpv_drawing_area",
             "stack",
+            "channel_stack",
             "fullscreen_button",
+            "mpv_top_box",
+            "mpv_bottom_box",
+            "label_channel_name",
+            "label_channel_url",
             "provider_ok_button",
             "provider_cancel_button",
             "name_entry",
@@ -204,6 +208,9 @@ class MainWindow:
             "tv_button",
             "movies_button",
             "series_button",
+            "providers_button",
+            "preferences_button",
+            "favorites_button",
             "tv_label",
             "movies_label",
             "series_label",
@@ -281,6 +288,8 @@ class MainWindow:
         self.tv_button.connect("clicked", self.show_groups, TV_GROUP)
         self.movies_button.connect("clicked", self.show_groups, MOVIES_GROUP)
         self.series_button.connect("clicked", self.show_groups, SERIES_GROUP)
+        self.providers_button.connect("clicked", self.open_providers)
+        self.preferences_button.connect("clicked", self.open_preferences)
         self.go_back_button.connect("clicked", self.on_go_back_button)
 
         self.search_button.connect("toggled", self.on_search_button_toggled)
@@ -289,9 +298,6 @@ class MainWindow:
         self.stop_button.connect("clicked", self.on_stop_button)
         self.pause_button.connect("clicked", self.on_pause_button)
         self.show_button.connect("clicked", self.on_show_button)
-
-        self.provider_button.connect("clicked", self.on_provider_button)
-        self.preferences_button.connect("clicked", self.on_preferences_button)
 
         self.new_provider_button.connect("clicked", self.on_new_provider_button)
         self.reset_providers_button.connect("clicked", self.on_reset_providers_button)
@@ -706,20 +712,18 @@ class MainWindow:
             self.back_page = None
             self.headerbar.set_title("Hypnotix")
             if provider is None:
-                self.headerbar.set_subtitle(_("No provider selected"))
+                self.current_provider_label.set_text(_("No provider selected"))
                 self.tv_label.set_text(_("TV Channels (%d)") % 0)
                 self.movies_label.set_text(_("Movies (%d)") % 0)
                 self.series_label.set_text(_("Series (%d)") % 0)
-                self.preferences_button.set_sensitive(False)
                 self.tv_button.set_sensitive(False)
                 self.movies_button.set_sensitive(False)
                 self.series_button.set_sensitive(False)
             else:
-                self.headerbar.set_subtitle(provider.name)
+                self.current_provider_label.set_text(provider.name)
                 self.tv_label.set_text(_("TV Channels (%d)") % len(provider.channels))
                 self.movies_label.set_text(_("Movies (%d)") % len(provider.movies))
                 self.series_label.set_text(_("Series (%d)") % len(provider.series))
-                self.preferences_button.set_sensitive(True)
                 self.tv_button.set_sensitive(len(provider.channels) > 0)
                 self.movies_button.set_sensitive(len(provider.movies) > 0)
                 self.series_button.set_sensitive(len(provider.series) > 0)
@@ -832,6 +836,7 @@ class MainWindow:
 
     @idle_function
     def before_play(self, channel):
+        self.channel_stack.set_visible_child_name("channel_page")
         self.mpv_stack.set_visible_child_name("spinner_page")
         self.video_properties.clear()
         self.video_properties[_("General")] = {}
@@ -844,6 +849,9 @@ class MainWindow:
         self.video_bitrates.clear()
         self.audio_bitrates.clear()
         self.spinner.start()
+
+        self.label_channel_name.set_text(channel.name)
+        self.label_channel_url.set_text(channel.url)
 
     @idle_function
     def after_play(self, channel):
@@ -1010,7 +1018,7 @@ class MainWindow:
     def on_show_button(self, widget):
         self.navigate_to("channels_page")
 
-    def on_provider_button(self, widget):
+    def open_providers(self, widget):
         self.navigate_to("providers_page")
 
     @idle_function
@@ -1092,7 +1100,7 @@ class MainWindow:
         self.init_channels_listbox()
         self.navigate_to("landing_page")
 
-    def on_preferences_button(self, widget):
+    def open_preferences(self, widget):
         self.navigate_to("preferences_page")
 
     def on_new_provider_button(self, widget):
@@ -1576,6 +1584,8 @@ class MainWindow:
             if self.fullscreen:
                 # Fullscreen mode
                 self.window.fullscreen()
+                self.mpv_top_box.hide()
+                self.mpv_bottom_box.hide()
                 self.sidebar.hide()
                 self.headerbar.hide()
                 self.status_label.hide()
@@ -1584,6 +1594,8 @@ class MainWindow:
             else:
                 # Normal mode
                 self.window.unfullscreen()
+                self.mpv_top_box.show()
+                self.mpv_bottom_box.hide()
                 if self.content_type == TV_GROUP:
                     self.sidebar.show()
                 self.headerbar.show()
