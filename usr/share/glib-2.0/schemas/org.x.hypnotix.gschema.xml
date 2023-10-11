@@ -26,5 +26,10 @@
       <summary>Format: name:::type:::url(or path):::username:::password:::epg</summary>
       <description></description>
     </key>
+    <key type="b" name="use-local-ytdlp">
+      <default>false</default>
+      <summary></summary>
+      <description></description>
+    </key>
   </schema>
 </schemalist>

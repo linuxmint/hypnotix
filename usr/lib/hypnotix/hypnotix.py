@@ -7,6 +7,7 @@ import sys
 import time
 import traceback
 import warnings
+import subprocess
 from functools import partial
 from pathlib import Path
 
@@ -246,6 +247,10 @@ class MainWindow:
             "referer_entry",
             "mpv_entry",
             "mpv_link",
+            "ytdlp_local_switch",
+            "ytdlp_system_version_label",
+            "ytdlp_local_version_label",
+            "ytdlp_update_button",
             "mpv_stack",
             "spinner",
             "info_window_close_button",
@@ -317,6 +322,14 @@ class MainWindow:
         self.bind_setting_widget("http-referer", self.referer_entry)
         self.bind_setting_widget("mpv-options", self.mpv_entry)
 
+        # ytdlp
+        self.ytdlp_local_switch.set_active(self.settings.get_boolean("use-local-ytdlp"))
+        self.ytdlp_local_switch.connect("notify::active", self.on_ytdlp_local_switch_activated)
+        self.ytdlp_system_version_label.set_text(subprocess.getoutput("/usr/bin/yt-dlp --version"))
+        if os.path.exists(os.path.expanduser("~/.cache/hypnotix/yt-dlp/yt-dlp")):
+            self.ytdlp_local_version_label.set_text(subprocess.getoutput("~/.cache/hypnotix/yt-dlp/yt-dlp --version"))
+        self.ytdlp_update_button.connect("clicked", self.update_ytdlp)
+        
         # Dark mode manager
         # keep a reference to it (otherwise it gets randomly garbage collected)
         self.dark_mode_manager = XApp.DarkModeManager.new(prefer_dark_mode=True)
@@ -606,10 +619,25 @@ class MainWindow:
 
     def bind_setting_widget(self, key, widget):
         widget.set_text(self.settings.get_string(key))
-        widget.connect("changed", self.on_entry_changed, key)
+        widget.connect("changed", self.on_entry_changed, key)            
 
     def on_entry_changed(self, widget, key):
         self.settings.set_string(key, widget.get_text())
+
+    def on_ytdlp_local_switch_activated(self, widget, data=None):
+        self.settings.set_boolean("use-local-ytdlp", widget.get_active())
+        if widget.get_active():
+            self.update_ytdlp()
+
+    def update_ytdlp(self, widget=None):
+        path = os.path.expanduser("~/.cache/hypnotix/yt-dlp")
+        os.chdir(path)
+        if os.path.exists("yt-dlp"):
+            subprocess.getoutput("./yt-dlp --update")
+        else:
+            subprocess.getoutput("wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp")
+            subprocess.getoutput("chmod a+rx ./yt-dlp")
+        self.ytdlp_local_version_label.set_text(subprocess.getoutput("~/.cache/hypnotix/yt-dlp/yt-dlp --version"))
 
     @async_function
     def download_channel_logos(self, logos_to_refresh):
