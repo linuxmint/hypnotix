@@ -15,6 +15,8 @@ PROVIDERS_PATH = os.path.join(GLib.get_user_cache_dir(), "hypnotix", "providers"
 
 TV_GROUP, MOVIES_GROUP, SERIES_GROUP = range(3)
 
+FAVORITES_PATH = os.path.join(GLib.get_user_cache_dir(), "hypnotix", "favorites", "list")
+
 # Used as a decorator to run things in the background
 def async_function(func):
     def wrapper(*args, **kwargs):
@@ -122,8 +124,12 @@ class Channel:
                         break
                 if ext == ".jpeg":
                     ext = ".jpg"
-                self.logo_path = os.path.join(PROVIDERS_PATH, "%s-%s%s" % (slugify(provider.name), slugify(self.name), ext))
-
+                if provider is None:
+                    # favorite channel, no provider
+                    provider_name = "favorites"
+                else:
+                    provider_name = provider.name
+                self.logo_path = os.path.join(PROVIDERS_PATH, "%s-%s%s" % (slugify(provider_name), slugify(self.name), ext))
 
 class Manager:
     def __init__(self, settings):
@@ -284,3 +290,15 @@ class Manager:
                             provider.movies.append(channel)
                     else:
                         provider.channels.append(channel)
+
+    def load_favorites(self):
+        favorites = []
+        with open(FAVORITES_PATH, 'r') as f:
+            for line in f:
+                favorites.append(line.strip())
+        return favorites
+
+    def save_favorites(self, favorites):
+        with open(FAVORITES_PATH, "w") as f:
+            for fav in favorites:
+                f.write(f"{fav}\n")

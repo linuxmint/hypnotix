@@ -1,5 +1,8 @@
 #!/bin/sh
 
+mkdir -p ~/.cache/hypnotix/favorites
+touch ~/.cache/hypnotix/favorites/list
+
 mkdir -p ~/.cache/hypnotix/yt-dlp
 if [ $(gsettings get org.x.hypnotix use-local-ytdlp) = true ]
 then

@@ -30,7 +30,7 @@ import setproctitle
 from imdb import IMDb
 from unidecode import unidecode
 
-from common import Manager, Provider, MOVIES_GROUP, PROVIDERS_PATH, SERIES_GROUP, TV_GROUP,\
+from common import Manager, Provider, Channel, MOVIES_GROUP, PROVIDERS_PATH, SERIES_GROUP, TV_GROUP,\
     async_function, idle_function
 
 
@@ -127,6 +127,7 @@ class MainWindow:
         self.icon_theme = Gtk.IconTheme.get_default()
         self.manager = Manager(self.settings)
         self.providers = []
+        self.favorite_data = []
         self.active_provider = None
         self.active_group = None
         self.active_serie = None
@@ -139,6 +140,8 @@ class MainWindow:
         self.visible_search_results = 0
         self.mpv = None
         self.ia = IMDb()
+
+        self.page_is_loading = False # used to ignore signals while we set widget states
 
         self.video_properties = {}
         self.audio_properties = {}
@@ -262,6 +265,7 @@ class MainWindow:
             "audio_properties_label",
             "layout_properties_box",
             "layout_properties_label",
+            "favorite_button",
         ]
 
         for name in widget_names:
@@ -293,6 +297,7 @@ class MainWindow:
         self.tv_button.connect("clicked", self.show_groups, TV_GROUP)
         self.movies_button.connect("clicked", self.show_groups, MOVIES_GROUP)
         self.series_button.connect("clicked", self.show_groups, SERIES_GROUP)
+        self.favorites_button.connect("clicked", self.show_favorites)
         self.providers_button.connect("clicked", self.open_providers)
         self.preferences_button.connect("clicked", self.open_preferences)
         self.go_back_button.connect("clicked", self.on_go_back_button)
@@ -317,6 +322,8 @@ class MainWindow:
 
         self.channels_listbox.connect("row-activated", self.on_channel_activated)
 
+        self.favorite_button.connect("toggled", self.on_favorite_button_toggled)
+
         # Settings widgets
         self.bind_setting_widget("user-agent", self.useragent_entry)
         self.bind_setting_widget("http-referer", self.referer_entry)
@@ -329,7 +336,7 @@ class MainWindow:
         if os.path.exists(os.path.expanduser("~/.cache/hypnotix/yt-dlp/yt-dlp")):
             self.ytdlp_local_version_label.set_text(subprocess.getoutput("~/.cache/hypnotix/yt-dlp/yt-dlp --version"))
         self.ytdlp_update_button.connect("clicked", self.update_ytdlp)
-        
+
         # Dark mode manager
         # keep a reference to it (otherwise it gets randomly garbage collected)
         self.dark_mode_manager = XApp.DarkModeManager.new(prefer_dark_mode=True)
@@ -506,6 +513,15 @@ class MainWindow:
                 self.show_vod(group.series)
             else:
                 self.show_vod(self.active_provider.series)
+
+    def show_favorites(self, widget):
+        channels = []
+        for line in self.favorite_data:
+            info, url = line.split(":::")
+            channel = Channel(None, info)
+            channel.url = url
+            channels.append(channel)
+        self.show_channels(channels)
 
     def show_channels(self, channels):
         self.navigate_to("channels_page")
@@ -835,6 +851,19 @@ class MainWindow:
         window.set_title(_("Hypnotix"))
         window.show()
 
+    def on_favorite_button_toggled(self, widget):
+        if self.page_is_loading:
+            return
+        name = self.active_channel.name
+        data = f"{self.active_channel.info}:::{self.active_channel.url}"
+        if widget.get_active() and data not in self.favorite_data:
+            print (f"Adding {name} to favorites")
+            self.favorite_data.append(data)
+        elif widget.get_active() == False and data in self.favorite_data:
+            print (f"Removing {name} from favorites")
+            self.favorite_data.remove(data)
+        self.manager.save_favorites(self.favorite_data)
+
     def on_channel_activated(self, box, widget):
         self.active_channel = widget.channel
         self.play_async(self.active_channel)
@@ -880,6 +909,16 @@ class MainWindow:
 
         self.label_channel_name.set_text(channel.name)
         self.label_channel_url.set_text(channel.url)
+
+        self.page_is_loading = True
+        data = f"{channel.info}:::{channel.url}"
+        if data in self.favorite_data:
+            self.favorite_button.set_active(True)
+            self.favorite_button.set_tooltip_text(_("Remove from favorites"))
+        else:
+            self.favorite_button.set_active(False)
+            self.favorite_button.set_tooltip_text(_("Add to favorites"))
+        self.page_is_loading = False
 
     @idle_function
     def after_play(self, channel):
@@ -1456,6 +1495,7 @@ class MainWindow:
 
     @async_function
     def reload(self, page=None, refresh=False):
+        self.favorite_data = self.manager.load_favorites()
         self.status(_("Loading providers..."))
         self.providers = []
         for provider_info in self.settings.get_strv("providers"):
