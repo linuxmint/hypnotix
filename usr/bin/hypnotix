@@ -1,2 +1,15 @@
 #!/bin/sh
+
+mkdir -p ~/.cache/hypnotix/favorites
+touch ~/.cache/hypnotix/favorites/list
+
+mkdir -p ~/.cache/hypnotix/yt-dlp
+if [ $(gsettings get org.x.hypnotix use-local-ytdlp) = true ]
+then
+	echo "Local version of yt-dlp selected."
+	export PATH="${HOME}/.cache/hypnotix/yt-dlp":${PATH}
+else
+	echo "System version of yt-dlp selected."
+fi
+
 /usr/lib/hypnotix/hypnotix.py &

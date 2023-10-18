@@ -7,6 +7,7 @@ import sys
 import time
 import traceback
 import warnings
+import subprocess
 from functools import partial
 from pathlib import Path
 
@@ -29,8 +30,8 @@ import setproctitle
 from imdb import IMDb, IMDbError
 from unidecode import unidecode
 
-from common import (BADGES, MOVIES_GROUP, PROVIDERS_PATH, SERIES_GROUP,
-                    TV_GROUP, Manager, Provider, async_function, idle_function)
+from common import Manager, Provider, Channel, MOVIES_GROUP, PROVIDERS_PATH, SERIES_GROUP, TV_GROUP,\
+    async_function, idle_function
 
 # Load xtream class
 from xtream import XTream
@@ -71,6 +72,13 @@ AUDIO_SAMPLE_FORMATS = {
     "dbl": "double",
     "dblp": "double, planar",
 }
+
+COUNTRY_CODES = {}
+with open("/usr/share/hypnotix/countries.list") as f:
+    for line in f:
+        line = line.strip()
+        code, name = line.split(":")
+        COUNTRY_CODES[name] = code
 
 class ChannelWidget(Gtk.ListBoxRow):
     """ A custom widget for displaying and holding channel data. """
@@ -121,6 +129,7 @@ class MainWindow:
         self.icon_theme = Gtk.IconTheme.get_default()
         self.manager = Manager(self.settings)
         self.providers = []
+        self.favorite_data = []
         self.active_provider = None
         self.active_group = None
         self.active_serie = None
@@ -133,6 +142,8 @@ class MainWindow:
         self.visible_search_results = 0
         self.mpv = None
         self.ia = IMDb()
+
+        self.page_is_loading = False # used to ignore signals while we set widget states
 
         self.video_properties = {}
         self.audio_properties = {}
@@ -174,11 +185,15 @@ class MainWindow:
             "search_button",
             "search_bar",
             "channels_box",
-            "provider_button",
-            "preferences_button",
+            "current_provider_label",
             "mpv_drawing_area",
             "stack",
+            "channel_stack",
             "fullscreen_button",
+            "mpv_top_box",
+            "mpv_bottom_box",
+            "label_channel_name",
+            "label_channel_url",
             "provider_ok_button",
             "provider_cancel_button",
             "name_entry",
@@ -199,6 +214,9 @@ class MainWindow:
             "tv_button",
             "movies_button",
             "series_button",
+            "providers_button",
+            "preferences_button",
+            "favorites_button",
             "tv_label",
             "movies_label",
             "series_label",
@@ -237,6 +255,10 @@ class MainWindow:
             "darkmode_switch",
             "adult_switch",
             "empty_groups_switch",
+            "ytdlp_local_switch",
+            "ytdlp_system_version_label",
+            "ytdlp_local_version_label",
+            "ytdlp_update_button",
             "mpv_stack",
             "spinner",
             "info_window_close_button",
@@ -248,6 +270,7 @@ class MainWindow:
             "audio_properties_label",
             "layout_properties_box",
             "layout_properties_label",
+            "favorite_button",
         ]
 
         for name in widget_names:
@@ -280,6 +303,9 @@ class MainWindow:
         self.tv_button.connect("clicked", self.show_groups, TV_GROUP)
         self.movies_button.connect("clicked", self.show_groups, MOVIES_GROUP)
         self.series_button.connect("clicked", self.show_groups, SERIES_GROUP)
+        self.favorites_button.connect("clicked", self.show_favorites)
+        self.providers_button.connect("clicked", self.open_providers)
+        self.preferences_button.connect("clicked", self.open_preferences)
         self.go_back_button.connect("clicked", self.on_go_back_button)
 
         self.search_button.connect("toggled", self.on_search_button_toggled)
@@ -288,9 +314,6 @@ class MainWindow:
         self.stop_button.connect("clicked", self.on_stop_button)
         self.pause_button.connect("clicked", self.on_pause_button)
         self.show_button.connect("clicked", self.on_show_button)
-
-        self.provider_button.connect("clicked", self.on_provider_button)
-        self.preferences_button.connect("clicked", self.on_preferences_button)
 
         self.new_provider_button.connect("clicked", self.on_new_provider_button)
         self.reset_providers_button.connect("clicked", self.on_reset_providers_button)
@@ -305,10 +328,20 @@ class MainWindow:
 
         self.channels_listbox.connect("row-activated", self.on_channel_activated)
 
+        self.favorite_button.connect("toggled", self.on_favorite_button_toggled)
+
         # Settings widgets
         self.bind_setting_widget("user-agent", self.useragent_entry)
         self.bind_setting_widget("http-referer", self.referer_entry)
         self.bind_setting_widget("mpv-options", self.mpv_entry)
+
+        # ytdlp
+        self.ytdlp_local_switch.set_active(self.settings.get_boolean("use-local-ytdlp"))
+        self.ytdlp_local_switch.connect("notify::active", self.on_ytdlp_local_switch_activated)
+        self.ytdlp_system_version_label.set_text(subprocess.getoutput("/usr/bin/yt-dlp --version"))
+        if os.path.exists(os.path.expanduser("~/.cache/hypnotix/yt-dlp/yt-dlp")):
+            self.ytdlp_local_version_label.set_text(subprocess.getoutput("~/.cache/hypnotix/yt-dlp/yt-dlp --version"))
+        self.ytdlp_update_button.connect("clicked", self.update_ytdlp)
 
         # Dark mode manager
         # keep a reference to it (otherwise it gets randomly garbage collected)
@@ -338,7 +371,7 @@ class MainWindow:
         item.add_accelerator("activate", accel_group, key, mod, Gtk.AccelFlags.VISIBLE)
         menu.append(item)
         self.info_menu_item = Gtk.ImageMenuItem()
-        self.info_menu_item.set_image(Gtk.Image.new_from_icon_name("dialog-information", Gtk.IconSize.MENU))
+        self.info_menu_item.set_image(Gtk.Image.new_from_icon_name("dialog-information-symbolic", Gtk.IconSize.MENU))
         self.info_menu_item.set_label(_("Stream Information"))
         self.info_menu_item.connect("activate", self.open_info)
         key, mod = Gtk.accelerator_parse("F2")
@@ -408,18 +441,30 @@ class MainWindow:
         surf = self.get_surface_for_file(filename, width, height)
         return Gtk.Image.new_from_surface(surf)
 
+    def add_flag(self, code, box):
+        path = f"/usr/share/circle-flags-svg/{code.lower()}.svg"
+        if os.path.exists(path):
+            try:
+                image = self.get_surf_based_image(path, -1, 32)
+                box.pack_start(image, False, False, 0)
+            except Exception as e:
+                print("Could not load flag", path)
+                print(e)
+        else:
+            print("Couldn't find flag", path)
+
     def add_badge(self, word, box, added_words):
         if word not in added_words:
             for extension in ["svg", "png"]:
-                badge = "/usr/share/hypnotix/pictures/badges/%s.%s" % (word, extension)
-                if os.path.exists(badge):
+                path = "/usr/share/hypnotix/pictures/badges/%s.%s" % (word, extension)
+                if os.path.exists(path):
                     try:
-                        image = self.get_surf_based_image(badge, -1, 32)
+                        image = self.get_surf_based_image(path, -1, 32)
                         box.pack_start(image, False, False, 0)
                         added_words.append(word)
                         break
                     except Exception as e:
-                        print("Could not load badge", badge)
+                        print("Could not load badge", path)
                         print(e)
 
     def show_groups(self, widget, content_type):
@@ -458,10 +503,20 @@ class MainWindow:
             box = Gtk.Box()
             name = group.name.lower().replace("(", " ").replace(")", " ")
             added_words = []
+
+            found_flag = False
+            for country_name in COUNTRY_CODES.keys():
+                if country_name.lower() in group.name.lower():
+                    found_flag = True
+                    self.add_flag(COUNTRY_CODES[country_name], box)
+                    break
+
+            if not found_flag:
+                print(f"No flag found for: {group.name}")
+
             for word in name.split():
                 self.add_badge(word, box, added_words)
-                if word in BADGES.keys():
-                    self.add_badge(BADGES[word], box, added_words)
+
             box.pack_start(label, False, False, 0)
             box.set_spacing(6)
             button.add(box)
@@ -488,6 +543,15 @@ class MainWindow:
                 self.show_vod(group.series)
             else:
                 self.show_vod(self.active_provider.series)
+
+    def show_favorites(self, widget):
+        channels = []
+        for line in self.favorite_data:
+            info, url = line.split(":::")
+            channel = Channel(None, info)
+            channel.url = url
+            channels.append(channel)
+        self.show_channels(channels)
 
     def show_channels(self, channels):
         self.navigate_to("channels_page")
@@ -601,7 +665,7 @@ class MainWindow:
 
     def bind_setting_widget(self, key, widget):
         widget.set_text(self.settings.get_string(key))
-        widget.connect("changed", self.on_entry_changed, key)
+        widget.connect("changed", self.on_entry_changed, key)            
 
     def on_entry_changed(self, widget, key):
         self.settings.set_string(key, widget.get_text())
@@ -618,6 +682,20 @@ class MainWindow:
     def on_hide_empty_groups_switch_toggled(self, widget, key):
         self.prefer_hide_empty_groups = widget.get_active()
         self.settings.set_boolean("prefer-hide-empty-groups", self.prefer_hide_empty_groups)
+    def on_ytdlp_local_switch_activated(self, widget, data=None):
+        self.settings.set_boolean("use-local-ytdlp", widget.get_active())
+        if widget.get_active():
+            self.update_ytdlp()
+
+    def update_ytdlp(self, widget=None):
+        path = os.path.expanduser("~/.cache/hypnotix/yt-dlp")
+        os.chdir(path)
+        if os.path.exists("yt-dlp"):
+            subprocess.getoutput("./yt-dlp --update")
+        else:
+            subprocess.getoutput("wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp")
+            subprocess.getoutput("chmod a+rx ./yt-dlp")
+        self.ytdlp_local_version_label.set_text(subprocess.getoutput("~/.cache/hypnotix/yt-dlp/yt-dlp --version"))
 
     @async_function
     def download_channel_logos(self, logos_to_refresh):
@@ -720,20 +798,18 @@ class MainWindow:
             self.back_page = None
             self.headerbar.set_title("Hypnotix")
             if provider is None:
-                self.headerbar.set_subtitle(_("No provider selected"))
+                self.current_provider_label.set_text(_("No provider selected"))
                 self.tv_label.set_text(_("TV Channels (%d)") % 0)
                 self.movies_label.set_text(_("Movies (%d)") % 0)
                 self.series_label.set_text(_("Series (%d)") % 0)
-                self.preferences_button.set_sensitive(False)
                 self.tv_button.set_sensitive(False)
                 self.movies_button.set_sensitive(False)
                 self.series_button.set_sensitive(False)
             else:
-                self.headerbar.set_subtitle(provider.name)
+                self.current_provider_label.set_text(provider.name)
                 self.tv_label.set_text(_("TV Channels (%d)") % len(provider.channels))
                 self.movies_label.set_text(_("Movies (%d)") % len(provider.movies))
                 self.series_label.set_text(_("Series (%d)") % len(provider.series))
-                self.preferences_button.set_sensitive(True)
                 self.tv_button.set_sensitive(len(provider.channels) > 0)
                 self.movies_button.set_sensitive(len(provider.movies) > 0)
                 self.series_button.set_sensitive(len(provider.series) > 0)
@@ -817,6 +893,19 @@ class MainWindow:
         window.set_title(_("Hypnotix"))
         window.show()
 
+    def on_favorite_button_toggled(self, widget):
+        if self.page_is_loading:
+            return
+        name = self.active_channel.name
+        data = f"{self.active_channel.info}:::{self.active_channel.url}"
+        if widget.get_active() and data not in self.favorite_data:
+            print (f"Adding {name} to favorites")
+            self.favorite_data.append(data)
+        elif widget.get_active() == False and data in self.favorite_data:
+            print (f"Removing {name} from favorites")
+            self.favorite_data.remove(data)
+        self.manager.save_favorites(self.favorite_data)
+
     def on_channel_activated(self, box, widget):
         self.active_channel = widget.channel
         self.play_async(self.active_channel)
@@ -849,6 +938,7 @@ class MainWindow:
 
     @idle_function
     def before_play(self, channel):
+        self.channel_stack.set_visible_child_name("channel_page")
         self.mpv_stack.set_visible_child_name("spinner_page")
         self.video_properties.clear()
         self.video_properties[_("General")] = {}
@@ -861,6 +951,19 @@ class MainWindow:
         self.video_bitrates.clear()
         self.audio_bitrates.clear()
         self.spinner.start()
+
+        self.label_channel_name.set_text(channel.name)
+        self.label_channel_url.set_text(channel.url)
+
+        self.page_is_loading = True
+        data = f"{channel.info}:::{channel.url}"
+        if data in self.favorite_data:
+            self.favorite_button.set_active(True)
+            self.favorite_button.set_tooltip_text(_("Remove from favorites"))
+        else:
+            self.favorite_button.set_active(False)
+            self.favorite_button.set_tooltip_text(_("Add to favorites"))
+        self.page_is_loading = False
 
     @idle_function
     def after_play(self, channel):
@@ -1031,7 +1134,7 @@ class MainWindow:
     def on_show_button(self, widget):
         self.navigate_to("channels_page")
 
-    def on_provider_button(self, widget):
+    def open_providers(self, widget):
         self.navigate_to("providers_page")
 
     @idle_function
@@ -1113,7 +1216,7 @@ class MainWindow:
         self.init_channels_listbox()
         self.navigate_to("landing_page")
 
-    def on_preferences_button(self, widget):
+    def open_preferences(self, widget):
         self.navigate_to("preferences_page")
 
     def on_new_provider_button(self, widget):
@@ -1441,6 +1544,7 @@ class MainWindow:
 
     @async_function
     def reload(self, page=None, refresh=False):
+        self.favorite_data = self.manager.load_favorites()
         self.status(_("Loading providers..."))
         self.start_loading_cursor()
         self.providers = []
@@ -1617,6 +1721,8 @@ class MainWindow:
             if self.fullscreen:
                 # Fullscreen mode
                 self.window.fullscreen()
+                self.mpv_top_box.hide()
+                self.mpv_bottom_box.hide()
                 self.sidebar.hide()
                 self.headerbar.hide()
                 self.status_label.hide()
@@ -1625,6 +1731,8 @@ class MainWindow:
             else:
                 # Normal mode
                 self.window.unfullscreen()
+                self.mpv_top_box.show()
+                self.mpv_bottom_box.hide()
                 if self.content_type == TV_GROUP:
                     self.sidebar.show()
                 self.headerbar.show()
