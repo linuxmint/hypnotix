@@ -16,11 +16,6 @@
       <summary></summary>
       <description></description>
     </key>
-    <key type="b" name="prefer-dark-mode">
-      <default>true</default>
-      <summary></summary>
-      <description></description>
-    </key>
     <key type="b" name="prefer-hide-adult">
       <default>true</default>
       <summary></summary>

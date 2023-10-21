@@ -1118,7 +1118,7 @@ class MainWindow:
         self.info_revealer.set_reveal_child(False)
 
     def on_stop_button(self, widget):
-        self.mpv.quit()
+        self.mpv.stop()
         # self.mpv_drawing_area.hide()
         self.info_revealer.set_reveal_child(False)
         self.active_channel = None
