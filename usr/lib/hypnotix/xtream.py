@@ -33,6 +33,7 @@ import requests
 
 class Channel:
     # Required by Hypnotix
+    info = ""
     id = ""
     name = ""  # What is the difference between the below name and title?
     logo = ""
@@ -164,6 +165,7 @@ class Episode:
     # Required by Hypnotix
     title = ""
     name = ""
+    info = ""
 
     # XTream
 
@@ -647,14 +649,11 @@ class XTream:
 
                             # Skip if the user chose to hide adult streams
                             if self.hide_adult_content and loading_stream_type == self.live_type:
-                                try:
+                                if "is_adult" in stream_channel:
                                     if stream_channel["is_adult"] == "1":
                                         skip_stream = True
                                         skipped_adult_content = skipped_adult_content + 1
                                         self._save_to_file_skipped_streams(stream_channel)
-                                except Exception:
-                                    print(" - Stream does not have `is_adult` key:\n\t`{}`".format(json.dumps(stream_channel)))
-                                    pass
 
                             if not skip_stream:
                                 # Some channels have no group,

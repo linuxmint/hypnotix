@@ -252,7 +252,6 @@ class MainWindow:
             "referer_entry",
             "mpv_entry",
             "mpv_link",
-            "darkmode_switch",
             "adult_switch",
             "empty_groups_switch",
             "ytdlp_local_switch",
@@ -487,7 +486,7 @@ class MainWindow:
                     continue
             # Check if need to skip channels marked as adult in TV and Movies groups
             if self.prefer_hide_adult:
-                if self.content_type != SERIES_GROUP:
+                if (self.content_type != SERIES_GROUP) and (hasattr(group.channels[0], "is_adult")):
                     if (group.channels[0].is_adult == 1):
                         continue
             found_groups = True
@@ -669,11 +668,6 @@ class MainWindow:
 
     def on_entry_changed(self, widget, key):
         self.settings.set_string(key, widget.get_text())
-
-    def on_darkmode_switch_toggled(self, widget, key):
-        prefer_dark_mode = widget.get_active()
-        self.settings.set_boolean("prefer-dark-mode", prefer_dark_mode)
-        Gtk.Settings.get_default().set_property("gtk-application-prefer-dark-theme", prefer_dark_mode)
 
     def on_hide_adult_switch_toggled(self, widget, key):
         self.prefer_hide_adult = widget.get_active()
@@ -933,7 +927,10 @@ class MainWindow:
 
     @async_function
     def wait_for_mpv_playing(self, channel):
-        self.mpv.wait_until_playing()
+        try:
+            self.mpv.wait_until_playing()
+        except mpv.ShutdownError:
+            pass
         self.after_play(channel)
 
     @idle_function
@@ -1121,7 +1118,7 @@ class MainWindow:
         self.info_revealer.set_reveal_child(False)
 
     def on_stop_button(self, widget):
-        self.mpv.stop()
+        self.mpv.quit()
         # self.mpv_drawing_area.hide()
         self.info_revealer.set_reveal_child(False)
         self.active_channel = None
@@ -1673,7 +1670,7 @@ class MainWindow:
 
     def reinit_mpv(self):
         if self.mpv is not None:
-            self.mpv.stop()
+            self.mpv.quit()
         options = {}
         try:
             mpv_options = self.settings.get_string("mpv-options")

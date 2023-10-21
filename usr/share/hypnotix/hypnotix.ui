@@ -978,7 +978,7 @@
                                 <property name="can-focus">False</property>
                                 <property name="border-width">12</property>
                                 <child>
-                                  <!-- n-columns=3 n-rows=3 -->
+                                  <!-- n-columns=4 n-rows=5 -->
                                   <object class="GtkGrid">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
@@ -991,9 +991,10 @@
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
+                                        <property name="tooltip-text" translatable="yes">This option only works if the provider adds relevant information (is_adult).</property>
                                         <property name="halign">start</property>
                                         <property name="valign">center</property>
-                                        <property name="label" translatable="yes">MPV Options</property>
+                                        <property name="label" translatable="yes">Hide Adult Streams</property>
                                         <attributes>
                                           <attribute name="weight" value="bold"/>
                                         </attributes>
@@ -1004,11 +1005,10 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkEntry" id="mpv_entry">
+                                      <object class="GtkSwitch" id="adult_switch">
                                         <property name="visible">True</property>
                                         <property name="can-focus">True</property>
-                                        <property name="valign">center</property>
-                                        <property name="hexpand">True</property>
+                                        <property name="tooltip-text" translatable="yes">This option only works if the provider adds relevant information (is_adult).</property>
                                       </object>
                                       <packing>
                                         <property name="left-attach">1</property>
@@ -1016,15 +1016,24 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkLinkButton" id="mpv_link">
-                                        <property name="label" translatable="yes">List of MPV options</property>
+                                      <object class="GtkLabel">
                                         <property name="visible">True</property>
-                                        <property name="can-focus">True</property>
-                                        <property name="receives-default">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="tooltip-text" translatable="yes">Removes empty groups from the lists</property>
                                         <property name="halign">start</property>
                                         <property name="valign">center</property>
-                                        <property name="relief">none</property>
-                                        <property name="uri">https://mpv.io/manual/master/#options</property>
+                                        <property name="label" translatable="yes">Hide Empty Groups</property>
+                                      </object>
+                                      <packing>
+                                        <property name="left-attach">0</property>
+                                        <property name="top-attach">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkSwitch" id="empty_groups_switch">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="tooltip-text" translatable="yes">Removes empty groups from the lists</property>
                                       </object>
                                       <packing>
                                         <property name="left-attach">1</property>
@@ -1049,10 +1058,40 @@
                                     <child>
                                       <placeholder/>
                                     </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
                                   </object>
                                   <packing>
-                                    <property name="title" translatable="yes">Playback</property>
-                                    <property name="icon-name">video-x-generic-symbolic</property>
+                                    <property name="title" translatable="yes">General</property>
+                                    <property name="icon-name">preferences-system-network-symbolic</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -1144,40 +1183,6 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkGrid">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="valign">start</property>
-                                    <property name="margin_top">20</property>
-                                    <property name="margin_bottom">20</property>
-                                    <property name="row_spacing">12</property>
-                                    <property name="column_spacing">12</property>
-                                    <child>
-                                      <object class="GtkLabel">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">This option only works when used with light desktop themes which support dark mode.</property>
-                                        <property name="halign">start</property>
-                                        <property name="valign">center</property>
-                                        <property name="label" translatable="yes">Prefer dark mode</property>
-                                        <attributes>
-                                          <attribute name="weight" value="bold"/>
-                                        </attributes>
-                                      </object>
-                                      <packing>
-                                        <property name="left_attach">0</property>
-                                        <property name="top_attach">0</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkSwitch" id="darkmode_switch">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="tooltip_text" translatable="yes">This option only works when used with light desktop themes which support dark mode.</property>
-                                      </object>
-                                      <packing>
-                                        <property name="left_attach">1</property>
-                                        <property name="top_attach">0</property>
                                   <!-- n-columns=4 n-rows=7 -->
                                   <object class="GtkGrid">
                                     <property name="visible">True</property>
@@ -1201,11 +1206,6 @@
                                     <child>
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">This option only works if the provider adds relevant information (is_adult).</property>
-                                        <property name="halign">start</property>
-                                        <property name="valign">center</property>
-                                        <property name="label" translatable="yes">Hide Adult Streams</property>
                                         <property name="can-focus">False</property>
                                         <property name="halign">start</property>
                                         <property name="valign">center</property>
@@ -1215,19 +1215,6 @@
                                         </attributes>
                                       </object>
                                       <packing>
-                                        <property name="left_attach">0</property>
-                                        <property name="top_attach">1</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkSwitch" id="adult_switch">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="tooltip_text" translatable="yes">This option only works if the provider adds relevant information (is_adult).</property>
-                                      </object>
-                                      <packing>
-                                        <property name="left_attach">1</property>
-                                        <property name="top_attach">1</property>
                                         <property name="left-attach">0</property>
                                         <property name="top-attach">1</property>
                                       </packing>
@@ -1235,11 +1222,6 @@
                                     <child>
                                       <object class="GtkLabel">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="tooltip_text" translatable="yes">Removes empty groups from the lists</property>
-                                        <property name="halign">start</property>
-                                        <property name="valign">center</property>
-                                        <property name="label" translatable="yes">Hide Empty Groups</property>
                                         <property name="can-focus">False</property>
                                         <property name="halign">start</property>
                                         <property name="label" translatable="yes">If Youtube channels stop working you can switch to a local version of yt-dlp and update it using the button above.</property>
@@ -1263,25 +1245,6 @@
                                         </attributes>
                                       </object>
                                       <packing>
-                                        <property name="left_attach">0</property>
-                                        <property name="top_attach">2</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkSwitch" id="empty_groups_switch">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="tooltip_text" translatable="yes">Removes empty groups from the lists</property>
-                                      </object>
-                                      <packing>
-                                        <property name="left_attach">1</property>
-                                        <property name="top_attach">2</property>
-                                      </packing>
-                                    </child>
-                                  </object>
-                                  <packing>
-                                    <property name="title" translatable="yes">Preferences</property>
-                                    <property name="icon_name">preferences-other-symbolic</property>
                                         <property name="left-attach">0</property>
                                         <property name="top-attach">2</property>
                                       </packing>
@@ -1387,6 +1350,85 @@
                                     <property name="title" translatable="yes">Youtube</property>
                                     <property name="icon-name">tv-symbolic</property>
                                     <property name="position">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <!-- n-columns=3 n-rows=3 -->
+                                  <object class="GtkGrid">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="valign">start</property>
+                                    <property name="margin-top">20</property>
+                                    <property name="margin-bottom">20</property>
+                                    <property name="row-spacing">12</property>
+                                    <property name="column-spacing">12</property>
+                                    <child>
+                                      <object class="GtkLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="halign">start</property>
+                                        <property name="valign">center</property>
+                                        <property name="label" translatable="yes">MPV Options</property>
+                                        <attributes>
+                                          <attribute name="weight" value="bold"/>
+                                        </attributes>
+                                      </object>
+                                      <packing>
+                                        <property name="left-attach">0</property>
+                                        <property name="top-attach">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkEntry" id="mpv_entry">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="valign">center</property>
+                                        <property name="hexpand">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="left-attach">1</property>
+                                        <property name="top-attach">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLinkButton" id="mpv_link">
+                                        <property name="label" translatable="yes">List of MPV options</property>
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="receives-default">True</property>
+                                        <property name="halign">start</property>
+                                        <property name="valign">center</property>
+                                        <property name="relief">none</property>
+                                        <property name="uri">https://mpv.io/manual/master/#options</property>
+                                      </object>
+                                      <packing>
+                                        <property name="left-attach">1</property>
+                                        <property name="top-attach">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                    <child>
+                                      <placeholder/>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="title" translatable="yes">Playback</property>
+                                    <property name="icon-name">video-x-generic-symbolic</property>
+                                    <property name="position">3</property>
                                   </packing>
                                 </child>
                               </object>
