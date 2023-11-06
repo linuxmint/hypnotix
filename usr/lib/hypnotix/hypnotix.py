@@ -1607,7 +1607,7 @@ class MainWindow:
                             provider.groups = x.groups
 
                             # Change redownload timeout
-                            self.reload_timeout_sec = 60 * 60 * 2  # 2 hours
+                            self.reload_timeout_sec = 60 * 60 * 4  # 4 hours
                             if self._timerid:
                                 GLib.source_remove(self._timerid)
                             self._timerid = GLib.timeout_add_seconds(self.reload_timeout_sec, self.force_reload)
