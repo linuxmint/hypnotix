@@ -1499,6 +1499,7 @@ class MainWindow:
         dlg.show()
 
     def on_menu_quit(self, widget):
+        self.mpv.terminate()
         self.application.quit()
 
     def on_key_press_event(self, widget, event):
@@ -1526,18 +1527,20 @@ class MainWindow:
             self.on_prev_channel()
         elif event.keyval == Gdk.KEY_Right:
             self.on_next_channel()
+        elif event.keyval == Gdk.KEY_Escape:
+            # Go back one level
+            self.on_go_back_button(widget)
         # elif event.keyval == Gdk.KEY_Up:
-        #     # Up of in the list
-        #     pass
+            # Up of in the list
+            # print("UP")
+            # pass
         # elif event.keyval == Gdk.KEY_Down:
-        #     # Down of in the list
-        #     pass
-        # elif event.keyval == Gdk.KEY_Escape:
-        #    # Go back one level
+            # Down of in the list
+            # print("DOWN")
+            # pass
+        #elif event.keyval == Gdk.KEY_Return:
+            # Same as click
         #    pass
-        # #elif event.keyval == Gdk.KEY_Return:
-        #     # Same as click
-        # #    pass
 
     @async_function
     def reload(self, page=None, refresh=False):
@@ -1593,21 +1596,25 @@ class MainWindow:
                         self.status("Loading Channels...", provider)
                         # Load data
                         x.load_iptv()
-                        # Inform Provider of data
-                        provider.channels = x.channels
-                        provider.movies = x.movies
-                        provider.series = x.series
-                        provider.groups = x.groups
+                        # If there are no stream to show, pass this provider.
+                        if (len(x.channels) == 0) and (len(x.movies) == 0) and (len(x.series) == 0) and (len(x.groups) == 0):
+                            pass
+                        else:
+                            # Inform Provider of data
+                            provider.channels = x.channels
+                            provider.movies = x.movies
+                            provider.series = x.series
+                            provider.groups = x.groups
 
-                        # Change redownload timeout
-                        self.reload_timeout_sec = 60 * 60 * 2  # 2 hours
-                        if self._timerid:
-                            GLib.source_remove(self._timerid)
-                        self._timerid = GLib.timeout_add_seconds(self.reload_timeout_sec, self.force_reload)
+                            # Change redownload timeout
+                            self.reload_timeout_sec = 60 * 60 * 2  # 2 hours
+                            if self._timerid:
+                                GLib.source_remove(self._timerid)
+                            self._timerid = GLib.timeout_add_seconds(self.reload_timeout_sec, self.force_reload)
 
-                        # If no errors, approve provider
-                        if provider.name == self.settings.get_string("active-provider"):
-                            self.active_provider = provider
+                            # If no errors, approve provider
+                            if provider.name == self.settings.get_string("active-provider"):
+                                self.active_provider = provider
                         self.status(None)
                     else:
                         print("XTREAM Authentication Failed")
