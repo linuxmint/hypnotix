@@ -269,7 +269,7 @@ class XTream:
         provider_username: str,
         provider_password: str,
         provider_url: str,
-        headers: dict = {},
+        headers: dict = None,
         hide_adult_content: bool = False,
         cache_path: str = ""
     ):
@@ -322,7 +322,10 @@ class XTream:
             if not osp.isdir(self.cache_path):
                 makedirs(self.cache_path, exist_ok=True)
 
-        self.connection_headers = headers
+        if headers is not None:
+            self.connection_headers = headers
+        else:
+            self.connection_headers = {'User-Agent':"Wget/1.20.3 (linux-gnu)"}
 
         self.authenticate()
 
@@ -364,7 +367,8 @@ class XTream:
             if search_result is not None:
                 print(f"Found {len(search_result)} results `{keyword}`")
                 return json.dumps(search_result, ensure_ascii=False)
-        return search_result
+        else:
+            return search_result
 
     def _slugify(self, string: str) -> str:
         """Normalize string
@@ -440,7 +444,7 @@ class XTream:
                     self.auth_data = r.json()
                     self.authorization = {
                         "username": self.auth_data["user_info"]["username"],
-                        "password": self.auth_data["user_info"]["password"],
+                        "password": self.auth_data["user_info"]["password"]
                     }
                     # Mark connection authorized
                     self.state["authenticated"] = True
@@ -467,16 +471,17 @@ class XTream:
         # Build the full path
         full_filename = osp.join(self.cache_path, f"{self._slugify(self.name)}-{filename}")
 
+        # If the cached file exists, attempt to load it
         if osp.isfile(full_filename):
 
             my_data = None
 
             # Get the enlapsed seconds since last file update
-            diff_time = time.time() - osp.getmtime(full_filename)
+            file_age_sec = time.time() - osp.getmtime(full_filename)
             # If the file was updated less than the threshold time,
             # it means that the file is still fresh, we can load it.
             # Otherwise skip and return None to force a re-download
-            if self.threshold_time_sec > diff_time:
+            if self.threshold_time_sec > file_age_sec:
                 # Load the JSON data
                 try:
                     with open(full_filename, mode="r", encoding="utf-8") as myfile:
@@ -515,8 +520,8 @@ class XTream:
                 return False
 
             return True
-
-        return False
+        else:
+            return False
 
     def load_iptv(self) -> bool:
         """Load XTream IPTV
