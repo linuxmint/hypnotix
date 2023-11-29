@@ -515,6 +515,7 @@ class MainWindow:
                 self.show_vod(self.active_provider.series)
 
     def show_favorites(self, widget):
+        self.content_type = TV_GROUP
         channels = []
         for line in self.favorite_data:
             info, url = line.split(":::")
