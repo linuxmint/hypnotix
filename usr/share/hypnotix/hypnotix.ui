@@ -69,7 +69,6 @@
                           <object class="GtkLabel" id="current_provider_label">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">label</property>
                             <attributes>
                               <attribute name="weight" value="bold"/>
                               <attribute name="scale" value="2"/>
