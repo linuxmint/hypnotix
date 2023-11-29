@@ -636,7 +636,7 @@ class MainWindow:
 
     def bind_setting_widget(self, key, widget):
         widget.set_text(self.settings.get_string(key))
-        widget.connect("changed", self.on_entry_changed, key)            
+        widget.connect("changed", self.on_entry_changed, key)
 
     def on_entry_changed(self, widget, key):
         self.settings.set_string(key, widget.get_text())
