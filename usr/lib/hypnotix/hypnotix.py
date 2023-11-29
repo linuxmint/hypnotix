@@ -752,8 +752,8 @@ class MainWindow:
         self.fullscreen_button.hide()
         self.stack.set_visible_child_name(page)
         provider = self.active_provider
+        self.back_page = "landing_page"
         if page == "landing_page":
-            self.back_page = None
             self.headerbar.set_title("Hypnotix")
             if provider is None:
                 self.current_provider_label.set_text(_("No provider selected"))
@@ -773,7 +773,6 @@ class MainWindow:
                 self.series_button.set_sensitive(len(provider.series) > 0)
             self.go_back_button.hide()
         elif page == "categories_page":
-            self.back_page = "landing_page"
             self.headerbar.set_title(provider.name)
             if self.content_type == TV_GROUP:
                 self.headerbar.set_subtitle(_("TV Channels"))
@@ -787,7 +786,6 @@ class MainWindow:
             self.headerbar.set_title(provider.name)
             if self.content_type == TV_GROUP:
                 if self.active_group is None:
-                    self.back_page = "landing_page"
                     self.headerbar.set_subtitle(_("TV Channels"))
                 else:
                     self.back_page = "categories_page"
@@ -802,14 +800,12 @@ class MainWindow:
             self.headerbar.set_title(provider.name)
             if self.content_type == MOVIES_GROUP:
                 if self.active_group is None:
-                    self.back_page = "landing_page"
                     self.headerbar.set_subtitle(_("Movies"))
                 else:
                     self.back_page = "categories_page"
                     self.headerbar.set_subtitle(_("Movies > %s") % self.active_group.name)
             else:
                 if self.active_group is None:
-                    self.back_page = "landing_page"
                     self.headerbar.set_subtitle(_("Series"))
                 else:
                     self.back_page = "categories_page"
@@ -819,11 +815,9 @@ class MainWindow:
             self.headerbar.set_title(provider.name)
             self.headerbar.set_subtitle(self.active_serie.name)
         elif page == "preferences_page":
-            self.back_page = "landing_page"
             self.headerbar.set_title("Hypnotix")
             self.headerbar.set_subtitle(_("Preferences"))
         elif page == "providers_page":
-            self.back_page = "landing_page"
             self.headerbar.set_title("Hypnotix")
             self.headerbar.set_subtitle(_("Providers"))
         elif page == "add_page":
