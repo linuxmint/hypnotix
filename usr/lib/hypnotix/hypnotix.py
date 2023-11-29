@@ -522,10 +522,10 @@ class MainWindow:
             channel = Channel(None, info)
             channel.url = url
             channels.append(channel)
-        self.show_channels(channels)
+        self.show_channels(channels, favorites=True)
 
-    def show_channels(self, channels):
-        self.navigate_to("channels_page")
+    def show_channels(self, channels, favorites=False):
+        self.navigate_to("channels_page", "", True)
         if self.content_type == TV_GROUP:
             self.sidebar.show()
             for child in self.channels_listbox.get_children():
@@ -747,7 +747,7 @@ class MainWindow:
         self.visible_search_results = 0
 
     @idle_function
-    def navigate_to(self, page, name=""):
+    def navigate_to(self, page, name="", favorites=False):
         self.go_back_button.show()
         self.search_button.show()
         self.fullscreen_button.hide()
@@ -784,20 +784,23 @@ class MainWindow:
         elif page == "channels_page":
             self.fullscreen_button.show()
             self.playback_bar.hide()
-            if provider is not None:
-                self.headerbar.set_title(provider.name)
-            if self.content_type == TV_GROUP:
-                if self.active_group is None:
-                    self.headerbar.set_subtitle(_("TV Channels"))
-                else:
-                    self.back_page = "categories_page"
-                    self.headerbar.set_subtitle(_("TV Channels > %s") % self.active_group.name)
-            elif self.content_type == MOVIES_GROUP:
-                self.headerbar.set_subtitle(self.active_channel.name)
-                self.back_page = "vod_page"
+            if favorites:
+                self.headerbar.set_title("Hypnotix")
+                self.headerbar.set_subtitle(_("Favorites"))
             else:
-                self.headerbar.set_subtitle(self.active_channel.name)
-                self.back_page = "episodes_page"
+                self.headerbar.set_title(provider.name)
+                if self.content_type == TV_GROUP:
+                    if self.active_group is None:
+                        self.headerbar.set_subtitle(_("TV Channels"))
+                    else:
+                        self.back_page = "categories_page"
+                        self.headerbar.set_subtitle(_("TV Channels > %s") % self.active_group.name)
+                elif self.content_type == MOVIES_GROUP:
+                    self.headerbar.set_subtitle(self.active_channel.name)
+                    self.back_page = "vod_page"
+                else:
+                    self.headerbar.set_subtitle(self.active_channel.name)
+                    self.back_page = "episodes_page"
         elif page == "vod_page":
             self.headerbar.set_title(provider.name)
             if self.content_type == MOVIES_GROUP:
