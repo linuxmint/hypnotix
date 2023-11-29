@@ -539,7 +539,7 @@ class MainWindow:
         self.show_channels(channels, favorites=True)
 
     def show_channels(self, channels, favorites=False):
-        self.navigate_to("channels_page", "", True)
+        self.navigate_to("channels_page", "", favorites)
         if self.content_type == TV_GROUP:
             self.sidebar.show()
             for child in self.channels_listbox.get_children():
