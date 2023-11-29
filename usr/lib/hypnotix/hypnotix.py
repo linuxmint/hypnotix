@@ -784,7 +784,8 @@ class MainWindow:
         elif page == "channels_page":
             self.fullscreen_button.show()
             self.playback_bar.hide()
-            self.headerbar.set_title(provider.name)
+            if provider is not None:
+                self.headerbar.set_title(provider.name)
             if self.content_type == TV_GROUP:
                 if self.active_group is None:
                     self.headerbar.set_subtitle(_("TV Channels"))
