@@ -1705,6 +1705,9 @@ class MainWindow:
                 self.status_label.hide()
                 self.info_revealer.set_reveal_child(False)
                 self.channels_box.set_border_width(0)
+                ### hide mouse cursor ###
+                blank = Gdk.Cursor(Gdk.CursorType.BLANK_CURSOR)
+                self.window.get_window().set_cursor(blank)
             else:
                 # Normal mode
                 self.window.unfullscreen()
@@ -1714,6 +1717,9 @@ class MainWindow:
                     self.sidebar.show()
                 self.headerbar.show()
                 self.channels_box.set_border_width(12)
+                ### show mouse cursor ###
+                arrow = Gdk.Cursor(Gdk.CursorType.ARROW)
+                self.window.get_window().set_cursor(arrow)
 
     def on_fullscreen_button_clicked(self, widget):
         self.toggle_fullscreen()
