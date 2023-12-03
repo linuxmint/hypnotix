@@ -1,3 +1,9 @@
+hypnotix (4.1) virginia; urgency=medium
+
+  * l10n: Update translations
+
+ -- Clement Lefebvre <root@linuxmint.com>  Sun, 03 Dec 2023 14:58:52 +0000
+
 hypnotix (4.0) virginia; urgency=medium
 
   [ Clement Lefebvre ]
