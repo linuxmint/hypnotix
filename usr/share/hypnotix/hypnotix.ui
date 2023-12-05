@@ -120,7 +120,7 @@
                                   <object class="GtkImage">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
-                                    <property name="icon-name">xapp-favorites-app-symbolic</property>
+                                    <property name="icon-name">starred-symbolic</property>
                                     <property name="icon_size">3</property>
                                   </object>
                                 </child>
@@ -517,10 +517,10 @@
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">True</property>
                                     <child>
-                                      <object class="GtkImage">
+                                      <object class="GtkImage" id="favorite_button_image">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="icon-name">xapp-favorites-app-symbolic</property>
+                                        <property name="icon-name">starred-symbolic</property>
                                       </object>
                                     </child>
                                   </object>
