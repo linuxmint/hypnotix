@@ -266,6 +266,7 @@ class MainWindow:
             "layout_properties_box",
             "layout_properties_label",
             "favorite_button",
+            "favorite_button_image",
             "new_channel_button",
             "new_name_entry",
             "new_url_entry",
@@ -878,6 +879,7 @@ class MainWindow:
         elif widget.get_active() == False and data in self.favorite_data:
             print (f"Removing {name} from favorites")
             self.favorite_data.remove(data)
+        self.favorite_button_image.set_from_icon_name("starred-symbolic" if widget.get_active() else "non-starred-symbolic", Gtk.IconSize.BUTTON)
         self.manager.save_favorites(self.favorite_data)
 
     def on_channel_activated(self, box, widget):
@@ -930,9 +932,11 @@ class MainWindow:
         data = f"{channel.info}:::{channel.url}"
         if data in self.favorite_data:
             self.favorite_button.set_active(True)
+            self.favorite_button_image.set_from_icon_name("starred-symbolic", Gtk.IconSize.BUTTON)
             self.favorite_button.set_tooltip_text(_("Remove from favorites"))
         else:
             self.favorite_button.set_active(False)
+            self.favorite_button_image.set_from_icon_name("non-starred-symbolic", Gtk.IconSize.BUTTON)
             self.favorite_button.set_tooltip_text(_("Add to favorites"))
         self.page_is_loading = False
 
