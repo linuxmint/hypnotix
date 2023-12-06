@@ -1,3 +1,10 @@
+hypnotix (4.2) virginia; urgency=medium
+
+  [ Michael Webster ]
+  * Use filled and unfilled star icons for favorites.
+
+ -- Clement Lefebvre <root@linuxmint.com>  Wed, 06 Dec 2023 12:16:39 +0000
+
 hypnotix (4.1) virginia; urgency=medium
 
   * l10n: Update translations
