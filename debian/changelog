@@ -1,3 +1,46 @@
+hypnotix (4.2) virginia; urgency=medium
+
+  [ Michael Webster ]
+  * Use filled and unfilled star icons for favorites.
+
+ -- Clement Lefebvre <root@linuxmint.com>  Wed, 06 Dec 2023 12:16:39 +0000
+
+hypnotix (4.1) virginia; urgency=medium
+
+  * l10n: Update translations
+
+ -- Clement Lefebvre <root@linuxmint.com>  Sun, 03 Dec 2023 14:58:52 +0000
+
+hypnotix (4.0) virginia; urgency=medium
+
+  [ Clement Lefebvre ]
+  * README: Add dep on circle-flags
+  * UI: Use a symbolic icon for stream information menu item
+  * UI: Refresh interface
+  * yt-dlp: Add the ability to switch to a local version and update it
+  * launcher: Use $HOME instead of ~
+  * Add .gitignore
+  * Add the ability to set channels as favorite
+  * Fix back button when no provider is selected
+  * Fix favorites after browsing films/VOD
+  * Fix indentation
+  * Fix error when provider is None
+  * Favorites: Fix navigation issues in niche cases
+  * Add the ability to create custom channels
+  * l10n: Update POT
+
+  [ TVKaista ]
+  * Fix flag of Macau (#307)
+
+  [ DYefremov ]
+  * forced utf-8 enabled for playlist read/write (#298)
+  * Fix: URL label enlarges (#297)
+
+  [ Clement Lefebvre ]
+  * Fix headerbar subtitle in channels page
+
+ -- Clement Lefebvre <root@linuxmint.com>  Wed, 29 Nov 2023 14:04:36 +0000
+
 hypnotix (3.7) faye; urgency=medium
 
   * Get flags from circles-flags-svg

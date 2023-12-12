@@ -270,6 +270,13 @@ class MainWindow:
             "layout_properties_box",
             "layout_properties_label",
             "favorite_button",
+            "favorite_button_image",
+            "new_channel_button",
+            "new_name_entry",
+            "new_url_entry",
+            "new_logo_entry",
+            "new_ok_button",
+            "new_cancel_button"
         ]
 
         for name in widget_names:
@@ -292,6 +299,9 @@ class MainWindow:
         self.info_window.connect("delete-event", self.on_close_info_window)
         self.info_window_close_button.connect("clicked", self.on_close_info_window_button_clicked)
 
+        self.new_ok_button.connect("clicked", self.on_new_ok_button)
+        self.new_cancel_button.connect("clicked", self.on_new_cancel_button)
+
         self.provider_ok_button.connect("clicked", self.on_provider_ok_button)
         self.provider_cancel_button.connect("clicked", self.on_provider_cancel_button)
 
@@ -299,9 +309,14 @@ class MainWindow:
         self.url_entry.connect("changed", self.toggle_ok_sensitivity)
         self.path_entry.connect("changed", self.toggle_ok_sensitivity)
 
+        self.new_name_entry.connect("changed", self.toggle_new_ok_sensitivity)
+        self.new_url_entry.connect("changed", self.toggle_new_ok_sensitivity)
+        self.new_logo_entry.connect("changed", self.toggle_new_ok_sensitivity)
+
         self.tv_button.connect("clicked", self.show_groups, TV_GROUP)
         self.movies_button.connect("clicked", self.show_groups, MOVIES_GROUP)
         self.series_button.connect("clicked", self.show_groups, SERIES_GROUP)
+        self.new_channel_button.connect("clicked", self.open_new_channel)
         self.favorites_button.connect("clicked", self.show_favorites)
         self.providers_button.connect("clicked", self.open_providers)
         self.preferences_button.connect("clicked", self.open_preferences)
@@ -543,17 +558,18 @@ class MainWindow:
             else:
                 self.show_vod(self.active_provider.series)
 
-    def show_favorites(self, widget):
+    def show_favorites(self, widget=None):
+        self.content_type = TV_GROUP
         channels = []
         for line in self.favorite_data:
             info, url = line.split(":::")
             channel = Channel(None, info)
             channel.url = url
             channels.append(channel)
-        self.show_channels(channels)
+        self.show_channels(channels, favorites=True)
 
-    def show_channels(self, channels):
-        self.navigate_to("channels_page")
+    def show_channels(self, channels, favorites=False):
+        self.navigate_to("channels_page", "", favorites)
         if self.content_type == TV_GROUP:
             self.sidebar.show()
             for child in self.channels_listbox.get_children():
@@ -664,7 +680,7 @@ class MainWindow:
 
     def bind_setting_widget(self, key, widget):
         widget.set_text(self.settings.get_string(key))
-        widget.connect("changed", self.on_entry_changed, key)            
+        widget.connect("changed", self.on_entry_changed, key)
 
     def on_entry_changed(self, widget, key):
         self.settings.set_string(key, widget.get_text())
@@ -782,14 +798,14 @@ class MainWindow:
         self.visible_search_results = 0
 
     @idle_function
-    def navigate_to(self, page, name=""):
+    def navigate_to(self, page, name="", favorites=False):
         self.go_back_button.show()
         self.search_button.show()
         self.fullscreen_button.hide()
         self.stack.set_visible_child_name(page)
         provider = self.active_provider
+        self.back_page = "landing_page"
         if page == "landing_page":
-            self.back_page = None
             self.headerbar.set_title("Hypnotix")
             if provider is None:
                 self.current_provider_label.set_text(_("No provider selected"))
@@ -809,7 +825,6 @@ class MainWindow:
                 self.series_button.set_sensitive(len(provider.series) > 0)
             self.go_back_button.hide()
         elif page == "categories_page":
-            self.back_page = "landing_page"
             self.headerbar.set_title(provider.name)
             if self.content_type == TV_GROUP:
                 self.headerbar.set_subtitle(_("TV Channels"))
@@ -820,32 +835,33 @@ class MainWindow:
         elif page == "channels_page":
             self.fullscreen_button.show()
             self.playback_bar.hide()
-            self.headerbar.set_title(provider.name)
-            if self.content_type == TV_GROUP:
-                if self.active_group is None:
-                    self.back_page = "landing_page"
-                    self.headerbar.set_subtitle(_("TV Channels"))
-                else:
-                    self.back_page = "categories_page"
-                    self.headerbar.set_subtitle(_("TV Channels > %s") % self.active_group.name)
-            elif self.content_type == MOVIES_GROUP:
-                self.headerbar.set_subtitle(self.active_channel.name)
-                self.back_page = "vod_page"
+            if favorites:
+                self.headerbar.set_title("Hypnotix")
+                self.headerbar.set_subtitle(_("Favorites"))
             else:
-                self.headerbar.set_subtitle(self.active_channel.name)
-                self.back_page = "episodes_page"
+                self.headerbar.set_title(provider.name)
+                if self.content_type == TV_GROUP:
+                    if self.active_group is None:
+                        self.headerbar.set_subtitle(_("TV Channels"))
+                    else:
+                        self.back_page = "categories_page"
+                        self.headerbar.set_subtitle(_("TV Channels > %s") % self.active_group.name)
+                elif self.content_type == MOVIES_GROUP:
+                    self.headerbar.set_subtitle(self.active_channel.name)
+                    self.back_page = "vod_page"
+                else:
+                    self.headerbar.set_subtitle(self.active_channel.name)
+                    self.back_page = "episodes_page"
         elif page == "vod_page":
             self.headerbar.set_title(provider.name)
             if self.content_type == MOVIES_GROUP:
                 if self.active_group is None:
-                    self.back_page = "landing_page"
                     self.headerbar.set_subtitle(_("Movies"))
                 else:
                     self.back_page = "categories_page"
                     self.headerbar.set_subtitle(_("Movies > %s") % self.active_group.name)
             else:
                 if self.active_group is None:
-                    self.back_page = "landing_page"
                     self.headerbar.set_subtitle(_("Series"))
                 else:
                     self.back_page = "categories_page"
@@ -854,12 +870,13 @@ class MainWindow:
             self.back_page = "vod_page"
             self.headerbar.set_title(provider.name)
             self.headerbar.set_subtitle(self.active_serie.name)
+        elif page == "new_channel_page":
+            self.headerbar.set_title("Hypnotix")
+            self.headerbar.set_subtitle(_("New Channel"))
         elif page == "preferences_page":
-            self.back_page = "landing_page"
             self.headerbar.set_title("Hypnotix")
             self.headerbar.set_subtitle(_("Preferences"))
         elif page == "providers_page":
-            self.back_page = "landing_page"
             self.headerbar.set_title("Hypnotix")
             self.headerbar.set_subtitle(_("Providers"))
         elif page == "add_page":
@@ -898,6 +915,7 @@ class MainWindow:
         elif widget.get_active() == False and data in self.favorite_data:
             print (f"Removing {name} from favorites")
             self.favorite_data.remove(data)
+        self.favorite_button_image.set_from_icon_name("starred-symbolic" if widget.get_active() else "non-starred-symbolic", Gtk.IconSize.BUTTON)
         self.manager.save_favorites(self.favorite_data)
 
     def on_channel_activated(self, box, widget):
@@ -956,9 +974,11 @@ class MainWindow:
         data = f"{channel.info}:::{channel.url}"
         if data in self.favorite_data:
             self.favorite_button.set_active(True)
+            self.favorite_button_image.set_from_icon_name("starred-symbolic", Gtk.IconSize.BUTTON)
             self.favorite_button.set_tooltip_text(_("Remove from favorites"))
         else:
             self.favorite_button.set_active(False)
+            self.favorite_button_image.set_from_icon_name("non-starred-symbolic", Gtk.IconSize.BUTTON)
             self.favorite_button.set_tooltip_text(_("Add to favorites"))
         self.page_is_loading = False
 
@@ -1213,6 +1233,14 @@ class MainWindow:
         self.init_channels_listbox()
         self.navigate_to("landing_page")
 
+    def open_new_channel(self, widget):
+        self.new_name_entry.grab_focus()
+        self.new_name_entry.set_text("")
+        self.new_url_entry.set_text("")
+        self.new_logo_entry.set_text("")
+        self.new_ok_button.set_sensitive(False)
+        self.navigate_to("new_channel_page")
+
     def open_preferences(self, widget):
         self.navigate_to("preferences_page")
 
@@ -1378,6 +1406,20 @@ class MainWindow:
         provider.epg = self.epg_entry.get_text()
         self.save()
 
+    def on_new_ok_button(self, widget):
+        name = self.new_name_entry.get_text()
+        url = self.new_url_entry.get_text()
+        logo = self.new_logo_entry.get_text()
+        data = f'#EXTINF:-1 tvg-name="{name}" tvg-logo="{logo}" tvg-id="{name}" group-title="",{name}:::{url}'
+        if data not in self.favorite_data:
+            print (f"Adding {name} to favorites")
+            self.favorite_data.append(data)
+        self.manager.save_favorites(self.favorite_data)
+        self.show_favorites()
+
+    def on_new_cancel_button(self, widget):
+        self.navigate_to("landing_page")
+
     def on_provider_cancel_button(self, widget):
         self.navigate_to("providers_page")
 
@@ -1388,6 +1430,14 @@ class MainWindow:
             self.provider_ok_button.set_sensitive(False)
         else:
             self.provider_ok_button.set_sensitive(True)
+
+    def toggle_new_ok_sensitivity(self, widget=None):
+        self.new_ok_button.set_sensitive(True)
+        if self.new_name_entry.get_text() == "":
+            self.new_ok_button.set_sensitive(False)
+        for widget in (self.new_url_entry, self.new_logo_entry):
+            if "://" not in widget.get_text():
+                self.new_ok_button.set_sensitive(False)
 
     def get_url(self):
         type_id = self.provider_type_combo.get_model()[self.provider_type_combo.get_active()][PROVIDER_TYPE_ID]
