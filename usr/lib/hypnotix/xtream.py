@@ -105,6 +105,9 @@ class Channel:
             if not xtream._validate_url(self.url):
                 print(f"{self.name} - Bad URL? `{self.url}`")
 
+            # Add Channel info in M3U8 format to support Favorite Channel
+            self.info = f'#EXTINF:-1 tvg-name="{self.name}" tvg-logo="{self.logo}" group-title="{self.group_title}",{self.name}'
+
     def export_json(self):
         jsondata = {}
 
