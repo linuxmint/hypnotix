@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2023-11-29 13:21+0000\n"
-"PO-Revision-Date: 2021-12-14 20:46+0000\n"
+"PO-Revision-Date: 2023-12-12 09:33+0000\n"
 "Last-Translator: Piet Coppens <Unknown>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2023-12-03 13:35+0000\n"
-"X-Generator: Launchpad (build 886068b1e1d10de444fbd53b0c7d3f6d4fb3e658)\n"
+"X-Launchpad-Export-Date: 2024-01-04 14:59+0000\n"
+"X-Generator: Launchpad (build e1eeab5b20e19239bd7d5f36676f7a52988db88b)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:157 usr/lib/hypnotix/hypnotix.py:867
 #: usr/lib/hypnotix/hypnotix.py:1476 generate_desktop_files:25
@@ -66,7 +66,7 @@ msgstr "Epizodo %s"
 
 #: usr/lib/hypnotix/hypnotix.py:748
 msgid "No channels found"
-msgstr ""
+msgstr "Neniuj kanaloj trovitaj"
 
 #: usr/lib/hypnotix/hypnotix.py:774
 msgid "No provider selected"
@@ -75,17 +75,17 @@ msgstr "Neniu provizanto elektita"
 #: usr/lib/hypnotix/hypnotix.py:775 usr/lib/hypnotix/hypnotix.py:783
 #, python-format
 msgid "TV Channels (%d)"
-msgstr ""
+msgstr "Televid-kanaloj (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:776 usr/lib/hypnotix/hypnotix.py:784
 #, python-format
 msgid "Movies (%d)"
-msgstr ""
+msgstr "Filmoj (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:777 usr/lib/hypnotix/hypnotix.py:785
 #, python-format
 msgid "Series (%d)"
-msgstr ""
+msgstr "Serioj (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:793 usr/lib/hypnotix/hypnotix.py:808
 msgid "TV Channels"
@@ -101,7 +101,7 @@ msgstr "Serioj"
 
 #: usr/lib/hypnotix/hypnotix.py:803 usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Favorites"
-msgstr ""
+msgstr "Plej ŝatataj"
 
 #: usr/lib/hypnotix/hypnotix.py:811
 #, python-format
@@ -120,7 +120,7 @@ msgstr "Serioj > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:838
 msgid "New Channel"
-msgstr ""
+msgstr "Nova kanalo"
 
 #: usr/lib/hypnotix/hypnotix.py:841 usr/share/hypnotix/hypnotix.ui.h:3
 msgid "Preferences"
@@ -173,11 +173,11 @@ msgstr "Aranĝo"
 
 #: usr/lib/hypnotix/hypnotix.py:933
 msgid "Remove from favorites"
-msgstr ""
+msgstr "Forigi el plej ŝatataj"
 
 #: usr/lib/hypnotix/hypnotix.py:936
 msgid "Add to favorites"
-msgstr ""
+msgstr "Aldoni al plej ŝatataj"
 
 #: usr/lib/hypnotix/hypnotix.py:969 usr/lib/hypnotix/hypnotix.py:970
 #: usr/lib/hypnotix/hypnotix.py:984 usr/lib/hypnotix/hypnotix.py:986
@@ -258,7 +258,7 @@ msgstr "Redakti"
 
 #: usr/lib/hypnotix/hypnotix.py:1162
 msgid "Clear icon cache"
-msgstr ""
+msgstr "Vakigi kaŝmemoron de bildsimboloj"
 
 #: usr/lib/hypnotix/hypnotix.py:1172
 msgid "Remove"
@@ -275,32 +275,32 @@ msgstr "Spekti televidon"
 
 #: usr/lib/hypnotix/hypnotix.py:1545
 msgid "Loading providers..."
-msgstr ""
+msgstr "Ŝargado de provizantoj..."
 
 #: usr/lib/hypnotix/hypnotix.py:1558
 msgid "Downloading playlist..."
-msgstr ""
+msgstr "Elŝutado de ludlisto..."
 
 #: usr/lib/hypnotix/hypnotix.py:1560
 msgid "Getting playlist..."
-msgstr ""
+msgstr "Ricevado de ludlisto..."
 
 #: usr/lib/hypnotix/hypnotix.py:1563
 msgid "Checking playlist..."
-msgstr ""
+msgstr "Kontrolado de ludlisto..."
 
 #: usr/lib/hypnotix/hypnotix.py:1565
 msgid "Loading channels..."
-msgstr ""
+msgstr "Ŝargado de kanaloj..."
 
 #: usr/lib/hypnotix/hypnotix.py:1573
 #, python-format
 msgid "Failed to download playlist from %s"
-msgstr ""
+msgstr "Malsukcesis elŝuti ludliston de %s"
 
 #: usr/share/hypnotix/hypnotix.ui.h:1
 msgid "Create a new channel"
-msgstr ""
+msgstr "Krei novan kanalon"
 
 #: usr/share/hypnotix/hypnotix.ui.h:5
 msgid "MPV Options"
@@ -328,33 +328,35 @@ msgstr "Reto"
 
 #: usr/share/hypnotix/hypnotix.ui.h:11
 msgid "System version:"
-msgstr ""
+msgstr "Sistemversio:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:12
 msgid ""
 "If Youtube channels stop working you can switch to a local version of yt-dlp "
 "and update it using the button above."
 msgstr ""
+"Se jutub-kanaloj ĉesas funkcii vi povas ŝalti al loka versio de yt-dlp kaj "
+"ĝin ĝisdatigi uzante la supran butonon."
 
 #: usr/share/hypnotix/hypnotix.ui.h:13
 msgid "Local version:"
-msgstr ""
+msgstr "Loka versio:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Update from github.com/yt-dlp"
-msgstr ""
+msgstr "Ĝisdatigi el github.com/yt-dlp"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Restart Hypnotix for changes to take effect."
-msgstr ""
+msgstr "Restartigi Televidilon por efektivigi ŝanĝojn."
 
 #: usr/share/hypnotix/hypnotix.ui.h:16
 msgid "Use local version"
-msgstr ""
+msgstr "Uzi lokan version"
 
 #: usr/share/hypnotix/hypnotix.ui.h:17
 msgid "Youtube"
-msgstr ""
+msgstr "Jutubo"
 
 #: usr/share/hypnotix/hypnotix.ui.h:18
 msgid "Add a new provider..."
@@ -422,16 +424,18 @@ msgstr "Ĉu vi certas, ke vi volas restarigi la defaŭltajn provizantojn?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:34
 msgid "Logo URL:"
-msgstr ""
+msgstr "Retadreso de emblemo:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:35
 msgid "This channel will be added to your favorites."
-msgstr ""
+msgstr "Ĉi tiu kanalo aldoniĝos al viaj plej ŝatataj."
 
 #: usr/share/hypnotix/hypnotix.ui.h:36
 msgid ""
 "Note: If the logo is a local file, upload it to imgur.com to get a URL."
 msgstr ""
+"Atentu: se la emblemo estas loka dosiero, alŝutu ĝin al imgur.com por ekhavi "
+"retadreson."
 
 #: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Currently playing:"
@@ -471,7 +475,7 @@ msgstr "Ĉefaj fulmoklavoj"
 
 #: usr/share/hypnotix/shortcuts.ui.h:4
 msgid "Play previous/next channel"
-msgstr ""
+msgstr "Ludi antaŭan/sekvan kanalon"
 
 #: usr/share/hypnotix/shortcuts.ui.h:5
 msgid "Toggle Fullscreen"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2023-11-29 13:21+0000\n"
-"PO-Revision-Date: 2023-06-07 13:54+0000\n"
+"PO-Revision-Date: 2024-01-02 08:27+0000\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
 "n%100==4 ? 3 : 0);\n"
-"X-Launchpad-Export-Date: 2023-12-03 13:35+0000\n"
-"X-Generator: Launchpad (build 886068b1e1d10de444fbd53b0c7d3f6d4fb3e658)\n"
+"X-Launchpad-Export-Date: 2024-01-04 14:59+0000\n"
+"X-Generator: Launchpad (build e1eeab5b20e19239bd7d5f36676f7a52988db88b)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:157 usr/lib/hypnotix/hypnotix.py:867
 #: usr/lib/hypnotix/hypnotix.py:1476 generate_desktop_files:25
@@ -102,7 +102,7 @@ msgstr "Serije"
 
 #: usr/lib/hypnotix/hypnotix.py:803 usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Favorites"
-msgstr ""
+msgstr "Priljubljeni"
 
 #: usr/lib/hypnotix/hypnotix.py:811
 #, python-format
@@ -121,7 +121,7 @@ msgstr "Serije > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:838
 msgid "New Channel"
-msgstr ""
+msgstr "Nov kanal"
 
 #: usr/lib/hypnotix/hypnotix.py:841 usr/share/hypnotix/hypnotix.ui.h:3
 msgid "Preferences"
@@ -174,11 +174,11 @@ msgstr "Postavitev"
 
 #: usr/lib/hypnotix/hypnotix.py:933
 msgid "Remove from favorites"
-msgstr ""
+msgstr "Odstrani iz priljubljenih"
 
 #: usr/lib/hypnotix/hypnotix.py:936
 msgid "Add to favorites"
-msgstr ""
+msgstr "Dodaj med priljubljene"
 
 #: usr/lib/hypnotix/hypnotix.py:969 usr/lib/hypnotix/hypnotix.py:970
 #: usr/lib/hypnotix/hypnotix.py:984 usr/lib/hypnotix/hypnotix.py:986
@@ -307,7 +307,7 @@ msgstr "Prenos seznama predvajanja z %s je spodletel"
 
 #: usr/share/hypnotix/hypnotix.ui.h:1
 msgid "Create a new channel"
-msgstr ""
+msgstr "Ustvari nov kanal"
 
 #: usr/share/hypnotix/hypnotix.ui.h:5
 msgid "MPV Options"
@@ -335,33 +335,35 @@ msgstr "Omrežje"
 
 #: usr/share/hypnotix/hypnotix.ui.h:11
 msgid "System version:"
-msgstr ""
+msgstr "Različica sistema:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:12
 msgid ""
 "If Youtube channels stop working you can switch to a local version of yt-dlp "
 "and update it using the button above."
 msgstr ""
+"Če kanali YouTube prenehajo delovati, lahko preklopite na krajevno različico "
+"yt-dlp in jo posodobite z zgornjim gumbom."
 
 #: usr/share/hypnotix/hypnotix.ui.h:13
 msgid "Local version:"
-msgstr ""
+msgstr "Krajevna različica:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Update from github.com/yt-dlp"
-msgstr ""
+msgstr "Posodobi iz github.com/yt-dlp"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Restart Hypnotix for changes to take effect."
-msgstr ""
+msgstr "Ponovno zaženite Hypnotix, da bodo spremembe uveljavljene."
 
 #: usr/share/hypnotix/hypnotix.ui.h:16
 msgid "Use local version"
-msgstr ""
+msgstr "Uporabi krajevno različico"
 
 #: usr/share/hypnotix/hypnotix.ui.h:17
 msgid "Youtube"
-msgstr ""
+msgstr "YouTube"
 
 #: usr/share/hypnotix/hypnotix.ui.h:18
 msgid "Add a new provider..."
@@ -429,16 +431,18 @@ msgstr "Ali ste prepričani, da želite ponastaviti na privzete ponudnike?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:34
 msgid "Logo URL:"
-msgstr ""
+msgstr "URL logotipa:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:35
 msgid "This channel will be added to your favorites."
-msgstr ""
+msgstr "Ta kanal bo dodan med vaše priljubljene."
 
 #: usr/share/hypnotix/hypnotix.ui.h:36
 msgid ""
 "Note: If the logo is a local file, upload it to imgur.com to get a URL."
 msgstr ""
+"Opomba: če je logotip krajevna datoteka, jo naložite na imgur.com, da "
+"pridobite URL."
 
 #: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Currently playing:"
