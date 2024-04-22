@@ -601,7 +601,7 @@ class MainWindow:
         # If we are using xtream provider
         # Load every Episodes of every Season for this Series
         if self.active_provider.type_id == "xtream":
-            self.x.get_series_info_by_id(self.active_serie)
+            self.x[self.active_provider.id].get_series_info_by_id(self.active_serie)
 
         self.navigate_to("episodes_page")
         for child in self.episodes_box.get_children():
@@ -1548,6 +1548,7 @@ class MainWindow:
         self.favorite_data = self.manager.load_favorites()
         self.status(_("Loading providers..."))
         self.providers = []
+        self.x = {}
         for provider_info in self.settings.get_strv("providers"):
             try:
                 provider = Provider(name=None, provider_info=provider_info)
@@ -1581,7 +1582,7 @@ class MainWindow:
                     from xtream import XTream
 
                     # Download via Xtream
-                    self.x = XTream(
+                    self.x[provider.id] = XTream(
                         provider.name,
                         provider.username,
                         provider.password,
@@ -1589,21 +1590,21 @@ class MainWindow:
                         hide_adult_content=False,
                         cache_path=PROVIDERS_PATH,
                     )
-                    if self.x.auth_data != {}:
+                    if self.x[provider.id].auth_data != {}:
                         print("XTREAM `{}` Loading Channels".format(provider.name))
                         # Save default cursor
                         current_cursor = self.window.get_window().get_cursor()
                         # Set waiting cursor
                         self.window.get_window().set_cursor(Gdk.Cursor.new_from_name(Gdk.Display.get_default(), "wait"))
                         # Load data
-                        self.x.load_iptv()
+                        self.x[provider.id].load_iptv()
                         # Restore default cursor
                         self.window.get_window().set_cursor(current_cursor)
                         # Inform Provider of data
-                        provider.channels = self.x.channels
-                        provider.movies = self.x.movies
-                        provider.series = self.x.series
-                        provider.groups = self.x.groups
+                        provider.channels = self.x[provider.id].channels
+                        provider.movies = self.x[provider.id].movies
+                        provider.series = self.x[provider.id].series
+                        provider.groups = self.x[provider.id].groups
 
                         # Change redownload timeout
                         self.reload_timeout_sec = 60 * 60 * 2  # 2 hours

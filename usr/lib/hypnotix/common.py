@@ -2,6 +2,7 @@
 import os
 import re
 import threading
+import uuid
 
 import requests
 from gi.repository import GLib, GObject
@@ -51,6 +52,7 @@ class Provider:
         else:
             self.name = name
         self.path = os.path.join(PROVIDERS_PATH, slugify(self.name))
+        self.id = uuid.uuid4()
         self.groups = []
         self.channels = []
         self.movies = []

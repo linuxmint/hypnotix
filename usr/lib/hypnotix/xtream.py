@@ -269,8 +269,6 @@ class XTream:
     series = []
     movies = []
 
-    state = {"authenticated": False, "loaded": False}
-
     hide_adult_content = False
 
     catch_all_group = Group(
@@ -316,6 +314,7 @@ class XTream:
         self.name = provider_name
         self.cache_path = cache_path
         self.hide_adult_content = hide_adult_content
+        self.state = {"authenticated": False, "loaded": False}
 
         # if the cache_path is specified, test that it is a directory
         if self.cache_path != "":
