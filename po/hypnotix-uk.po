@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2023-11-29 13:21+0000\n"
-"PO-Revision-Date: 2023-11-03 11:33+0000\n"
+"PO-Revision-Date: 2024-01-13 12:58+0000\n"
 "Last-Translator: Rostyslav Haitkulov <Unknown>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2024-01-04 14:59+0000\n"
-"X-Generator: Launchpad (build e1eeab5b20e19239bd7d5f36676f7a52988db88b)\n"
+"X-Launchpad-Export-Date: 2024-06-18 17:57+0000\n"
+"X-Generator: Launchpad (build bbfa2351d9d6a9ddfe262109428f7bf5516e65d1)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:157 usr/lib/hypnotix/hypnotix.py:867
 #: usr/lib/hypnotix/hypnotix.py:1476 generate_desktop_files:25
@@ -102,7 +102,7 @@ msgstr "Серіали"
 
 #: usr/lib/hypnotix/hypnotix.py:803 usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Favorites"
-msgstr ""
+msgstr "Улюблені"
 
 #: usr/lib/hypnotix/hypnotix.py:811
 #, python-format
@@ -121,7 +121,7 @@ msgstr "Серіали > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:838
 msgid "New Channel"
-msgstr ""
+msgstr "Новий канал"
 
 #: usr/lib/hypnotix/hypnotix.py:841 usr/share/hypnotix/hypnotix.ui.h:3
 msgid "Preferences"
@@ -174,11 +174,11 @@ msgstr "Розташування"
 
 #: usr/lib/hypnotix/hypnotix.py:933
 msgid "Remove from favorites"
-msgstr ""
+msgstr "Видалити з улюблених"
 
 #: usr/lib/hypnotix/hypnotix.py:936
 msgid "Add to favorites"
-msgstr ""
+msgstr "Додати до улюблених"
 
 #: usr/lib/hypnotix/hypnotix.py:969 usr/lib/hypnotix/hypnotix.py:970
 #: usr/lib/hypnotix/hypnotix.py:984 usr/lib/hypnotix/hypnotix.py:986
@@ -304,7 +304,7 @@ msgstr "Не вдалося завантажити плейлист з %s"
 
 #: usr/share/hypnotix/hypnotix.ui.h:1
 msgid "Create a new channel"
-msgstr ""
+msgstr "Створити новий канал"
 
 #: usr/share/hypnotix/hypnotix.ui.h:5
 msgid "MPV Options"
@@ -332,33 +332,35 @@ msgstr "Мережа"
 
 #: usr/share/hypnotix/hypnotix.ui.h:11
 msgid "System version:"
-msgstr ""
+msgstr "Версія системи:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:12
 msgid ""
 "If Youtube channels stop working you can switch to a local version of yt-dlp "
 "and update it using the button above."
 msgstr ""
+"Якщо канали Youtube перестали працювати, ви можете перемкнутись на локальну "
+"версію yt-dlp та оновити її за допомогою кнопки поряд."
 
 #: usr/share/hypnotix/hypnotix.ui.h:13
 msgid "Local version:"
-msgstr ""
+msgstr "Локальна версія:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Update from github.com/yt-dlp"
-msgstr ""
+msgstr "Оновити з github.com/yt-dlp"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Restart Hypnotix for changes to take effect."
-msgstr ""
+msgstr "Перезапустіть Hypnotix щоб зміни набрали чинності."
 
 #: usr/share/hypnotix/hypnotix.ui.h:16
 msgid "Use local version"
-msgstr ""
+msgstr "Використовувати локальну версію"
 
 #: usr/share/hypnotix/hypnotix.ui.h:17
 msgid "Youtube"
-msgstr ""
+msgstr "Youtube"
 
 #: usr/share/hypnotix/hypnotix.ui.h:18
 msgid "Add a new provider..."
@@ -426,16 +428,18 @@ msgstr "Ви впевнені, що бажаєте скинути постача
 
 #: usr/share/hypnotix/hypnotix.ui.h:34
 msgid "Logo URL:"
-msgstr ""
+msgstr "URL Логотипу:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:35
 msgid "This channel will be added to your favorites."
-msgstr ""
+msgstr "Цей канал буде додано до ваших улюблених"
 
 #: usr/share/hypnotix/hypnotix.ui.h:36
 msgid ""
 "Note: If the logo is a local file, upload it to imgur.com to get a URL."
 msgstr ""
+"Примітка: Якщо логотип є локальним файлом, завантажте його на imgur.com, щоб "
+"отримати URL-адресу."
 
 #: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Currently playing:"

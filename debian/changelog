@@ -1,3 +1,17 @@
+hypnotix (4.5) wilma; urgency=medium
+
+  * l10n: Update translations
+  * l10n: Update files
+
+ -- Clement Lefebvre <root@linuxmint.com>  Tue, 18 Jun 2024 19:30:10 +0100
+
+hypnotix (4.4) wilma; urgency=medium
+
+  [ Ame-chan-angel ]
+  * Fix loadfile for mpv v0.38.0 (#332)
+
+ -- Clement Lefebvre <root@linuxmint.com>  Wed, 05 Jun 2024 14:17:56 +0100
+
 hypnotix (4.3) virginia; urgency=medium
 
   * l10n: Update translations
