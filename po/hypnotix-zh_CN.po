@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2023-11-29 13:21+0000\n"
-"PO-Revision-Date: 2024-06-18 09:00+0000\n"
-"Last-Translator: Bin Wei <Unknown>\n"
+"PO-Revision-Date: 2024-07-19 06:42+0000\n"
+"Last-Translator: 张鹏 <Unknown>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2024-06-18 17:57+0000\n"
+"X-Launchpad-Export-Date: 2024-07-21 09:03+0000\n"
 "X-Generator: Launchpad (build bbfa2351d9d6a9ddfe262109428f7bf5516e65d1)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:157 usr/lib/hypnotix/hypnotix.py:867
@@ -44,7 +44,7 @@ msgstr "退出"
 
 #: usr/lib/hypnotix/hypnotix.py:397
 msgid "M3U URL"
-msgstr "M3U URL"
+msgstr "M3U 链接"
 
 #: usr/lib/hypnotix/hypnotix.py:398
 msgid "Local M3U File"
@@ -66,7 +66,7 @@ msgstr "第 %s 集"
 
 #: usr/lib/hypnotix/hypnotix.py:748
 msgid "No channels found"
-msgstr ""
+msgstr "未找到通道"
 
 #: usr/lib/hypnotix/hypnotix.py:774
 msgid "No provider selected"
@@ -255,7 +255,7 @@ msgstr "编辑"
 
 #: usr/lib/hypnotix/hypnotix.py:1162
 msgid "Clear icon cache"
-msgstr ""
+msgstr "清空图标缓存"
 
 #: usr/lib/hypnotix/hypnotix.py:1172
 msgid "Remove"
@@ -272,19 +272,19 @@ msgstr "观看电视"
 
 #: usr/lib/hypnotix/hypnotix.py:1545
 msgid "Loading providers..."
-msgstr ""
+msgstr "正在加载提供者..."
 
 #: usr/lib/hypnotix/hypnotix.py:1558
 msgid "Downloading playlist..."
-msgstr ""
+msgstr "正在下载播放列表..."
 
 #: usr/lib/hypnotix/hypnotix.py:1560
 msgid "Getting playlist..."
-msgstr ""
+msgstr "正在获取播放列表..."
 
 #: usr/lib/hypnotix/hypnotix.py:1563
 msgid "Checking playlist..."
-msgstr ""
+msgstr "正在检查播放列表..."
 
 #: usr/lib/hypnotix/hypnotix.py:1565
 msgid "Loading channels..."
@@ -331,7 +331,7 @@ msgstr "系统版本:"
 msgid ""
 "If Youtube channels stop working you can switch to a local version of yt-dlp "
 "and update it using the button above."
-msgstr ""
+msgstr "如果无法正常播放 Youtube 频道，你可以使用上方的按钮切换并更新到本地版本的 yt-dlp。"
 
 #: usr/share/hypnotix/hypnotix.ui.h:13
 msgid "Local version:"
@@ -343,15 +343,15 @@ msgstr "从 github.com/yt-dlp 更新"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Restart Hypnotix for changes to take effect."
-msgstr ""
+msgstr "重启 Hypnotix 以应用更改。"
 
 #: usr/share/hypnotix/hypnotix.ui.h:16
 msgid "Use local version"
-msgstr ""
+msgstr "使用本地版本"
 
 #: usr/share/hypnotix/hypnotix.ui.h:17
 msgid "Youtube"
-msgstr ""
+msgstr "Youtube"
 
 #: usr/share/hypnotix/hypnotix.ui.h:18
 msgid "Add a new provider..."
@@ -419,16 +419,16 @@ msgstr "确定要重置到默认提供者吗？"
 
 #: usr/share/hypnotix/hypnotix.ui.h:34
 msgid "Logo URL:"
-msgstr ""
+msgstr "图标链接："
 
 #: usr/share/hypnotix/hypnotix.ui.h:35
 msgid "This channel will be added to your favorites."
-msgstr ""
+msgstr "此频道将加入到你的收藏。"
 
 #: usr/share/hypnotix/hypnotix.ui.h:36
 msgid ""
 "Note: If the logo is a local file, upload it to imgur.com to get a URL."
-msgstr ""
+msgstr "注意：如果是本地图标，请上传至 imgur.com 来获取链接。"
 
 #: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Currently playing:"
@@ -468,7 +468,7 @@ msgstr "主快捷键"
 
 #: usr/share/hypnotix/shortcuts.ui.h:4
 msgid "Play previous/next channel"
-msgstr ""
+msgstr "播放上一个/下一个频道"
 
 #: usr/share/hypnotix/shortcuts.ui.h:5
 msgid "Toggle Fullscreen"

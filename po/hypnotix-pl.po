@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2023-11-29 13:21+0000\n"
-"PO-Revision-Date: 2023-11-29 13:30+0000\n"
+"PO-Revision-Date: 2024-06-28 22:11+0000\n"
 "Last-Translator: Marek Adamski <Unknown>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2024-06-18 17:57+0000\n"
+"X-Launchpad-Export-Date: 2024-07-21 09:03+0000\n"
 "X-Generator: Launchpad (build bbfa2351d9d6a9ddfe262109428f7bf5516e65d1)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:157 usr/lib/hypnotix/hypnotix.py:867
@@ -368,7 +368,7 @@ msgstr "Dodaj dostawcę..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:19
 msgid "Reset to defaults..."
-msgstr "Przywróć domyślne..."
+msgstr "Przywróć domyślnych..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:20
 msgid "Name:"
@@ -447,7 +447,7 @@ msgstr "Teraz odtwarzane:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:38
 msgid "Show"
-msgstr "Pokaż"
+msgstr "Wyświetl"
 
 #: usr/share/hypnotix/hypnotix.ui.h:39
 msgid "Pause"
