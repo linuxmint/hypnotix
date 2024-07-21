@@ -27,12 +27,14 @@ from gi.repository import Gtk, Gdk, Gio, XApp, GdkPixbuf, GLib, Pango
 import mpv
 import requests
 import setproctitle
-from imdb import IMDb
+from imdb import IMDb, IMDbError
 from unidecode import unidecode
 
 from common import Manager, Provider, Channel, MOVIES_GROUP, PROVIDERS_PATH, SERIES_GROUP, TV_GROUP,\
     async_function, idle_function
 
+# Load xtream class
+from xtream import XTream
 
 setproctitle.setproctitle("hypnotix")
 
@@ -250,6 +252,8 @@ class MainWindow:
             "referer_entry",
             "mpv_entry",
             "mpv_link",
+            "adult_switch",
+            "empty_groups_switch",
             "ytdlp_local_switch",
             "ytdlp_system_version_label",
             "ytdlp_local_version_label",
@@ -287,6 +291,7 @@ class MainWindow:
 
         # Widget signals
         self.window.connect("key-press-event", self.on_key_press_event)
+        self.window.connect("realize", self.on_window_realize)
         self.mpv_drawing_area.connect("realize", self.on_mpv_drawing_area_realize)
         self.mpv_drawing_area.connect("draw", self.on_mpv_drawing_area_draw)
         self.fullscreen_button.connect("clicked", self.on_fullscreen_button_clicked)
@@ -356,6 +361,18 @@ class MainWindow:
         # keep a reference to it (otherwise it gets randomly garbage collected)
         self.dark_mode_manager = XApp.DarkModeManager.new(prefer_dark_mode=True)
 
+        # hide adult stream
+        self.prefer_hide_adult = self.adult_switch.get_active()
+        self.prefer_hide_adult = self.settings.get_boolean("prefer-hide-adult")
+        self.adult_switch.set_active(self.prefer_hide_adult)
+        self.adult_switch.connect("notify::active", self.on_hide_adult_switch_toggled)
+
+        # hide empty groups stream
+        self.prefer_hide_empty_groups = self.empty_groups_switch.get_active()
+        self.prefer_hide_empty_groups = self.settings.get_boolean("prefer-hide-empty-groups")
+        self.empty_groups_switch.set_active(self.prefer_hide_empty_groups)
+        self.empty_groups_switch.connect("notify::active", self.on_hide_empty_groups_switch_toggled)
+
         # Menubar
         accel_group = Gtk.AccelGroup()
         self.window.add_accel_group(accel_group)
@@ -410,12 +427,11 @@ class MainWindow:
         self.movies_logo.set_from_surface(self.get_surface_for_file("/usr/share/hypnotix/pictures/movies.svg", 258, 258))
         self.series_logo.set_from_surface(self.get_surface_for_file("/usr/share/hypnotix/pictures/series.svg", 258, 258))
 
-        self.reload(page="landing_page")
-
         # Redownload playlists by default
         # This is going to get readjusted
         self._timerid = GLib.timeout_add_seconds(self.reload_timeout_sec, self.force_reload)
 
+        self.current_cursor = None
         self.window.show()
         self.playback_bar.hide()
         self.search_bar.hide()
@@ -473,8 +489,21 @@ class MainWindow:
         self.active_group = None
         found_groups = False
         for group in self.active_provider.groups:
-            if group.group_type != self.content_type:
+            # Skip if the group is not from the current displayed content type
+            if (group.group_type != self.content_type):
                 continue
+            if self.prefer_hide_empty_groups:
+                # Skip group with empty channels
+                if (self.content_type != SERIES_GROUP) and (len(group.channels) == 0):
+                    continue
+                # Skip group with empty series
+                if (self.content_type == SERIES_GROUP) and (len(group.series) == 0):
+                    continue
+            # Check if need to skip channels marked as adult in TV and Movies groups
+            if self.prefer_hide_adult:
+                if (self.content_type != SERIES_GROUP) and (hasattr(group.channels[0], "is_adult")):
+                    if (group.channels[0].is_adult == 1):
+                        continue
             found_groups = True
             button = Gtk.Button()
             button.connect("clicked", self.on_category_button_clicked, group)
@@ -601,7 +630,7 @@ class MainWindow:
         # If we are using xtream provider
         # Load every Episodes of every Season for this Series
         if self.active_provider.type_id == "xtream":
-            self.x.get_series_info_by_id(self.active_serie)
+            serie.xtream.get_series_info_by_id(self.active_serie)
 
         self.navigate_to("episodes_page")
         for child in self.episodes_box.get_children():
@@ -656,6 +685,13 @@ class MainWindow:
     def on_entry_changed(self, widget, key):
         self.settings.set_string(key, widget.get_text())
 
+    def on_hide_adult_switch_toggled(self, widget, key):
+        self.prefer_hide_adult = widget.get_active()
+        self.settings.set_boolean("prefer-hide-adult", self.prefer_hide_adult)
+
+    def on_hide_empty_groups_switch_toggled(self, widget, key):
+        self.prefer_hide_empty_groups = widget.get_active()
+        self.settings.set_boolean("prefer-hide-empty-groups", self.prefer_hide_empty_groups)
     def on_ytdlp_local_switch_activated(self, widget, data=None):
         self.settings.set_boolean("use-local-ytdlp", widget.get_active())
         if widget.get_active():
@@ -896,7 +932,6 @@ class MainWindow:
             self.channels_listbox.do_move_cursor(self.channels_listbox, Gtk.MovementStep.DISPLAY_LINES, 1)
             self.channels_listbox.do_activate_cursor_row(self.channels_listbox)
 
-    @async_function
     def play_async(self, channel):
         print("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
         if channel is not None and channel.url is not None:
@@ -906,8 +941,15 @@ class MainWindow:
             self.before_play(channel)
             self.reinit_mpv()
             self.mpv.play(channel.url)
+            self.wait_for_mpv_playing(channel)
+
+    @async_function
+    def wait_for_mpv_playing(self, channel):
+        try:
             self.mpv.wait_until_playing()
-            self.after_play(channel)
+        except mpv.ShutdownError:
+            pass
+        self.after_play(channel)
 
     @idle_function
     def before_play(self, channel):
@@ -1039,7 +1081,11 @@ class MainWindow:
 
     @async_function
     def get_imdb_details(self, name):
-        movies = self.ia.search_movie(name)
+        movies = []
+        try:
+            movies = self.ia.search_movie(name)
+        except IMDbError:
+            print("IMDB Redirect Error will be fixed in IMDbPY latest version")
         match = None
         for movie in movies:
             self.ia.update(movie)
@@ -1503,6 +1549,7 @@ class MainWindow:
         dlg.show()
 
     def on_menu_quit(self, widget):
+        self.mpv.terminate()
         self.application.quit()
 
     def on_key_press_event(self, widget, event):
@@ -1530,24 +1577,31 @@ class MainWindow:
             self.on_prev_channel()
         elif event.keyval == Gdk.KEY_Right:
             self.on_next_channel()
+        elif event.keyval == Gdk.KEY_Escape:
+            # Go back one level
+            self.on_go_back_button(widget)
         # elif event.keyval == Gdk.KEY_Up:
-        #     # Up of in the list
-        #     pass
+            # Up of in the list
+            # print("UP")
+            # pass
         # elif event.keyval == Gdk.KEY_Down:
-        #     # Down of in the list
-        #     pass
-        # elif event.keyval == Gdk.KEY_Escape:
-        #    # Go back one level
+            # Down of in the list
+            # print("DOWN")
+            # pass
+        #elif event.keyval == Gdk.KEY_Return:
+            # Same as click
         #    pass
-        # #elif event.keyval == Gdk.KEY_Return:
-        #     # Same as click
-        # #    pass
 
     @async_function
     def reload(self, page=None, refresh=False):
         self.favorite_data = self.manager.load_favorites()
         self.status(_("Loading providers..."))
+        self.start_loading_cursor()
         self.providers = []
+        headers = {
+            'User-Agent': self.settings.get_string("user-agent"),
+            'Referer': self.settings.get_string("http-referer")
+        }
         for provider_info in self.settings.get_strv("providers"):
             try:
                 provider = Provider(name=None, provider_info=provider_info)
@@ -1577,43 +1631,40 @@ class MainWindow:
                         self.status(_("Failed to download playlist from %s") %  provider.name, provider)
 
                 else:
-                    # Load xtream class
-                    from xtream import XTream
-
                     # Download via Xtream
-                    self.x = XTream(
+                    x = XTream(
+                        self.status,
                         provider.name,
                         provider.username,
                         provider.password,
                         provider.url,
-                        hide_adult_content=False,
+                        headers=headers,
+                        hide_adult_content=self.prefer_hide_adult,
                         cache_path=PROVIDERS_PATH,
                     )
-                    if self.x.auth_data != {}:
-                        print("XTREAM `{}` Loading Channels".format(provider.name))
-                        # Save default cursor
-                        current_cursor = self.window.get_window().get_cursor()
-                        # Set waiting cursor
-                        self.window.get_window().set_cursor(Gdk.Cursor.new_from_name(Gdk.Display.get_default(), "wait"))
+                    if x.auth_data != {}:
+                        self.status("Loading Channels...", provider)
                         # Load data
-                        self.x.load_iptv()
-                        # Restore default cursor
-                        self.window.get_window().set_cursor(current_cursor)
-                        # Inform Provider of data
-                        provider.channels = self.x.channels
-                        provider.movies = self.x.movies
-                        provider.series = self.x.series
-                        provider.groups = self.x.groups
+                        x.load_iptv()
+                        # If there are no stream to show, pass this provider.
+                        if (len(x.channels) == 0) and (len(x.movies) == 0) and (len(x.series) == 0) and (len(x.groups) == 0):
+                            pass
+                        else:
+                            # Inform Provider of data
+                            provider.channels = x.channels
+                            provider.movies = x.movies
+                            provider.series = x.series
+                            provider.groups = x.groups
 
-                        # Change redownload timeout
-                        self.reload_timeout_sec = 60 * 60 * 2  # 2 hours
-                        if self._timerid:
-                            GLib.source_remove(self._timerid)
-                        self._timerid = GLib.timeout_add_seconds(self.reload_timeout_sec, self.force_reload)
+                            # Change redownload timeout
+                            self.reload_timeout_sec = 60 * 60 * 4  # 4 hours
+                            if self._timerid:
+                                GLib.source_remove(self._timerid)
+                            self._timerid = GLib.timeout_add_seconds(self.reload_timeout_sec, self.force_reload)
 
-                        # If no errors, approve provider
-                        if provider.name == self.settings.get_string("active-provider"):
-                            self.active_provider = provider
+                            # If no errors, approve provider
+                            if provider.name == self.settings.get_string("active-provider"):
+                                self.active_provider = provider
                         self.status(None)
                     else:
                         print("XTREAM Authentication Failed")
@@ -1634,12 +1685,26 @@ class MainWindow:
         self.status(None)
         self.latest_search_bar_text = None
 
+        self.end_loading_cursor()
+
+    @idle_function
+    def start_loading_cursor(self):
+        # Restore default cursor
+        self.current_cursor = self.window.get_window().get_cursor()
+        self.window.get_window().set_cursor(Gdk.Cursor.new_from_name(Gdk.Display.get_default(), "wait"))
+
+    @idle_function
+    def end_loading_cursor(self):
+        # Restore default cursor
+        self.window.get_window().set_cursor(self.current_cursor)
+        self.current_cursor = None
+
     def force_reload(self):
         self.reload(page=None, refresh=True)
         return False
 
     @idle_function
-    def status(self, string, provider=None):
+    def status(self, string, provider=None, guiOnly=False):
         if string is None:
             self.status_label.set_text("")
             self.status_label.hide()
@@ -1647,17 +1712,22 @@ class MainWindow:
         self.status_label.show()
         if provider is not None:
             self.status_label.set_text("%s: %s" % (provider.name, string))
-            print("%s: %s" % (provider.name, string))
+            if not guiOnly:
+                print("%s: %s" % (provider.name, string))
         else:
             self.status_label.set_text(string)
-            print(string)
+            if not guiOnly:
+                print(string)
 
     def on_mpv_drawing_area_realize(self, widget):
         self.reinit_mpv()
 
+    def on_window_realize(self, widget):
+        self.reload(page="landing_page")
+
     def reinit_mpv(self):
         if self.mpv is not None:
-            self.mpv.stop()
+            self.mpv.quit()
         options = {}
         try:
             mpv_options = self.settings.get_string("mpv-options")
@@ -1673,13 +1743,16 @@ class MainWindow:
         options["user_agent"] = self.settings.get_string("user-agent")
         options["referrer"] = self.settings.get_string("http-referer")
 
-        while not self.mpv_drawing_area.get_window() and not Gtk.events_pending():
-            time.sleep(0.1)
-
         osc = True
         if "osc" in options:
             # To prevent 'multiple values for keyword argument'!
             osc = options.pop("osc") != "no"
+
+        # This is a race - depending on whether you do tv shows or movies, the drawing area may or may not
+        # already be realized - just make sure it's done by this point so there's a window to give to the mpv
+        # initializer.
+        if not self.mpv_drawing_area.get_realized():
+            self.mpv_drawing_area.realize()
 
         self.mpv = mpv.MPV(
             **options,
