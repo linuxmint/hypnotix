@@ -491,7 +491,7 @@ class MainWindow:
 
             found_flag = False
             for country_name in COUNTRY_CODES.keys():
-                if country_name.lower() in group.name.lower():
+                if country_name.lower() == group.name.lower():
                     found_flag = True
                     self.add_flag(COUNTRY_CODES[country_name], box)
                     break
