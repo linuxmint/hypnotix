@@ -354,8 +354,10 @@ class MainWindow:
 
         # Dark mode manager
         # keep a reference to it (otherwise it gets randomly garbage collected)
-        # This part prevents it from running on Debian 12.
-        #self.dark_mode_manager = XApp.DarkModeManager.new(prefer_dark_mode=True)
+        try:
+            self.dark_mode_manager = XApp.DarkModeManager.new(prefer_dark_mode=True)
+        except Exception:
+            pass
 
         # Menubar
         accel_group = Gtk.AccelGroup()
