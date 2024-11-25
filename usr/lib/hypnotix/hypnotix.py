@@ -774,6 +774,7 @@ class MainWindow:
         self.back_page = "landing_page"
         if page == "landing_page":
             self.headerbar.set_title("Hypnotix")
+            self.headerbar.set_subtitle(_("Watch TV"))
             if provider is None:
                 self.current_provider_label.set_text(_("No provider selected"))
                 self.tv_label.set_text(_("TV Channels (%d)") % 0)
