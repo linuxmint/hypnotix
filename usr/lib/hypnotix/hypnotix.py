@@ -354,7 +354,10 @@ class MainWindow:
 
         # Dark mode manager
         # keep a reference to it (otherwise it gets randomly garbage collected)
-        self.dark_mode_manager = XApp.DarkModeManager.new(prefer_dark_mode=True)
+        try:
+            self.dark_mode_manager = XApp.DarkModeManager.new(prefer_dark_mode=True)
+        except Exception:
+            pass
 
         # Menubar
         accel_group = Gtk.AccelGroup()
@@ -491,7 +494,7 @@ class MainWindow:
 
             found_flag = False
             for country_name in COUNTRY_CODES.keys():
-                if country_name.lower() in group.name.lower():
+                if country_name.lower() == group.name.lower():
                     found_flag = True
                     self.add_flag(COUNTRY_CODES[country_name], box)
                     break
@@ -771,6 +774,7 @@ class MainWindow:
         self.back_page = "landing_page"
         if page == "landing_page":
             self.headerbar.set_title("Hypnotix")
+            self.headerbar.set_subtitle(_("Watch TV"))
             if provider is None:
                 self.current_provider_label.set_text(_("No provider selected"))
                 self.tv_label.set_text(_("TV Channels (%d)") % 0)

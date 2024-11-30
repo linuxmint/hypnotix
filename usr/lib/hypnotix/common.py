@@ -168,7 +168,7 @@ class Manager:
                     'Referer': self.settings.get_string("http-referer")
                 }
                 try:
-                    response = requests.get(provider.url, headers=headers, timeout=(5,120), stream=True)
+                    response = requests.get(provider.url, headers=headers, timeout=(5, 120), stream=True)
 
                     # If there is an answer from the remote server
                     if response.status_code == 200:
@@ -179,14 +179,9 @@ class Manager:
                         # Set stream blocks
                         block_bytes = int(4 * 1024 * 1024)  # 4 MB
 
-                        response.encoding = response.apparent_encoding
-                        # try:
-                        #    source = response.content.decode("UTF-8")
-                        # except UnicodeDecodeError as e:
-                        #    source = response.content.decode("latin1")
                         with open(provider.path, "w", encoding="utf-8") as file:
                             # Grab data by block_bytes
-                            for data in response.iter_content(block_bytes,decode_unicode=True):
+                            for data in response.iter_content(block_bytes, decode_unicode=True):
                                 downloaded_bytes += block_bytes
                                 print("{} bytes".format(downloaded_bytes))
                                 file.write(str(data))

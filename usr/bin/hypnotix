@@ -1,13 +1,14 @@
 #!/bin/sh
 
-mkdir -p ~/.cache/hypnotix/favorites
-touch ~/.cache/hypnotix/favorites/list
+CACHEDIR="${XDG_CACHE_HOME:-$HOME/.cache}"
+mkdir -p "${CACHEDIR}"/hypnotix/favorites
+touch "${CACHEDIR}"/hypnotix/favorites/list
 
-mkdir -p ~/.cache/hypnotix/yt-dlp
+mkdir -p "${CACHEDIR}"/hypnotix/yt-dlp
 if [ $(gsettings get org.x.hypnotix use-local-ytdlp) = true ]
 then
 	echo "Local version of yt-dlp selected."
-	export PATH="${HOME}/.cache/hypnotix/yt-dlp":${PATH}
+	export PATH="${CACHEDIR}/hypnotix/yt-dlp:${PATH}"
 else
 	echo "System version of yt-dlp selected."
 fi
