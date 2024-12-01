@@ -1764,7 +1764,27 @@ class MainWindow:
     def on_close_info_window_button_clicked(self, widget):
         self.info_window.hide()
 
+def compile_gsettings_schema(schema_dir):
+    # Compile the GSettings schemas
+    try:
+        subprocess.run(['glib-compile-schemas', schema_dir], check=True)
+        #print("GSettings schemas compiled successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error compiling GSettings schemas: {e}")
+
+def set_gsettings_schema_dir(schema_dir):
+    # Set the GSETTINGS_SCHEMA_DIR environment variable
+    os.environ['GSETTINGS_SCHEMA_DIR'] = schema_dir
+    #print(f"GSETTINGS_SCHEMA_DIR set to: {schema_dir}")
 
 if __name__ == "__main__":
+    schema_directory = "usr/share/glib-2.0/schemas/"
+    
+    # Compile the schemas. Added for Windows in specific.
+    compile_gsettings_schema(schema_directory)
+    
+    # Set the environment variable. Added for Windows in specific.
+    set_gsettings_schema_dir(schema_directory)
+
     application = MyApplication("org.x.hypnotix", Gio.ApplicationFlags.FLAGS_NONE)
     application.run()
