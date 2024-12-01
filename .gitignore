@@ -6,5 +6,6 @@ usr/share/locale
 usr/share/hypnotix/hypnotix.ui~
 .venv
 .vscode
-usr/share/data/
-usr/lib/hypnotix/_pycache_/*
+usr/share/data
+usr/lib/hypnotix/__pycache__
+usr/share/glib-2.0/schemas/*.compiled
