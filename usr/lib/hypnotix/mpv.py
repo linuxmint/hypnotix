@@ -29,7 +29,6 @@ import re
 import traceback
 
 if os.name == 'nt':
-    print("Windows mpv to be loaded")
     import locale
     lc, enc = locale.getlocale(locale.LC_NUMERIC)
     # libmpv requires LC_NUMERIC to be set to "C". Since messing with global variables everyone else relies upon is

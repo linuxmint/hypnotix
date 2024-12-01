@@ -22,13 +22,6 @@ warnings.filterwarnings("ignore")
 import platform
 IS_WINDOWS = platform.system() == "Windows"
 
-""" # Add MPV DLL path for Windows
-if IS_WINDOWS:
-    print("Windows detected")
-    mpv_path = "C:/tools/msys64/ucrt64/bin"
-    os.environ["PATH"] = mpv_path + os.pathsep + os.environ["PATH"]
-    print(os.environ["PATH"]) """
-
 import gi
 
 gi.require_version("Gtk", "3.0")
@@ -1706,7 +1699,6 @@ class MainWindow:
         # Get the window handle of the drawing area
         gdk_window = self.mpv_drawing_area.get_window()
         if gdk_window is not None:
-            print("gdk_window: ", gdk_window)
             if IS_WINDOWS:
                 # Windows-specific handling
                 if not gdk_window.ensure_native():

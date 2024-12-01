@@ -12,11 +12,12 @@ EXTINF = re.compile(r'^#EXTINF:(?P<duration>-?\d+?) ?(?P<params>.*),(?P<title>.*
 SERIES = re.compile(r"(?P<series>.*?) S(?P<season>.\d{1,2}).*E(?P<episode>.\d{1,2}.*)$", re.IGNORECASE)
 
 PROVIDERS_PATH = os.path.normpath(os.path.join(GLib.get_user_cache_dir(), "hypnotix", "providers"))
+
 TV_GROUP, MOVIES_GROUP, SERIES_GROUP = range(3)
-print("PROVIDERS_PATH:", PROVIDERS_PATH)
+# print("PROVIDERS_PATH:", PROVIDERS_PATH)
 
 FAVORITES_PATH = os.path.normpath(os.path.join(GLib.get_user_cache_dir(), "hypnotix", "favorites", "list"))
-print("FAVORITES_PATH:", FAVORITES_PATH)
+#print("FAVORITES_PATH:", FAVORITES_PATH)
 
 # Used as a decorator to run things in the background
 def async_function(func):
@@ -51,7 +52,6 @@ class Provider:
             self.name, self.type_id, self.url, self.username, self.password, self.epg = provider_info.split(":::")
         else:
             self.name = name
-        os.makedirs(os.path.dirname(PROVIDERS_PATH), exist_ok=True) #Windows - create directory if not exists
         self.path = os.path.normpath(os.path.join(PROVIDERS_PATH, slugify(self.name)))
         self.groups = []
         self.channels = []
@@ -135,10 +135,9 @@ class Channel:
 
 class Manager:
     def __init__(self, settings):
-        print("directory creation")
-        # os.system("mkdir -p '%s'" % PROVIDERS_PATH)
-        os.makedirs(os.path.dirname(PROVIDERS_PATH), exist_ok=True) #Windows - create providers directory if not exists
-        os.makedirs(os.path.dirname(FAVORITES_PATH), exist_ok=True) #Windows - create favorites directory if not exists 
+        #os.system("mkdir -p '%s'" % PROVIDERS_PATH)
+        os.makedirs(PROVIDERS_PATH, exist_ok=True) #Windows - create providers directory if not exists
+        os.makedirs(os.path.dirname(FAVORITES_PATH), exist_ok=True) #Windows - create favorites directory if not exist
         self.verbose = False
         self.settings = settings
 
@@ -293,15 +292,12 @@ class Manager:
 
     def load_favorites(self):
         favorites = []
-        print("Loading favorites")
         try:
             with open(FAVORITES_PATH, 'r', encoding="utf-8", errors="ignore") as f:
-                print(f"Opening favorites list: {f.name}")
-                print("Loaded favorites")
                 for line in f:
                     favorites.append(line.strip())
         except FileNotFoundError:
-            print(f"Creating new favorites file at: {FAVORITES_PATH}")
+            # Create favorites directory and new listfile if not exists
             os.makedirs(os.path.dirname(FAVORITES_PATH), exist_ok=True)
             with open(FAVORITES_PATH, 'w', encoding="utf-8") as f:
                 pass  # Create empty file
