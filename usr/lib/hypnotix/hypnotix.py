@@ -12,30 +12,6 @@ import subprocess
 from functools import partial
 from pathlib import Path
 
-# Set C locale for MPV - using environment variables and explicit locale names
-os.environ['LC_ALL'] = 'C'
-os.environ['LC_NUMERIC'] = 'C'
-os.environ['LANG'] = 'C'
-
-# Try different locale names that might work on Windows
-for loc in ['C', 'C.UTF-8', 'en_US.UTF-8', 'English_United States.1252']:
-    try:
-        locale.setlocale(locale.LC_ALL, loc)
-        locale.setlocale(locale.LC_NUMERIC, loc)
-        print(f"Successfully set locale to: {loc}")
-        break
-    except locale.Error:
-        continue
-
-# Debug output for locale and environment
-print("Environment:")
-print("LC_ALL:", os.environ.get('LC_ALL'))
-print("LC_NUMERIC:", os.environ.get('LC_NUMERIC'))
-print("LANG:", os.environ.get('LANG'))
-print("\nLocale settings:")
-print("Current LC_ALL:", locale.getlocale(locale.LC_ALL))
-print("Current LC_NUMERIC:", locale.getlocale(locale.LC_NUMERIC))
-
 # Force X11 on a Wayland session
 if "WAYLAND_DISPLAY" in os.environ:
     os.environ["WAYLAND_DISPLAY"] = ""
@@ -78,7 +54,6 @@ setproctitle.setproctitle("hypnotix")
 # i18n
 APP = "hypnotix"
 LOCALE_DIR = "/usr/share/locale"
-print("LOCALE_DIR:", LOCALE_DIR)
 
 if not IS_WINDOWS:
     locale.bindtextdomain(APP, LOCALE_DIR)
@@ -120,8 +95,6 @@ AUDIO_SAMPLE_FORMATS = {
 
 COUNTRY_CODES = {}
 with open("usr/share/hypnotix/countries.list") as f:
-    print(f"Opening countries.list: {f.name}")
-    print("Loading countries.list")
     for line in f:
         line = line.strip()
         code, name = line.split(":")
@@ -1602,13 +1575,10 @@ class MainWindow:
     def reload(self, page=None, refresh=False):
         self.favorite_data = self.manager.load_favorites()
         self.status(_("Loading providers..."))
-        print("providers string: ", self.settings.get_strv("providers"))
         self.providers = []
         for provider_info in self.settings.get_strv("providers"):
             try:
                 provider = Provider(name=None, provider_info=provider_info)
-                print(f"Loading provider: {provider.name}")
-
                 # Add provider to list. This must be done so that it shows up in the
                 # list of providers for editing.
                 self.providers.append(provider)

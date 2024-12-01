@@ -30,6 +30,12 @@ import traceback
 
 if os.name == 'nt':
     print("Windows mpv to be loaded")
+    import locale
+    lc, enc = locale.getlocale(locale.LC_NUMERIC)
+    # libmpv requires LC_NUMERIC to be set to "C". Since messing with global variables everyone else relies upon is
+    # still better than segfaulting, we are setting LC_NUMERIC to "C".
+    locale.setlocale(locale.LC_NUMERIC, 'C')
+    
     dll = ctypes.util.find_library('libmpv-2.dll')  # Try MSYS2 DLL name first
     if dll is None:
         dll = ctypes.util.find_library('mpv-1.dll')  # Fall back to original name
