@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+import ctypes
 import gettext
 import locale
 import os
@@ -11,6 +12,30 @@ import subprocess
 from functools import partial
 from pathlib import Path
 
+# Set C locale for MPV - using environment variables and explicit locale names
+os.environ['LC_ALL'] = 'C'
+os.environ['LC_NUMERIC'] = 'C'
+os.environ['LANG'] = 'C'
+
+# Try different locale names that might work on Windows
+for loc in ['C', 'C.UTF-8', 'en_US.UTF-8', 'English_United States.1252']:
+    try:
+        locale.setlocale(locale.LC_ALL, loc)
+        locale.setlocale(locale.LC_NUMERIC, loc)
+        print(f"Successfully set locale to: {loc}")
+        break
+    except locale.Error:
+        continue
+
+# Debug output for locale and environment
+print("Environment:")
+print("LC_ALL:", os.environ.get('LC_ALL'))
+print("LC_NUMERIC:", os.environ.get('LC_NUMERIC'))
+print("LANG:", os.environ.get('LANG'))
+print("\nLocale settings:")
+print("Current LC_ALL:", locale.getlocale(locale.LC_ALL))
+print("Current LC_NUMERIC:", locale.getlocale(locale.LC_NUMERIC))
+
 # Force X11 on a Wayland session
 if "WAYLAND_DISPLAY" in os.environ:
     os.environ["WAYLAND_DISPLAY"] = ""
@@ -18,16 +43,30 @@ if "WAYLAND_DISPLAY" in os.environ:
 # Suppress GTK deprecation warnings
 warnings.filterwarnings("ignore")
 
+import platform
+IS_WINDOWS = platform.system() == "Windows"
+
+""" # Add MPV DLL path for Windows
+if IS_WINDOWS:
+    print("Windows detected")
+    mpv_path = "C:/tools/msys64/ucrt64/bin"
+    os.environ["PATH"] = mpv_path + os.pathsep + os.environ["PATH"]
+    print(os.environ["PATH"]) """
+
 import gi
 
 gi.require_version("Gtk", "3.0")
-gi.require_version("XApp", "1.0")
-from gi.repository import Gtk, Gdk, Gio, XApp, GdkPixbuf, GLib, Pango
+# Conditionally import XApp based on platform
+if not IS_WINDOWS:
+    gi.require_version("XApp", "1.0")
+    from gi.repository import Gtk, Gdk, Gio, XApp, GdkPixbuf, GLib, Pango
+else:
+    from gi.repository import Gtk, Gdk, Gio, GdkPixbuf, GLib, Pango
 
 import mpv
 import requests
 import setproctitle
-from imdb import IMDb
+#from imdb import Cinemagoer
 from unidecode import unidecode
 
 from common import Manager, Provider, Channel, MOVIES_GROUP, PROVIDERS_PATH, SERIES_GROUP, TV_GROUP,\
@@ -39,9 +78,17 @@ setproctitle.setproctitle("hypnotix")
 # i18n
 APP = "hypnotix"
 LOCALE_DIR = "/usr/share/locale"
-locale.bindtextdomain(APP, LOCALE_DIR)
-gettext.bindtextdomain(APP, LOCALE_DIR)
-gettext.textdomain(APP)
+print("LOCALE_DIR:", LOCALE_DIR)
+
+if not IS_WINDOWS:
+    locale.bindtextdomain(APP, LOCALE_DIR)
+    gettext.bindtextdomain(APP, LOCALE_DIR)
+    gettext.textdomain(APP)
+else:
+    # Windows doesn't support bindtextdomain through locale
+    gettext.bindtextdomain(APP, LOCALE_DIR)
+    gettext.textdomain(APP)
+
 _ = gettext.gettext
 
 
@@ -72,7 +119,9 @@ AUDIO_SAMPLE_FORMATS = {
 }
 
 COUNTRY_CODES = {}
-with open("/usr/share/hypnotix/countries.list") as f:
+with open("usr/share/hypnotix/countries.list") as f:
+    print(f"Opening countries.list: {f.name}")
+    print("Loading countries.list")
     for line in f:
         line = line.strip()
         code, name = line.split(":")
@@ -139,7 +188,7 @@ class MainWindow:
         self.latest_search_bar_text = None
         self.visible_search_results = 0
         self.mpv = None
-        self.ia = IMDb()
+        # self.ia = IMDb()
 
         self.page_is_loading = False # used to ignore signals while we set widget states
 
@@ -149,7 +198,7 @@ class MainWindow:
         # Used for redownloading timer
         self.reload_timeout_sec = 60 * 5
         self._timerid = -1
-        gladefile = "/usr/share/hypnotix/hypnotix.ui"
+        gladefile = "usr/share/hypnotix/hypnotix.ui"
         self.builder = Gtk.Builder()
         self.builder.set_translation_domain(APP)
         self.builder.add_from_file(gladefile)
@@ -161,7 +210,7 @@ class MainWindow:
         self.info_window = self.builder.get_object("stream_info_window")
 
         provider = Gtk.CssProvider()
-        provider.load_from_path("/usr/share/hypnotix/hypnotix.css")
+        provider.load_from_path("usr/share/hypnotix/hypnotix.css")
         screen = Gdk.Display.get_default_screen(Gdk.Display.get_default())
         # I was unable to found instrospected version of this
         Gtk.StyleContext.add_provider_for_screen(
@@ -354,10 +403,11 @@ class MainWindow:
 
         # Dark mode manager
         # keep a reference to it (otherwise it gets randomly garbage collected)
-        try:
-            self.dark_mode_manager = XApp.DarkModeManager.new(prefer_dark_mode=True)
-        except Exception:
-            pass
+        if not IS_WINDOWS:
+            try:
+                self.dark_mode_manager = XApp.DarkModeManager.new(prefer_dark_mode=True)
+            except Exception:
+                pass
 
         # Menubar
         accel_group = Gtk.AccelGroup()
@@ -409,9 +459,9 @@ class MainWindow:
         self.provider_type_combo.set_active(0)  # Select 1st type
         self.provider_type_combo.connect("changed", self.on_provider_type_combo_changed)
 
-        self.tv_logo.set_from_surface(self.get_surface_for_file("/usr/share/hypnotix/pictures/tv.svg", 258, 258))
-        self.movies_logo.set_from_surface(self.get_surface_for_file("/usr/share/hypnotix/pictures/movies.svg", 258, 258))
-        self.series_logo.set_from_surface(self.get_surface_for_file("/usr/share/hypnotix/pictures/series.svg", 258, 258))
+        self.tv_logo.set_from_surface(self.get_surface_for_file("usr/share/hypnotix/pictures/tv.svg", 258, 258))
+        self.movies_logo.set_from_surface(self.get_surface_for_file("usr/share/hypnotix/pictures/movies.svg", 258, 258))
+        self.series_logo.set_from_surface(self.get_surface_for_file("usr/share/hypnotix/pictures/series.svg", 258, 258))
 
         self.reload(page="landing_page")
 
@@ -443,7 +493,7 @@ class MainWindow:
         return Gtk.Image.new_from_surface(surf)
 
     def add_flag(self, code, box):
-        path = f"/usr/share/circle-flags-svg/{code.lower()}.svg"
+        path = f"usr/share/circle-flags-svg/{code.lower()}.svg"
         if os.path.exists(path):
             try:
                 image = self.get_surf_based_image(path, -1, 32)
@@ -457,7 +507,7 @@ class MainWindow:
     def add_badge(self, word, box, added_words):
         if word not in added_words:
             for extension in ["svg", "png"]:
-                path = "/usr/share/hypnotix/pictures/badges/%s.%s" % (word, extension)
+                path = "usr/share/hypnotix/pictures/badges/%s.%s" % (word, extension)
                 if os.path.exists(path):
                     try:
                         image = self.get_surf_based_image(path, -1, 32)
@@ -496,7 +546,8 @@ class MainWindow:
             for country_name in COUNTRY_CODES.keys():
                 if country_name.lower() == group.name.lower():
                     found_flag = True
-                    self.add_flag(COUNTRY_CODES[country_name], box)
+                    # commenting out as circle-flags is not added
+                    # self.add_flag(COUNTRY_CODES[country_name], box)
                     break
 
             if not found_flag:
@@ -708,7 +759,7 @@ class MainWindow:
             else:
                 surface = self.get_surface_for_file(path, 200, 200)
         except Exception:
-            surface = self.get_surface_for_file("/usr/share/hypnotix/generic_tv_logo.png", 22, 22)
+            surface = self.get_surface_for_file("usr/share/hypnotix/generic_tv_logo.png", 22, 22)
         return surface
 
     def on_go_back_button(self, widget):
@@ -864,7 +915,7 @@ class MainWindow:
             self.headerbar.set_subtitle(_("Reset providers"))
 
     def open_keyboard_shortcuts(self, widget):
-        gladefile = "/usr/share/hypnotix/shortcuts.ui"
+        gladefile = "usr/share/hypnotix/shortcuts.ui"
         builder = Gtk.Builder()
         builder.set_translation_domain(APP)
         builder.add_from_file(gladefile)
@@ -1484,7 +1535,7 @@ class MainWindow:
         dlg.set_program_name(_("Hypnotix"))
         dlg.set_comments(_("Watch TV"))
         try:
-            h = open("/usr/share/common-licenses/GPL", encoding="utf-8")
+            h = open("usr/share/common-licenses/GPL", encoding="utf-8")
             s = h.readlines()
             gpl = ""
             for line in s:
@@ -1551,10 +1602,12 @@ class MainWindow:
     def reload(self, page=None, refresh=False):
         self.favorite_data = self.manager.load_favorites()
         self.status(_("Loading providers..."))
+        print("providers string: ", self.settings.get_strv("providers"))
         self.providers = []
         for provider_info in self.settings.get_strv("providers"):
             try:
                 provider = Provider(name=None, provider_info=provider_info)
+                print(f"Loading provider: {provider.name}")
 
                 # Add provider to list. This must be done so that it shows up in the
                 # list of providers for editing.
@@ -1680,6 +1733,27 @@ class MainWindow:
         while not self.mpv_drawing_area.get_window() and not Gtk.events_pending():
             time.sleep(0.1)
 
+        # Get the window handle of the drawing area
+        gdk_window = self.mpv_drawing_area.get_window()
+        if gdk_window is not None:
+            print("gdk_window: ", gdk_window)
+            if IS_WINDOWS:
+                # Windows-specific handling
+                if not gdk_window.ensure_native():
+                    print("Error - video playback requires a native window")
+                ctypes.pythonapi.PyCapsule_GetPointer.restype = ctypes.c_void_p
+                ctypes.pythonapi.PyCapsule_GetPointer.argtypes = [ctypes.py_object]
+                drawingarea_gpointer = ctypes.cast(ctypes.pythonapi.PyCapsule_GetPointer(gdk_window.__gpointer__, None), ctypes.c_void_p)
+                gdkdll = ctypes.CDLL("libgdk-3-0.dll")
+                wid = gdkdll.gdk_win32_window_get_handle(drawingarea_gpointer)
+            else:
+                # Linux-specific handling
+                wid = gdk_window.get_xid()
+        else:
+            raise RuntimeError("Failed to get window handle")
+
+        options["wid"] = str(wid)  # Set the window ID for MPV
+
         osc = True
         if "osc" in options:
             # To prevent 'multiple values for keyword argument'!
@@ -1691,8 +1765,7 @@ class MainWindow:
             input_default_bindings=True,
             input_vo_keyboard=True,
             osc=osc,
-            ytdl=True,
-            wid=str(self.mpv_drawing_area.get_window().get_xid())
+            ytdl=True
         )
 
     def on_mpv_drawing_area_draw(self, widget, cr):

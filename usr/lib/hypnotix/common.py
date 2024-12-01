@@ -11,11 +11,14 @@ PARAMS = re.compile(r'(\S+)="(.*?)"')
 EXTINF = re.compile(r'^#EXTINF:(?P<duration>-?\d+?) ?(?P<params>.*),(?P<title>.*?)$')
 SERIES = re.compile(r"(?P<series>.*?) S(?P<season>.\d{1,2}).*E(?P<episode>.\d{1,2}.*)$", re.IGNORECASE)
 
-PROVIDERS_PATH = os.path.join(GLib.get_user_cache_dir(), "hypnotix", "providers")
-
+# PROVIDERS_PATH = os.path.join(GLib.get_user_cache_dir(), "hypnotix", "providers")
+PROVIDERS_PATH = "usr/share/data/hypnotix/providers"
 TV_GROUP, MOVIES_GROUP, SERIES_GROUP = range(3)
+print("PROVIDERS_PATH:", PROVIDERS_PATH)
 
-FAVORITES_PATH = os.path.join(GLib.get_user_cache_dir(), "hypnotix", "favorites", "list")
+# FAVORITES_PATH = os.path.join(GLib.get_user_cache_dir(), "hypnotix", "favorites", "list")
+FAVORITES_PATH = "usr/share/data/hypnotix/favorites/list"
+print("FAVORITES_PATH:", FAVORITES_PATH)
 
 # Used as a decorator to run things in the background
 def async_function(func):
@@ -133,7 +136,10 @@ class Channel:
 
 class Manager:
     def __init__(self, settings):
-        os.system("mkdir -p '%s'" % PROVIDERS_PATH)
+        print("directory creation")
+        # os.system("mkdir -p '%s'" % PROVIDERS_PATH)
+        os.makedirs(os.path.dirname(PROVIDERS_PATH), exist_ok=True) #Windows
+        os.makedirs(os.path.dirname(FAVORITES_PATH), exist_ok=True) #Windows
         self.verbose = False
         self.settings = settings
 
@@ -288,9 +294,18 @@ class Manager:
 
     def load_favorites(self):
         favorites = []
-        with open(FAVORITES_PATH, 'r', encoding="utf-8", errors="ignore") as f:
-            for line in f:
-                favorites.append(line.strip())
+        print("Loading favorites")
+        try:
+            with open(FAVORITES_PATH, 'r', encoding="utf-8", errors="ignore") as f:
+                print(f"Opening favorites list: {f.name}")
+                print("Loaded favorites")
+                for line in f:
+                    favorites.append(line.strip())
+        except FileNotFoundError:
+            print(f"Creating new favorites file at: {FAVORITES_PATH}")
+            os.makedirs(os.path.dirname(FAVORITES_PATH), exist_ok=True)
+            with open(FAVORITES_PATH, 'w', encoding="utf-8") as f:
+                pass  # Create empty file
         return favorites
 
     def save_favorites(self, favorites):

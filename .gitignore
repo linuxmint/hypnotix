@@ -4,3 +4,7 @@ debian/files
 debian/hypnotix.substvars
 usr/share/locale
 usr/share/hypnotix/hypnotix.ui~
+.venv
+.vscode
+usr/share/data/
+usr/lib/hypnotix/_pycache_/*
