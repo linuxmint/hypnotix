@@ -11,6 +11,8 @@ I have only an initial build running in the crudest way possible and I have plan
 - Movie and Series modules are not tested and are not a priority.
 - There could be other issues
 
+![shadow](https://github.com/user-attachments/assets/9735d7a2-7867-48c4-aa80-8b024c8488d8)
+
 # License
 
 - Code: GPLv3
