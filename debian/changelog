@@ -1,3 +1,26 @@
+hypnotix (4.7) xia; urgency=medium
+
+  [ Dmitriy Yefremov ]
+  * Fix encoding for m3u links (#339). (#340)
+
+  [ moloz23 ]
+  * issue 342 - fix Romania flag (#345)
+
+  [ Kemal Oktay ]
+  * Installation and operation on Debian 12 is successful (#337)
+
+  [ web1n ]
+  * Set subtitle when navigating to landing page (#341)
+
+  [ Samuel ]
+  * Use `$XDG_CACHE_HOME` if defined (#355)
+
+  [ Clement Lefebvre ]
+  * l10n: Update translations
+  * l10n: Update files
+
+ -- Clement Lefebvre <root@linuxmint.com>  Thu, 05 Dec 2024 10:40:18 +0000
+
 hypnotix (4.6) wilma; urgency=medium
 
   * l10n: Update translations
