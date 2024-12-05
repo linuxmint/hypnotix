@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2023-11-29 13:21+0000\n"
-"PO-Revision-Date: 2024-03-13 11:44+0000\n"
-"Last-Translator: aefgh3962 <aefgh3962@gmail.com>\n"
+"PO-Revision-Date: 2024-09-21 09:27+0000\n"
+"Last-Translator: Rockworld <sumoisrock@gmail.com>\n"
 "Language-Team: Thai <th@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2024-07-21 09:03+0000\n"
-"X-Generator: Launchpad (build bbfa2351d9d6a9ddfe262109428f7bf5516e65d1)\n"
+"X-Launchpad-Export-Date: 2024-12-05 10:19+0000\n"
+"X-Generator: Launchpad (build 1519c6efe8e9bd78e6c5ebf2eb5bcb040b95ad32)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:157 usr/lib/hypnotix/hypnotix.py:867
 #: usr/lib/hypnotix/hypnotix.py:1476 generate_desktop_files:25
@@ -301,11 +301,11 @@ msgstr "สร้างช่องรายการใหม่"
 
 #: usr/share/hypnotix/hypnotix.ui.h:5
 msgid "MPV Options"
-msgstr ""
+msgstr "ตัวเลือก MPV"
 
 #: usr/share/hypnotix/hypnotix.ui.h:6
 msgid "List of MPV options"
-msgstr ""
+msgstr "รายชื่อตัวเลือก MPV"
 
 #: usr/share/hypnotix/hypnotix.ui.h:7
 msgid "Playback"
@@ -341,7 +341,7 @@ msgstr "รุ่นที่ติดตั้งในเครื่อง:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Update from github.com/yt-dlp"
-msgstr ""
+msgstr "ปรับข้อมูลจาก github.com/yt-dlp"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Restart Hypnotix for changes to take effect."
@@ -397,11 +397,11 @@ msgstr "เรียกดู..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:28
 msgid "EPG:"
-msgstr ""
+msgstr "EPG:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:29
 msgid "Type:"
-msgstr ""
+msgstr "ชนิด:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:30
 msgid "Are you sure you want to delete this provider?"
@@ -480,4 +480,4 @@ msgstr "เปิด-ปิดการแสดงเต็มจอ"
 
 #: usr/share/hypnotix/shortcuts.ui.h:8
 msgid "Reload all providers"
-msgstr ""
+msgstr "เรียกอ่านผู้ให้บริการทั้งหมดใหม่"
