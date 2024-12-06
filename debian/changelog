@@ -1,3 +1,10 @@
+hypnotix (4.8) xia; urgency=medium
+
+  [ Lakshmi Narayanan ]
+  * Fix for Issue #348 - Xstream config erroring out on load (#359)
+
+ -- Clement Lefebvre <root@linuxmint.com>  Fri, 06 Dec 2024 11:29:10 +0000
+
 hypnotix (4.7) xia; urgency=medium
 
   [ Dmitriy Yefremov ]
