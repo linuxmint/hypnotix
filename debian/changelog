@@ -1,3 +1,54 @@
+hypnotix (4.8) xia; urgency=medium
+
+  [ Lakshmi Narayanan ]
+  * Fix for Issue #348 - Xstream config erroring out on load (#359)
+
+ -- Clement Lefebvre <root@linuxmint.com>  Fri, 06 Dec 2024 11:29:10 +0000
+
+hypnotix (4.7) xia; urgency=medium
+
+  [ Dmitriy Yefremov ]
+  * Fix encoding for m3u links (#339). (#340)
+
+  [ moloz23 ]
+  * issue 342 - fix Romania flag (#345)
+
+  [ Kemal Oktay ]
+  * Installation and operation on Debian 12 is successful (#337)
+
+  [ web1n ]
+  * Set subtitle when navigating to landing page (#341)
+
+  [ Samuel ]
+  * Use `$XDG_CACHE_HOME` if defined (#355)
+
+  [ Clement Lefebvre ]
+  * l10n: Update translations
+  * l10n: Update files
+
+ -- Clement Lefebvre <root@linuxmint.com>  Thu, 05 Dec 2024 10:40:18 +0000
+
+hypnotix (4.6) wilma; urgency=medium
+
+  * l10n: Update translations
+  * l10n: Update files
+
+ -- Clement Lefebvre <root@linuxmint.com>  Sun, 21 Jul 2024 10:31:13 +0100
+
+hypnotix (4.5) wilma; urgency=medium
+
+  * l10n: Update translations
+  * l10n: Update files
+
+ -- Clement Lefebvre <root@linuxmint.com>  Tue, 18 Jun 2024 19:30:10 +0100
+
+hypnotix (4.4) wilma; urgency=medium
+
+  [ Ame-chan-angel ]
+  * Fix loadfile for mpv v0.38.0 (#332)
+
+ -- Clement Lefebvre <root@linuxmint.com>  Wed, 05 Jun 2024 14:17:56 +0100
+
 hypnotix (4.3) virginia; urgency=medium
 
   * l10n: Update translations

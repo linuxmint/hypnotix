@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2023-11-29 13:21+0000\n"
-"PO-Revision-Date: 2021-12-14 14:37+0000\n"
-"Last-Translator: Panwar <Unknown>\n"
+"PO-Revision-Date: 2024-09-14 10:45+0000\n"
+"Last-Translator: Divya kalra <Unknown>\n"
 "Language-Team: Hindi <hi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2024-01-04 14:59+0000\n"
-"X-Generator: Launchpad (build e1eeab5b20e19239bd7d5f36676f7a52988db88b)\n"
+"X-Launchpad-Export-Date: 2024-12-05 10:19+0000\n"
+"X-Generator: Launchpad (build 1519c6efe8e9bd78e6c5ebf2eb5bcb040b95ad32)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:157 usr/lib/hypnotix/hypnotix.py:867
 #: usr/lib/hypnotix/hypnotix.py:1476 generate_desktop_files:25
@@ -66,7 +66,7 @@ msgstr "प्रकरण %s"
 
 #: usr/lib/hypnotix/hypnotix.py:748
 msgid "No channels found"
-msgstr ""
+msgstr "कोई चैनल नहीं मिला"
 
 #: usr/lib/hypnotix/hypnotix.py:774
 msgid "No provider selected"
@@ -75,17 +75,17 @@ msgstr "कोई प्रदाता चयनित नहीं"
 #: usr/lib/hypnotix/hypnotix.py:775 usr/lib/hypnotix/hypnotix.py:783
 #, python-format
 msgid "TV Channels (%d)"
-msgstr ""
+msgstr "टीवी चैनल (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:776 usr/lib/hypnotix/hypnotix.py:784
 #, python-format
 msgid "Movies (%d)"
-msgstr ""
+msgstr "फ़िल्में (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:777 usr/lib/hypnotix/hypnotix.py:785
 #, python-format
 msgid "Series (%d)"
-msgstr ""
+msgstr "श्रृंखला (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:793 usr/lib/hypnotix/hypnotix.py:808
 msgid "TV Channels"
@@ -101,7 +101,7 @@ msgstr "सीरीज़"
 
 #: usr/lib/hypnotix/hypnotix.py:803 usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Favorites"
-msgstr ""
+msgstr "पसंदीदा"
 
 #: usr/lib/hypnotix/hypnotix.py:811
 #, python-format
@@ -120,7 +120,7 @@ msgstr "सीरीज़ > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:838
 msgid "New Channel"
-msgstr ""
+msgstr "नया चैनल"
 
 #: usr/lib/hypnotix/hypnotix.py:841 usr/share/hypnotix/hypnotix.ui.h:3
 msgid "Preferences"
@@ -173,11 +173,11 @@ msgstr "अभिन्यास"
 
 #: usr/lib/hypnotix/hypnotix.py:933
 msgid "Remove from favorites"
-msgstr ""
+msgstr "पसंदीदा से निकालें"
 
 #: usr/lib/hypnotix/hypnotix.py:936
 msgid "Add to favorites"
-msgstr ""
+msgstr "पसंदीदा में जोड़ें"
 
 #: usr/lib/hypnotix/hypnotix.py:969 usr/lib/hypnotix/hypnotix.py:970
 #: usr/lib/hypnotix/hypnotix.py:984 usr/lib/hypnotix/hypnotix.py:986
@@ -258,7 +258,7 @@ msgstr "संपादन"
 
 #: usr/lib/hypnotix/hypnotix.py:1162
 msgid "Clear icon cache"
-msgstr ""
+msgstr "आइकन कैश साफ़ करें"
 
 #: usr/lib/hypnotix/hypnotix.py:1172
 msgid "Remove"
@@ -275,32 +275,32 @@ msgstr "टीवी देखें"
 
 #: usr/lib/hypnotix/hypnotix.py:1545
 msgid "Loading providers..."
-msgstr ""
+msgstr "लोड हो रहा है प्रदाताओं..."
 
 #: usr/lib/hypnotix/hypnotix.py:1558
 msgid "Downloading playlist..."
-msgstr ""
+msgstr "प्लेलिस्ट डाउनलोड कर रहा है..."
 
 #: usr/lib/hypnotix/hypnotix.py:1560
 msgid "Getting playlist..."
-msgstr ""
+msgstr "प्लेलिस्ट प्राप्त करना..."
 
 #: usr/lib/hypnotix/hypnotix.py:1563
 msgid "Checking playlist..."
-msgstr ""
+msgstr "प्लेलिस्ट की जाँच कर रहा है..."
 
 #: usr/lib/hypnotix/hypnotix.py:1565
 msgid "Loading channels..."
-msgstr ""
+msgstr "चैनल लोड हो रहे हैं..."
 
 #: usr/lib/hypnotix/hypnotix.py:1573
 #, python-format
 msgid "Failed to download playlist from %s"
-msgstr ""
+msgstr "%s से प्लेलिस्ट डाउनलोड करने में विफल"
 
 #: usr/share/hypnotix/hypnotix.ui.h:1
 msgid "Create a new channel"
-msgstr ""
+msgstr "नया चैनल बनाना"
 
 #: usr/share/hypnotix/hypnotix.ui.h:5
 msgid "MPV Options"
@@ -328,33 +328,35 @@ msgstr "नेटवर्क"
 
 #: usr/share/hypnotix/hypnotix.ui.h:11
 msgid "System version:"
-msgstr ""
+msgstr "सिस्टम संस्करण:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:12
 msgid ""
 "If Youtube channels stop working you can switch to a local version of yt-dlp "
 "and update it using the button above."
 msgstr ""
+"यदि Youtube चैनल काम करना बंद कर देते हैं, तो आप yt-dlp के स्थानीय संस्करण "
+"पर स्विच कर सकते हैं और ऊपर दिए गए बटन का उपयोग करके इसे अपडेट कर सकते हैं।"
 
 #: usr/share/hypnotix/hypnotix.ui.h:13
 msgid "Local version:"
-msgstr ""
+msgstr "स्थानीय संस्करण:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Update from github.com/yt-dlp"
-msgstr ""
+msgstr "github.com/yt-dlp से अपडेट करें"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Restart Hypnotix for changes to take effect."
-msgstr ""
+msgstr "परिवर्तनों को प्रभावी करने के लिए हिप्नोटिक्स को पुनरारंभ करें।"
 
 #: usr/share/hypnotix/hypnotix.ui.h:16
 msgid "Use local version"
-msgstr ""
+msgstr "स्थानीय संस्करण का उपयोग करें"
 
 #: usr/share/hypnotix/hypnotix.ui.h:17
 msgid "Youtube"
-msgstr ""
+msgstr "यूट्यूब"
 
 #: usr/share/hypnotix/hypnotix.ui.h:18
 msgid "Add a new provider..."
@@ -422,16 +424,16 @@ msgstr "क्या आप निश्चित ही यह डिफ़ॉल�
 
 #: usr/share/hypnotix/hypnotix.ui.h:34
 msgid "Logo URL:"
-msgstr ""
+msgstr "लोगो URL:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:35
 msgid "This channel will be added to your favorites."
-msgstr ""
+msgstr "यह चैनल आपके पसंदीदा में जोड़ दिया जाएगा।"
 
 #: usr/share/hypnotix/hypnotix.ui.h:36
 msgid ""
 "Note: If the logo is a local file, upload it to imgur.com to get a URL."
-msgstr ""
+msgstr "यह चैनल आपके पसंदीदा में जोड़ दिया जाएगा।"
 
 #: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Currently playing:"
@@ -471,7 +473,7 @@ msgstr "मुख्य शॉर्टकट"
 
 #: usr/share/hypnotix/shortcuts.ui.h:4
 msgid "Play previous/next channel"
-msgstr ""
+msgstr "पिछला/अगला चैनल चलाएं"
 
 #: usr/share/hypnotix/shortcuts.ui.h:5
 msgid "Toggle Fullscreen"
