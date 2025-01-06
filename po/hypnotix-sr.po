@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2023-11-29 13:21+0000\n"
-"PO-Revision-Date: 2022-08-07 15:54+0000\n"
+"PO-Revision-Date: 2024-12-19 07:20+0000\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <(nothing)>\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2024-12-05 10:19+0000\n"
-"X-Generator: Launchpad (build 1519c6efe8e9bd78e6c5ebf2eb5bcb040b95ad32)\n"
+"X-Launchpad-Export-Date: 2025-01-06 12:01+0000\n"
+"X-Generator: Launchpad (build 6394e03793719e8d73f5a60b5439440e693c92f1)\n"
 "Language: sr\n"
 
 #: usr/lib/hypnotix/hypnotix.py:157 usr/lib/hypnotix/hypnotix.py:867
@@ -68,7 +68,7 @@ msgstr "Епизода „%s“"
 
 #: usr/lib/hypnotix/hypnotix.py:748
 msgid "No channels found"
-msgstr ""
+msgstr "Нисам нашао канале"
 
 #: usr/lib/hypnotix/hypnotix.py:774
 msgid "No provider selected"
@@ -77,17 +77,17 @@ msgstr "Није изабран достављач"
 #: usr/lib/hypnotix/hypnotix.py:775 usr/lib/hypnotix/hypnotix.py:783
 #, python-format
 msgid "TV Channels (%d)"
-msgstr ""
+msgstr "ТВ канали (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:776 usr/lib/hypnotix/hypnotix.py:784
 #, python-format
 msgid "Movies (%d)"
-msgstr ""
+msgstr "Филмови (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:777 usr/lib/hypnotix/hypnotix.py:785
 #, python-format
 msgid "Series (%d)"
-msgstr ""
+msgstr "Серије (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:793 usr/lib/hypnotix/hypnotix.py:808
 msgid "TV Channels"
@@ -103,7 +103,7 @@ msgstr "Серије"
 
 #: usr/lib/hypnotix/hypnotix.py:803 usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Favorites"
-msgstr ""
+msgstr "Омиљени"
 
 #: usr/lib/hypnotix/hypnotix.py:811
 #, python-format
@@ -122,7 +122,7 @@ msgstr "Серије > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:838
 msgid "New Channel"
-msgstr ""
+msgstr "Нови канал"
 
 #: usr/lib/hypnotix/hypnotix.py:841 usr/share/hypnotix/hypnotix.ui.h:3
 msgid "Preferences"
@@ -175,11 +175,11 @@ msgstr "Распоред"
 
 #: usr/lib/hypnotix/hypnotix.py:933
 msgid "Remove from favorites"
-msgstr ""
+msgstr "Уклони из омиљених"
 
 #: usr/lib/hypnotix/hypnotix.py:936
 msgid "Add to favorites"
-msgstr ""
+msgstr "Додај у омиљене"
 
 #: usr/lib/hypnotix/hypnotix.py:969 usr/lib/hypnotix/hypnotix.py:970
 #: usr/lib/hypnotix/hypnotix.py:984 usr/lib/hypnotix/hypnotix.py:986
@@ -263,7 +263,7 @@ msgstr "Уреди"
 
 #: usr/lib/hypnotix/hypnotix.py:1162
 msgid "Clear icon cache"
-msgstr ""
+msgstr "Очисти оставу иконица"
 
 #: usr/lib/hypnotix/hypnotix.py:1172
 msgid "Remove"
@@ -280,32 +280,32 @@ msgstr "Гледај ТВ"
 
 #: usr/lib/hypnotix/hypnotix.py:1545
 msgid "Loading providers..."
-msgstr ""
+msgstr "Учитавам достављаче..."
 
 #: usr/lib/hypnotix/hypnotix.py:1558
 msgid "Downloading playlist..."
-msgstr ""
+msgstr "Преузимам списак пуштања..."
 
 #: usr/lib/hypnotix/hypnotix.py:1560
 msgid "Getting playlist..."
-msgstr ""
+msgstr "Добављам списак пуштања..."
 
 #: usr/lib/hypnotix/hypnotix.py:1563
 msgid "Checking playlist..."
-msgstr ""
+msgstr "Проверавам списак пуштања..."
 
 #: usr/lib/hypnotix/hypnotix.py:1565
 msgid "Loading channels..."
-msgstr ""
+msgstr "Учитавам канале..."
 
 #: usr/lib/hypnotix/hypnotix.py:1573
 #, python-format
 msgid "Failed to download playlist from %s"
-msgstr ""
+msgstr "Нисам успео да преузмем списак пуштања са „%sд"
 
 #: usr/share/hypnotix/hypnotix.ui.h:1
 msgid "Create a new channel"
-msgstr ""
+msgstr "Направите нови канал!"
 
 #: usr/share/hypnotix/hypnotix.ui.h:5
 msgid "MPV Options"
@@ -333,33 +333,35 @@ msgstr "Мрежа"
 
 #: usr/share/hypnotix/hypnotix.ui.h:11
 msgid "System version:"
-msgstr ""
+msgstr "Системско издање:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:12
 msgid ""
 "If Youtube channels stop working you can switch to a local version of yt-dlp "
 "and update it using the button above."
 msgstr ""
+"Ако Јутјуб канали престану да раде можете да се пребаците на локално издање "
+"„ yt-dlp“-а и да га освежите користећи горњу дугмад."
 
 #: usr/share/hypnotix/hypnotix.ui.h:13
 msgid "Local version:"
-msgstr ""
+msgstr "Локално издање:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Update from github.com/yt-dlp"
-msgstr ""
+msgstr "Ажурирај са „github.com/yt-dlp“"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Restart Hypnotix for changes to take effect."
-msgstr ""
+msgstr "Поново покрените Хипнотикс да би измене ступиле у дејство."
 
 #: usr/share/hypnotix/hypnotix.ui.h:16
 msgid "Use local version"
-msgstr ""
+msgstr "Користи локално издање"
 
 #: usr/share/hypnotix/hypnotix.ui.h:17
 msgid "Youtube"
-msgstr ""
+msgstr "Јутуб"
 
 #: usr/share/hypnotix/hypnotix.ui.h:18
 msgid "Add a new provider..."
@@ -427,16 +429,18 @@ msgstr "Да ли сигурно желите да вратите на осно�
 
 #: usr/share/hypnotix/hypnotix.ui.h:34
 msgid "Logo URL:"
-msgstr ""
+msgstr "Адреса логоа:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:35
 msgid "This channel will be added to your favorites."
-msgstr ""
+msgstr "Овај канал биће додат у ваше омиљене."
 
 #: usr/share/hypnotix/hypnotix.ui.h:36
 msgid ""
 "Note: If the logo is a local file, upload it to imgur.com to get a URL."
 msgstr ""
+"Напомена: Ако је лого месна датотека, отпремите је на сimgur.com“ да "
+"добијете адресу."
 
 #: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Currently playing:"
@@ -476,7 +480,7 @@ msgstr "Главне пречице"
 
 #: usr/share/hypnotix/shortcuts.ui.h:4
 msgid "Play previous/next channel"
-msgstr ""
+msgstr "Пусти претходни/следећи канал"
 
 #: usr/share/hypnotix/shortcuts.ui.h:5
 msgid "Toggle Fullscreen"
