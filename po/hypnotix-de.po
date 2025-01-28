@@ -425,7 +425,7 @@ msgstr ""
 
 #: usr/share/hypnotix/hypnotix.ui.h:34
 msgid "Logo URL:"
-msgstr "Lokale Adresse:"
+msgstr "Logo Adresse:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:35
 msgid "This channel will be added to your favorites."
