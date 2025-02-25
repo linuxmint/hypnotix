@@ -62,11 +62,11 @@ msgstr "ክፍለ ጊዜ %s"
 #: usr/lib/hypnotix/hypnotix.py:622
 #, python-format
 msgid "Episode %s"
-msgstr ""
+msgstr "ክፍል %s"
 
 #: usr/lib/hypnotix/hypnotix.py:748
 msgid "No channels found"
-msgstr ""
+msgstr "ምንም ጣቢያ የለም"
 
 #: usr/lib/hypnotix/hypnotix.py:774
 msgid "No provider selected"
@@ -75,25 +75,25 @@ msgstr "ምንም አቅራቢ አልተመረጠም"
 #: usr/lib/hypnotix/hypnotix.py:775 usr/lib/hypnotix/hypnotix.py:783
 #, python-format
 msgid "TV Channels (%d)"
-msgstr ""
+msgstr "የቲቪ ጣቢያዎች (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:776 usr/lib/hypnotix/hypnotix.py:784
 #, python-format
 msgid "Movies (%d)"
-msgstr ""
+msgstr "ፊልሞች (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:777 usr/lib/hypnotix/hypnotix.py:785
 #, python-format
 msgid "Series (%d)"
-msgstr ""
+msgstr "ተከታታይ (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:793 usr/lib/hypnotix/hypnotix.py:808
 msgid "TV Channels"
-msgstr "የ ቲቪ ጣቢያዎች"
+msgstr "የቲቪ ጣቢያዎች"
 
 #: usr/lib/hypnotix/hypnotix.py:795 usr/lib/hypnotix/hypnotix.py:822
 msgid "Movies"
-msgstr "ሙቪዎች"
+msgstr "ፊልሞች"
 
 #: usr/lib/hypnotix/hypnotix.py:797 usr/lib/hypnotix/hypnotix.py:828
 msgid "Series"
@@ -101,17 +101,17 @@ msgstr "ተከታታይ"
 
 #: usr/lib/hypnotix/hypnotix.py:803 usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Favorites"
-msgstr ""
+msgstr "ተወዳጆች"
 
 #: usr/lib/hypnotix/hypnotix.py:811
 #, python-format
 msgid "TV Channels > %s"
-msgstr "የ ቲቪ ጣቢያዎች > %s"
+msgstr "የቲቪ ጣቢያዎች > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:825
 #, python-format
 msgid "Movies > %s"
-msgstr "ሙቪዎች > %s"
+msgstr "ፊልሞች > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:831
 #, python-format
@@ -120,7 +120,7 @@ msgstr "ተከታታይ > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:838
 msgid "New Channel"
-msgstr ""
+msgstr "አዲስ ጣቢያ"
 
 #: usr/lib/hypnotix/hypnotix.py:841 usr/share/hypnotix/hypnotix.ui.h:3
 msgid "Preferences"
@@ -137,7 +137,7 @@ msgstr "ማረሚያ %s"
 
 #: usr/lib/hypnotix/hypnotix.py:851
 msgid "Add a new provider"
-msgstr "አዲስ አቅራቢ መጨመሪያ"
+msgstr "አዲስ አቅራቢ ይጨምሩ"
 
 #: usr/lib/hypnotix/hypnotix.py:855
 #, python-format
@@ -146,7 +146,7 @@ msgstr "ማጥፊያ %s"
 
 #: usr/lib/hypnotix/hypnotix.py:859
 msgid "Reset providers"
-msgstr "አቅራቢ እንደ ነበር መመለሻ"
+msgstr "አቅራቢዎችን ዳግም ያስጀምሩ"
 
 #: usr/lib/hypnotix/hypnotix.py:915 usr/lib/hypnotix/hypnotix.py:919
 #: usr/lib/hypnotix/hypnotix.py:984 usr/lib/hypnotix/hypnotix.py:986
@@ -157,7 +157,7 @@ msgstr "አቅራቢ እንደ ነበር መመለሻ"
 #: usr/lib/hypnotix/hypnotix.py:1455 usr/lib/hypnotix/hypnotix.py:1459
 #: usr/share/hypnotix/hypnotix.ui.h:45
 msgid "General"
-msgstr "ባጠቃላይ"
+msgstr "ጠቅላላ"
 
 #: usr/lib/hypnotix/hypnotix.py:916 usr/lib/hypnotix/hypnotix.py:998
 #: usr/lib/hypnotix/hypnotix.py:1000 usr/lib/hypnotix/hypnotix.py:1002
@@ -169,15 +169,15 @@ msgstr "ቀለም"
 #: usr/lib/hypnotix/hypnotix.py:1028 usr/lib/hypnotix/hypnotix.py:1430
 #: usr/share/hypnotix/hypnotix.ui.h:49
 msgid "Layout"
-msgstr "እቅድ"
+msgstr "አቀማመጥ"
 
 #: usr/lib/hypnotix/hypnotix.py:933
 msgid "Remove from favorites"
-msgstr ""
+msgstr "ከተወዳጅ አስወግድ"
 
 #: usr/lib/hypnotix/hypnotix.py:936
 msgid "Add to favorites"
-msgstr ""
+msgstr "ወደ ተወዳጆች ያክሉ"
 
 #: usr/lib/hypnotix/hypnotix.py:969 usr/lib/hypnotix/hypnotix.py:970
 #: usr/lib/hypnotix/hypnotix.py:984 usr/lib/hypnotix/hypnotix.py:986
@@ -193,7 +193,7 @@ msgstr "አቅጣጫዎች"
 
 #: usr/lib/hypnotix/hypnotix.py:996
 msgid "Aspect"
-msgstr ""
+msgstr "አስፔክት"
 
 #: usr/lib/hypnotix/hypnotix.py:998
 msgid "Pixel Format"
@@ -213,7 +213,7 @@ msgstr "Codec"
 
 #: usr/lib/hypnotix/hypnotix.py:1017
 msgid "surround sound"
-msgstr "የ ተከበበ ድምፅ"
+msgstr "የተከበበ ድምፅ"
 
 #: usr/lib/hypnotix/hypnotix.py:1018
 msgid "Channels"
@@ -221,7 +221,7 @@ msgstr "ጣቢያዎች"
 
 #: usr/lib/hypnotix/hypnotix.py:1021
 msgid "Sample Rate"
-msgstr "የ ናሙና ደረጃ"
+msgstr "የናሙና ደረጃ"
 
 #: usr/lib/hypnotix/hypnotix.py:1026
 msgid "Format"
@@ -235,15 +235,15 @@ msgstr "ጣቢያ መቁጠሪያ"
 #, python-format
 msgid "%d TV channel"
 msgid_plural "%d TV channels"
-msgstr[0] "%d የ ቲቪ ጣቢያ"
-msgstr[1] "%d የ ቲቪ ጣቢያዎች"
+msgstr[0] "%d የቲቪ ጣቢያ"
+msgstr[1] "%d የቲቪ ጣቢያዎች"
 
 #: usr/lib/hypnotix/hypnotix.py:1127
 #, python-format
 msgid "%d movie"
 msgid_plural "%d movies"
-msgstr[0] "%d ሙቪ"
-msgstr[1] "%d ሙቪዎች"
+msgstr[0] "%d ፊልም"
+msgstr[1] "%d ፊልሞች"
 
 #: usr/lib/hypnotix/hypnotix.py:1132
 #, python-format
@@ -275,23 +275,23 @@ msgstr "ቲቪ መመልከቻ"
 
 #: usr/lib/hypnotix/hypnotix.py:1545
 msgid "Loading providers..."
-msgstr ""
+msgstr "አቅራቢዎችን በመጫን ላይ..."
 
 #: usr/lib/hypnotix/hypnotix.py:1558
 msgid "Downloading playlist..."
-msgstr ""
+msgstr "አጫዋች ዝርዝር በማውረድ ላይ..."
 
 #: usr/lib/hypnotix/hypnotix.py:1560
 msgid "Getting playlist..."
-msgstr ""
+msgstr "አጫዋች ዝርዝር በማግኘት ላይ..."
 
 #: usr/lib/hypnotix/hypnotix.py:1563
 msgid "Checking playlist..."
-msgstr ""
+msgstr "አጫዋች ዝርዝርን በማጣራት ላይ..."
 
 #: usr/lib/hypnotix/hypnotix.py:1565
 msgid "Loading channels..."
-msgstr ""
+msgstr "ጣቢያዎችን በመጫን ላይ..."
 
 #: usr/lib/hypnotix/hypnotix.py:1573
 #, python-format
@@ -443,7 +443,7 @@ msgstr "ማሳያ"
 
 #: usr/share/hypnotix/hypnotix.ui.h:39
 msgid "Pause"
-msgstr "ማስቆሚያ"
+msgstr "ለአፍታ ማስቆሚያ"
 
 #: usr/share/hypnotix/hypnotix.ui.h:40
 msgid "Stop"
@@ -471,7 +471,7 @@ msgstr "ዋናው አቋራጭ"
 
 #: usr/share/hypnotix/shortcuts.ui.h:4
 msgid "Play previous/next channel"
-msgstr ""
+msgstr "የቀደመ/የሚቀጥለውን ጣቢያ አጫውት"
 
 #: usr/share/hypnotix/shortcuts.ui.h:5
 msgid "Toggle Fullscreen"
