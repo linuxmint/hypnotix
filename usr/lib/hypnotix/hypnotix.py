@@ -8,7 +8,6 @@ import time
 import traceback
 import warnings
 import subprocess
-import dbus
 from functools import partial
 from pathlib import Path
 
@@ -136,8 +135,7 @@ class MainWindow:
         self.content_type = TV_GROUP  # content being browsed
         self.back_page = None  # page to go back to if the back button is pressed
         self.active_channel = None
-        self.screensaver_iface = None
-        self.screensaver_cookie = None
+        self.inhibit_id = 0
         self.fullscreen = False
         self.latest_search_bar_text = None
         self.visible_search_results = 0
@@ -935,13 +933,12 @@ class MainWindow:
         self.label_channel_name.set_text(channel.name)
         self.label_channel_url.set_text(channel.url)
 
-        try:
-            bus = dbus.SessionBus()
-            screensaver = bus.get_object('org.freedesktop.ScreenSaver', '/org/freedesktop/ScreenSaver')
-            self.screensaver_iface = dbus.Interface(screensaver, dbus_interface='org.freedesktop.ScreenSaver')
-            self.screensaver_cookie = self.screensaver_iface.Inhibit("Hypnotix", "Playing media")
-        except Exception:
-            pass
+        if self.inhibit_id == 0:
+            self.inhibit_id = self.application.inhibit(
+                self.window,
+                Gtk.ApplicationInhibitFlags.IDLE | Gtk.ApplicationInhibitFlags.SUSPEND,
+                "Playing media"
+            )
 
         self.page_is_loading = True
         data = f"{channel.info}:::{channel.url}"
@@ -1113,12 +1110,9 @@ class MainWindow:
         self.active_channel = None
         self.info_menu_item.set_sensitive(False)
         self.playback_bar.hide()
-        if self.screensaver_iface and self.screensaver_cookie is not None:
-            try:
-                self.screensaver_iface.UnInhibit(self.screensaver_cookie)
-            except Exception:
-                pass
-            self.screensaver_cookie = None
+        if self.inhibit_id != 0:
+            self.application.uninhibit(self.inhibit_id)
+            self.inhibit_id = 0
 
     def on_pause_button(self, widget):
         self.mpv.pause = not self.mpv.pause
@@ -1511,7 +1505,7 @@ class MainWindow:
         except Exception as e:
             print(e)
 
-        dlg.set_version("__DEB_VERSION__")
+        dlg.set_version("4.9")
         dlg.set_icon_name("hypnotix")
         dlg.set_logo_icon_name("hypnotix")
         dlg.set_website("https://www.github.com/linuxmint/hypnotix")
