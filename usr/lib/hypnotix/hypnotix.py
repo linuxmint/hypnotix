@@ -8,6 +8,7 @@ import time
 import traceback
 import warnings
 import subprocess
+import dbus
 from functools import partial
 from pathlib import Path
 
@@ -135,6 +136,8 @@ class MainWindow:
         self.content_type = TV_GROUP  # content being browsed
         self.back_page = None  # page to go back to if the back button is pressed
         self.active_channel = None
+        self.screensaver_iface = None
+        self.screensaver_cookie = None
         self.fullscreen = False
         self.latest_search_bar_text = None
         self.visible_search_results = 0
@@ -932,6 +935,14 @@ class MainWindow:
         self.label_channel_name.set_text(channel.name)
         self.label_channel_url.set_text(channel.url)
 
+        try:
+            bus = dbus.SessionBus()
+            screensaver = bus.get_object('org.freedesktop.ScreenSaver', '/org/freedesktop/ScreenSaver')
+            self.screensaver_iface = dbus.Interface(screensaver, dbus_interface='org.freedesktop.ScreenSaver')
+            self.screensaver_cookie = self.screensaver_iface.Inhibit("Hypnotix", "Playing media")
+        except Exception:
+            pass
+
         self.page_is_loading = True
         data = f"{channel.info}:::{channel.url}"
         if data in self.favorite_data:
@@ -1102,6 +1113,12 @@ class MainWindow:
         self.active_channel = None
         self.info_menu_item.set_sensitive(False)
         self.playback_bar.hide()
+        if self.screensaver_iface and self.screensaver_cookie is not None:
+            try:
+                self.screensaver_iface.UnInhibit(self.screensaver_cookie)
+            except Exception:
+                pass
+            self.screensaver_cookie = None
 
     def on_pause_button(self, widget):
         self.mpv.pause = not self.mpv.pause
