@@ -1612,6 +1612,7 @@ class MainWindow:
                         provider.password,
                         provider.url,
                         hide_adult_content=False,
+                        user_agent=self.settings.get_string("user-agent"),
                         cache_path=PROVIDERS_PATH,
                     )
                     if self.x.auth_data != {}:
