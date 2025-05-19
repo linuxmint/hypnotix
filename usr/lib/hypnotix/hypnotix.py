@@ -502,9 +502,6 @@ class MainWindow:
                     self.add_flag(COUNTRY_CODES[country_name], box)
                     break
 
-            if not found_flag:
-                print(f"No flag found for: {group.name}")
-
             for word in name.split():
                 self.add_badge(word, box, added_words)
 
@@ -512,7 +509,8 @@ class MainWindow:
             box.set_spacing(6)
             button.add(box)
             self.categories_flowbox.add(button)
-            self.categories_flowbox.show_all()
+
+        self.categories_flowbox.show_all()
 
         if not found_groups:
             self.on_category_button_clicked(None, None)
@@ -715,6 +713,8 @@ class MainWindow:
         return surface
 
     def on_go_back_button(self, widget):
+        self.channels_listbox.set_filter_func(None)
+        self.channels_listbox.invalidate_filter()
         self.navigate_to(self.back_page)
         if self.active_channel is not None:
             self.playback_bar.show()
@@ -737,20 +737,9 @@ class MainWindow:
             GLib.timeout_add_seconds(0.1, self.on_search)
 
     def on_search(self):
-        def filter_func(child):
-            search_bar_text = unidecode(self.search_bar.get_text()).lower()
-            label_text = unidecode(child.get_children()[0].get_children()[0].get_children()[1].get_text()).lower()
-            if search_bar_text in label_text:
-                self.visible_search_results += 1
-                return True
-            else:
-                return False
-
         self.visible_search_results = 0
-        self.channels_listbox.set_filter_func(filter_func)
-        if not self.channels_listbox.get_children():
-            self.show_channels(self.active_provider.channels)
-        print("Filtering %d channel names containing the string '%s'..." % (len(self.channels_listbox.get_children()), self.latest_search_bar_text))
+        self.channels_listbox.invalidate_filter()
+        self.show_channels([channel for channel in self.active_provider.channels if self.latest_search_bar_text in channel.name.lower()])
         if self.visible_search_results == 0:
             self.status(_("No channels found"))
         else:
