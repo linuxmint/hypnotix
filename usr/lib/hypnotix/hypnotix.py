@@ -249,6 +249,7 @@ class MainWindow:
             "divider_label",
             "useragent_entry",
             "referer_entry",
+            "pm_inhibit_switch",
             "mpv_entry",
             "mpv_link",
             "ytdlp_local_switch",
@@ -344,6 +345,7 @@ class MainWindow:
         self.bind_setting_widget("user-agent", self.useragent_entry)
         self.bind_setting_widget("http-referer", self.referer_entry)
         self.bind_setting_widget("mpv-options", self.mpv_entry)
+        self.settings.bind("inhibit-pm", self.pm_inhibit_switch, "active", Gio.SettingsBindFlags.DEFAULT)
 
         # ytdlp
         self.ytdlp_local_switch.set_active(self.settings.get_boolean("use-local-ytdlp"))
@@ -933,13 +935,6 @@ class MainWindow:
         self.label_channel_name.set_text(channel.name)
         self.label_channel_url.set_text(channel.url)
 
-        if self.inhibit_id == 0:
-            self.inhibit_id = self.application.inhibit(
-                self.window,
-                Gtk.ApplicationInhibitFlags.IDLE | Gtk.ApplicationInhibitFlags.SUSPEND,
-                "Playing media"
-            )
-
         self.page_is_loading = True
         data = f"{channel.info}:::{channel.url}"
         if data in self.favorite_data:
@@ -972,6 +967,24 @@ class MainWindow:
         self.mpv.observe_property("audio-codec", self.on_audio_codec)
         self.mpv.observe_property("video-bitrate", self.on_bitrate)
         self.mpv.observe_property("audio-bitrate", self.on_bitrate)
+        self.mpv.observe_property("core-idle", self.on_playback_changed)
+
+    @idle_function
+    def on_playback_changed(self, prop, idle):
+        if not self.settings.get_boolean("inhibit-pm"):
+            return GLib.SOURCE_REMOVE
+
+        if idle:
+            if self.inhibit_id != 0:
+                self.application.uninhibit(self.inhibit_id)
+                self.inhibit_id = 0
+        else:
+            if self.inhibit_id == 0:
+                self.inhibit_id = self.application.inhibit(
+                    self.window,
+                    Gtk.ApplicationInhibitFlags.IDLE | Gtk.ApplicationInhibitFlags.SUSPEND,
+                    "Playing media"
+                )
 
     @idle_function
     def on_bitrate(self, prop, bitrate):
@@ -1110,9 +1123,6 @@ class MainWindow:
         self.active_channel = None
         self.info_menu_item.set_sensitive(False)
         self.playback_bar.hide()
-        if self.inhibit_id != 0:
-            self.application.uninhibit(self.inhibit_id)
-            self.inhibit_id = 0
 
     def on_pause_button(self, widget):
         self.mpv.pause = not self.mpv.pause
