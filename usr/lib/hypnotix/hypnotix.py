@@ -135,6 +135,7 @@ class MainWindow:
         self.content_type = TV_GROUP  # content being browsed
         self.back_page = None  # page to go back to if the back button is pressed
         self.active_channel = None
+        self.inhibit_id = 0
         self.fullscreen = False
         self.latest_search_bar_text = None
         self.visible_search_results = 0
@@ -932,6 +933,13 @@ class MainWindow:
         self.label_channel_name.set_text(channel.name)
         self.label_channel_url.set_text(channel.url)
 
+        if self.inhibit_id == 0:
+            self.inhibit_id = self.application.inhibit(
+                self.window,
+                Gtk.ApplicationInhibitFlags.IDLE | Gtk.ApplicationInhibitFlags.SUSPEND,
+                "Playing media"
+            )
+
         self.page_is_loading = True
         data = f"{channel.info}:::{channel.url}"
         if data in self.favorite_data:
@@ -1102,6 +1110,9 @@ class MainWindow:
         self.active_channel = None
         self.info_menu_item.set_sensitive(False)
         self.playback_bar.hide()
+        if self.inhibit_id != 0:
+            self.application.uninhibit(self.inhibit_id)
+            self.inhibit_id = 0
 
     def on_pause_button(self, widget):
         self.mpv.pause = not self.mpv.pause
