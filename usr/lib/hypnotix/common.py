@@ -179,8 +179,7 @@ class Manager:
                         # Set stream blocks
                         block_bytes = int(4 * 1024 * 1024)  # 4 MB
 
-                        if response.encoding is None:
-                            response.encoding = response.apparent_encoding
+                        response.encoding = response.encoding or response.apparent_encoding or "utf-8"
                         with open(provider.path, "w", encoding=response.encoding) as file:
                             # Grab data by block_bytes
                             for data in response.iter_content(block_bytes, decode_unicode=True):
