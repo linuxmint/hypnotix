@@ -146,6 +146,7 @@ class MainWindow:
 
         self.video_properties = {}
         self.audio_properties = {}
+        self.volume = 100
 
         # Used for redownloading timer
         self.reload_timeout_sec = 60 * 5
@@ -1715,6 +1716,8 @@ class MainWindow:
             ytdl=True,
             wid=str(self.mpv_drawing_area.get_window().get_xid())
         )
+        self.mpv.volume = self.volume
+        self.mpv.observe_property("volume", self.on_volume_prop)
 
     def on_mpv_drawing_area_draw(self, widget, cr):
         cr.set_source_rgb(0.0, 0.0, 0.0)
@@ -1750,6 +1753,8 @@ class MainWindow:
     def on_close_info_window_button_clicked(self, widget):
         self.info_window.hide()
 
+    def on_volume_prop(self, name, value ):
+        self.volume = value
 
 if __name__ == "__main__":
     application = MyApplication("org.x.hypnotix", Gio.ApplicationFlags.FLAGS_NONE)
