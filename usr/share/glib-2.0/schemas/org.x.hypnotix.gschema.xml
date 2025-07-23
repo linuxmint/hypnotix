@@ -31,10 +31,5 @@
       <summary></summary>
       <description></description>
     </key>
-    <key type="b" name="inhibit-pm">
-      <default>true</default>
-      <summary>Disable screensaver/suspend when playback is active.</summary>
-      <description></description>
-    </key>
   </schema>
 </schemalist>

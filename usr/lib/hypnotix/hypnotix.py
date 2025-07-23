@@ -249,7 +249,6 @@ class MainWindow:
             "divider_label",
             "useragent_entry",
             "referer_entry",
-            "pm_inhibit_switch",
             "mpv_entry",
             "mpv_link",
             "ytdlp_local_switch",
@@ -345,7 +344,6 @@ class MainWindow:
         self.bind_setting_widget("user-agent", self.useragent_entry)
         self.bind_setting_widget("http-referer", self.referer_entry)
         self.bind_setting_widget("mpv-options", self.mpv_entry)
-        self.settings.bind("inhibit-pm", self.pm_inhibit_switch, "active", Gio.SettingsBindFlags.DEFAULT)
 
         # ytdlp
         self.ytdlp_local_switch.set_active(self.settings.get_boolean("use-local-ytdlp"))
@@ -960,9 +958,6 @@ class MainWindow:
 
     @idle_function
     def on_playback_changed(self, prop, idle):
-        if not self.settings.get_boolean("inhibit-pm"):
-            return GLib.SOURCE_REMOVE
-
         if idle:
             if self.inhibit_id != 0:
                 self.application.uninhibit(self.inhibit_id)
