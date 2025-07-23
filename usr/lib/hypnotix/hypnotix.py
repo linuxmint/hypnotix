@@ -710,7 +710,7 @@ class MainWindow:
             surface = self.get_surface_for_file("/usr/share/hypnotix/generic_tv_logo.png", 22, 22)
         return surface
 
-    def on_go_back_button(self, widget):
+    def on_go_back_button(self, widget=None):
         self.navigate_to(self.back_page)
         if self.active_channel is not None:
             self.playback_bar.show()
@@ -1532,9 +1532,17 @@ class MainWindow:
             else:
                 self.search_button.set_active(True)
         elif event.keyval == Gdk.KEY_F11 or \
-                (event.keyval == Gdk.KEY_f and not ctrl and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry) or \
-                (self.fullscreen and event.keyval == Gdk.KEY_Escape):
-            self.toggle_fullscreen()
+                (event.keyval == Gdk.KEY_f and not ctrl and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry):
+            self.full_screen_mode()
+        elif event.keyval == Gdk.KEY_F6:
+            self.theather_mode()
+        elif event.keyval == Gdk.KEY_F7:
+            self.borderless_mode()
+        elif event.keyval == Gdk.KEY_Escape:
+            self.normal_mode()
+        elif event.keyval == Gdk.KEY_BackSpace and not ctrl and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry:
+            self.normal_mode()
+            self.on_go_back_button()
         elif event.keyval == Gdk.KEY_Left:
             self.on_prev_channel()
         elif event.keyval == Gdk.KEY_Right:
@@ -1705,9 +1713,44 @@ class MainWindow:
         cr.set_source_rgb(0.0, 0.0, 0.0)
         cr.paint()
 
-    def toggle_fullscreen(self):
+    def normal_mode(self):
+        self.window.unfullscreen()
+        self.mpv_top_box.show()
+        self.mpv_bottom_box.hide()
+        if self.content_type == TV_GROUP:
+            self.sidebar.show()
+        self.headerbar.show()
+        self.channels_box.set_border_width(12)
+        self.fullscreen = False
+
+    def theather_mode(self):
         if self.stack.get_visible_child_name() == "channels_page":
-            # Toggle state
+            if self.sidebar.get_visible():
+                self.mpv_top_box.hide()
+                self.mpv_bottom_box.hide()
+                self.sidebar.hide()
+                # self.headerbar.hide()
+                self.status_label.hide()
+                self.info_revealer.set_reveal_child(False)
+                self.channels_box.set_border_width(0)
+            else:
+                self.normal_mode()
+
+    def borderless_mode(self):
+        if self.stack.get_visible_child_name() == "channels_page":
+            if self.headerbar.get_visible():
+                self.mpv_top_box.hide()
+                self.mpv_bottom_box.hide()
+                self.sidebar.hide()
+                self.headerbar.hide()
+                self.status_label.hide()
+                self.info_revealer.set_reveal_child(False)
+                self.channels_box.set_border_width(0)
+            else:
+                self.normal_mode()
+
+    def full_screen_mode(self):
+        if self.stack.get_visible_child_name() == "channels_page":
             self.fullscreen = not self.fullscreen
             if self.fullscreen:
                 # Fullscreen mode
@@ -1720,17 +1763,10 @@ class MainWindow:
                 self.info_revealer.set_reveal_child(False)
                 self.channels_box.set_border_width(0)
             else:
-                # Normal mode
-                self.window.unfullscreen()
-                self.mpv_top_box.show()
-                self.mpv_bottom_box.hide()
-                if self.content_type == TV_GROUP:
-                    self.sidebar.show()
-                self.headerbar.show()
-                self.channels_box.set_border_width(12)
+                self.normal_mode()
 
     def on_fullscreen_button_clicked(self, widget):
-        self.toggle_fullscreen()
+        self.full_screen_mode()
 
     def on_close_info_window_button_clicked(self, widget):
         self.info_window.hide()

@@ -37,7 +37,28 @@
               <object class="GtkShortcutsShortcut">
                 <property name="visible">1</property>
                 <property name="accelerator">F11 f</property>
-                <property name="title" translatable="yes">Toggle Fullscreen</property>
+                <property name="title" translatable="yes">Fullscreen mode</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
+                <property name="accelerator">F6</property>
+                <property name="title" translatable="yes">Theater mode (no controls)</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
+                <property name="accelerator">F7</property>
+                <property name="title" translatable="yes">Borderless mode (no decorations)</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="visible">1</property>
+                <property name="accelerator">Escape</property>
+                <property name="title" translatable="yes">Normal mode</property>
               </object>
             </child>
             <child>
