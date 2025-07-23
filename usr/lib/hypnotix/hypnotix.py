@@ -713,8 +713,6 @@ class MainWindow:
         return surface
 
     def on_go_back_button(self, widget):
-        self.channels_listbox.set_filter_func(None)
-        self.channels_listbox.invalidate_filter()
         self.navigate_to(self.back_page)
         if self.active_channel is not None:
             self.playback_bar.show()
@@ -738,8 +736,11 @@ class MainWindow:
 
     def on_search(self):
         self.visible_search_results = 0
-        self.channels_listbox.invalidate_filter()
-        self.show_channels([channel for channel in self.active_provider.channels if self.latest_search_bar_text in channel.name.lower()])
+        channels = []
+        for channel in self.active_provider.channels:
+            if self.latest_search_bar_text in channel.name.lower():
+                channels.append(channel)
+        self.show_channels(channels)
         if self.visible_search_results == 0:
             self.status(_("No channels found"))
         else:
@@ -753,7 +754,6 @@ class MainWindow:
         self.active_group = None
         for child in self.channels_listbox.get_children():
             self.channels_listbox.remove(child)
-        self.channels_listbox.invalidate_filter()
         self.visible_search_results = 0
 
     @idle_function
