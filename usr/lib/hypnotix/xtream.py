@@ -256,6 +256,7 @@ class XTream:
     server = ""
     username = ""
     password = ""
+    user_agent = ""
 
     live_type = "Live"
     vod_type = "VOD"
@@ -293,6 +294,7 @@ class XTream:
         provider_url: str,
         hide_adult_content: bool = False,
         cache_path: str = "",
+        user_agent: str = "",
     ):
         """Initialize Xtream Class
 
@@ -302,6 +304,7 @@ class XTream:
             provider_password (str):            Password of the IPTV provider
             provider_url      (str):            URL of the IPTV provider
             hide_adult_content(bool):           When `True` hide stream that are marked for adult
+            user_agent        (str):            User-Agent for HTTP requests
             cache_path        (str, optional):  Location where to save loaded files. Defaults to empty string.
 
         Returns: XTream Class Instance
@@ -316,6 +319,7 @@ class XTream:
         self.name = provider_name
         self.cache_path = cache_path
         self.hide_adult_content = hide_adult_content
+        self.user_agent = user_agent
 
         # if the cache_path is specified, test that it is a directory
         if self.cache_path != "":
@@ -429,7 +433,7 @@ class XTream:
             self.auth_data = {}
             try:
                 # Request authentication, wait 4 seconds maximum
-                r = requests.get(self.get_authenticate_URL(), timeout=(4))
+                r = requests.get(self.get_authenticate_URL(), timeout=(4), headers={'User-Agent': self.user_agent })
                 # If the answer is ok, process data and change state
                 if r.ok:
                     self.auth_data = r.json()
@@ -742,7 +746,7 @@ class XTream:
             [type]: JSON dictionary of the loaded data, or None
         """
         try:
-            r = requests.get(URL, timeout=timeout)
+            r = requests.get(URL, timeout=timeout, headers={'User-Agent': self.user_agent })
             if r.status_code == 200:
                 return r.json()
 
