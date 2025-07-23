@@ -1678,7 +1678,7 @@ class MainWindow:
             if ("=") in mpv_options:
                 pairs = mpv_options.split()
                 for pair in pairs:
-                    key, value = pair.split("=")
+                    key, value = pair.split("=", 1)
                     options[key] = value
         except Exception as e:
             print("Could not parse MPV options!")
