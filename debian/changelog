@@ -1,3 +1,37 @@
+hypnotix (5.0) zara; urgency=medium
+
+  [ Juan Rodenas ]
+  * Prevent the screensaver from activating during playback (#376)
+
+  [ Michael Webster ]
+  * Improve inhibit support - monitor MPV core instead.
+
+  [ RomanPro100 ]
+  * Fix encoding for m3u links, again (#368)
+
+  [ Uniquely6958 ]
+  * increase efficiency (#375)
+
+  [ Zé Loff ]
+  * Allow for '=' on values of mpv options (#380)
+  * Use the defined User-Agent in Xtream requests (#381)
+
+  [ soloopooo ]
+  * Fix downloading m3u get 'b' string in files (#382)
+
+  [ Clement Lefebvre ]
+  * Remove unused filter functions
+  * inhibit: Remove configuration
+  * Add theather and borderless modes
+
+  [ Hich ]
+  * maintain volume on channel change (#379)
+
+  [ Clement Lefebvre ]
+  * l10n: Update POT
+
+ -- Clement Lefebvre <root@linuxmint.com>  Thu, 24 Jul 2025 17:06:17 +0200
+
 hypnotix (4.9) xia; urgency=medium
 
   * l10n: Update translations
