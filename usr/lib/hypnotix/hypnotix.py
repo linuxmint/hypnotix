@@ -899,8 +899,9 @@ class MainWindow:
             # self.mpv_drawing_area.show()
             self.info_menu_item.set_sensitive(False)
             self.before_play(channel)
-            self.reinit_mpv()
-            self.mpv.play(channel.url)
+            while self.mpv is None:
+                time.sleep(0.01)
+            self.mpv.command("loadfile", channel.url, "replace", f"media-title={channel.name}")
             self.mpv.wait_until_playing()
             self.after_play(channel)
 
