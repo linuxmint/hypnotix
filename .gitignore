@@ -4,3 +4,5 @@ debian/files
 debian/hypnotix.substvars
 usr/share/locale
 usr/share/hypnotix/hypnotix.ui~
+# PyCharm
+.idea/

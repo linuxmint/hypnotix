@@ -477,8 +477,8 @@ msgid "Play previous/next channel"
 msgstr "Play previous/next channel"
 
 #: usr/share/hypnotix/shortcuts.ui.h:5
-msgid "Toggle Fullscreen"
-msgstr "Toggle Fullscreen"
+msgid "Fullscreen mode"
+msgstr "Fullscreen mode"
 
 #: usr/share/hypnotix/shortcuts.ui.h:8
 msgid "Reload all providers"

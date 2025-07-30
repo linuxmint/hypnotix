@@ -480,7 +480,7 @@ msgid "Play previous/next channel"
 msgstr "Önceki/Sonraki kanalı oynat"
 
 #: usr/share/hypnotix/shortcuts.ui.h:5
-msgid "Toggle Fullscreen"
+msgid "Fullscreen mode"
 msgstr "Tam Ekran Geçişi"
 
 #: usr/share/hypnotix/shortcuts.ui.h:8
