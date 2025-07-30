@@ -483,7 +483,7 @@ msgid "Play previous/next channel"
 msgstr "Пусти претходни/следећи канал"
 
 #: usr/share/hypnotix/shortcuts.ui.h:5
-msgid "Toggle Fullscreen"
+msgid "Fullscreen mode"
 msgstr "Окини преко целог екрана"
 
 #: usr/share/hypnotix/shortcuts.ui.h:8

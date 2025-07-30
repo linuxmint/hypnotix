@@ -477,7 +477,7 @@ msgid "Play previous/next channel"
 msgstr "Oldingi/keyingi kanalni ijro etish"
 
 #: usr/share/hypnotix/shortcuts.ui.h:5
-msgid "Toggle Fullscreen"
+msgid "Fullscreen mode"
 msgstr "Toʻliq ekran rejimini almashtirish"
 
 #: usr/share/hypnotix/shortcuts.ui.h:8

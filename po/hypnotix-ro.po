@@ -482,7 +482,7 @@ msgid "Play previous/next channel"
 msgstr "Redă canalul anterior/următor"
 
 #: usr/share/hypnotix/shortcuts.ui.h:5
-msgid "Toggle Fullscreen"
+msgid "Fullscreen mode"
 msgstr "Comutare pe ecran complet"
 
 #: usr/share/hypnotix/shortcuts.ui.h:8

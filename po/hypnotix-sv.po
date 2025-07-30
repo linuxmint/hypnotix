@@ -479,7 +479,7 @@ msgid "Play previous/next channel"
 msgstr "Visa föregående/nästa kanal"
 
 #: usr/share/hypnotix/shortcuts.ui.h:5
-msgid "Toggle Fullscreen"
+msgid "Fullscreen mode"
 msgstr "Växla helskärmsläge"
 
 #: usr/share/hypnotix/shortcuts.ui.h:8

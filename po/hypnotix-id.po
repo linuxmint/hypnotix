@@ -471,7 +471,7 @@ msgid "Play previous/next channel"
 msgstr "Putar saluran sebelumnya/berikutnya"
 
 #: usr/share/hypnotix/shortcuts.ui.h:5
-msgid "Toggle Fullscreen"
+msgid "Fullscreen mode"
 msgstr "Alihkan Layar Penuh"
 
 #: usr/share/hypnotix/shortcuts.ui.h:8
