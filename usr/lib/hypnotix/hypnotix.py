@@ -901,7 +901,7 @@ class MainWindow:
             self.before_play(channel)
             while self.mpv is None:
                 time.sleep(0.01)
-            self.mpv.command("loadfile", channel.url, "replace", f"media-title={channel.name}")
+            self.mpv.command("loadfile", channel.url, "replace", f"force-media-title={channel.name}")
             self.mpv.wait_until_playing()
             self.after_play(channel)
 
