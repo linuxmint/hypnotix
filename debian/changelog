@@ -1,3 +1,10 @@
+hypnotix (5.2) zara; urgency=medium
+
+  * l10n: Update translations
+  * l10n: Update files
+
+ -- Clement Lefebvre <root@linuxmint.com>  Tue, 26 Aug 2025 17:44:22 +0200
+
 hypnotix (5.1) zara; urgency=medium
 
   * l10n: Update translations
