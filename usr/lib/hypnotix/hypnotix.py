@@ -562,6 +562,8 @@ class MainWindow:
         else:
             self.sidebar.hide()
 
+        self.hchannels = self.channels_listbox.get_children()
+
     def show_vod(self, items):
         logos_to_refresh = []
         self.navigate_to("vod_page")
@@ -883,12 +885,16 @@ class MainWindow:
 
     def on_prev_channel(self):
         if self.stack.get_visible_child_name() == "channels_page":
-            self.channels_listbox.do_move_cursor(self.channels_listbox, Gtk.MovementStep.DISPLAY_LINES, -1)
+            idx = self.channels_listbox.get_selected_row().get_index()
+            step = -1 if idx != 0 else (len(self.hchannels) - 1)
+            self.channels_listbox.do_move_cursor(self.channels_listbox, Gtk.MovementStep.DISPLAY_LINES, step)
             self.channels_listbox.do_activate_cursor_row(self.channels_listbox)
 
     def on_next_channel(self):
         if self.stack.get_visible_child_name() == "channels_page":
-            self.channels_listbox.do_move_cursor(self.channels_listbox, Gtk.MovementStep.DISPLAY_LINES, 1)
+            idx = self.channels_listbox.get_selected_row().get_index()
+            step = 1 if idx != (len(self.hchannels) - 1) else (1 - len(self.hchannels))
+            self.channels_listbox.do_move_cursor(self.channels_listbox, Gtk.MovementStep.DISPLAY_LINES, step)
             self.channels_listbox.do_activate_cursor_row(self.channels_listbox)
 
     @async_function
