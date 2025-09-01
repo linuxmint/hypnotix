@@ -1539,6 +1539,9 @@ class MainWindow:
             self.theather_mode()
         elif event.keyval == Gdk.KEY_F7:
             self.borderless_mode()
+        elif event.keyval == Gdk.KEY_F8:
+            self.on_pause_button(widget)
+            return True
         elif event.keyval == Gdk.KEY_Escape:
             self.normal_mode()
         elif event.keyval == Gdk.KEY_BackSpace and not ctrl and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry:
