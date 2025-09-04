@@ -561,6 +561,9 @@ class MainWindow:
                 self.download_channel_logos(logos_to_refresh)
         else:
             self.sidebar.hide()
+            
+        self.update_hchannels()
+        self.chan_num_buf = 0
 
     def show_vod(self, items):
         logos_to_refresh = []
@@ -732,6 +735,9 @@ class MainWindow:
             self.latest_search_bar_text = search_bar_text
             self.search_bar.set_sensitive(False)
             GLib.timeout_add_seconds(0.1, self.on_search)
+            
+    def update_hchannels(self):
+        self.hchannels = [c for c in self.channels_listbox.get_children() if unidecode(self.search_bar.get_text()).lower() in c.channel.name.lower()]
 
     def on_search(self):
         self.visible_search_results = 0
@@ -747,6 +753,7 @@ class MainWindow:
         self.search_bar.set_sensitive(True)
         self.search_bar.grab_focus_without_selecting()
         self.navigate_to("channels_page")
+        self.update_hchannels()
 
     def init_channels_listbox(self):
         self.latest_search_bar_text = None
@@ -883,13 +890,23 @@ class MainWindow:
 
     def on_prev_channel(self):
         if self.stack.get_visible_child_name() == "channels_page":
-            self.channels_listbox.do_move_cursor(self.channels_listbox, Gtk.MovementStep.DISPLAY_LINES, -1)
-            self.channels_listbox.do_activate_cursor_row(self.channels_listbox)
+            idx = self.channels_listbox_selected_index()
+            step = -1 if idx != 0 else (len(self.hchannels) - 1)
+            self.channels_listbox_activate_row(step)
 
     def on_next_channel(self):
         if self.stack.get_visible_child_name() == "channels_page":
-            self.channels_listbox.do_move_cursor(self.channels_listbox, Gtk.MovementStep.DISPLAY_LINES, 1)
-            self.channels_listbox.do_activate_cursor_row(self.channels_listbox)
+            idx = self.channels_listbox_selected_index()
+            step = 1 if idx != (len(self.hchannels) - 1) else (1 - len(self.hchannels))
+            self.channels_listbox_activate_row(step)
+
+    def channels_listbox_selected_index(self):
+        channel = [c for c in self.hchannels if c.channel.name == self.active_channel.name][0]
+        return self.hchannels.index(channel)
+
+    def channels_listbox_activate_row(self, step):
+        self.channels_listbox.do_move_cursor(self.channels_listbox, Gtk.MovementStep.DISPLAY_LINES, step)
+        self.channels_listbox.do_activate_cursor_row(self.channels_listbox)
 
     @async_function
     def play_async(self, channel):
@@ -1516,6 +1533,7 @@ class MainWindow:
         self.application.quit()
 
     def on_key_press_event(self, widget, event):
+        channel_focused = self.fullscreen or "ChannelWidget" in widget.get_focus().get_name()
         # Get any active, but not pressed modifiers, like CapsLock and NumLock
         persistant_modifiers = Gtk.accelerator_get_default_mod_mask()
 
@@ -1548,6 +1566,24 @@ class MainWindow:
             self.on_prev_channel()
         elif event.keyval == Gdk.KEY_Right:
             self.on_next_channel()
+            return True
+        elif event.keyval == Gdk.KEY_Return:
+            if channel_focused:
+                try:
+                    chan = [c for c in self.hchannels if c.channel.lcn == str(self.chan_num_buf)][0]
+                    idx = self.channels_listbox_selected_index()
+                    step = self.hchannels.index(chan) - idx
+                    self.channels_listbox_activate_row(step)
+                finally:
+                    self.chan_num_buf = 0
+                    return True
+            else:
+                self.chan_num_buf = 0
+        else:
+            try:
+                self.chan_num_buf = self.chan_num_buf * 10 + int(chr(event.keyval))
+            except:
+                self.chan_num_buf = 0
         # elif event.keyval == Gdk.KEY_Up:
         #     # Up of in the list
         #     pass
