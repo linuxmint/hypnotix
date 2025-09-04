@@ -1548,6 +1548,11 @@ class MainWindow:
             self.on_prev_channel()
         elif event.keyval == Gdk.KEY_Right:
             self.on_next_channel()
+            return True
+        elif event.keyval == Gdk.KEY_space:
+            if channel_focused:
+                self.on_pause_button(widget)
+                return True
         # elif event.keyval == Gdk.KEY_Up:
         #     # Up of in the list
         #     pass
