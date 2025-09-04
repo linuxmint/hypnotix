@@ -563,7 +563,7 @@ class MainWindow:
             self.sidebar.hide()
             
         self.update_hchannels()
-        self.chan_num_buf = 0
+        self.chan_lcn_buf = 0
 
     def show_vod(self, items):
         logos_to_refresh = []
@@ -1570,20 +1570,20 @@ class MainWindow:
         elif event.keyval == Gdk.KEY_Return:
             if channel_focused:
                 try:
-                    chan = [c for c in self.hchannels if c.channel.lcn == str(self.chan_num_buf)][0]
+                    chan = [c for c in self.hchannels if c.channel.lcn == str(self.chan_lcn_buf)][0]
                     idx = self.channels_listbox_selected_index()
                     step = self.hchannels.index(chan) - idx
                     self.channels_listbox_activate_row(step)
                 finally:
-                    self.chan_num_buf = 0
+                    self.chan_lcn_buf = 0
                     return True
             else:
-                self.chan_num_buf = 0
+                self.chan_lcn_buf = 0
         else:
             try:
-                self.chan_num_buf = self.chan_num_buf * 10 + int(chr(event.keyval))
+                self.chan_lcn_buf = self.chan_lcn_buf * 10 + int(chr(event.keyval))
             except:
-                self.chan_num_buf = 0
+                self.chan_lcn_buf = 0
         # elif event.keyval == Gdk.KEY_Up:
         #     # Up of in the list
         #     pass
