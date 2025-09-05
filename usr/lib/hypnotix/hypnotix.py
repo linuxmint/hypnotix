@@ -1515,7 +1515,11 @@ class MainWindow:
         else:
             try:
                 self.chan_lcn_buf = self.chan_lcn_buf * 10 + int(chr(event.keyval))
-                self.mpv.command("show-text", str(self.chan_lcn_buf) + "-", 1500)
+                timeout = 1500
+                self.mpv.command("show-text", str(self.chan_lcn_buf) + "-", timeout)
+                def reset_chan_lcn_buf():
+                    self.chan_lcn_buf = 0
+                GLib.timeout_add(timeout, reset_chan_lcn_buf)
             except:
                 self.chan_lcn_buf = 0
         # elif event.keyval == Gdk.KEY_Up:
