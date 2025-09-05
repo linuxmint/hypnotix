@@ -27,7 +27,6 @@ from gi.repository import Gtk, Gdk, Gio, XApp, GdkPixbuf, GLib, Pango
 import mpv
 import requests
 import setproctitle
-from imdb import IMDb
 from unidecode import unidecode
 
 from common import Manager, Provider, Channel, MOVIES_GROUP, PROVIDERS_PATH, SERIES_GROUP, TV_GROUP,\
@@ -140,8 +139,6 @@ class MainWindow:
         self.latest_search_bar_text = None
         self.visible_search_results = 0
         self.mpv = None
-        self.ia = IMDb()
-
         self.page_is_loading = False # used to ignore signals while we set widget states
 
         self.video_properties = {}
@@ -236,18 +233,6 @@ class MainWindow:
             "delete_yes_button",
             "reset_no_button",
             "reset_yes_button",
-            "info_section",
-            "info_revealer",
-            "info_name_label",
-            "info_plot_label",
-            "info_rating_label",
-            "info_year_label",
-            "close_info_button",
-            "info_genre_label",
-            "info_duration_label",
-            "info_votes_label",
-            "info_pg_label",
-            "divider_label",
             "useragent_entry",
             "referer_entry",
             "mpv_entry",
@@ -284,8 +269,6 @@ class MainWindow:
                 sys.exit(1)
             else:
                 setattr(self, name, widget)
-
-        self.divider_label.set_text("/10")
 
         # Widget signals
         self.window.connect("key-press-event", self.on_key_press_event)
@@ -334,8 +317,6 @@ class MainWindow:
         self.reset_yes_button.connect("clicked", self.on_reset_yes_button)
 
         self.browse_button.connect("clicked", self.on_browse_button)
-
-        self.close_info_button.connect("clicked", self.on_close_info_button)
 
         self.channels_listbox.connect("row-activated", self.on_channel_activated)
 
@@ -893,6 +874,8 @@ class MainWindow:
 
     @async_function
     def play_async(self, channel):
+        if self.mpv is not None:
+            self.mpv.stop()
         print("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
         if channel is not None and channel.url is not None:
             # os.system("mpv --wid=%s %s &" % (self.wid, channel.url))
@@ -940,15 +923,20 @@ class MainWindow:
         self.mpv_stack.set_visible_child_name("player_page")
         self.spinner.stop()
         self.playback_label.set_text(channel.name)
-        self.info_revealer.set_reveal_child(False)
-        if self.content_type == MOVIES_GROUP:
-            self.get_imdb_details(channel.name)
-        elif self.content_type == SERIES_GROUP:
-            self.get_imdb_details(self.active_serie.name)
         self.info_menu_item.set_sensitive(True)
         self.monitor_playback()
 
     def monitor_playback(self):
+        try:
+            self.mpv.unobserve_property("video-params", self.on_video_params)
+            self.mpv.unobserve_property("video-format", self.on_video_format)
+            self.mpv.unobserve_property("audio-params", self.on_audio_params)
+            self.mpv.unobserve_property("audio-codec", self.on_audio_codec)
+            self.mpv.unobserve_property("video-bitrate", self.on_bitrate)
+            self.mpv.unobserve_property("audio-bitrate", self.on_bitrate)
+            self.mpv.unobserve_property("core-idle", self.on_playback_changed)
+        except:
+            pass
         self.mpv.observe_property("video-params", self.on_video_params)
         self.mpv.observe_property("video-format", self.on_video_format)
         self.mpv.observe_property("audio-params", self.on_audio_params)
@@ -1047,64 +1035,9 @@ class MainWindow:
             return
         self.audio_properties[_("General")][_("Codec")] = codec.split()[0]
 
-    @async_function
-    def get_imdb_details(self, name):
-        movies = self.ia.search_movie(name)
-        match = None
-        for movie in movies:
-            self.ia.update(movie)
-            if movie.get("plot") is not None:
-                match = movie
-                break
-        self.refresh_info_section(match)
-
-    @idle_function
-    def refresh_info_section(self, movie):
-        if movie is not None:
-            self.set_imdb_info(movie, "title", self.info_name_label)
-            self.set_imdb_info(movie, "plot outline", self.info_plot_label)
-            self.set_imdb_info(movie, "rating", self.info_rating_label)
-            self.set_imdb_info(movie, "votes", self.info_votes_label)
-            self.set_imdb_info(movie, "year", self.info_year_label)
-            self.set_imdb_info(movie, "genres", self.info_genre_label)
-            self.set_imdb_info(movie, "runtimes", self.info_duration_label)
-            self.set_imdb_info(movie, "certificates", self.info_pg_label)
-            self.info_revealer.set_reveal_child(True)
-
-    def set_imdb_info(self, movie, field, widget):
-        value = movie.get(field)
-        if value is not None:
-            if field == "plot":
-                value = value[0].split("::")[0]
-            elif field == "genres":
-                value = ", ".join(value)
-            elif field == "certificates":
-                pg = ""
-                for v in value:
-                    if "United States:" in v:
-                        pg = v.split(":")[1]
-                        break
-                value = pg
-            elif field == "runtimes":
-                value = value[0]
-                n = int(value)
-                hours = n // 60
-                minutes = n % 60
-                value = "%dh %dmin" % (hours, minutes)
-        value = str(value).strip()
-        if value == "" or value.lower() == "none":
-            widget.hide()
-        else:
-            widget.set_text(value)
-            widget.show()
-
-    def on_close_info_button(self, widget):
-        self.info_revealer.set_reveal_child(False)
-
     def on_stop_button(self, widget):
         self.mpv.stop()
         # self.mpv_drawing_area.hide()
-        self.info_revealer.set_reveal_child(False)
         self.active_channel = None
         self.info_menu_item.set_sensitive(False)
         self.playback_bar.hide()
@@ -1706,15 +1639,17 @@ class MainWindow:
             # To prevent 'multiple values for keyword argument'!
             osc = options.pop("osc") != "no"
 
-        self.mpv = mpv.MPV(
-            **options,
-            script_opts="osc-layout=box,osc-seekbarstyle=bar,osc-deadzonesize=0,osc-minmousemove=3",
-            input_default_bindings=True,
-            input_vo_keyboard=True,
-            osc=osc,
-            ytdl=True,
-            wid=str(self.mpv_drawing_area.get_window().get_xid())
-        )
+        if self.mpv is None:
+            self.mpv = mpv.MPV(
+                **options,
+                script_opts="osc-layout=box,osc-seekbarstyle=bar,osc-deadzonesize=0,osc-minmousemove=3",
+                input_default_bindings=True,
+                input_vo_keyboard=True,
+                osc=osc,
+                ytdl=True,
+                wid=str(self.mpv_drawing_area.get_window().get_xid())
+            )
+
         self.mpv.volume = self.volume
         self.mpv.observe_property("volume", self.on_volume_prop)
 
@@ -1740,7 +1675,6 @@ class MainWindow:
                 self.sidebar.hide()
                 # self.headerbar.hide()
                 self.status_label.hide()
-                self.info_revealer.set_reveal_child(False)
                 self.channels_box.set_border_width(0)
             else:
                 self.normal_mode()
@@ -1753,7 +1687,6 @@ class MainWindow:
                 self.sidebar.hide()
                 self.headerbar.hide()
                 self.status_label.hide()
-                self.info_revealer.set_reveal_child(False)
                 self.channels_box.set_border_width(0)
             else:
                 self.normal_mode()
@@ -1769,7 +1702,6 @@ class MainWindow:
                 self.sidebar.hide()
                 self.headerbar.hide()
                 self.status_label.hide()
-                self.info_revealer.set_reveal_child(False)
                 self.channels_box.set_border_width(0)
             else:
                 self.normal_mode()

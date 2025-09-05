@@ -1,3 +1,14 @@
+hypnotix (5.3) zara; urgency=medium
+
+  [ Clement Lefebvre ]
+  * Remove hard dependency on python3-imdbpy
+  * Remove movie info section
+
+  [ Frederic Bontemps ]
+  * Fixed memory leak (#387)
+
+ -- Clement Lefebvre <root@linuxmint.com>  Fri, 05 Sep 2025 13:33:27 +0100
+
 hypnotix (5.2) zara; urgency=medium
 
   * l10n: Update translations
