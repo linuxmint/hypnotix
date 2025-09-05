@@ -874,6 +874,8 @@ class MainWindow:
 
     @async_function
     def play_async(self, channel):
+        if self.mpv is not None:
+            self.mpv.stop()
         print("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
         if channel is not None and channel.url is not None:
             # os.system("mpv --wid=%s %s &" % (self.wid, channel.url))
@@ -925,6 +927,16 @@ class MainWindow:
         self.monitor_playback()
 
     def monitor_playback(self):
+        try:
+            self.mpv.unobserve_property("video-params", self.on_video_params)
+            self.mpv.unobserve_property("video-format", self.on_video_format)
+            self.mpv.unobserve_property("audio-params", self.on_audio_params)
+            self.mpv.unobserve_property("audio-codec", self.on_audio_codec)
+            self.mpv.unobserve_property("video-bitrate", self.on_bitrate)
+            self.mpv.unobserve_property("audio-bitrate", self.on_bitrate)
+            self.mpv.unobserve_property("core-idle", self.on_playback_changed)
+        except:
+            pass
         self.mpv.observe_property("video-params", self.on_video_params)
         self.mpv.observe_property("video-format", self.on_video_format)
         self.mpv.observe_property("audio-params", self.on_audio_params)
@@ -1621,15 +1633,17 @@ class MainWindow:
             # To prevent 'multiple values for keyword argument'!
             osc = options.pop("osc") != "no"
 
-        self.mpv = mpv.MPV(
-            **options,
-            script_opts="osc-layout=box,osc-seekbarstyle=bar,osc-deadzonesize=0,osc-minmousemove=3",
-            input_default_bindings=True,
-            input_vo_keyboard=True,
-            osc=osc,
-            ytdl=True,
-            wid=str(self.mpv_drawing_area.get_window().get_xid())
-        )
+        if self.mpv is None:
+            self.mpv = mpv.MPV(
+                **options,
+                script_opts="osc-layout=box,osc-seekbarstyle=bar,osc-deadzonesize=0,osc-minmousemove=3",
+                input_default_bindings=True,
+                input_vo_keyboard=True,
+                osc=osc,
+                ytdl=True,
+                wid=str(self.mpv_drawing_area.get_window().get_xid())
+            )
+
         self.mpv.volume = self.volume
         self.mpv.observe_property("volume", self.on_volume_prop)
 
