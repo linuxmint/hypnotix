@@ -1519,6 +1519,7 @@ class MainWindow:
                 self.mpv.command("show-text", str(self.chan_lcn_buf) + "-", timeout)
                 def reset_chan_lcn_buf():
                     self.chan_lcn_buf = 0
+                    return False
                 GLib.timeout_add(timeout, reset_chan_lcn_buf)
             except:
                 self.chan_lcn_buf = 0
