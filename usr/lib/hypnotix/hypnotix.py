@@ -1449,6 +1449,7 @@ class MainWindow:
         self.application.quit()
 
     def on_key_press_event(self, widget, event):
+        channel_focused = self.fullscreen or "ChannelWidget" in widget.get_focus().get_name()
         # Get any active, but not pressed modifiers, like CapsLock and NumLock
         persistant_modifiers = Gtk.accelerator_get_default_mod_mask()
 
@@ -1481,6 +1482,11 @@ class MainWindow:
             self.on_prev_channel()
         elif event.keyval == Gdk.KEY_Right:
             self.on_next_channel()
+            return True
+        elif event.keyval == Gdk.KEY_space:
+            if channel_focused:
+                self.on_pause_button(widget)
+                return True
         # elif event.keyval == Gdk.KEY_Up:
         #     # Up of in the list
         #     pass
