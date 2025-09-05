@@ -27,7 +27,10 @@ from gi.repository import Gtk, Gdk, Gio, XApp, GdkPixbuf, GLib, Pango
 import mpv
 import requests
 import setproctitle
-from imdb import IMDb
+try:
+    from imdb import IMDb
+except:
+    print("python3-imdbpy not found, running without IMDB support.")
 from unidecode import unidecode
 
 from common import Manager, Provider, Channel, MOVIES_GROUP, PROVIDERS_PATH, SERIES_GROUP, TV_GROUP,\
@@ -140,8 +143,10 @@ class MainWindow:
         self.latest_search_bar_text = None
         self.visible_search_results = 0
         self.mpv = None
-        self.ia = IMDb()
-
+        try:
+            self.imdb = IMDb()
+        except:
+            self.imdb = None
         self.page_is_loading = False # used to ignore signals while we set widget states
 
         self.video_properties = {}
@@ -1049,14 +1054,15 @@ class MainWindow:
 
     @async_function
     def get_imdb_details(self, name):
-        movies = self.ia.search_movie(name)
-        match = None
-        for movie in movies:
-            self.ia.update(movie)
-            if movie.get("plot") is not None:
-                match = movie
-                break
-        self.refresh_info_section(match)
+        if self.imdb is not None:
+            movies = self.imdb.search_movie(name)
+            match = None
+            for movie in movies:
+                self.imdb.update(movie)
+                if movie.get("plot") is not None:
+                    match = movie
+                    break
+            self.refresh_info_section(match)
 
     @idle_function
     def refresh_info_section(self, movie):
