@@ -98,11 +98,14 @@ class Channel:
         self.group_title = None
         self.title = None
         self.url = None
+        self.lcn = None
         match = EXTINF.fullmatch(info)
         if match is not None:
             res = match.groupdict()
             if 'params' in res:
                 params = dict(PARAMS.findall(res['params']))
+                if "tvg-lcn" in params and params['tvg-lcn'].strip() != "":
+                    self.lcn = params['tvg-lcn'].strip()
                 if "tvg-name" in params and params['tvg-name'].strip() != "":
                     self.name = params['tvg-name'].strip()
                 if "tvg-logo" in params and params['tvg-logo'].strip() != "":
