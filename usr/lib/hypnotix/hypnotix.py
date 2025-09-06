@@ -1470,7 +1470,11 @@ class MainWindow:
         self.application.quit()
 
     def on_key_press_event(self, widget, event):
-        channel_focused = self.fullscreen or "ChannelWidget" in widget.get_focus().get_name()
+        try:
+            widgetType = widget.get_focus().get_name()
+        except: # we can pretend the channel widget is focused
+            widgetType = "ChannelWidget"
+        channel_focused = self.fullscreen or "ChannelWidget" in widgetType
         # Get any active, but not pressed modifiers, like CapsLock and NumLock
         persistant_modifiers = Gtk.accelerator_get_default_mod_mask()
 
