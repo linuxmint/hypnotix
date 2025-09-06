@@ -547,6 +547,7 @@ class MainWindow:
         self.chan_lcn_buf = 0
         self.timeoutID = 0
         self.active_channel = self.hchannels[0].channel
+        self.prev_channel = None
 
     def show_vod(self, items):
         logos_to_refresh = []
@@ -868,6 +869,7 @@ class MainWindow:
         self.manager.save_favorites(self.favorite_data)
 
     def on_channel_activated(self, box, widget):
+        self.prev_channel = self.active_channel
         self.active_channel = widget.channel
         self.play_async(self.active_channel)
 
@@ -1477,6 +1479,11 @@ class MainWindow:
         # Bool of Control or Shift modifier states
         ctrl = modifier == Gdk.ModifierType.CONTROL_MASK
         shift = modifier == Gdk.ModifierType.SHIFT_MASK
+        
+        def activate_hchannel(chan):
+            idx = self.channels_listbox_selected_index()
+            step = self.hchannels.index(chan) - idx
+            self.channels_listbox_activate_row(step)
 
         if ctrl and event.keyval == Gdk.KEY_r:
             self.reload(page=None, refresh=True)
@@ -1502,13 +1509,16 @@ class MainWindow:
         elif event.keyval == Gdk.KEY_Right:
             self.on_next_channel()
             return True
+        elif event.keyval == Gdk.KEY_Home:
+            if channel_focused:
+                chan = [c for c in self.hchannels if c.channel == self.prev_channel][0]
+                activate_hchannel(chan)
+                return True
         elif event.keyval == Gdk.KEY_Return:
             if channel_focused:
                 try:
                     chan = [c for c in self.hchannels if c.channel.lcn == str(self.chan_lcn_buf)][0]
-                    idx = self.channels_listbox_selected_index()
-                    step = self.hchannels.index(chan) - idx
-                    self.channels_listbox_activate_row(step)
+                    activate_hchannel(chan)
                 finally:
                     self.chan_lcn_buf = 0
                     return True
