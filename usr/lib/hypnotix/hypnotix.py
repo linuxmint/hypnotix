@@ -545,6 +545,7 @@ class MainWindow:
             
         self.update_hchannels()
         self.chan_lcn_buf = 0
+        self.active_channel = self.hchannels[0].channel
 
     def show_vod(self, items):
         logos_to_refresh = []
@@ -1513,16 +1514,17 @@ class MainWindow:
             else:
                 self.chan_lcn_buf = 0
         else:
-            try:
-                self.chan_lcn_buf = self.chan_lcn_buf * 10 + int(chr(event.keyval))
-                timeout = 1500
-                self.mpv.command("show-text", str(self.chan_lcn_buf) + "-", timeout)
-                def reset_chan_lcn_buf():
+            if channel_focused:
+                try:
+                    self.chan_lcn_buf = self.chan_lcn_buf * 10 + int(chr(event.keyval))
+                    timeout = 1500
+                    self.mpv.command("show-text", str(self.chan_lcn_buf) + "-", timeout)
+                    def reset_chan_lcn_buf():
+                        self.chan_lcn_buf = 0
+                        return False
+                    GLib.timeout_add(timeout, reset_chan_lcn_buf)
+                except:
                     self.chan_lcn_buf = 0
-                    return False
-                GLib.timeout_add(timeout, reset_chan_lcn_buf)
-            except:
-                self.chan_lcn_buf = 0
         # elif event.keyval == Gdk.KEY_Up:
         #     # Up of in the list
         #     pass
