@@ -1272,6 +1272,8 @@ class MainWindow:
             visible_widgets.append(self.path_entry)
             visible_widgets.append(self.path_label)
             visible_widgets.append(self.browse_button)
+            visible_widgets.append(self.epg_entry)
+            visible_widgets.append(self.epg_label)
         elif type_id == PROVIDER_TYPE_XTREAM:
             visible_widgets.append(self.url_entry)
             visible_widgets.append(self.url_label)
