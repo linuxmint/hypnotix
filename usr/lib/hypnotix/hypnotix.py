@@ -8,8 +8,13 @@ import time
 import traceback
 import warnings
 import subprocess
+import tempfile
+import requests
+import gzip
+import xml.etree.ElementTree as xmlET
 from functools import partial
 from pathlib import Path
+from datetime import datetime, date, timedelta, timezone
 
 # Force X11 on a Wayland session
 if "WAYLAND_DISPLAY" in os.environ:
@@ -452,6 +457,7 @@ class MainWindow:
                         print(e)
 
     def show_groups(self, widget, content_type):
+        self.load_epg()
         self.content_type = content_type
         self.navigate_to("categories_page")
         for child in self.categories_flowbox.get_children():
@@ -1449,6 +1455,18 @@ class MainWindow:
 
     def on_menu_quit(self, widget):
         self.application.quit()
+        
+    def load_epg(self):
+        #self.status_label.show()
+        #self.status_label.set_text("Loading EPG...")
+        if (self.active_provider.epg != ""):
+            response = requests.get(self.active_provider.epg)
+            with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+                tmp_file.write(response.content)
+                temp_file_path = tmp_file.name
+            with gzip.open(temp_file_path, 'rb') as f:
+                ungzip = f.read().decode('utf-8')
+            self.epg = xmlET.fromstring(ungzip)
 
     def on_key_press_event(self, widget, event):
         # Get any active, but not pressed modifiers, like CapsLock and NumLock
@@ -1459,8 +1477,28 @@ class MainWindow:
         # Bool of Control or Shift modifier states
         ctrl = modifier == Gdk.ModifierType.CONTROL_MASK
         shift = modifier == Gdk.ModifierType.SHIFT_MASK
+        
+        def chan_match(chan1, chan2):
+            chan1 = chan1.lower().replace(" ","")
+            chan1 = ''.join(filter(str.isalnum, chan1))
+            chan2 = chan2.lower().replace(" ","")
+            chan2 = ''.join(filter(str.isalnum, chan2))
+            return (chan1 in chan2 or chan2 in chan1)
 
-        if ctrl and event.keyval == Gdk.KEY_r:
+        if event.keyval == Gdk.KEY_g:
+            dateFormat = "%Y%m%d%H%M%S"
+            timeFormat = "%H:%M"
+            hoursOffset = 0 - int(datetime.now().astimezone().utcoffset().total_seconds() / 3600)
+            targetDatetime = datetime.now() + timedelta(hours=hoursOffset)
+            channelEPG = [p for p in self.epg.findall("programme") if chan_match(p.attrib["channel"], self.active_channel.name)]
+            onair = [p for p in channelEPG if datetime.strptime(p.attrib["start"].split()[0], dateFormat) <= targetDatetime and datetime.strptime(p.attrib["stop">
+            try:
+                onairTime = (datetime.strptime(onair.attrib["start"].split()[0], dateFormat) + timedelta(hours=(0 - hoursOffset))).strftime(timeFormat) + " - " +>
+                onairText = onair.find("title").text + "\n" + onairTime
+            except:
+                onairText = "(no info)"
+            self.mpv.command("show-text", onairText, 3000)
+        elif ctrl and event.keyval == Gdk.KEY_r:
             self.reload(page=None, refresh=True)
         elif ctrl and event.keyval == Gdk.KEY_f:
             if self.search_button.get_active():
