@@ -1477,9 +1477,9 @@ class MainWindow:
         elif event.keyval == Gdk.KEY_BackSpace and not ctrl and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry:
             self.normal_mode()
             self.on_go_back_button()
-        elif event.keyval == Gdk.KEY_Left:
+        elif not shift and event.keyval == Gdk.KEY_Left:
             self.on_prev_channel()
-        elif event.keyval == Gdk.KEY_Right:
+        elif not shift and event.keyval == Gdk.KEY_Right:
             self.on_next_channel()
         else:
             self.mpv.command("keypress", Gdk.keyval_name(event.keyval))
