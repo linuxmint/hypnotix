@@ -1482,7 +1482,10 @@ class MainWindow:
         elif not shift and event.keyval == Gdk.KEY_Right:
             self.on_next_channel()
         else:
-            self.mpv.command("keypress", Gdk.keyval_name(event.keyval))
+            try:
+                self.mpv.command("keypress", Gdk.keyval_name(event.keyval))
+            except:
+                pass
             return True
         # elif event.keyval == Gdk.KEY_Up:
         #     # Up of in the list
