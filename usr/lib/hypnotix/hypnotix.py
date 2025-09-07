@@ -1481,6 +1481,9 @@ class MainWindow:
             self.on_prev_channel()
         elif event.keyval == Gdk.KEY_Right:
             self.on_next_channel()
+        else:
+            self.mpv.command("keypress", Gdk.keyval_name(event.keyval))
+            return True
         # elif event.keyval == Gdk.KEY_Up:
         #     # Up of in the list
         #     pass
