@@ -1483,6 +1483,8 @@ class MainWindow:
             chan1 = ''.join(filter(str.isalnum, chan1))
             chan2 = chan2.lower().replace(" ","")
             chan2 = ''.join(filter(str.isalnum, chan2))
+            chan1 = re.sub(r'^\d+', '', chan1)
+            chan2 = re.sub(r'^\d+', '', chan2)
             return (chan1 in chan2 or chan2 in chan1)
 
         if event.keyval == Gdk.KEY_g and not isinstance(widget.get_focus(), Gtk.Entry):
