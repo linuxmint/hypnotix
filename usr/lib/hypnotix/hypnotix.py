@@ -1504,10 +1504,10 @@ class MainWindow:
             timeFormat = "%H:%M"
             hoursOffset = 0 - int(datetime.now().astimezone().utcoffset().total_seconds() / 3600)
             targetDatetime = datetime.now() + timedelta(hours=hoursOffset)
-            channelEPG = [p for p in self.epg.findall("programme") if chan_match(p.attrib["channel"], self.active_channel.name)]
-            onair = [p for p in channelEPG if datetime.strptime(p.attrib["start"].split()[0], dateFormat) <= targetDatetime and datetime.strptime(p.attrib["stop">
             try:
-                onairTime = (datetime.strptime(onair.attrib["start"].split()[0], dateFormat) + timedelta(hours=(0 - hoursOffset))).strftime(timeFormat) + " - " +>
+                channelEPG = [p for p in self.epg.findall("programme") if chan_match(p.attrib["channel"], self.active_channel.name)]
+                onair = [p for p in channelEPG if datetime.strptime(p.attrib["start"].split()[0], dateFormat) <= targetDatetime and datetime.strptime(p.attrib["stop"].split()[0], dateFormat) >= targetDatetime][0]
+                onairTime = (datetime.strptime(onair.attrib["start"].split()[0], dateFormat) + timedelta(hours=(0 - hoursOffset))).strftime(timeFormat) + " - " + (datetime.strptime(onair.attrib["stop"].split()[0], dateFormat) + timedelta(hours=(0 - hoursOffset))).strftime(timeFormat)
                 onairText = onair.find("title").text + "\n" + onairTime
             except:
                 onairText = "(no info)"
