@@ -1459,14 +1459,21 @@ class MainWindow:
     def load_epg(self):
         #self.status_label.show()
         #self.status_label.set_text("Loading EPG...")
+        self.epg = None
         if (self.active_provider.epg != ""):
-            response = requests.get(self.active_provider.epg)
-            with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
-                tmp_file.write(response.content)
-                temp_file_path = tmp_file.name
-            with gzip.open(temp_file_path, 'rb') as f:
-                ungzip = f.read().decode('utf-8')
-            self.epg = xmlET.fromstring(ungzip)
+            for e in self.active_provider.epg.split():
+                response = requests.get(e)
+                with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+                    tmp_file.write(response.content)
+                    temp_file_path = tmp_file.name
+                with gzip.open(temp_file_path, 'rb') as f:
+                    ungzip = f.read().decode('utf-8')
+                epg = xmlET.fromstring(ungzip)
+                if self.epg is None:
+                    self.epg = epg
+                else:
+                    for item in epg:
+                        self.epg.append(item)
 
     def on_key_press_event(self, widget, event):
         # Get any active, but not pressed modifiers, like CapsLock and NumLock
