@@ -1485,7 +1485,7 @@ class MainWindow:
             chan2 = ''.join(filter(str.isalnum, chan2))
             return (chan1 in chan2 or chan2 in chan1)
 
-        if event.keyval == Gdk.KEY_g:
+        if event.keyval == Gdk.KEY_g and not isinstance(widget.get_focus(), Gtk.Entry):
             dateFormat = "%Y%m%d%H%M%S"
             timeFormat = "%H:%M"
             hoursOffset = 0 - int(datetime.now().astimezone().utcoffset().total_seconds() / 3600)
