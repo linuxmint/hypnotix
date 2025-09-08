@@ -1466,7 +1466,7 @@ class MainWindow:
             else:
                 self.search_button.set_active(True)
         elif event.keyval == Gdk.KEY_F11 or \
-                (event.keyval == Gdk.KEY_f and not ctrl and not isinstance(widget.get_focus(), Gtk.Entry):
+                (event.keyval == Gdk.KEY_f and not ctrl and not isinstance(widget.get_focus(), Gtk.Entry)):
             self.full_screen_mode()
         elif event.keyval == Gdk.KEY_F6:
             self.theather_mode()
