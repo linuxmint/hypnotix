@@ -11,6 +11,7 @@ import subprocess
 import tempfile
 import requests
 import gzip
+import re
 import xml.etree.ElementTree as xmlET
 from functools import partial
 from pathlib import Path
