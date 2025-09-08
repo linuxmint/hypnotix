@@ -882,6 +882,7 @@ class MainWindow:
     @async_function
     def play_async(self, channel):
         if self.mpv is not None:
+            self.mpv.command("show-text", "", 1)
             self.mpv.stop()
         print("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
         if channel is not None and channel.url is not None:
@@ -1463,18 +1464,21 @@ class MainWindow:
         self.epg = None
         if (self.active_provider.epg != ""):
             for e in self.active_provider.epg.split():
-                response = requests.get(e)
-                with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
-                    tmp_file.write(response.content)
-                    temp_file_path = tmp_file.name
-                with gzip.open(temp_file_path, 'rb') as f:
-                    ungzip = f.read().decode('utf-8')
-                epg = xmlET.fromstring(ungzip)
-                if self.epg is None:
-                    self.epg = epg
-                else:
-                    for item in epg:
-                        self.epg.append(item)
+                try:
+                    response = requests.get(e)
+                    with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+                        tmp_file.write(response.content)
+                        temp_file_path = tmp_file.name
+                    with gzip.open(temp_file_path, 'rb') as f:
+                        ungzip = f.read().decode('utf-8')
+                    epg = xmlET.fromstring(ungzip)
+                    if self.epg is None:
+                        self.epg = epg
+                    else:
+                        for item in epg:
+                            self.epg.append(item)
+                except:
+                    pass
 
     def on_key_press_event(self, widget, event):
         # Get any active, but not pressed modifiers, like CapsLock and NumLock
