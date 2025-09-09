@@ -12,6 +12,8 @@ import tempfile
 import requests
 import gzip
 import re
+import base64
+import pickle
 import xml.etree.ElementTree as xmlET
 from functools import partial
 from pathlib import Path
@@ -1462,7 +1464,12 @@ class MainWindow:
         #self.status_label.show()
         #self.status_label.set_text("Loading EPG...")
         self.epg = None
-        if (self.active_provider.epg != ""):
+        cached_epg_name = base64.urlsafe_b64encode((date.today().isoformat() + self.active_provider.epg).encode()).decode()
+        cached_epg_path = os.path.join(tempfile.gettempdir(), cached_epg_name)
+        if os.path.exists(cached_epg_path):
+            with open(cached_epg_path, 'rb') as f:
+                self.epg = pickle.load(f)
+        elif (self.active_provider.epg != ""):
             for e in self.active_provider.epg.split():
                 try:
                     response = requests.get(e)
@@ -1479,7 +1486,9 @@ class MainWindow:
                             self.epg.append(item)
                 except:
                     pass
-
+            with open(cached_epg_path, 'wb') as f:
+                pickle.dump(self.epg, f)
+                
     def on_key_press_event(self, widget, event):
         # Get any active, but not pressed modifiers, like CapsLock and NumLock
         persistant_modifiers = Gtk.accelerator_get_default_mod_mask()
