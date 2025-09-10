@@ -460,7 +460,7 @@ class MainWindow:
                         print(e)
 
     def show_groups(self, widget, content_type):
-        self.load_epg()
+        self.load_epg(self.active_provider.epg)
         self.content_type = content_type
         self.navigate_to("categories_page")
         for child in self.categories_flowbox.get_children():
@@ -523,6 +523,7 @@ class MainWindow:
                 self.show_vod(self.active_provider.series)
 
     def show_favorites(self, widget=None):
+        self.load_epg(self.settings.get_string("favorites-epg"))
         self.content_type = TV_GROUP
         channels = []
         for line in self.favorite_data:
@@ -861,6 +862,8 @@ class MainWindow:
         if widget.get_active() and data not in self.favorite_data:
             print (f"Adding {name} to favorites")
             self.favorite_data.append(data)
+            current_epg = self.active_provider.epg
+            self.settings.set_string("favorites-epg", (self.settings.get_string("favorites-epg").replace(current_epg, "") + " " + current_epg))
         elif widget.get_active() == False and data in self.favorite_data:
             print (f"Removing {name} from favorites")
             self.favorite_data.remove(data)
@@ -1460,17 +1463,17 @@ class MainWindow:
     def on_menu_quit(self, widget):
         self.application.quit()
         
-    def load_epg(self):
+    def load_epg(self, epg_urls):
         #self.status_label.show()
         #self.status_label.set_text("Loading EPG...")
         self.epg = None
-        cached_epg_name = base64.urlsafe_b64encode((date.today().isoformat() + self.active_provider.epg).encode()).decode()
+        cached_epg_name = base64.urlsafe_b64encode((date.today().isoformat() + epg_urls).encode()).decode()
         cached_epg_path = os.path.join(tempfile.gettempdir(), cached_epg_name)
         if os.path.exists(cached_epg_path):
             with open(cached_epg_path, 'rb') as f:
                 self.epg = pickle.load(f)
-        elif (self.active_provider.epg != ""):
-            for e in self.active_provider.epg.split():
+        elif (epg_urls != ""):
+            for e in epg_urls.split():
                 try:
                     response = requests.get(e)
                     with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
