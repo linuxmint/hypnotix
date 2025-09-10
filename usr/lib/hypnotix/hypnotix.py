@@ -546,7 +546,10 @@ class MainWindow:
         self.update_hchannels()
         self.chan_lcn_buf = 0
         self.timeoutID = 0
-        self.active_channel = self.hchannels[0].channel
+        try:
+            self.active_channel = self.hchannels[0].channel
+        except:
+            pass
         self.prev_channel = None
 
     def show_vod(self, items):
