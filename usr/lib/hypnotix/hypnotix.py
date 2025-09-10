@@ -1520,7 +1520,7 @@ class MainWindow:
                 onairText = onair.find("title").text + "\n" + onairTime
             except:
                 onairText = "(no info)"
-            self.mpv.command("show-text", onairText, 3000)
+            self.mpv.command("show-text", onairText, 4500)
         elif ctrl and event.keyval == Gdk.KEY_r:
             self.reload(page=None, refresh=True)
         elif ctrl and event.keyval == Gdk.KEY_f:
