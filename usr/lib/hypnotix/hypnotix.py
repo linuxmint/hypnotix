@@ -552,7 +552,7 @@ class MainWindow:
                 self.download_channel_logos(logos_to_refresh)
         else:
             self.sidebar.hide()
-        self.epg_counter = {"channel": "", "idx": 0}
+        self.epg_counter = {"channel": "", "idx": -1}
 
     def show_vod(self, items):
         logos_to_refresh = []
@@ -888,6 +888,7 @@ class MainWindow:
     @async_function
     def play_async(self, channel):
         if self.mpv is not None:
+            self.epg_counter["idx"] = -1
             self.mpv.command("show-text", "", 1)
             self.mpv.stop()
         print("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
@@ -1518,15 +1519,15 @@ class MainWindow:
             hoursOffset = 0 - int(datetime.now().astimezone().utcoffset().total_seconds() / 3600)
             targetDatetime = datetime.now() + timedelta(hours=hoursOffset)
             if self.active_channel.name != self.epg_counter["channel"]:
-                self.epg_counter = {"channel": self.active_channel.name, "idx": 0 }
+                self.epg_counter = {"channel": self.active_channel.name, "idx": -1 }
             try:
                 channelEPG = [p for p in self.epg.findall("programme") if chan_match(p.attrib["channel"], self.active_channel.name)]
                 onair = [p for p in channelEPG if datetime.strptime(p.attrib["start"].split()[0], dateFormat) <= targetDatetime and datetime.strptime(p.attrib["stop"].split()[0], dateFormat) >= targetDatetime and (int(p.attrib["stop"][8:10]) - int(p.attrib["start"][8:10]) < 5)]
                 osd_counter = ""
                 if len(onair) > 1:
-                    osd_counter = " [" + str(self.epg_counter["idx"] + 1) + "/" + str(len(onair)) + "]"
                     self.epg_counter["idx"] = (self.epg_counter["idx"] + 1) % len(onair)
-                onair = onair[::-1][self.epg_counter["idx"]]
+                    osd_counter = " [" + str(self.epg_counter["idx"] + 1) + "/" + str(len(onair)) + "]"
+                onair = onair[self.epg_counter["idx"]]
                 onairTime = (datetime.strptime(onair.attrib["start"].split()[0], dateFormat) + timedelta(hours=(0 - hoursOffset))).strftime(timeFormat) + " - " + (datetime.strptime(onair.attrib["stop"].split()[0], dateFormat) + timedelta(hours=(0 - hoursOffset))).strftime(timeFormat)
                 onairText = onair.attrib["channel"] + osd_counter + "\n" + onair.find("title").text + "\n" + onairTime
             except:
