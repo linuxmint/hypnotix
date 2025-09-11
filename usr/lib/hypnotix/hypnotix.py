@@ -876,6 +876,7 @@ class MainWindow:
     def play_async(self, channel):
         if self.mpv is not None:
             self.mpv.stop()
+            self.mpv.pause = False
         print("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
         if channel is not None and channel.url is not None:
             # os.system("mpv --wid=%s %s &" % (self.wid, channel.url))
