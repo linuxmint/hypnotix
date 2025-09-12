@@ -1469,12 +1469,15 @@ class MainWindow:
         #self.status_label.show()
         #self.status_label.set_text("Loading EPG...")
         self.epg = None
-        cached_epg_name = base64.urlsafe_b64encode((date.today().isoformat() + epg_urls).encode()).decode()
-        cached_epg_path = os.path.join(tempfile.gettempdir(), cached_epg_name)
+        def get_cached_epg_path(urls):
+            cached_epg_name = base64.urlsafe_b64encode((date.today().isoformat() + urls).encode()).decode()
+            return os.path.join(tempfile.gettempdir(), cached_epg_name)
+        cached_epg_path = get_cached_epg_path(epg_urls)
         if os.path.exists(cached_epg_path):
             with open(cached_epg_path, 'rb') as f:
                 self.epg = pickle.load(f)
         elif (epg_urls != ""):
+            urls = ""
             for e in epg_urls.split():
                 try:
                     response = requests.get(e)
@@ -1489,9 +1492,10 @@ class MainWindow:
                     else:
                         for item in epg:
                             self.epg.append(item)
+                    urls += (" " + e)
                 except:
                     pass
-            with open(cached_epg_path, 'wb') as f:
+            with open(get_cached_epg_path(urls), 'wb') as f:
                 pickle.dump(self.epg, f)
                 
     def on_key_press_event(self, widget, event):
@@ -1505,12 +1509,18 @@ class MainWindow:
         shift = modifier == Gdk.ModifierType.SHIFT_MASK
         
         def chan_match(chan1, chan2):
+            # discard digits at the beginning
+            chan1 = re.sub(r'^\d+', '', chan1)
+            chan2 = re.sub(r'^\d+', '', chan2)
+            # discard useless words 
+            regex = r"\b(4K|HD)\b"
+            chan1 = re.sub(regex, "", chan1, flags=re.IGNORECASE)
+            chan2 = re.sub(regex, "", chan2, flags=re.IGNORECASE)
+            # normalize
             chan1 = chan1.lower().replace(" ","")
             chan1 = ''.join(filter(str.isalnum, chan1))
             chan2 = chan2.lower().replace(" ","")
             chan2 = ''.join(filter(str.isalnum, chan2))
-            chan1 = re.sub(r'^\d+', '', chan1)
-            chan2 = re.sub(r'^\d+', '', chan2)
             return (chan1 in chan2 or chan2 in chan1)
 
         if event.keyval == Gdk.KEY_g and not isinstance(widget.get_focus(), Gtk.Entry):
