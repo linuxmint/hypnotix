@@ -1527,12 +1527,12 @@ class MainWindow:
             dateFormat = "%Y%m%d%H%M%S"
             timeFormat = "%H:%M"
             hoursOffset = 0 - int(datetime.now().astimezone().utcoffset().total_seconds() / 3600)
-            targetDatetime = datetime.now() + timedelta(hours=hoursOffset)
+            targetDatetime = (datetime.now() + timedelta(hours=hoursOffset)).timestamp()
             if self.active_channel.name != self.epg_counter["channel"]:
                 self.epg_counter = {"channel": self.active_channel.name, "idx": -1 }
             try:
                 channelEPG = [p for p in self.epg.findall("programme") if chan_match(p.attrib["channel"], self.active_channel.name)]
-                onair = [p for p in channelEPG if datetime.strptime(p.attrib["start"].split()[0], dateFormat) <= targetDatetime and datetime.strptime(p.attrib["stop"].split()[0], dateFormat) >= targetDatetime and (int(p.attrib["stop"][8:10]) - int(p.attrib["start"][8:10]) < 5)]
+                onair = [p for p in channelEPG if (tstart := datetime.strptime(p.attrib["start"].split()[0], dateFormat).timestamp()) <= targetDatetime and (tstop := datetime.strptime(p.attrib["stop"].split()[0], dateFormat).timestamp()) >= targetDatetime and (tstop - tstart) < (3600 * 5)]
                 osd_counter = ""
                 if len(onair) > 1:
                     self.epg_counter["idx"] = (self.epg_counter["idx"] + 1) % len(onair)
