@@ -1470,7 +1470,7 @@ class MainWindow:
         #self.status_label.set_text("Loading EPG...")
         self.epg = None
         def get_cached_epg_path(urls):
-            cached_epg_name = base64.urlsafe_b64encode((date.today().isoformat() + urls).encode()).decode()
+            cached_epg_name = base64.urlsafe_b64encode((date.today().isoformat() + urls.replace(" ","")).encode()).decode()
             return os.path.join(tempfile.gettempdir(), cached_epg_name)
         cached_epg_path = get_cached_epg_path(epg_urls)
         if os.path.exists(cached_epg_path):
@@ -1492,7 +1492,7 @@ class MainWindow:
                     else:
                         for item in epg:
                             self.epg.append(item)
-                    urls += (" " + e)
+                    urls += e
                 except:
                     pass
             with open(get_cached_epg_path(urls), 'wb') as f:
