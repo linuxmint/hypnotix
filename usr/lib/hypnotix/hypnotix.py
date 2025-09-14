@@ -1473,6 +1473,7 @@ class MainWindow:
         elif event.keyval == Gdk.KEY_F7:
             self.borderless_mode()
         elif event.keyval == Gdk.KEY_Escape:
+            self.window.get_window().set_cursor(None)
             self.normal_mode()
         elif event.keyval == Gdk.KEY_BackSpace and not ctrl and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry:
             self.normal_mode()
