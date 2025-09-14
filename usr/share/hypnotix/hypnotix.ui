@@ -2,7 +2,7 @@
 <!-- Generated with glade 3.40.0 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <requires lib="xapp" version="0.0"/>
+  <!-- <requires lib="xapp" version="0.0"/> -->
   <object class="GtkMenu" id="main_menu">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
@@ -142,7 +142,8 @@
                                   <object class="GtkImage">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
-                                    <property name="icon-name">xapp-prefs-behavior-symbolic</property>
+                                    <!-- <property name="icon-name">xapp-prefs-behavior-symbolic</property> -->
+                                    <property name="icon-name">preferences-system-symbolic</property>
                                     <property name="icon_size">3</property>
                                   </object>
                                 </child>
@@ -740,7 +741,8 @@
                             <property name="can-focus">False</property>
                             <property name="spacing">6</property>
                             <child>
-                              <object class="XAppStackSidebar">
+                              <!-- <object class="XAppStackSidebar"> Does not work on Windows --> 
+                              <object class="GtkStackSidebar">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
                                 <property name="stack">pref_stack</property>

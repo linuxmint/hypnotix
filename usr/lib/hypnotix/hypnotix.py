@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+import ctypes
 import gettext
 import locale
 import os
@@ -18,15 +19,23 @@ if "WAYLAND_DISPLAY" in os.environ:
 # Suppress GTK deprecation warnings
 warnings.filterwarnings("ignore")
 
+import platform
+IS_WINDOWS = platform.system() == "Windows"
+
 import gi
 
 gi.require_version("Gtk", "3.0")
-gi.require_version("XApp", "1.0")
-from gi.repository import Gtk, Gdk, Gio, XApp, GdkPixbuf, GLib, Pango
+# Conditionally import XApp based on platform
+if not IS_WINDOWS:
+    gi.require_version("XApp", "1.0")
+    from gi.repository import Gtk, Gdk, Gio, XApp, GdkPixbuf, GLib, Pango
+else:
+    from gi.repository import Gtk, Gdk, Gio, GdkPixbuf, GLib, Pango
 
 import mpv
 import requests
 import setproctitle
+from imdb import Cinemagoer
 from unidecode import unidecode
 
 from common import Manager, Provider, Channel, MOVIES_GROUP, PROVIDERS_PATH, SERIES_GROUP, TV_GROUP,\
@@ -38,9 +47,16 @@ setproctitle.setproctitle("hypnotix")
 # i18n
 APP = "hypnotix"
 LOCALE_DIR = "/usr/share/locale"
-locale.bindtextdomain(APP, LOCALE_DIR)
-gettext.bindtextdomain(APP, LOCALE_DIR)
-gettext.textdomain(APP)
+
+if not IS_WINDOWS:
+    locale.bindtextdomain(APP, LOCALE_DIR)
+    gettext.bindtextdomain(APP, LOCALE_DIR)
+    gettext.textdomain(APP)
+else:
+    # Windows doesn't support bindtextdomain through locale
+    gettext.bindtextdomain(APP, LOCALE_DIR)
+    gettext.textdomain(APP)
+
 _ = gettext.gettext
 
 
@@ -71,7 +87,7 @@ AUDIO_SAMPLE_FORMATS = {
 }
 
 COUNTRY_CODES = {}
-with open("/usr/share/hypnotix/countries.list") as f:
+with open("usr/share/hypnotix/countries.list") as f:
     for line in f:
         line = line.strip()
         code, name = line.split(":")
@@ -139,8 +155,8 @@ class MainWindow:
         self.latest_search_bar_text = None
         self.visible_search_results = 0
         self.mpv = None
+        self.ia = IMDb()
         self.page_is_loading = False # used to ignore signals while we set widget states
-
         self.video_properties = {}
         self.audio_properties = {}
         self.volume = 100
@@ -148,7 +164,7 @@ class MainWindow:
         # Used for redownloading timer
         self.reload_timeout_sec = 60 * 5
         self._timerid = -1
-        gladefile = "/usr/share/hypnotix/hypnotix.ui"
+        gladefile = "usr/share/hypnotix/hypnotix.ui"
         self.builder = Gtk.Builder()
         self.builder.set_translation_domain(APP)
         self.builder.add_from_file(gladefile)
@@ -160,7 +176,7 @@ class MainWindow:
         self.info_window = self.builder.get_object("stream_info_window")
 
         provider = Gtk.CssProvider()
-        provider.load_from_path("/usr/share/hypnotix/hypnotix.css")
+        provider.load_from_path("usr/share/hypnotix/hypnotix.css")
         screen = Gdk.Display.get_default_screen(Gdk.Display.get_default())
         # I was unable to found instrospected version of this
         Gtk.StyleContext.add_provider_for_screen(
@@ -337,10 +353,11 @@ class MainWindow:
 
         # Dark mode manager
         # keep a reference to it (otherwise it gets randomly garbage collected)
-        try:
-            self.dark_mode_manager = XApp.DarkModeManager.new(prefer_dark_mode=True)
-        except Exception:
-            pass
+        if not IS_WINDOWS:
+            try:
+                self.dark_mode_manager = XApp.DarkModeManager.new(prefer_dark_mode=True)
+            except Exception:
+                pass
 
         # Menubar
         accel_group = Gtk.AccelGroup()
@@ -392,9 +409,9 @@ class MainWindow:
         self.provider_type_combo.set_active(0)  # Select 1st type
         self.provider_type_combo.connect("changed", self.on_provider_type_combo_changed)
 
-        self.tv_logo.set_from_surface(self.get_surface_for_file("/usr/share/hypnotix/pictures/tv.svg", 258, 258))
-        self.movies_logo.set_from_surface(self.get_surface_for_file("/usr/share/hypnotix/pictures/movies.svg", 258, 258))
-        self.series_logo.set_from_surface(self.get_surface_for_file("/usr/share/hypnotix/pictures/series.svg", 258, 258))
+        self.tv_logo.set_from_surface(self.get_surface_for_file("usr/share/hypnotix/pictures/tv.svg", 258, 258))
+        self.movies_logo.set_from_surface(self.get_surface_for_file("usr/share/hypnotix/pictures/movies.svg", 258, 258))
+        self.series_logo.set_from_surface(self.get_surface_for_file("usr/share/hypnotix/pictures/series.svg", 258, 258))
 
         self.reload(page="landing_page")
 
@@ -426,7 +443,7 @@ class MainWindow:
         return Gtk.Image.new_from_surface(surf)
 
     def add_flag(self, code, box):
-        path = f"/usr/share/circle-flags-svg/{code.lower()}.svg"
+        path = f"usr/share/circle-flags-svg/{code.lower()}.svg"
         if os.path.exists(path):
             try:
                 image = self.get_surf_based_image(path, -1, 32)
@@ -440,7 +457,7 @@ class MainWindow:
     def add_badge(self, word, box, added_words):
         if word not in added_words:
             for extension in ["svg", "png"]:
-                path = "/usr/share/hypnotix/pictures/badges/%s.%s" % (word, extension)
+                path = "usr/share/hypnotix/pictures/badges/%s.%s" % (word, extension)
                 if os.path.exists(path):
                     try:
                         image = self.get_surf_based_image(path, -1, 32)
@@ -479,7 +496,8 @@ class MainWindow:
             for country_name in COUNTRY_CODES.keys():
                 if country_name.lower() == group.name.lower():
                     found_flag = True
-                    self.add_flag(COUNTRY_CODES[country_name], box)
+                    # commenting out as circle-flags is not added
+                    # self.add_flag(COUNTRY_CODES[country_name], box)
                     break
 
             for word in name.split():
@@ -689,7 +707,7 @@ class MainWindow:
             else:
                 surface = self.get_surface_for_file(path, 200, 200)
         except Exception:
-            surface = self.get_surface_for_file("/usr/share/hypnotix/generic_tv_logo.png", 22, 22)
+            surface = self.get_surface_for_file("usr/share/hypnotix/generic_tv_logo.png", 22, 22)
         return surface
 
     def on_go_back_button(self, widget=None):
@@ -836,7 +854,7 @@ class MainWindow:
             self.headerbar.set_subtitle(_("Reset providers"))
 
     def open_keyboard_shortcuts(self, widget):
-        gladefile = "/usr/share/hypnotix/shortcuts.ui"
+        gladefile = "usr/share/hypnotix/shortcuts.ui"
         builder = Gtk.Builder()
         builder.set_translation_domain(APP)
         builder.add_from_file(gladefile)
@@ -1423,7 +1441,7 @@ class MainWindow:
         dlg.set_program_name(_("Hypnotix"))
         dlg.set_comments(_("Watch TV"))
         try:
-            h = open("/usr/share/common-licenses/GPL", encoding="utf-8")
+            h = open("usr/share/common-licenses/GPL", encoding="utf-8")
             s = h.readlines()
             gpl = ""
             for line in s:
@@ -1502,7 +1520,6 @@ class MainWindow:
         for provider_info in self.settings.get_strv("providers"):
             try:
                 provider = Provider(name=None, provider_info=provider_info)
-
                 # Add provider to list. This must be done so that it shows up in the
                 # list of providers for editing.
                 self.providers.append(provider)
@@ -1628,6 +1645,26 @@ class MainWindow:
         while not self.mpv_drawing_area.get_window() and not Gtk.events_pending():
             time.sleep(0.1)
 
+        # Get the window handle of the drawing area
+        gdk_window = self.mpv_drawing_area.get_window()
+        if gdk_window is not None:
+            if IS_WINDOWS:
+                # Windows-specific handling
+                if not gdk_window.ensure_native():
+                    print("Error - video playback requires a native window")
+                ctypes.pythonapi.PyCapsule_GetPointer.restype = ctypes.c_void_p
+                ctypes.pythonapi.PyCapsule_GetPointer.argtypes = [ctypes.py_object]
+                drawingarea_gpointer = ctypes.cast(ctypes.pythonapi.PyCapsule_GetPointer(gdk_window.__gpointer__, None), ctypes.c_void_p)
+                gdkdll = ctypes.CDLL("libgdk-3-0.dll")
+                wid = gdkdll.gdk_win32_window_get_handle(drawingarea_gpointer)
+            else:
+                # Linux-specific handling
+                wid = gdk_window.get_xid()
+        else:
+            raise RuntimeError("Failed to get window handle")
+
+        options["wid"] = str(wid)  # Set the window ID for MPV
+
         osc = True
         if "osc" in options:
             # To prevent 'multiple values for keyword argument'!
@@ -1706,9 +1743,30 @@ class MainWindow:
     def on_close_info_window_button_clicked(self, widget):
         self.info_window.hide()
 
-    def on_volume_prop(self, name, value ):
-        self.volume = value
+def compile_gsettings_schema(schema_dir):
+    # Compile the GSettings schemas
+    try:
+        subprocess.run(['glib-compile-schemas', schema_dir], check=True)
+        #print("GSettings schemas compiled successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error compiling GSettings schemas: {e}")
+
+def set_gsettings_schema_dir(schema_dir):
+    # Set the GSETTINGS_SCHEMA_DIR environment variable
+    os.environ['GSETTINGS_SCHEMA_DIR'] = schema_dir
+    #print(f"GSETTINGS_SCHEMA_DIR set to: {schema_dir}")
+    
+def on_volume_prop(self, name, value ):
+    self.volume = value
 
 if __name__ == "__main__":
+    schema_directory = "usr/share/glib-2.0/schemas/"
+    
+    # Compile the schemas. Added for Windows in specific.
+    compile_gsettings_schema(schema_directory)
+    
+    # Set the environment variable. Added for Windows in specific.
+    set_gsettings_schema_dir(schema_directory)
+
     application = MyApplication("org.x.hypnotix", Gio.ApplicationFlags.FLAGS_NONE)
     application.run()
