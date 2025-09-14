@@ -1473,7 +1473,6 @@ class MainWindow:
         elif event.keyval == Gdk.KEY_F7:
             self.borderless_mode()
         elif event.keyval == Gdk.KEY_Escape:
-            self.window.get_window().set_cursor(None)
             self.normal_mode()
         elif event.keyval == Gdk.KEY_BackSpace and not ctrl and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry:
             self.normal_mode()
@@ -1653,6 +1652,7 @@ class MainWindow:
         cr.paint()
 
     def normal_mode(self):
+        self.window.get_window().set_cursor(None)
         self.window.unfullscreen()
         self.mpv_top_box.show()
         self.mpv_bottom_box.hide()
@@ -1700,7 +1700,6 @@ class MainWindow:
                 self.status_label.hide()
                 self.channels_box.set_border_width(0)
             else:
-                self.window.get_window().set_cursor(None)
                 self.normal_mode()
 
     def on_fullscreen_button_clicked(self, widget):
