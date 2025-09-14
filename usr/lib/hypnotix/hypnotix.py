@@ -1499,6 +1499,11 @@ class MainWindow:
             self.on_prev_channel()
         elif event.keyval == Gdk.KEY_Right:
             self.on_next_channel()
+        #sidebar toggle
+        elif event.keyval == Gdk.KEY_s:
+            self.toggle_sidebar_visibility()
+        elif event.keyval == Gdk.KEY_h:
+            self.toggle_header_visibility()
         # elif event.keyval == Gdk.KEY_Up:
         #     # Up of in the list
         #     pass
@@ -1745,6 +1750,23 @@ class MainWindow:
 
     def on_volume_prop(self, name, value ):
         self.volume = value
+
+    #sidebar toggle
+    def toggle_sidebar_visibility(self):
+        self.sidebar_visible = not self.sidebar_visible
+        if not self.sidebar_visible:
+            self.sidebar.hide()
+        else:
+            self.sidebar.show()
+            
+    def toggle_header_visibility(self):
+        self.header_visible = not self.header_visible
+        if not self.header_visible:
+            self.headerbar.hide()
+            self.mpv_top_box.hide()
+        else:
+            self.headerbar.show()
+            self.mpv_top_box.show()
 
 def compile_gsettings_schema(schema_dir):
     # Compile the GSettings schemas
