@@ -35,7 +35,7 @@ else:
 import mpv
 import requests
 import setproctitle
-from imdb import Cinemagoer
+#from imdb import Cinemagoer
 from unidecode import unidecode
 
 from common import Manager, Provider, Channel, MOVIES_GROUP, PROVIDERS_PATH, SERIES_GROUP, TV_GROUP,\
@@ -155,7 +155,7 @@ class MainWindow:
         self.latest_search_bar_text = None
         self.visible_search_results = 0
         self.mpv = None
-        self.ia = IMDb()
+        #self.ia = IMDb()
         self.page_is_loading = False # used to ignore signals while we set widget states
         self.video_properties = {}
         self.audio_properties = {}
@@ -1677,8 +1677,8 @@ class MainWindow:
                 input_default_bindings=True,
                 input_vo_keyboard=True,
                 osc=osc,
-                ytdl=True,
-                wid=str(self.mpv_drawing_area.get_window().get_xid())
+                ytdl=True
+                #wid=str(wid_tmp)
             )
 
         self.mpv.volume = self.volume
@@ -1743,6 +1743,9 @@ class MainWindow:
     def on_close_info_window_button_clicked(self, widget):
         self.info_window.hide()
 
+    def on_volume_prop(self, name, value ):
+        self.volume = value
+
 def compile_gsettings_schema(schema_dir):
     # Compile the GSettings schemas
     try:
@@ -1755,9 +1758,6 @@ def set_gsettings_schema_dir(schema_dir):
     # Set the GSETTINGS_SCHEMA_DIR environment variable
     os.environ['GSETTINGS_SCHEMA_DIR'] = schema_dir
     #print(f"GSETTINGS_SCHEMA_DIR set to: {schema_dir}")
-    
-def on_volume_prop(self, name, value ):
-    self.volume = value
 
 if __name__ == "__main__":
     schema_directory = "usr/share/glib-2.0/schemas/"
