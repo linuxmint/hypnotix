@@ -1,23 +1,23 @@
-# Polish translation for linuxmint
-# Copyright (c) 2020 Rosetta Contributors and Canonical Ltd 2020
+# Georgian translation for linuxmint
+# Copyright (c) 2025 Rosetta Contributors and Canonical Ltd 2025
 # This file is distributed under the same license as the linuxmint package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2025-07-24 17:05+0200\n"
-"PO-Revision-Date: 2025-07-24 17:30+0000\n"
-"Last-Translator: Marek Adamski <Unknown>\n"
-"Language-Team: Polish <pl@li.org>\n"
+"PO-Revision-Date: 2025-06-15 07:06+0000\n"
+"Last-Translator: NorwayFun <temuri.doghonadze@gmail.com>\n"
+"Language-Team: Georgian <ka@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Launchpad-Export-Date: 2025-08-26 15:25+0000\n"
 "X-Generator: Launchpad (build 919009172d854f2b8e4e8262db447f12f11d25eb)\n"
+"Language: ka\n"
 
 #: usr/lib/hypnotix/hypnotix.py:159 usr/lib/hypnotix/hypnotix.py:863
 #: usr/lib/hypnotix/hypnotix.py:1490 generate_desktop_files:25
@@ -27,132 +27,132 @@ msgstr "Hypnotix"
 
 #: usr/lib/hypnotix/hypnotix.py:370 usr/share/hypnotix/shortcuts.ui.h:10
 msgid "Keyboard Shortcuts"
-msgstr "Skróty klawiszowe"
+msgstr "კლავიატურის მალსახმობები"
 
 #: usr/lib/hypnotix/hypnotix.py:377 usr/share/hypnotix/hypnotix.ui.h:51
 #: usr/share/hypnotix/shortcuts.ui.h:3
 msgid "Stream Information"
-msgstr "Informacje o strumieniu"
+msgstr "ნაკადის ინფორმაცია"
 
 #: usr/lib/hypnotix/hypnotix.py:385 usr/lib/hypnotix/hypnotix.py:1489
 #: usr/share/hypnotix/shortcuts.ui.h:2
 msgid "About"
-msgstr "O programie"
+msgstr "შესახებ"
 
 #: usr/lib/hypnotix/hypnotix.py:390 usr/share/hypnotix/shortcuts.ui.h:12
 msgid "Quit"
-msgstr "Zakończ"
+msgstr "გასვლა"
 
 #: usr/lib/hypnotix/hypnotix.py:403
 msgid "M3U URL"
-msgstr "Adres URL M3U"
+msgstr "M3U URL"
 
 #: usr/lib/hypnotix/hypnotix.py:404
 msgid "Local M3U File"
-msgstr "Lokalny plik M3U"
+msgstr "ლოკალური M3U ფაილი"
 
 #: usr/lib/hypnotix/hypnotix.py:405
 msgid "Xtream API"
-msgstr "API Xtream"
+msgstr "Xtream API"
 
 #: usr/lib/hypnotix/hypnotix.py:615
 #, python-format
 msgid "Season %s"
-msgstr "Sezon %s"
+msgstr "სეზონი %s"
 
 #: usr/lib/hypnotix/hypnotix.py:626
 #, python-format
 msgid "Episode %s"
-msgstr "Odcinek %s"
+msgstr "ეპიზოდი %s"
 
 #: usr/lib/hypnotix/hypnotix.py:744
 msgid "No channels found"
-msgstr "Nie znaleziono kanałów"
+msgstr "არხები აღმჩენილი არაა"
 
 #: usr/lib/hypnotix/hypnotix.py:768 usr/lib/hypnotix/hypnotix.py:1491
 #: generate_desktop_files:25 usr/share/hypnotix/hypnotix.ui.h:42
 msgid "Watch TV"
-msgstr "Oglądaj telewizję"
+msgstr "ტელევიზორის ყურება"
 
 #: usr/lib/hypnotix/hypnotix.py:770
 msgid "No provider selected"
-msgstr "Nie wybrano dostawcy"
+msgstr "მომწოდებლის გარეშე"
 
 #: usr/lib/hypnotix/hypnotix.py:771 usr/lib/hypnotix/hypnotix.py:779
 #, python-format
 msgid "TV Channels (%d)"
-msgstr "Kanały telewizyjne (%d)"
+msgstr "TV არხები (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:772 usr/lib/hypnotix/hypnotix.py:780
 #, python-format
 msgid "Movies (%d)"
-msgstr "Filmy (%d)"
+msgstr "ფილმები (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:773 usr/lib/hypnotix/hypnotix.py:781
 #, python-format
 msgid "Series (%d)"
-msgstr "Seriale (%d)"
+msgstr "სერიები (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:789 usr/lib/hypnotix/hypnotix.py:804
 msgid "TV Channels"
-msgstr "Kanały telewizyjne"
+msgstr "TV არხები"
 
 #: usr/lib/hypnotix/hypnotix.py:791 usr/lib/hypnotix/hypnotix.py:818
 msgid "Movies"
-msgstr "Filmy"
+msgstr "ფილმები"
 
 #: usr/lib/hypnotix/hypnotix.py:793 usr/lib/hypnotix/hypnotix.py:824
 msgid "Series"
-msgstr "Seriale"
+msgstr "სერიები"
 
 #: usr/lib/hypnotix/hypnotix.py:799 usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Favorites"
-msgstr "Ulubione"
+msgstr "სანიშნეები"
 
 #: usr/lib/hypnotix/hypnotix.py:807
 #, python-format
 msgid "TV Channels > %s"
-msgstr "Kanały telewizyjne > %s"
+msgstr "TV არხები > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:821
 #, python-format
 msgid "Movies > %s"
-msgstr "Filmy > %s"
+msgstr "ფილმები > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:827
 #, python-format
 msgid "Series > %s"
-msgstr "Seriale > %s"
+msgstr "სერიები > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:834
 msgid "New Channel"
-msgstr "Nowy kanał"
+msgstr "ახალი არხი"
 
 #: usr/lib/hypnotix/hypnotix.py:837 usr/share/hypnotix/hypnotix.ui.h:3
 msgid "Preferences"
-msgstr "Preferencje"
+msgstr "მორგება"
 
 #: usr/lib/hypnotix/hypnotix.py:840 usr/share/hypnotix/hypnotix.ui.h:4
 msgid "Providers"
-msgstr "Dostawcy"
+msgstr "მომწოდებლები"
 
 #: usr/lib/hypnotix/hypnotix.py:845
 #, python-format
 msgid "Edit %s"
-msgstr "Edytuj %s"
+msgstr "%s-ის ჩასწორება"
 
 #: usr/lib/hypnotix/hypnotix.py:847
 msgid "Add a new provider"
-msgstr "Dodaj nowego dostawcę"
+msgstr "ახალი მომწოდებლის დამატება"
 
 #: usr/lib/hypnotix/hypnotix.py:851
 #, python-format
 msgid "Delete %s"
-msgstr "Usuń %s"
+msgstr "%s: წაშლა"
 
 #: usr/lib/hypnotix/hypnotix.py:855
 msgid "Reset providers"
-msgstr "Zresetuj dostawców"
+msgstr "მომწოდებლების ჩამოყრა"
 
 #: usr/lib/hypnotix/hypnotix.py:912 usr/lib/hypnotix/hypnotix.py:916
 #: usr/lib/hypnotix/hypnotix.py:998 usr/lib/hypnotix/hypnotix.py:1000
@@ -163,27 +163,27 @@ msgstr "Zresetuj dostawców"
 #: usr/lib/hypnotix/hypnotix.py:1469 usr/lib/hypnotix/hypnotix.py:1473
 #: usr/share/hypnotix/hypnotix.ui.h:45
 msgid "General"
-msgstr "Ogólne"
+msgstr "ზოგადი"
 
 #: usr/lib/hypnotix/hypnotix.py:913 usr/lib/hypnotix/hypnotix.py:1012
 #: usr/lib/hypnotix/hypnotix.py:1014 usr/lib/hypnotix/hypnotix.py:1016
 #: usr/lib/hypnotix/hypnotix.py:1442 usr/share/hypnotix/hypnotix.ui.h:47
 msgid "Color"
-msgstr "Kolor"
+msgstr "ფერი"
 
 #: usr/lib/hypnotix/hypnotix.py:917 usr/lib/hypnotix/hypnotix.py:1032
 #: usr/lib/hypnotix/hypnotix.py:1042 usr/lib/hypnotix/hypnotix.py:1444
 #: usr/share/hypnotix/hypnotix.ui.h:49
 msgid "Layout"
-msgstr "Układ"
+msgstr "განლაგება"
 
 #: usr/lib/hypnotix/hypnotix.py:931
 msgid "Remove from favorites"
-msgstr "Usuń z ulubionych"
+msgstr "სანიშნეებიდან წაშლა"
 
 #: usr/lib/hypnotix/hypnotix.py:935
 msgid "Add to favorites"
-msgstr "Dodaj do ulubionych"
+msgstr "რჩეულებში დამატება"
 
 #: usr/lib/hypnotix/hypnotix.py:983 usr/lib/hypnotix/hypnotix.py:984
 #: usr/lib/hypnotix/hypnotix.py:998 usr/lib/hypnotix/hypnotix.py:1000
@@ -191,216 +191,210 @@ msgstr "Dodaj do ulubionych"
 #: usr/lib/hypnotix/hypnotix.py:1469 usr/lib/hypnotix/hypnotix.py:1473
 #: usr/share/hypnotix/hypnotix.ui.h:46
 msgid "Average Bitrate"
-msgstr "Średnia szybkość transmisji"
+msgstr "საშუალო ბიტრეიტი"
 
 #: usr/lib/hypnotix/hypnotix.py:1007
 msgid "Dimensions"
-msgstr "Wymiary"
+msgstr "ზომები"
 
 #: usr/lib/hypnotix/hypnotix.py:1010
 msgid "Aspect"
-msgstr "Proporcje"
+msgstr "ასპექტი"
 
 #: usr/lib/hypnotix/hypnotix.py:1012
 msgid "Pixel Format"
-msgstr "Format pikseli"
+msgstr "პიქსელის ფორმატი"
 
 #: usr/lib/hypnotix/hypnotix.py:1014
 msgid "Gamma"
-msgstr "Gamma"
+msgstr "გამა"
 
 #: usr/lib/hypnotix/hypnotix.py:1016
 msgid "Bits Per Pixel"
-msgstr "Bity na piksel"
+msgstr "ბიტი პიქსელზე"
 
 #: usr/lib/hypnotix/hypnotix.py:1022 usr/lib/hypnotix/hypnotix.py:1048
 msgid "Codec"
-msgstr "Kodek"
+msgstr "კოდეკი"
 
 #: usr/lib/hypnotix/hypnotix.py:1031
 msgid "surround sound"
-msgstr "dźwięk przestrzenny"
+msgstr "მომცველი ხმა"
 
 #: usr/lib/hypnotix/hypnotix.py:1032
 msgid "Channels"
-msgstr "Kanały"
+msgstr "არხები"
 
 #: usr/lib/hypnotix/hypnotix.py:1035
 msgid "Sample Rate"
-msgstr "Częstotliwość próbkowania"
+msgstr "სემპლების სიხშირე"
 
 #: usr/lib/hypnotix/hypnotix.py:1040
 msgid "Format"
-msgstr "Format"
+msgstr "ფორმატი"
 
 #: usr/lib/hypnotix/hypnotix.py:1042
 msgid "Channel Count"
-msgstr "Liczba kanałów"
+msgstr "არხების რაოდენობა"
 
 #: usr/lib/hypnotix/hypnotix.py:1136
 #, python-format
 msgid "%d TV channel"
 msgid_plural "%d TV channels"
-msgstr[0] "%d kanał telewizyjny"
-msgstr[1] "%d kanały telewizyjne"
-msgstr[2] "%d kanałów telewizyjnych"
+msgstr[0] "%d TV არხი"
 
 #: usr/lib/hypnotix/hypnotix.py:1141
 #, python-format
 msgid "%d movie"
 msgid_plural "%d movies"
-msgstr[0] "%d film"
-msgstr[1] "%d filmy"
-msgstr[2] "%d filmów"
+msgstr[0] "%d ფილმი"
 
 #: usr/lib/hypnotix/hypnotix.py:1146
 #, python-format
 msgid "%d series"
 msgid_plural "%d series"
-msgstr[0] "%d serial"
-msgstr[1] "%d seriale"
-msgstr[2] "%d seriali"
+msgstr[0] "%d სერია"
 
 #: usr/lib/hypnotix/hypnotix.py:1166
 msgid "Edit"
-msgstr "Edytuj"
+msgstr "ჩასწორება"
 
 #: usr/lib/hypnotix/hypnotix.py:1176
 msgid "Clear icon cache"
-msgstr "Wyczyść pamięć podręczną ikon"
+msgstr "ხატულების კეშის გასუფთავება"
 
 #: usr/lib/hypnotix/hypnotix.py:1186
 msgid "Remove"
-msgstr "Usuń"
+msgstr "წაშლა"
 
 #: usr/lib/hypnotix/hypnotix.py:1293
 msgid "M3U Playlists"
-msgstr "Listy odtwarzania M3U"
+msgstr "M3U დასაკრავი სიები"
 
 #: usr/lib/hypnotix/hypnotix.py:1567
 msgid "Loading providers..."
-msgstr "Ładowanie dostawców..."
+msgstr "მომწოდებლების ჩატვირთვა..."
 
 #: usr/lib/hypnotix/hypnotix.py:1580
 msgid "Downloading playlist..."
-msgstr "Pobieranie listy odtwarzania..."
+msgstr "მიმდინარეობს დასაკრავი სიის გადმოწერა..."
 
 #: usr/lib/hypnotix/hypnotix.py:1582
 msgid "Getting playlist..."
-msgstr "Uzyskiwanie listy odtwarzania..."
+msgstr "დასაკრავი სიის მიღება..."
 
 #: usr/lib/hypnotix/hypnotix.py:1585
 msgid "Checking playlist..."
-msgstr "Sprawdzanie listy odtwarzania..."
+msgstr "დასაკრავი სიის შემოწმება..."
 
 #: usr/lib/hypnotix/hypnotix.py:1587
 msgid "Loading channels..."
-msgstr "Ładowanie kanałów..."
+msgstr "არხების ჩატვირთვა..."
 
 #: usr/lib/hypnotix/hypnotix.py:1595
 #, python-format
 msgid "Failed to download playlist from %s"
-msgstr "Nie udało się pobrać listy odtwarzania z %s"
+msgstr "დასაკრავი სიის გადმოწერის შეცდომა %s-დან"
 
 #: usr/share/hypnotix/hypnotix.ui.h:1
 msgid "Create a new channel"
-msgstr "Utwórz nowy kanał"
+msgstr "ახალი არხის შექმნა"
 
 #: usr/share/hypnotix/hypnotix.ui.h:5
 msgid "MPV Options"
-msgstr "Opcje MPV"
+msgstr "MPV-ის მორგება"
 
 #: usr/share/hypnotix/hypnotix.ui.h:6
 msgid "List of MPV options"
-msgstr "Lista opcji MPV"
+msgstr "MPV-ის პარამეტრების სია"
 
 #: usr/share/hypnotix/hypnotix.ui.h:7
 msgid "Playback"
-msgstr "Odtwarzanie"
+msgstr "დაკვრა"
 
 #: usr/share/hypnotix/hypnotix.ui.h:8
 msgid "User Agent"
-msgstr "Klient"
+msgstr "მომხმარებლის აგენტი"
 
 #: usr/share/hypnotix/hypnotix.ui.h:9
 msgid "Referrer"
-msgstr "Odsyłacz"
+msgstr "მიმმართველი"
 
 #: usr/share/hypnotix/hypnotix.ui.h:10
 msgid "Network"
-msgstr "Sieć"
+msgstr "ქსელი"
 
 #: usr/share/hypnotix/hypnotix.ui.h:11
 msgid "System version:"
-msgstr "Wersja systemowa:"
+msgstr "სისტემის ვერსია:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:12
 msgid ""
 "If Youtube channels stop working you can switch to a local version of yt-dlp "
 "and update it using the button above."
 msgstr ""
-"Jeśli kanały YouTube przestaną działać, możesz przełączyć się na lokalną "
-"wersję yt-dlp i zaktualizować ją za pomocą przycisku powyżej."
+"თუ Youtube-ის არხი შეწყვეტს თქვენთვის მუშაობას, შეგიძლიათ, გადაერთოთ yt-dlp-"
+"ის ლოკალურ ვერსიაზე და განაახლოთ ის ზედა ღილაკით."
 
 #: usr/share/hypnotix/hypnotix.ui.h:13
 msgid "Local version:"
-msgstr "Wersja lokalna:"
+msgstr "ლოკალური ვერსია:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Update from github.com/yt-dlp"
-msgstr "Zaktualizuj z github.com/yt-dlp"
+msgstr "განახლება საიტიდან github.com/yt-dlp"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Restart Hypnotix for changes to take effect."
-msgstr "Uruchom ponownie Hypnotix, aby zmiany odniosły skutek."
+msgstr "ცვლილების გასააქტიურებლად გადატვირთეთ Hypnotix."
 
 #: usr/share/hypnotix/hypnotix.ui.h:16
 msgid "Use local version"
-msgstr "Używaj wersji lokalnej"
+msgstr "ლოკალური ვერსიის გამოყენება"
 
 #: usr/share/hypnotix/hypnotix.ui.h:17
 msgid "Youtube"
-msgstr "YouTube"
+msgstr "Youtube"
 
 #: usr/share/hypnotix/hypnotix.ui.h:18
 msgid "Add a new provider..."
-msgstr "Dodaj dostawcę..."
+msgstr "ახალი მომწოდებლის დამატება..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:19
 msgid "Reset to defaults..."
-msgstr "Przywróć domyślnych..."
+msgstr "ნაგულისხმევებზე ჩამოყრა..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:20
 msgid "Name:"
-msgstr "Nazwa:"
+msgstr "სახელი:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:21
 msgid "URL:"
-msgstr "Adres URL:"
+msgstr "URL:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:22
 msgid "Path:"
-msgstr "Ścieżka:"
+msgstr "ბილიკი:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:23
 msgid "Cancel"
-msgstr "Anuluj"
+msgstr "გაუქმება"
 
 #: usr/share/hypnotix/hypnotix.ui.h:24
 msgid "OK"
-msgstr "OK"
+msgstr "დიახ"
 
 #: usr/share/hypnotix/hypnotix.ui.h:25
 msgid "Username:"
-msgstr "Nazwa użytkownika:"
+msgstr "მომხმარებელი:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:26
 msgid "Password:"
-msgstr "Hasło:"
+msgstr "პაროლი:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:27
 msgid "Browse..."
-msgstr "Przeglądaj..."
+msgstr "პოვნა..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:28
 msgid "EPG:"
@@ -408,95 +402,95 @@ msgstr "EPG:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:29
 msgid "Type:"
-msgstr "Typ:"
+msgstr "ტიპი:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:30
 msgid "Are you sure you want to delete this provider?"
-msgstr "Czy na pewno chcesz usunąć tego dostawcę?"
+msgstr "მართლა გნებავთ, წაშალოთ ეს მომწოდებელი?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:31
 msgid "No"
-msgstr "Nie"
+msgstr "არა"
 
 #: usr/share/hypnotix/hypnotix.ui.h:32
 msgid "Yes"
-msgstr "Tak"
+msgstr "დიახ"
 
 #: usr/share/hypnotix/hypnotix.ui.h:33
 msgid "Are you sure you want to reset to the default providers?"
-msgstr "Czy na pewno chcesz przywrócić domyślnych dostawców?"
+msgstr "მართლა გნებავთ ჩამოყრა ნაგულისხმევ მომწოდებლებზე?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:34
 msgid "Logo URL:"
-msgstr "Adres URL logo:"
+msgstr "ლოგოს URL:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:35
 msgid "This channel will be added to your favorites."
-msgstr "Ten kanał zostanie dodany do ulubionych."
+msgstr "ეს არხი დაემატება თქვენს რჩეულებს."
 
 #: usr/share/hypnotix/hypnotix.ui.h:36
 msgid ""
 "Note: If the logo is a local file, upload it to imgur.com to get a URL."
 msgstr ""
-"Uwaga: jeśli logo jest plikiem lokalnym, prześlij go na imgur.com, aby "
-"uzyskać adres URL."
+"შენიშვნა: თუ ლოგო ლოკალური ფაილია, ატვირთეთ ის imgur.com-ზე, რომ მისი URL "
+"მიიღოთ."
 
 #: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Currently playing:"
-msgstr "Teraz odtwarzane:"
+msgstr "ამჟამად ვუკრავ:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:38
 msgid "Show"
-msgstr "Wyświetl"
+msgstr "ჩვენება"
 
 #: usr/share/hypnotix/hypnotix.ui.h:39
 msgid "Pause"
-msgstr "Wstrzymaj"
+msgstr "შეჩერება"
 
 #: usr/share/hypnotix/hypnotix.ui.h:40
 msgid "Stop"
-msgstr "Zatrzymaj"
+msgstr "გაჩერება"
 
 #: usr/share/hypnotix/hypnotix.ui.h:43
 msgid "Fullscreen"
-msgstr "Pełny ekran"
+msgstr "სრულ ეკრანზე"
 
 #: usr/share/hypnotix/hypnotix.ui.h:44 usr/share/hypnotix/shortcuts.ui.h:9
 msgid "Search"
-msgstr "Wyszukaj"
+msgstr "ძებნა"
 
 #: usr/share/hypnotix/hypnotix.ui.h:48
 msgid "Video"
-msgstr "Wideo"
+msgstr "ვიდეო"
 
 #: usr/share/hypnotix/hypnotix.ui.h:50
 msgid "Audio"
-msgstr "Dźwięk"
+msgstr "აუდიო"
 
 #: usr/share/hypnotix/shortcuts.ui.h:1
 msgid "Main shortcuts"
-msgstr "Skróty główne"
+msgstr "მთავარი მალსახმობები"
 
 #: usr/share/hypnotix/shortcuts.ui.h:4
 msgid "Play previous/next channel"
-msgstr "Odtwórz poprzedni/następny kanał"
+msgstr "წინა/შემდეგი არხის დაკვრა"
 
 #: usr/share/hypnotix/shortcuts.ui.h:5
 msgid "Fullscreen mode"
-msgstr "Tryb pełnoekranowy"
+msgstr ""
 
 #: usr/share/hypnotix/shortcuts.ui.h:6
 msgid "Theater mode (no controls)"
-msgstr "Tryb kinowy (bez elementów sterujących)"
+msgstr ""
 
 #: usr/share/hypnotix/shortcuts.ui.h:7
 msgid "Borderless mode (no decorations)"
-msgstr "Tryb bez obramowania (bez dekoracji)"
+msgstr ""
 
 #: usr/share/hypnotix/shortcuts.ui.h:8
 msgid "Normal mode"
-msgstr "Tryb zwykły"
+msgstr ""
 
 #: usr/share/hypnotix/shortcuts.ui.h:11
 msgid "Reload all providers"
-msgstr "Załaduj ponownie wszystkich dostawców"
+msgstr "ყველა მომწოდებლის თავიდან ჩატვირთვა"

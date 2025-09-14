@@ -7,290 +7,290 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2023-11-29 13:21+0000\n"
-"PO-Revision-Date: 2024-03-13 11:44+0000\n"
-"Last-Translator: aefgh3962 <aefgh3962@gmail.com>\n"
+"POT-Creation-Date: 2025-07-24 17:05+0200\n"
+"PO-Revision-Date: 2024-09-21 09:27+0000\n"
+"Last-Translator: Rockworld <sumoisrock@gmail.com>\n"
 "Language-Team: Thai <th@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2024-07-21 09:03+0000\n"
-"X-Generator: Launchpad (build bbfa2351d9d6a9ddfe262109428f7bf5516e65d1)\n"
+"X-Launchpad-Export-Date: 2025-08-26 15:25+0000\n"
+"X-Generator: Launchpad (build 919009172d854f2b8e4e8262db447f12f11d25eb)\n"
 
-#: usr/lib/hypnotix/hypnotix.py:157 usr/lib/hypnotix/hypnotix.py:867
-#: usr/lib/hypnotix/hypnotix.py:1476 generate_desktop_files:25
+#: usr/lib/hypnotix/hypnotix.py:159 usr/lib/hypnotix/hypnotix.py:863
+#: usr/lib/hypnotix/hypnotix.py:1490 generate_desktop_files:25
 #: usr/share/hypnotix/hypnotix.ui.h:41
 msgid "Hypnotix"
 msgstr "Hypnotix"
 
-#: usr/lib/hypnotix/hypnotix.py:364 usr/share/hypnotix/shortcuts.ui.h:7
+#: usr/lib/hypnotix/hypnotix.py:370 usr/share/hypnotix/shortcuts.ui.h:10
 msgid "Keyboard Shortcuts"
 msgstr "แป้นพิมพ์ลัด"
 
-#: usr/lib/hypnotix/hypnotix.py:371 usr/share/hypnotix/hypnotix.ui.h:51
+#: usr/lib/hypnotix/hypnotix.py:377 usr/share/hypnotix/hypnotix.ui.h:51
 #: usr/share/hypnotix/shortcuts.ui.h:3
 msgid "Stream Information"
 msgstr "ข้อมูลสตรีม"
 
-#: usr/lib/hypnotix/hypnotix.py:379 usr/lib/hypnotix/hypnotix.py:1475
+#: usr/lib/hypnotix/hypnotix.py:385 usr/lib/hypnotix/hypnotix.py:1489
 #: usr/share/hypnotix/shortcuts.ui.h:2
 msgid "About"
 msgstr "เกี่ยวกับ"
 
-#: usr/lib/hypnotix/hypnotix.py:384 usr/share/hypnotix/shortcuts.ui.h:9
+#: usr/lib/hypnotix/hypnotix.py:390 usr/share/hypnotix/shortcuts.ui.h:12
 msgid "Quit"
 msgstr "เลิก"
 
-#: usr/lib/hypnotix/hypnotix.py:397
+#: usr/lib/hypnotix/hypnotix.py:403
 msgid "M3U URL"
 msgstr "URL M3U"
 
-#: usr/lib/hypnotix/hypnotix.py:398
+#: usr/lib/hypnotix/hypnotix.py:404
 msgid "Local M3U File"
 msgstr "แฟ้ม M3U ในเครื่อง"
 
-#: usr/lib/hypnotix/hypnotix.py:399
+#: usr/lib/hypnotix/hypnotix.py:405
 msgid "Xtream API"
 msgstr "Xtream API"
 
-#: usr/lib/hypnotix/hypnotix.py:611
+#: usr/lib/hypnotix/hypnotix.py:615
 #, python-format
 msgid "Season %s"
 msgstr "ฤดูกาลที่ %s"
 
-#: usr/lib/hypnotix/hypnotix.py:622
+#: usr/lib/hypnotix/hypnotix.py:626
 #, python-format
 msgid "Episode %s"
 msgstr "ตอนที่ %s"
 
-#: usr/lib/hypnotix/hypnotix.py:748
+#: usr/lib/hypnotix/hypnotix.py:744
 msgid "No channels found"
 msgstr "ไม่พบช่องรายการ"
 
-#: usr/lib/hypnotix/hypnotix.py:774
+#: usr/lib/hypnotix/hypnotix.py:768 usr/lib/hypnotix/hypnotix.py:1491
+#: generate_desktop_files:25 usr/share/hypnotix/hypnotix.ui.h:42
+msgid "Watch TV"
+msgstr "รับชมทีวี"
+
+#: usr/lib/hypnotix/hypnotix.py:770
 msgid "No provider selected"
 msgstr "ไม่ได้เลือกผู้ให้บริการ"
 
-#: usr/lib/hypnotix/hypnotix.py:775 usr/lib/hypnotix/hypnotix.py:783
+#: usr/lib/hypnotix/hypnotix.py:771 usr/lib/hypnotix/hypnotix.py:779
 #, python-format
 msgid "TV Channels (%d)"
 msgstr "ช่องรายการทีวี (%d)"
 
-#: usr/lib/hypnotix/hypnotix.py:776 usr/lib/hypnotix/hypnotix.py:784
+#: usr/lib/hypnotix/hypnotix.py:772 usr/lib/hypnotix/hypnotix.py:780
 #, python-format
 msgid "Movies (%d)"
 msgstr "ภาพยนตร์ (%d)"
 
-#: usr/lib/hypnotix/hypnotix.py:777 usr/lib/hypnotix/hypnotix.py:785
+#: usr/lib/hypnotix/hypnotix.py:773 usr/lib/hypnotix/hypnotix.py:781
 #, python-format
 msgid "Series (%d)"
 msgstr "รายการชุด (%d)"
 
-#: usr/lib/hypnotix/hypnotix.py:793 usr/lib/hypnotix/hypnotix.py:808
+#: usr/lib/hypnotix/hypnotix.py:789 usr/lib/hypnotix/hypnotix.py:804
 msgid "TV Channels"
 msgstr "ช่องรายการทีวี"
 
-#: usr/lib/hypnotix/hypnotix.py:795 usr/lib/hypnotix/hypnotix.py:822
+#: usr/lib/hypnotix/hypnotix.py:791 usr/lib/hypnotix/hypnotix.py:818
 msgid "Movies"
 msgstr "ภาพยนตร์"
 
-#: usr/lib/hypnotix/hypnotix.py:797 usr/lib/hypnotix/hypnotix.py:828
+#: usr/lib/hypnotix/hypnotix.py:793 usr/lib/hypnotix/hypnotix.py:824
 msgid "Series"
 msgstr "รายการชุด"
 
-#: usr/lib/hypnotix/hypnotix.py:803 usr/share/hypnotix/hypnotix.ui.h:2
+#: usr/lib/hypnotix/hypnotix.py:799 usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Favorites"
 msgstr "รายการโปรด"
 
-#: usr/lib/hypnotix/hypnotix.py:811
+#: usr/lib/hypnotix/hypnotix.py:807
 #, python-format
 msgid "TV Channels > %s"
 msgstr "ช่องรายการทีวี > %s"
 
-#: usr/lib/hypnotix/hypnotix.py:825
+#: usr/lib/hypnotix/hypnotix.py:821
 #, python-format
 msgid "Movies > %s"
 msgstr "ภาพยนตร์ > %s"
 
-#: usr/lib/hypnotix/hypnotix.py:831
+#: usr/lib/hypnotix/hypnotix.py:827
 #, python-format
 msgid "Series > %s"
 msgstr "รายการชุด > %s"
 
-#: usr/lib/hypnotix/hypnotix.py:838
+#: usr/lib/hypnotix/hypnotix.py:834
 msgid "New Channel"
 msgstr "ช่องรายการใหม่"
 
-#: usr/lib/hypnotix/hypnotix.py:841 usr/share/hypnotix/hypnotix.ui.h:3
+#: usr/lib/hypnotix/hypnotix.py:837 usr/share/hypnotix/hypnotix.ui.h:3
 msgid "Preferences"
 msgstr "ปรับแต่ง"
 
-#: usr/lib/hypnotix/hypnotix.py:844 usr/share/hypnotix/hypnotix.ui.h:4
+#: usr/lib/hypnotix/hypnotix.py:840 usr/share/hypnotix/hypnotix.ui.h:4
 msgid "Providers"
 msgstr "ผู้ให้บริการ"
 
-#: usr/lib/hypnotix/hypnotix.py:849
+#: usr/lib/hypnotix/hypnotix.py:845
 #, python-format
 msgid "Edit %s"
 msgstr "แก้ไข %s"
 
-#: usr/lib/hypnotix/hypnotix.py:851
+#: usr/lib/hypnotix/hypnotix.py:847
 msgid "Add a new provider"
 msgstr "เพิ่มผู้ให้บริการใหม่"
 
-#: usr/lib/hypnotix/hypnotix.py:855
+#: usr/lib/hypnotix/hypnotix.py:851
 #, python-format
 msgid "Delete %s"
 msgstr "ลบ %s"
 
-#: usr/lib/hypnotix/hypnotix.py:859
+#: usr/lib/hypnotix/hypnotix.py:855
 msgid "Reset providers"
 msgstr "ตั้งค่าผู้ให้บริการใหม่"
 
-#: usr/lib/hypnotix/hypnotix.py:915 usr/lib/hypnotix/hypnotix.py:919
-#: usr/lib/hypnotix/hypnotix.py:984 usr/lib/hypnotix/hypnotix.py:986
-#: usr/lib/hypnotix/hypnotix.py:993 usr/lib/hypnotix/hypnotix.py:996
-#: usr/lib/hypnotix/hypnotix.py:1008 usr/lib/hypnotix/hypnotix.py:1021
-#: usr/lib/hypnotix/hypnotix.py:1026 usr/lib/hypnotix/hypnotix.py:1034
-#: usr/lib/hypnotix/hypnotix.py:1427 usr/lib/hypnotix/hypnotix.py:1429
-#: usr/lib/hypnotix/hypnotix.py:1455 usr/lib/hypnotix/hypnotix.py:1459
+#: usr/lib/hypnotix/hypnotix.py:912 usr/lib/hypnotix/hypnotix.py:916
+#: usr/lib/hypnotix/hypnotix.py:998 usr/lib/hypnotix/hypnotix.py:1000
+#: usr/lib/hypnotix/hypnotix.py:1007 usr/lib/hypnotix/hypnotix.py:1010
+#: usr/lib/hypnotix/hypnotix.py:1022 usr/lib/hypnotix/hypnotix.py:1035
+#: usr/lib/hypnotix/hypnotix.py:1040 usr/lib/hypnotix/hypnotix.py:1048
+#: usr/lib/hypnotix/hypnotix.py:1441 usr/lib/hypnotix/hypnotix.py:1443
+#: usr/lib/hypnotix/hypnotix.py:1469 usr/lib/hypnotix/hypnotix.py:1473
 #: usr/share/hypnotix/hypnotix.ui.h:45
 msgid "General"
 msgstr "ทั่วไป"
 
-#: usr/lib/hypnotix/hypnotix.py:916 usr/lib/hypnotix/hypnotix.py:998
-#: usr/lib/hypnotix/hypnotix.py:1000 usr/lib/hypnotix/hypnotix.py:1002
-#: usr/lib/hypnotix/hypnotix.py:1428 usr/share/hypnotix/hypnotix.ui.h:47
+#: usr/lib/hypnotix/hypnotix.py:913 usr/lib/hypnotix/hypnotix.py:1012
+#: usr/lib/hypnotix/hypnotix.py:1014 usr/lib/hypnotix/hypnotix.py:1016
+#: usr/lib/hypnotix/hypnotix.py:1442 usr/share/hypnotix/hypnotix.ui.h:47
 msgid "Color"
 msgstr "สี"
 
-#: usr/lib/hypnotix/hypnotix.py:920 usr/lib/hypnotix/hypnotix.py:1018
-#: usr/lib/hypnotix/hypnotix.py:1028 usr/lib/hypnotix/hypnotix.py:1430
+#: usr/lib/hypnotix/hypnotix.py:917 usr/lib/hypnotix/hypnotix.py:1032
+#: usr/lib/hypnotix/hypnotix.py:1042 usr/lib/hypnotix/hypnotix.py:1444
 #: usr/share/hypnotix/hypnotix.ui.h:49
 msgid "Layout"
 msgstr "การจัดเรียง"
 
-#: usr/lib/hypnotix/hypnotix.py:933
+#: usr/lib/hypnotix/hypnotix.py:931
 msgid "Remove from favorites"
 msgstr "ลบออกจากรายการโปรด"
 
-#: usr/lib/hypnotix/hypnotix.py:936
+#: usr/lib/hypnotix/hypnotix.py:935
 msgid "Add to favorites"
 msgstr "เพิ่มลงในรายการโปรด"
 
-#: usr/lib/hypnotix/hypnotix.py:969 usr/lib/hypnotix/hypnotix.py:970
-#: usr/lib/hypnotix/hypnotix.py:984 usr/lib/hypnotix/hypnotix.py:986
-#: usr/lib/hypnotix/hypnotix.py:1451 usr/lib/hypnotix/hypnotix.py:1452
-#: usr/lib/hypnotix/hypnotix.py:1455 usr/lib/hypnotix/hypnotix.py:1459
+#: usr/lib/hypnotix/hypnotix.py:983 usr/lib/hypnotix/hypnotix.py:984
+#: usr/lib/hypnotix/hypnotix.py:998 usr/lib/hypnotix/hypnotix.py:1000
+#: usr/lib/hypnotix/hypnotix.py:1465 usr/lib/hypnotix/hypnotix.py:1466
+#: usr/lib/hypnotix/hypnotix.py:1469 usr/lib/hypnotix/hypnotix.py:1473
 #: usr/share/hypnotix/hypnotix.ui.h:46
 msgid "Average Bitrate"
 msgstr "บิตเรทเฉลี่ย"
 
-#: usr/lib/hypnotix/hypnotix.py:993
+#: usr/lib/hypnotix/hypnotix.py:1007
 msgid "Dimensions"
 msgstr "ขนาด"
 
-#: usr/lib/hypnotix/hypnotix.py:996
+#: usr/lib/hypnotix/hypnotix.py:1010
 msgid "Aspect"
 msgstr "อัตราส่วนภาพ"
 
-#: usr/lib/hypnotix/hypnotix.py:998
+#: usr/lib/hypnotix/hypnotix.py:1012
 msgid "Pixel Format"
 msgstr "รูปแบบพิกเซล"
 
-#: usr/lib/hypnotix/hypnotix.py:1000
+#: usr/lib/hypnotix/hypnotix.py:1014
 msgid "Gamma"
 msgstr "แกมมา"
 
-#: usr/lib/hypnotix/hypnotix.py:1002
+#: usr/lib/hypnotix/hypnotix.py:1016
 msgid "Bits Per Pixel"
 msgstr "บิตต่อพิกเซล"
 
-#: usr/lib/hypnotix/hypnotix.py:1008 usr/lib/hypnotix/hypnotix.py:1034
+#: usr/lib/hypnotix/hypnotix.py:1022 usr/lib/hypnotix/hypnotix.py:1048
 msgid "Codec"
 msgstr "ตัวอ่าน-ลงรหัส"
 
-#: usr/lib/hypnotix/hypnotix.py:1017
+#: usr/lib/hypnotix/hypnotix.py:1031
 msgid "surround sound"
 msgstr "เสียงรอบทิศทาง"
 
-#: usr/lib/hypnotix/hypnotix.py:1018
+#: usr/lib/hypnotix/hypnotix.py:1032
 msgid "Channels"
 msgstr "ช่องสัญญาณ"
 
-#: usr/lib/hypnotix/hypnotix.py:1021
+#: usr/lib/hypnotix/hypnotix.py:1035
 msgid "Sample Rate"
 msgstr "อัตราสุ่มตัวอย่าง"
 
-#: usr/lib/hypnotix/hypnotix.py:1026
+#: usr/lib/hypnotix/hypnotix.py:1040
 msgid "Format"
 msgstr "รูปแบบ"
 
-#: usr/lib/hypnotix/hypnotix.py:1028
+#: usr/lib/hypnotix/hypnotix.py:1042
 msgid "Channel Count"
 msgstr "จำนวนช่องสัญญาณ"
 
-#: usr/lib/hypnotix/hypnotix.py:1122
+#: usr/lib/hypnotix/hypnotix.py:1136
 #, python-format
 msgid "%d TV channel"
 msgid_plural "%d TV channels"
 msgstr[0] "ช่องรายการทีวี %d ช่อง"
 
-#: usr/lib/hypnotix/hypnotix.py:1127
+#: usr/lib/hypnotix/hypnotix.py:1141
 #, python-format
 msgid "%d movie"
 msgid_plural "%d movies"
 msgstr[0] "ภาพยนตร์ %d เรื่อง"
 
-#: usr/lib/hypnotix/hypnotix.py:1132
+#: usr/lib/hypnotix/hypnotix.py:1146
 #, python-format
 msgid "%d series"
 msgid_plural "%d series"
 msgstr[0] "รายการชุด %d รายการ"
 
-#: usr/lib/hypnotix/hypnotix.py:1152
+#: usr/lib/hypnotix/hypnotix.py:1166
 msgid "Edit"
 msgstr "แก้ไข"
 
-#: usr/lib/hypnotix/hypnotix.py:1162
+#: usr/lib/hypnotix/hypnotix.py:1176
 msgid "Clear icon cache"
 msgstr "ล้างแคชไอคอน"
 
-#: usr/lib/hypnotix/hypnotix.py:1172
+#: usr/lib/hypnotix/hypnotix.py:1186
 msgid "Remove"
 msgstr "ลบออก"
 
-#: usr/lib/hypnotix/hypnotix.py:1279
+#: usr/lib/hypnotix/hypnotix.py:1293
 msgid "M3U Playlists"
 msgstr "รายการเล่น M3U"
 
-#: usr/lib/hypnotix/hypnotix.py:1477 generate_desktop_files:25
-#: usr/share/hypnotix/hypnotix.ui.h:42
-msgid "Watch TV"
-msgstr "รับชมทีวี"
-
-#: usr/lib/hypnotix/hypnotix.py:1545
+#: usr/lib/hypnotix/hypnotix.py:1567
 msgid "Loading providers..."
 msgstr "กำลังโหลดผู้ให้บริการ..."
 
-#: usr/lib/hypnotix/hypnotix.py:1558
+#: usr/lib/hypnotix/hypnotix.py:1580
 msgid "Downloading playlist..."
 msgstr "กำลังดาวน์โหลดรายการเล่น..."
 
-#: usr/lib/hypnotix/hypnotix.py:1560
+#: usr/lib/hypnotix/hypnotix.py:1582
 msgid "Getting playlist..."
 msgstr "กำลังรับรายการเล่น..."
 
-#: usr/lib/hypnotix/hypnotix.py:1563
+#: usr/lib/hypnotix/hypnotix.py:1585
 msgid "Checking playlist..."
 msgstr "กำลังตรวจสอบรายการเล่น..."
 
-#: usr/lib/hypnotix/hypnotix.py:1565
+#: usr/lib/hypnotix/hypnotix.py:1587
 msgid "Loading channels..."
 msgstr "กำลังโหลดช่องรายการ..."
 
-#: usr/lib/hypnotix/hypnotix.py:1573
+#: usr/lib/hypnotix/hypnotix.py:1595
 #, python-format
 msgid "Failed to download playlist from %s"
 msgstr "ดาวน์โหลดรายการเล่นจาก %s ไม่สำเร็จ"
@@ -301,11 +301,11 @@ msgstr "สร้างช่องรายการใหม่"
 
 #: usr/share/hypnotix/hypnotix.ui.h:5
 msgid "MPV Options"
-msgstr ""
+msgstr "ตัวเลือก MPV"
 
 #: usr/share/hypnotix/hypnotix.ui.h:6
 msgid "List of MPV options"
-msgstr ""
+msgstr "รายชื่อตัวเลือก MPV"
 
 #: usr/share/hypnotix/hypnotix.ui.h:7
 msgid "Playback"
@@ -341,7 +341,7 @@ msgstr "รุ่นที่ติดตั้งในเครื่อง:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Update from github.com/yt-dlp"
-msgstr ""
+msgstr "ปรับข้อมูลจาก github.com/yt-dlp"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Restart Hypnotix for changes to take effect."
@@ -397,11 +397,11 @@ msgstr "เรียกดู..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:28
 msgid "EPG:"
-msgstr ""
+msgstr "EPG:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:29
 msgid "Type:"
-msgstr ""
+msgstr "ชนิด:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:30
 msgid "Are you sure you want to delete this provider?"
@@ -454,7 +454,7 @@ msgstr "หยุด"
 msgid "Fullscreen"
 msgstr "เต็มจอ"
 
-#: usr/share/hypnotix/hypnotix.ui.h:44 usr/share/hypnotix/shortcuts.ui.h:6
+#: usr/share/hypnotix/hypnotix.ui.h:44 usr/share/hypnotix/shortcuts.ui.h:9
 msgid "Search"
 msgstr "ค้นหา"
 
@@ -475,9 +475,21 @@ msgid "Play previous/next channel"
 msgstr "เล่นช่องก่อนหน้า/ถัดไป"
 
 #: usr/share/hypnotix/shortcuts.ui.h:5
-msgid "Toggle Fullscreen"
-msgstr "เปิด-ปิดการแสดงเต็มจอ"
+msgid "Fullscreen mode"
+msgstr ""
+
+#: usr/share/hypnotix/shortcuts.ui.h:6
+msgid "Theater mode (no controls)"
+msgstr ""
+
+#: usr/share/hypnotix/shortcuts.ui.h:7
+msgid "Borderless mode (no decorations)"
+msgstr ""
 
 #: usr/share/hypnotix/shortcuts.ui.h:8
-msgid "Reload all providers"
+msgid "Normal mode"
 msgstr ""
+
+#: usr/share/hypnotix/shortcuts.ui.h:11
+msgid "Reload all providers"
+msgstr "เรียกอ่านผู้ให้บริการทั้งหมดใหม่"

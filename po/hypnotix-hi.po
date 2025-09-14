@@ -7,300 +7,300 @@ msgid ""
 msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2023-11-29 13:21+0000\n"
-"PO-Revision-Date: 2021-12-14 14:37+0000\n"
-"Last-Translator: Panwar <Unknown>\n"
+"POT-Creation-Date: 2025-07-24 17:05+0200\n"
+"PO-Revision-Date: 2024-09-14 10:45+0000\n"
+"Last-Translator: Divya kalra <Unknown>\n"
 "Language-Team: Hindi <hi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2024-07-21 09:03+0000\n"
-"X-Generator: Launchpad (build bbfa2351d9d6a9ddfe262109428f7bf5516e65d1)\n"
+"X-Launchpad-Export-Date: 2025-08-26 15:25+0000\n"
+"X-Generator: Launchpad (build 919009172d854f2b8e4e8262db447f12f11d25eb)\n"
 
-#: usr/lib/hypnotix/hypnotix.py:157 usr/lib/hypnotix/hypnotix.py:867
-#: usr/lib/hypnotix/hypnotix.py:1476 generate_desktop_files:25
+#: usr/lib/hypnotix/hypnotix.py:159 usr/lib/hypnotix/hypnotix.py:863
+#: usr/lib/hypnotix/hypnotix.py:1490 generate_desktop_files:25
 #: usr/share/hypnotix/hypnotix.ui.h:41
 msgid "Hypnotix"
 msgstr "Hypnotix"
 
-#: usr/lib/hypnotix/hypnotix.py:364 usr/share/hypnotix/shortcuts.ui.h:7
+#: usr/lib/hypnotix/hypnotix.py:370 usr/share/hypnotix/shortcuts.ui.h:10
 msgid "Keyboard Shortcuts"
 msgstr "कुंजीपटल शॉर्टकट"
 
-#: usr/lib/hypnotix/hypnotix.py:371 usr/share/hypnotix/hypnotix.ui.h:51
+#: usr/lib/hypnotix/hypnotix.py:377 usr/share/hypnotix/hypnotix.ui.h:51
 #: usr/share/hypnotix/shortcuts.ui.h:3
 msgid "Stream Information"
 msgstr "स्ट्रीम सूचना"
 
-#: usr/lib/hypnotix/hypnotix.py:379 usr/lib/hypnotix/hypnotix.py:1475
+#: usr/lib/hypnotix/hypnotix.py:385 usr/lib/hypnotix/hypnotix.py:1489
 #: usr/share/hypnotix/shortcuts.ui.h:2
 msgid "About"
 msgstr "बारे में"
 
-#: usr/lib/hypnotix/hypnotix.py:384 usr/share/hypnotix/shortcuts.ui.h:9
+#: usr/lib/hypnotix/hypnotix.py:390 usr/share/hypnotix/shortcuts.ui.h:12
 msgid "Quit"
 msgstr "बंद करें"
 
-#: usr/lib/hypnotix/hypnotix.py:397
+#: usr/lib/hypnotix/hypnotix.py:403
 msgid "M3U URL"
 msgstr "M3U यूआरएल"
 
-#: usr/lib/hypnotix/hypnotix.py:398
+#: usr/lib/hypnotix/hypnotix.py:404
 msgid "Local M3U File"
 msgstr "लोकल M3U फाइल"
 
-#: usr/lib/hypnotix/hypnotix.py:399
+#: usr/lib/hypnotix/hypnotix.py:405
 msgid "Xtream API"
 msgstr "Xtream एपीआई"
 
-#: usr/lib/hypnotix/hypnotix.py:611
+#: usr/lib/hypnotix/hypnotix.py:615
 #, python-format
 msgid "Season %s"
 msgstr "सीजन %s"
 
-#: usr/lib/hypnotix/hypnotix.py:622
+#: usr/lib/hypnotix/hypnotix.py:626
 #, python-format
 msgid "Episode %s"
 msgstr "प्रकरण %s"
 
-#: usr/lib/hypnotix/hypnotix.py:748
+#: usr/lib/hypnotix/hypnotix.py:744
 msgid "No channels found"
-msgstr ""
+msgstr "कोई चैनल नहीं मिला"
 
-#: usr/lib/hypnotix/hypnotix.py:774
+#: usr/lib/hypnotix/hypnotix.py:768 usr/lib/hypnotix/hypnotix.py:1491
+#: generate_desktop_files:25 usr/share/hypnotix/hypnotix.ui.h:42
+msgid "Watch TV"
+msgstr "टीवी देखें"
+
+#: usr/lib/hypnotix/hypnotix.py:770
 msgid "No provider selected"
 msgstr "कोई प्रदाता चयनित नहीं"
 
-#: usr/lib/hypnotix/hypnotix.py:775 usr/lib/hypnotix/hypnotix.py:783
+#: usr/lib/hypnotix/hypnotix.py:771 usr/lib/hypnotix/hypnotix.py:779
 #, python-format
 msgid "TV Channels (%d)"
-msgstr ""
+msgstr "टीवी चैनल (%d)"
 
-#: usr/lib/hypnotix/hypnotix.py:776 usr/lib/hypnotix/hypnotix.py:784
+#: usr/lib/hypnotix/hypnotix.py:772 usr/lib/hypnotix/hypnotix.py:780
 #, python-format
 msgid "Movies (%d)"
-msgstr ""
+msgstr "फ़िल्में (%d)"
 
-#: usr/lib/hypnotix/hypnotix.py:777 usr/lib/hypnotix/hypnotix.py:785
+#: usr/lib/hypnotix/hypnotix.py:773 usr/lib/hypnotix/hypnotix.py:781
 #, python-format
 msgid "Series (%d)"
-msgstr ""
+msgstr "श्रृंखला (%d)"
 
-#: usr/lib/hypnotix/hypnotix.py:793 usr/lib/hypnotix/hypnotix.py:808
+#: usr/lib/hypnotix/hypnotix.py:789 usr/lib/hypnotix/hypnotix.py:804
 msgid "TV Channels"
 msgstr "टीवी चैनल"
 
-#: usr/lib/hypnotix/hypnotix.py:795 usr/lib/hypnotix/hypnotix.py:822
+#: usr/lib/hypnotix/hypnotix.py:791 usr/lib/hypnotix/hypnotix.py:818
 msgid "Movies"
 msgstr "फ़िल्में"
 
-#: usr/lib/hypnotix/hypnotix.py:797 usr/lib/hypnotix/hypnotix.py:828
+#: usr/lib/hypnotix/hypnotix.py:793 usr/lib/hypnotix/hypnotix.py:824
 msgid "Series"
 msgstr "सीरीज़"
 
-#: usr/lib/hypnotix/hypnotix.py:803 usr/share/hypnotix/hypnotix.ui.h:2
+#: usr/lib/hypnotix/hypnotix.py:799 usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Favorites"
-msgstr ""
+msgstr "पसंदीदा"
 
-#: usr/lib/hypnotix/hypnotix.py:811
+#: usr/lib/hypnotix/hypnotix.py:807
 #, python-format
 msgid "TV Channels > %s"
 msgstr "टीवी चैनल > %s"
 
-#: usr/lib/hypnotix/hypnotix.py:825
+#: usr/lib/hypnotix/hypnotix.py:821
 #, python-format
 msgid "Movies > %s"
 msgstr "फ़िल्में > %s"
 
-#: usr/lib/hypnotix/hypnotix.py:831
+#: usr/lib/hypnotix/hypnotix.py:827
 #, python-format
 msgid "Series > %s"
 msgstr "सीरीज़ > %s"
 
-#: usr/lib/hypnotix/hypnotix.py:838
+#: usr/lib/hypnotix/hypnotix.py:834
 msgid "New Channel"
-msgstr ""
+msgstr "नया चैनल"
 
-#: usr/lib/hypnotix/hypnotix.py:841 usr/share/hypnotix/hypnotix.ui.h:3
+#: usr/lib/hypnotix/hypnotix.py:837 usr/share/hypnotix/hypnotix.ui.h:3
 msgid "Preferences"
 msgstr "सेटिंग्स"
 
-#: usr/lib/hypnotix/hypnotix.py:844 usr/share/hypnotix/hypnotix.ui.h:4
+#: usr/lib/hypnotix/hypnotix.py:840 usr/share/hypnotix/hypnotix.ui.h:4
 msgid "Providers"
 msgstr "प्रदाता"
 
-#: usr/lib/hypnotix/hypnotix.py:849
+#: usr/lib/hypnotix/hypnotix.py:845
 #, python-format
 msgid "Edit %s"
 msgstr "%s संपादन"
 
-#: usr/lib/hypnotix/hypnotix.py:851
+#: usr/lib/hypnotix/hypnotix.py:847
 msgid "Add a new provider"
 msgstr "नवीन प्रदाता जोड़ें"
 
-#: usr/lib/hypnotix/hypnotix.py:855
+#: usr/lib/hypnotix/hypnotix.py:851
 #, python-format
 msgid "Delete %s"
 msgstr "%s हटाएँ"
 
-#: usr/lib/hypnotix/hypnotix.py:859
+#: usr/lib/hypnotix/hypnotix.py:855
 msgid "Reset providers"
 msgstr "प्रदाता पुनः सेट करें"
 
-#: usr/lib/hypnotix/hypnotix.py:915 usr/lib/hypnotix/hypnotix.py:919
-#: usr/lib/hypnotix/hypnotix.py:984 usr/lib/hypnotix/hypnotix.py:986
-#: usr/lib/hypnotix/hypnotix.py:993 usr/lib/hypnotix/hypnotix.py:996
-#: usr/lib/hypnotix/hypnotix.py:1008 usr/lib/hypnotix/hypnotix.py:1021
-#: usr/lib/hypnotix/hypnotix.py:1026 usr/lib/hypnotix/hypnotix.py:1034
-#: usr/lib/hypnotix/hypnotix.py:1427 usr/lib/hypnotix/hypnotix.py:1429
-#: usr/lib/hypnotix/hypnotix.py:1455 usr/lib/hypnotix/hypnotix.py:1459
+#: usr/lib/hypnotix/hypnotix.py:912 usr/lib/hypnotix/hypnotix.py:916
+#: usr/lib/hypnotix/hypnotix.py:998 usr/lib/hypnotix/hypnotix.py:1000
+#: usr/lib/hypnotix/hypnotix.py:1007 usr/lib/hypnotix/hypnotix.py:1010
+#: usr/lib/hypnotix/hypnotix.py:1022 usr/lib/hypnotix/hypnotix.py:1035
+#: usr/lib/hypnotix/hypnotix.py:1040 usr/lib/hypnotix/hypnotix.py:1048
+#: usr/lib/hypnotix/hypnotix.py:1441 usr/lib/hypnotix/hypnotix.py:1443
+#: usr/lib/hypnotix/hypnotix.py:1469 usr/lib/hypnotix/hypnotix.py:1473
 #: usr/share/hypnotix/hypnotix.ui.h:45
 msgid "General"
 msgstr "सामान्य"
 
-#: usr/lib/hypnotix/hypnotix.py:916 usr/lib/hypnotix/hypnotix.py:998
-#: usr/lib/hypnotix/hypnotix.py:1000 usr/lib/hypnotix/hypnotix.py:1002
-#: usr/lib/hypnotix/hypnotix.py:1428 usr/share/hypnotix/hypnotix.ui.h:47
+#: usr/lib/hypnotix/hypnotix.py:913 usr/lib/hypnotix/hypnotix.py:1012
+#: usr/lib/hypnotix/hypnotix.py:1014 usr/lib/hypnotix/hypnotix.py:1016
+#: usr/lib/hypnotix/hypnotix.py:1442 usr/share/hypnotix/hypnotix.ui.h:47
 msgid "Color"
 msgstr "रंग"
 
-#: usr/lib/hypnotix/hypnotix.py:920 usr/lib/hypnotix/hypnotix.py:1018
-#: usr/lib/hypnotix/hypnotix.py:1028 usr/lib/hypnotix/hypnotix.py:1430
+#: usr/lib/hypnotix/hypnotix.py:917 usr/lib/hypnotix/hypnotix.py:1032
+#: usr/lib/hypnotix/hypnotix.py:1042 usr/lib/hypnotix/hypnotix.py:1444
 #: usr/share/hypnotix/hypnotix.ui.h:49
 msgid "Layout"
 msgstr "अभिन्यास"
 
-#: usr/lib/hypnotix/hypnotix.py:933
+#: usr/lib/hypnotix/hypnotix.py:931
 msgid "Remove from favorites"
-msgstr ""
+msgstr "पसंदीदा से निकालें"
 
-#: usr/lib/hypnotix/hypnotix.py:936
+#: usr/lib/hypnotix/hypnotix.py:935
 msgid "Add to favorites"
-msgstr ""
+msgstr "पसंदीदा में जोड़ें"
 
-#: usr/lib/hypnotix/hypnotix.py:969 usr/lib/hypnotix/hypnotix.py:970
-#: usr/lib/hypnotix/hypnotix.py:984 usr/lib/hypnotix/hypnotix.py:986
-#: usr/lib/hypnotix/hypnotix.py:1451 usr/lib/hypnotix/hypnotix.py:1452
-#: usr/lib/hypnotix/hypnotix.py:1455 usr/lib/hypnotix/hypnotix.py:1459
+#: usr/lib/hypnotix/hypnotix.py:983 usr/lib/hypnotix/hypnotix.py:984
+#: usr/lib/hypnotix/hypnotix.py:998 usr/lib/hypnotix/hypnotix.py:1000
+#: usr/lib/hypnotix/hypnotix.py:1465 usr/lib/hypnotix/hypnotix.py:1466
+#: usr/lib/hypnotix/hypnotix.py:1469 usr/lib/hypnotix/hypnotix.py:1473
 #: usr/share/hypnotix/hypnotix.ui.h:46
 msgid "Average Bitrate"
 msgstr "औसत बिट दर"
 
-#: usr/lib/hypnotix/hypnotix.py:993
+#: usr/lib/hypnotix/hypnotix.py:1007
 msgid "Dimensions"
 msgstr "आयाम"
 
-#: usr/lib/hypnotix/hypnotix.py:996
+#: usr/lib/hypnotix/hypnotix.py:1010
 msgid "Aspect"
 msgstr "अनुपात"
 
-#: usr/lib/hypnotix/hypnotix.py:998
+#: usr/lib/hypnotix/hypnotix.py:1012
 msgid "Pixel Format"
 msgstr "पिक्सेल प्रारूप"
 
-#: usr/lib/hypnotix/hypnotix.py:1000
+#: usr/lib/hypnotix/hypnotix.py:1014
 msgid "Gamma"
 msgstr "गामा"
 
-#: usr/lib/hypnotix/hypnotix.py:1002
+#: usr/lib/hypnotix/hypnotix.py:1016
 msgid "Bits Per Pixel"
 msgstr "बिट प्रति पिक्सेल"
 
-#: usr/lib/hypnotix/hypnotix.py:1008 usr/lib/hypnotix/hypnotix.py:1034
+#: usr/lib/hypnotix/hypnotix.py:1022 usr/lib/hypnotix/hypnotix.py:1048
 msgid "Codec"
 msgstr "कोडेक्स"
 
-#: usr/lib/hypnotix/hypnotix.py:1017
+#: usr/lib/hypnotix/hypnotix.py:1031
 msgid "surround sound"
 msgstr "सराउंड साउंड"
 
-#: usr/lib/hypnotix/hypnotix.py:1018
+#: usr/lib/hypnotix/hypnotix.py:1032
 msgid "Channels"
 msgstr "चैनल"
 
-#: usr/lib/hypnotix/hypnotix.py:1021
+#: usr/lib/hypnotix/hypnotix.py:1035
 msgid "Sample Rate"
 msgstr "नमूना दर"
 
-#: usr/lib/hypnotix/hypnotix.py:1026
+#: usr/lib/hypnotix/hypnotix.py:1040
 msgid "Format"
 msgstr "प्रारूप"
 
-#: usr/lib/hypnotix/hypnotix.py:1028
+#: usr/lib/hypnotix/hypnotix.py:1042
 msgid "Channel Count"
 msgstr "चैनल संख्या"
 
-#: usr/lib/hypnotix/hypnotix.py:1122
+#: usr/lib/hypnotix/hypnotix.py:1136
 #, python-format
 msgid "%d TV channel"
 msgid_plural "%d TV channels"
 msgstr[0] "%d टीवी चैनल"
 msgstr[1] "%d टीवी चैनल"
 
-#: usr/lib/hypnotix/hypnotix.py:1127
+#: usr/lib/hypnotix/hypnotix.py:1141
 #, python-format
 msgid "%d movie"
 msgid_plural "%d movies"
 msgstr[0] "%d फ़िल्म"
 msgstr[1] "%d फ़िल्में"
 
-#: usr/lib/hypnotix/hypnotix.py:1132
+#: usr/lib/hypnotix/hypnotix.py:1146
 #, python-format
 msgid "%d series"
 msgid_plural "%d series"
 msgstr[0] "%d सीरीज़"
 msgstr[1] "%d सीरीज़"
 
-#: usr/lib/hypnotix/hypnotix.py:1152
+#: usr/lib/hypnotix/hypnotix.py:1166
 msgid "Edit"
 msgstr "संपादन"
 
-#: usr/lib/hypnotix/hypnotix.py:1162
+#: usr/lib/hypnotix/hypnotix.py:1176
 msgid "Clear icon cache"
-msgstr ""
+msgstr "आइकन कैश साफ़ करें"
 
-#: usr/lib/hypnotix/hypnotix.py:1172
+#: usr/lib/hypnotix/hypnotix.py:1186
 msgid "Remove"
 msgstr "हटाएँ"
 
-#: usr/lib/hypnotix/hypnotix.py:1279
+#: usr/lib/hypnotix/hypnotix.py:1293
 msgid "M3U Playlists"
 msgstr "M3U संग्रह सूची"
 
-#: usr/lib/hypnotix/hypnotix.py:1477 generate_desktop_files:25
-#: usr/share/hypnotix/hypnotix.ui.h:42
-msgid "Watch TV"
-msgstr "टीवी देखें"
-
-#: usr/lib/hypnotix/hypnotix.py:1545
+#: usr/lib/hypnotix/hypnotix.py:1567
 msgid "Loading providers..."
-msgstr ""
+msgstr "लोड हो रहा है प्रदाताओं..."
 
-#: usr/lib/hypnotix/hypnotix.py:1558
+#: usr/lib/hypnotix/hypnotix.py:1580
 msgid "Downloading playlist..."
-msgstr ""
+msgstr "प्लेलिस्ट डाउनलोड कर रहा है..."
 
-#: usr/lib/hypnotix/hypnotix.py:1560
+#: usr/lib/hypnotix/hypnotix.py:1582
 msgid "Getting playlist..."
-msgstr ""
+msgstr "प्लेलिस्ट प्राप्त करना..."
 
-#: usr/lib/hypnotix/hypnotix.py:1563
+#: usr/lib/hypnotix/hypnotix.py:1585
 msgid "Checking playlist..."
-msgstr ""
+msgstr "प्लेलिस्ट की जाँच कर रहा है..."
 
-#: usr/lib/hypnotix/hypnotix.py:1565
+#: usr/lib/hypnotix/hypnotix.py:1587
 msgid "Loading channels..."
-msgstr ""
+msgstr "चैनल लोड हो रहे हैं..."
 
-#: usr/lib/hypnotix/hypnotix.py:1573
+#: usr/lib/hypnotix/hypnotix.py:1595
 #, python-format
 msgid "Failed to download playlist from %s"
-msgstr ""
+msgstr "%s से प्लेलिस्ट डाउनलोड करने में विफल"
 
 #: usr/share/hypnotix/hypnotix.ui.h:1
 msgid "Create a new channel"
-msgstr ""
+msgstr "नया चैनल बनाना"
 
 #: usr/share/hypnotix/hypnotix.ui.h:5
 msgid "MPV Options"
@@ -328,33 +328,35 @@ msgstr "नेटवर्क"
 
 #: usr/share/hypnotix/hypnotix.ui.h:11
 msgid "System version:"
-msgstr ""
+msgstr "सिस्टम संस्करण:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:12
 msgid ""
 "If Youtube channels stop working you can switch to a local version of yt-dlp "
 "and update it using the button above."
 msgstr ""
+"यदि Youtube चैनल काम करना बंद कर देते हैं, तो आप yt-dlp के स्थानीय संस्करण "
+"पर स्विच कर सकते हैं और ऊपर दिए गए बटन का उपयोग करके इसे अपडेट कर सकते हैं।"
 
 #: usr/share/hypnotix/hypnotix.ui.h:13
 msgid "Local version:"
-msgstr ""
+msgstr "स्थानीय संस्करण:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Update from github.com/yt-dlp"
-msgstr ""
+msgstr "github.com/yt-dlp से अपडेट करें"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Restart Hypnotix for changes to take effect."
-msgstr ""
+msgstr "परिवर्तनों को प्रभावी करने के लिए हिप्नोटिक्स को पुनरारंभ करें।"
 
 #: usr/share/hypnotix/hypnotix.ui.h:16
 msgid "Use local version"
-msgstr ""
+msgstr "स्थानीय संस्करण का उपयोग करें"
 
 #: usr/share/hypnotix/hypnotix.ui.h:17
 msgid "Youtube"
-msgstr ""
+msgstr "यूट्यूब"
 
 #: usr/share/hypnotix/hypnotix.ui.h:18
 msgid "Add a new provider..."
@@ -422,16 +424,16 @@ msgstr "क्या आप निश्चित ही यह डिफ़ॉल�
 
 #: usr/share/hypnotix/hypnotix.ui.h:34
 msgid "Logo URL:"
-msgstr ""
+msgstr "लोगो URL:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:35
 msgid "This channel will be added to your favorites."
-msgstr ""
+msgstr "यह चैनल आपके पसंदीदा में जोड़ दिया जाएगा।"
 
 #: usr/share/hypnotix/hypnotix.ui.h:36
 msgid ""
 "Note: If the logo is a local file, upload it to imgur.com to get a URL."
-msgstr ""
+msgstr "यह चैनल आपके पसंदीदा में जोड़ दिया जाएगा।"
 
 #: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Currently playing:"
@@ -453,7 +455,7 @@ msgstr "पूर्णतया रोकें"
 msgid "Fullscreen"
 msgstr "पूर्ण स्क्रीन"
 
-#: usr/share/hypnotix/hypnotix.ui.h:44 usr/share/hypnotix/shortcuts.ui.h:6
+#: usr/share/hypnotix/hypnotix.ui.h:44 usr/share/hypnotix/shortcuts.ui.h:9
 msgid "Search"
 msgstr "खोज"
 
@@ -471,12 +473,24 @@ msgstr "मुख्य शॉर्टकट"
 
 #: usr/share/hypnotix/shortcuts.ui.h:4
 msgid "Play previous/next channel"
-msgstr ""
+msgstr "पिछला/अगला चैनल चलाएं"
 
 #: usr/share/hypnotix/shortcuts.ui.h:5
-msgid "Toggle Fullscreen"
-msgstr "पूर्ण स्क्रीन चालू/बंद"
+msgid "Fullscreen mode"
+msgstr ""
+
+#: usr/share/hypnotix/shortcuts.ui.h:6
+msgid "Theater mode (no controls)"
+msgstr ""
+
+#: usr/share/hypnotix/shortcuts.ui.h:7
+msgid "Borderless mode (no decorations)"
+msgstr ""
 
 #: usr/share/hypnotix/shortcuts.ui.h:8
+msgid "Normal mode"
+msgstr ""
+
+#: usr/share/hypnotix/shortcuts.ui.h:11
 msgid "Reload all providers"
 msgstr "सभी प्रदाताओं को पुनः लोड करें"

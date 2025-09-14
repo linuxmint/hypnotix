@@ -183,12 +183,19 @@ class Manager:
                         # Set stream blocks
                         block_bytes = int(4 * 1024 * 1024)  # 4 MB
 
-                        with open(provider.path, "w", encoding="utf-8") as file:
+                        response.encoding = response.encoding or response.apparent_encoding or "utf-8"
+                        with open(provider.path, "w", encoding=response.encoding) as file:
                             # Grab data by block_bytes
                             for data in response.iter_content(block_bytes, decode_unicode=True):
                                 downloaded_bytes += block_bytes
                                 print("{} bytes".format(downloaded_bytes))
-                                file.write(str(data))
+                                # if data is still bytes, decode it
+                                if isinstance(data, bytes):
+                                    data = data.decode('utf-8', errors='ignore')
+                                else:
+                                    data = str(data)
+                                # Write data to file
+                                file.write(data)
                         if downloaded_bytes < total_content_size:
                             print("The file size is incorrect, deleting")
                             os.remove(provider.path)

@@ -1,21 +1,20 @@
-# Polish translation for linuxmint
-# Copyright (c) 2020 Rosetta Contributors and Canonical Ltd 2020
+# Asturian translation for linuxmint
+# Copyright (c) 2024 Rosetta Contributors and Canonical Ltd 2024
 # This file is distributed under the same license as the linuxmint package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2025-07-24 17:05+0200\n"
-"PO-Revision-Date: 2025-07-24 17:30+0000\n"
-"Last-Translator: Marek Adamski <Unknown>\n"
-"Language-Team: Polish <pl@li.org>\n"
+"PO-Revision-Date: 2024-07-23 20:59+0000\n"
+"Last-Translator: Havi <Unknown>\n"
+"Language-Team: Asturian <ast@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Launchpad-Export-Date: 2025-08-26 15:25+0000\n"
 "X-Generator: Launchpad (build 919009172d854f2b8e4e8262db447f12f11d25eb)\n"
 
@@ -27,29 +26,29 @@ msgstr "Hypnotix"
 
 #: usr/lib/hypnotix/hypnotix.py:370 usr/share/hypnotix/shortcuts.ui.h:10
 msgid "Keyboard Shortcuts"
-msgstr "Skróty klawiszowe"
+msgstr "Atayos de tecláu"
 
 #: usr/lib/hypnotix/hypnotix.py:377 usr/share/hypnotix/hypnotix.ui.h:51
 #: usr/share/hypnotix/shortcuts.ui.h:3
 msgid "Stream Information"
-msgstr "Informacje o strumieniu"
+msgstr "Información de tresmisión"
 
 #: usr/lib/hypnotix/hypnotix.py:385 usr/lib/hypnotix/hypnotix.py:1489
 #: usr/share/hypnotix/shortcuts.ui.h:2
 msgid "About"
-msgstr "O programie"
+msgstr "Tocante a"
 
 #: usr/lib/hypnotix/hypnotix.py:390 usr/share/hypnotix/shortcuts.ui.h:12
 msgid "Quit"
-msgstr "Zakończ"
+msgstr "Colar"
 
 #: usr/lib/hypnotix/hypnotix.py:403
 msgid "M3U URL"
-msgstr "Adres URL M3U"
+msgstr "URL M3U"
 
 #: usr/lib/hypnotix/hypnotix.py:404
 msgid "Local M3U File"
-msgstr "Lokalny plik M3U"
+msgstr "Arc hivu M3U llocal"
 
 #: usr/lib/hypnotix/hypnotix.py:405
 msgid "Xtream API"
@@ -58,101 +57,101 @@ msgstr "API Xtream"
 #: usr/lib/hypnotix/hypnotix.py:615
 #, python-format
 msgid "Season %s"
-msgstr "Sezon %s"
+msgstr "Temporada  %s"
 
 #: usr/lib/hypnotix/hypnotix.py:626
 #, python-format
 msgid "Episode %s"
-msgstr "Odcinek %s"
+msgstr "Capítulu  %s"
 
 #: usr/lib/hypnotix/hypnotix.py:744
 msgid "No channels found"
-msgstr "Nie znaleziono kanałów"
+msgstr "Nun s'atoparon cadenes"
 
 #: usr/lib/hypnotix/hypnotix.py:768 usr/lib/hypnotix/hypnotix.py:1491
 #: generate_desktop_files:25 usr/share/hypnotix/hypnotix.ui.h:42
 msgid "Watch TV"
-msgstr "Oglądaj telewizję"
+msgstr "Ver TV"
 
 #: usr/lib/hypnotix/hypnotix.py:770
 msgid "No provider selected"
-msgstr "Nie wybrano dostawcy"
+msgstr "Nun s'esbilló dengún proveedor"
 
 #: usr/lib/hypnotix/hypnotix.py:771 usr/lib/hypnotix/hypnotix.py:779
 #, python-format
 msgid "TV Channels (%d)"
-msgstr "Kanały telewizyjne (%d)"
+msgstr "Canales de TV  (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:772 usr/lib/hypnotix/hypnotix.py:780
 #, python-format
 msgid "Movies (%d)"
-msgstr "Filmy (%d)"
+msgstr "Películes (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:773 usr/lib/hypnotix/hypnotix.py:781
 #, python-format
 msgid "Series (%d)"
-msgstr "Seriale (%d)"
+msgstr "Series (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:789 usr/lib/hypnotix/hypnotix.py:804
 msgid "TV Channels"
-msgstr "Kanały telewizyjne"
+msgstr "Canales de TV"
 
 #: usr/lib/hypnotix/hypnotix.py:791 usr/lib/hypnotix/hypnotix.py:818
 msgid "Movies"
-msgstr "Filmy"
+msgstr "Películes"
 
 #: usr/lib/hypnotix/hypnotix.py:793 usr/lib/hypnotix/hypnotix.py:824
 msgid "Series"
-msgstr "Seriale"
+msgstr "Series"
 
 #: usr/lib/hypnotix/hypnotix.py:799 usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Favorites"
-msgstr "Ulubione"
+msgstr "Favoritos"
 
 #: usr/lib/hypnotix/hypnotix.py:807
 #, python-format
 msgid "TV Channels > %s"
-msgstr "Kanały telewizyjne > %s"
+msgstr "Canales de TV >%s"
 
 #: usr/lib/hypnotix/hypnotix.py:821
 #, python-format
 msgid "Movies > %s"
-msgstr "Filmy > %s"
+msgstr "Películes > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:827
 #, python-format
 msgid "Series > %s"
-msgstr "Seriale > %s"
+msgstr "Series > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:834
 msgid "New Channel"
-msgstr "Nowy kanał"
+msgstr "Canal nueva"
 
 #: usr/lib/hypnotix/hypnotix.py:837 usr/share/hypnotix/hypnotix.ui.h:3
 msgid "Preferences"
-msgstr "Preferencje"
+msgstr "Axustes"
 
 #: usr/lib/hypnotix/hypnotix.py:840 usr/share/hypnotix/hypnotix.ui.h:4
 msgid "Providers"
-msgstr "Dostawcy"
+msgstr "Proveedores"
 
 #: usr/lib/hypnotix/hypnotix.py:845
 #, python-format
 msgid "Edit %s"
-msgstr "Edytuj %s"
+msgstr "Editar %s"
 
 #: usr/lib/hypnotix/hypnotix.py:847
 msgid "Add a new provider"
-msgstr "Dodaj nowego dostawcę"
+msgstr "Añedir nueu provedor"
 
 #: usr/lib/hypnotix/hypnotix.py:851
 #, python-format
 msgid "Delete %s"
-msgstr "Usuń %s"
+msgstr "Desaniciar %s"
 
 #: usr/lib/hypnotix/hypnotix.py:855
 msgid "Reset providers"
-msgstr "Zresetuj dostawców"
+msgstr "Reaniciar provedores"
 
 #: usr/lib/hypnotix/hypnotix.py:912 usr/lib/hypnotix/hypnotix.py:916
 #: usr/lib/hypnotix/hypnotix.py:998 usr/lib/hypnotix/hypnotix.py:1000
@@ -163,27 +162,27 @@ msgstr "Zresetuj dostawców"
 #: usr/lib/hypnotix/hypnotix.py:1469 usr/lib/hypnotix/hypnotix.py:1473
 #: usr/share/hypnotix/hypnotix.ui.h:45
 msgid "General"
-msgstr "Ogólne"
+msgstr "Xeneral"
 
 #: usr/lib/hypnotix/hypnotix.py:913 usr/lib/hypnotix/hypnotix.py:1012
 #: usr/lib/hypnotix/hypnotix.py:1014 usr/lib/hypnotix/hypnotix.py:1016
 #: usr/lib/hypnotix/hypnotix.py:1442 usr/share/hypnotix/hypnotix.ui.h:47
 msgid "Color"
-msgstr "Kolor"
+msgstr "Collor"
 
 #: usr/lib/hypnotix/hypnotix.py:917 usr/lib/hypnotix/hypnotix.py:1032
 #: usr/lib/hypnotix/hypnotix.py:1042 usr/lib/hypnotix/hypnotix.py:1444
 #: usr/share/hypnotix/hypnotix.ui.h:49
 msgid "Layout"
-msgstr "Układ"
+msgstr "Diseñu"
 
 #: usr/lib/hypnotix/hypnotix.py:931
 msgid "Remove from favorites"
-msgstr "Usuń z ulubionych"
+msgstr "Desaniciar de favoritos"
 
 #: usr/lib/hypnotix/hypnotix.py:935
 msgid "Add to favorites"
-msgstr "Dodaj do ulubionych"
+msgstr "Amestar a favoritos"
 
 #: usr/lib/hypnotix/hypnotix.py:983 usr/lib/hypnotix/hypnotix.py:984
 #: usr/lib/hypnotix/hypnotix.py:998 usr/lib/hypnotix/hypnotix.py:1000
@@ -191,19 +190,19 @@ msgstr "Dodaj do ulubionych"
 #: usr/lib/hypnotix/hypnotix.py:1469 usr/lib/hypnotix/hypnotix.py:1473
 #: usr/share/hypnotix/hypnotix.ui.h:46
 msgid "Average Bitrate"
-msgstr "Średnia szybkość transmisji"
+msgstr "Frecuencia de bits media"
 
 #: usr/lib/hypnotix/hypnotix.py:1007
 msgid "Dimensions"
-msgstr "Wymiary"
+msgstr "Dimensiones"
 
 #: usr/lib/hypnotix/hypnotix.py:1010
 msgid "Aspect"
-msgstr "Proporcje"
+msgstr "Aspeutu"
 
 #: usr/lib/hypnotix/hypnotix.py:1012
 msgid "Pixel Format"
-msgstr "Format pikseli"
+msgstr "Formatu de píxel"
 
 #: usr/lib/hypnotix/hypnotix.py:1014
 msgid "Gamma"
@@ -211,152 +210,149 @@ msgstr "Gamma"
 
 #: usr/lib/hypnotix/hypnotix.py:1016
 msgid "Bits Per Pixel"
-msgstr "Bity na piksel"
+msgstr "Bits per pixel"
 
 #: usr/lib/hypnotix/hypnotix.py:1022 usr/lib/hypnotix/hypnotix.py:1048
 msgid "Codec"
-msgstr "Kodek"
+msgstr "Códec"
 
 #: usr/lib/hypnotix/hypnotix.py:1031
 msgid "surround sound"
-msgstr "dźwięk przestrzenny"
+msgstr "Soníu envolvente"
 
 #: usr/lib/hypnotix/hypnotix.py:1032
 msgid "Channels"
-msgstr "Kanały"
+msgstr "Canales"
 
 #: usr/lib/hypnotix/hypnotix.py:1035
 msgid "Sample Rate"
-msgstr "Częstotliwość próbkowania"
+msgstr "Tasa de muestréu"
 
 #: usr/lib/hypnotix/hypnotix.py:1040
 msgid "Format"
-msgstr "Format"
+msgstr "Formatu"
 
 #: usr/lib/hypnotix/hypnotix.py:1042
 msgid "Channel Count"
-msgstr "Liczba kanałów"
+msgstr "Cunta  de canales"
 
 #: usr/lib/hypnotix/hypnotix.py:1136
 #, python-format
 msgid "%d TV channel"
 msgid_plural "%d TV channels"
-msgstr[0] "%d kanał telewizyjny"
-msgstr[1] "%d kanały telewizyjne"
-msgstr[2] "%d kanałów telewizyjnych"
+msgstr[0] "%d canal de TV"
+msgstr[1] "%d canales de TV"
 
 #: usr/lib/hypnotix/hypnotix.py:1141
 #, python-format
 msgid "%d movie"
 msgid_plural "%d movies"
-msgstr[0] "%d film"
-msgstr[1] "%d filmy"
-msgstr[2] "%d filmów"
+msgstr[0] "%d película"
+msgstr[1] "%d películes"
 
 #: usr/lib/hypnotix/hypnotix.py:1146
 #, python-format
 msgid "%d series"
 msgid_plural "%d series"
-msgstr[0] "%d serial"
-msgstr[1] "%d seriale"
-msgstr[2] "%d seriali"
+msgstr[0] "%d serie"
+msgstr[1] "%d series"
 
 #: usr/lib/hypnotix/hypnotix.py:1166
 msgid "Edit"
-msgstr "Edytuj"
+msgstr "Editar"
 
 #: usr/lib/hypnotix/hypnotix.py:1176
 msgid "Clear icon cache"
-msgstr "Wyczyść pamięć podręczną ikon"
+msgstr "Llimpiar caché d'iconos"
 
 #: usr/lib/hypnotix/hypnotix.py:1186
 msgid "Remove"
-msgstr "Usuń"
+msgstr "Desaniciar"
 
 #: usr/lib/hypnotix/hypnotix.py:1293
 msgid "M3U Playlists"
-msgstr "Listy odtwarzania M3U"
+msgstr "Llistes de reproducción M3U"
 
 #: usr/lib/hypnotix/hypnotix.py:1567
 msgid "Loading providers..."
-msgstr "Ładowanie dostawców..."
+msgstr "Cargando provedores..."
 
 #: usr/lib/hypnotix/hypnotix.py:1580
 msgid "Downloading playlist..."
-msgstr "Pobieranie listy odtwarzania..."
+msgstr "Descargando llista de reproducción..."
 
 #: usr/lib/hypnotix/hypnotix.py:1582
 msgid "Getting playlist..."
-msgstr "Uzyskiwanie listy odtwarzania..."
+msgstr "Atopando llista..."
 
 #: usr/lib/hypnotix/hypnotix.py:1585
 msgid "Checking playlist..."
-msgstr "Sprawdzanie listy odtwarzania..."
+msgstr "Comprebando llista..."
 
 #: usr/lib/hypnotix/hypnotix.py:1587
 msgid "Loading channels..."
-msgstr "Ładowanie kanałów..."
+msgstr "Cargando canales..."
 
 #: usr/lib/hypnotix/hypnotix.py:1595
 #, python-format
 msgid "Failed to download playlist from %s"
-msgstr "Nie udało się pobrać listy odtwarzania z %s"
+msgstr "Nun se pudo descargar la llista de reproducción de %s"
 
 #: usr/share/hypnotix/hypnotix.ui.h:1
 msgid "Create a new channel"
-msgstr "Utwórz nowy kanał"
+msgstr "Crear una canal nueva"
 
 #: usr/share/hypnotix/hypnotix.ui.h:5
 msgid "MPV Options"
-msgstr "Opcje MPV"
+msgstr "Opciones MPV"
 
 #: usr/share/hypnotix/hypnotix.ui.h:6
 msgid "List of MPV options"
-msgstr "Lista opcji MPV"
+msgstr "Llista d'opciones MPV"
 
 #: usr/share/hypnotix/hypnotix.ui.h:7
 msgid "Playback"
-msgstr "Odtwarzanie"
+msgstr "Reproducción"
 
 #: usr/share/hypnotix/hypnotix.ui.h:8
 msgid "User Agent"
-msgstr "Klient"
+msgstr "Axente d'usuariu"
 
 #: usr/share/hypnotix/hypnotix.ui.h:9
 msgid "Referrer"
-msgstr "Odsyłacz"
+msgstr "Fonte"
 
 #: usr/share/hypnotix/hypnotix.ui.h:10
 msgid "Network"
-msgstr "Sieć"
+msgstr "Rede"
 
 #: usr/share/hypnotix/hypnotix.ui.h:11
 msgid "System version:"
-msgstr "Wersja systemowa:"
+msgstr "Versión del sistema:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:12
 msgid ""
 "If Youtube channels stop working you can switch to a local version of yt-dlp "
 "and update it using the button above."
 msgstr ""
-"Jeśli kanały YouTube przestaną działać, możesz przełączyć się na lokalną "
-"wersję yt-dlp i zaktualizować ją za pomocą przycisku powyżej."
+"Si les canales de Youtube dexen de furrular, puedes cambear a una versión "
+"llocal de t-dlp y anovala emplegando'l botón d'enriba."
 
 #: usr/share/hypnotix/hypnotix.ui.h:13
 msgid "Local version:"
-msgstr "Wersja lokalna:"
+msgstr "Versión llocal:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Update from github.com/yt-dlp"
-msgstr "Zaktualizuj z github.com/yt-dlp"
+msgstr "Anovamientu de github.com/yt-dlp"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Restart Hypnotix for changes to take effect."
-msgstr "Uruchom ponownie Hypnotix, aby zmiany odniosły skutek."
+msgstr "Reaniciar Hypnotix pa que los camudimientos faigan efeutu"
 
 #: usr/share/hypnotix/hypnotix.ui.h:16
 msgid "Use local version"
-msgstr "Używaj wersji lokalnej"
+msgstr "Usar versión llocal"
 
 #: usr/share/hypnotix/hypnotix.ui.h:17
 msgid "Youtube"
@@ -364,27 +360,27 @@ msgstr "YouTube"
 
 #: usr/share/hypnotix/hypnotix.ui.h:18
 msgid "Add a new provider..."
-msgstr "Dodaj dostawcę..."
+msgstr "Añedir nueu provedor..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:19
 msgid "Reset to defaults..."
-msgstr "Przywróć domyślnych..."
+msgstr "Tornar a los axustes predeterminaos..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:20
 msgid "Name:"
-msgstr "Nazwa:"
+msgstr "Nome:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:21
 msgid "URL:"
-msgstr "Adres URL:"
+msgstr "URL:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:22
 msgid "Path:"
-msgstr "Ścieżka:"
+msgstr "Ruta:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:23
 msgid "Cancel"
-msgstr "Anuluj"
+msgstr "Encaboxar"
 
 #: usr/share/hypnotix/hypnotix.ui.h:24
 msgid "OK"
@@ -392,15 +388,15 @@ msgstr "OK"
 
 #: usr/share/hypnotix/hypnotix.ui.h:25
 msgid "Username:"
-msgstr "Nazwa użytkownika:"
+msgstr "Nome d'usuariu:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:26
 msgid "Password:"
-msgstr "Hasło:"
+msgstr "Conseña:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:27
 msgid "Browse..."
-msgstr "Przeglądaj..."
+msgstr "Esplorar..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:28
 msgid "EPG:"
@@ -408,95 +404,94 @@ msgstr "EPG:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:29
 msgid "Type:"
-msgstr "Typ:"
+msgstr "Triba:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:30
 msgid "Are you sure you want to delete this provider?"
-msgstr "Czy na pewno chcesz usunąć tego dostawcę?"
+msgstr "¿De xuru que quies desaniciar esti provedor?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:31
 msgid "No"
-msgstr "Nie"
+msgstr "Non"
 
 #: usr/share/hypnotix/hypnotix.ui.h:32
 msgid "Yes"
-msgstr "Tak"
+msgstr "Sí"
 
 #: usr/share/hypnotix/hypnotix.ui.h:33
 msgid "Are you sure you want to reset to the default providers?"
-msgstr "Czy na pewno chcesz przywrócić domyślnych dostawców?"
+msgstr "¿De xuru que quies tornar a los provedores predeterminaos?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:34
 msgid "Logo URL:"
-msgstr "Adres URL logo:"
+msgstr "URL del logotipu:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:35
 msgid "This channel will be added to your favorites."
-msgstr "Ten kanał zostanie dodany do ulubionych."
+msgstr "Esta canal añedirase a los tos favoritos."
 
 #: usr/share/hypnotix/hypnotix.ui.h:36
 msgid ""
 "Note: If the logo is a local file, upload it to imgur.com to get a URL."
 msgstr ""
-"Uwaga: jeśli logo jest plikiem lokalnym, prześlij go na imgur.com, aby "
-"uzyskać adres URL."
+"Nota: Si el logu ye un ficheru llocal, xúbilo a imgur.com p'algamar una URL."
 
 #: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Currently playing:"
-msgstr "Teraz odtwarzane:"
+msgstr "Reproduciendo agora:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:38
 msgid "Show"
-msgstr "Wyświetl"
+msgstr "Amosar"
 
 #: usr/share/hypnotix/hypnotix.ui.h:39
 msgid "Pause"
-msgstr "Wstrzymaj"
+msgstr "Posar"
 
 #: usr/share/hypnotix/hypnotix.ui.h:40
 msgid "Stop"
-msgstr "Zatrzymaj"
+msgstr "Aparar"
 
 #: usr/share/hypnotix/hypnotix.ui.h:43
 msgid "Fullscreen"
-msgstr "Pełny ekran"
+msgstr "Pantalla completa"
 
 #: usr/share/hypnotix/hypnotix.ui.h:44 usr/share/hypnotix/shortcuts.ui.h:9
 msgid "Search"
-msgstr "Wyszukaj"
+msgstr "Guetar"
 
 #: usr/share/hypnotix/hypnotix.ui.h:48
 msgid "Video"
-msgstr "Wideo"
+msgstr "Vídeu"
 
 #: usr/share/hypnotix/hypnotix.ui.h:50
 msgid "Audio"
-msgstr "Dźwięk"
+msgstr "Soníu"
 
 #: usr/share/hypnotix/shortcuts.ui.h:1
 msgid "Main shortcuts"
-msgstr "Skróty główne"
+msgstr "Atayos principales"
 
 #: usr/share/hypnotix/shortcuts.ui.h:4
 msgid "Play previous/next channel"
-msgstr "Odtwórz poprzedni/następny kanał"
+msgstr "Reproducir anterior/postrera canal"
 
 #: usr/share/hypnotix/shortcuts.ui.h:5
 msgid "Fullscreen mode"
-msgstr "Tryb pełnoekranowy"
+msgstr ""
 
 #: usr/share/hypnotix/shortcuts.ui.h:6
 msgid "Theater mode (no controls)"
-msgstr "Tryb kinowy (bez elementów sterujących)"
+msgstr ""
 
 #: usr/share/hypnotix/shortcuts.ui.h:7
 msgid "Borderless mode (no decorations)"
-msgstr "Tryb bez obramowania (bez dekoracji)"
+msgstr ""
 
 #: usr/share/hypnotix/shortcuts.ui.h:8
 msgid "Normal mode"
-msgstr "Tryb zwykły"
+msgstr ""
 
 #: usr/share/hypnotix/shortcuts.ui.h:11
 msgid "Reload all providers"
-msgstr "Załaduj ponownie wszystkich dostawców"
+msgstr "Recargar tolos provedores"
