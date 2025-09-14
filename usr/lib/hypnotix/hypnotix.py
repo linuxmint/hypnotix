@@ -1689,6 +1689,7 @@ class MainWindow:
         if self.stack.get_visible_child_name() == "channels_page":
             self.fullscreen = not self.fullscreen
             if self.fullscreen:
+                self.window.get_window().set_cursor(Gdk.Cursor.new_from_name(Gdk.Display.get_default(), "none"))
                 # Fullscreen mode
                 self.window.fullscreen()
                 self.mpv_top_box.hide()
@@ -1698,6 +1699,7 @@ class MainWindow:
                 self.status_label.hide()
                 self.channels_box.set_border_width(0)
             else:
+                self.window.get_window().set_cursor(None)
                 self.normal_mode()
 
     def on_fullscreen_button_clicked(self, widget):
