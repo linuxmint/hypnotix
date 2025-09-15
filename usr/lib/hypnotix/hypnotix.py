@@ -1509,6 +1509,8 @@ class MainWindow:
         ctrl = modifier == Gdk.ModifierType.CONTROL_MASK
         shift = modifier == Gdk.ModifierType.SHIFT_MASK
         
+        epg_duration = 6 # seconds
+        
         def chan_match(chan1, chan2):
             # discard digits at the beginning
             chan1 = re.sub(r'^\d+', '', chan1)
@@ -1543,7 +1545,7 @@ class MainWindow:
                 onairText = onair.attrib["channel"] + osd_counter + "\n" + onair.find("title").text + "\n" + onairTime
             except:
                 onairText = "(no info)"
-            self.mpv.command("show-text", onairText, 6000)
+            self.mpv.command("show-text", onairText, (epg_duration * 1000))
             self.epg_timestamp = datetime.now().timestamp()
         elif ctrl and event.keyval == Gdk.KEY_r:
             self.reload(page=None, refresh=True)
@@ -1560,7 +1562,7 @@ class MainWindow:
         elif event.keyval == Gdk.KEY_F7:
             self.borderless_mode()
         elif event.keyval == Gdk.KEY_Escape:
-            if ((datetime.now().timestamp() - self.epg_timestamp) <= 6):
+            if ((datetime.now().timestamp() - self.epg_timestamp) <= epg_duration):
                 self.mpv.command("show-text", "", 1)
                 self.epg_timestamp = 0
             else:
