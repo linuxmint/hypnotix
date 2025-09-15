@@ -553,6 +553,7 @@ class MainWindow:
         else:
             self.sidebar.hide()
         self.epg_counter = {"channel": "", "idx": -1}
+        self.epg_timestamp = 0
 
     def show_vod(self, items):
         logos_to_refresh = []
@@ -1543,6 +1544,7 @@ class MainWindow:
             except:
                 onairText = "(no info)"
             self.mpv.command("show-text", onairText, 6000)
+            self.epg_timestamp = datetime.now().timestamp()
         elif ctrl and event.keyval == Gdk.KEY_r:
             self.reload(page=None, refresh=True)
         elif ctrl and event.keyval == Gdk.KEY_f:
@@ -1558,8 +1560,11 @@ class MainWindow:
         elif event.keyval == Gdk.KEY_F7:
             self.borderless_mode()
         elif event.keyval == Gdk.KEY_Escape:
-            self.mpv.command("show-text", "", 1)
-            self.normal_mode()
+            if ((datetime.now().timestamp() - self.epg_timestamp) <= 6):
+                self.mpv.command("show-text", "", 1)
+                self.epg_timestamp = 0
+            else:
+                self.normal_mode()
         elif event.keyval == Gdk.KEY_BackSpace and not ctrl and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry:
             self.normal_mode()
             self.on_go_back_button()
