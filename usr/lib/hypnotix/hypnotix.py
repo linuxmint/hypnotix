@@ -1524,8 +1524,21 @@ class MainWindow:
         elif event.keyval == Gdk.KEY_Return:
             if channel_focused:
                 try:
-                    chan = [c for c in self.hchannels if c.channel.lcn == str(self.chan_lcn_buf)][0]
-                    activate_hchannel(chan)
+                    chan = [c for c in self.hchannels if c.channel.lcn == str(self.chan_lcn_buf)]
+                    
+                    """
+                    
+                    If this branch will be merged with "epg", it's very easy to jump across channels using
+                    their EPG numbers (without needing a lcn tag) just by adding the lines here below:
+                    
+                    
+                    if (len(chan) == 0 and self.epg is not None):
+                        epg_channel = [p.attrib["id"] for p in self.epg.findall("channel") if p.attrib["id"].split()[-1] == str(self.chan_lcn_buf)][0]
+                        chan = [c for c in self.hchannels if chan_match(c.channel.name, epg_channel)]
+                        
+                    """
+                    
+                    activate_hchannel(chan[0])
                 finally:
                     self.chan_lcn_buf = 0
                     return True
