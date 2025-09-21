@@ -1476,7 +1476,7 @@ class MainWindow:
             return os.path.join(tempfile.gettempdir(), cached_epg_name)
         cached_epg_path = get_cached_epg_path(epg_urls)
         if os.path.exists(cached_epg_path):
-            with open(cached_epg_path, 'rb') as f:
+            with gzip.open(cached_epg_path, 'rb') as f:
                 self.epg = pickle.load(f)
         elif (epg_urls != ""):
             urls = ""
@@ -1497,7 +1497,7 @@ class MainWindow:
                     urls += e
                 except:
                     pass
-            with open(get_cached_epg_path(urls), 'wb') as f:
+            with gzip.open(get_cached_epg_path(urls), 'wb') as f:
                 pickle.dump(self.epg, f)
         self.status_label.hide()
                 
