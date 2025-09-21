@@ -1471,7 +1471,6 @@ class MainWindow:
         self.status_label.set_text("Loading EPG...")
         self.status_label.show()
         self.epg = None
-        """
         def get_cached_epg_path(urls):
             cached_epg_name = base64.urlsafe_b64encode((date.today().isoformat() + urls.replace(" ","")).encode()).decode()
             return os.path.join(tempfile.gettempdir(), cached_epg_name)
@@ -1480,8 +1479,6 @@ class MainWindow:
             with open(cached_epg_path, 'rb') as f:
                 self.epg = pickle.load(f)
         elif (epg_urls != ""):
-        """
-        if (epg_urls != ""):
             urls = ""
             for e in epg_urls.split():
                 try:
@@ -1500,8 +1497,8 @@ class MainWindow:
                     urls += e
                 except:
                     pass
-            #with open(get_cached_epg_path(urls), 'wb') as f:
-            #    pickle.dump(self.epg, f)
+            with open(get_cached_epg_path(urls), 'wb') as f:
+                pickle.dump(self.epg, f)
         self.status_label.hide()
                 
     def on_key_press_event(self, widget, event):
