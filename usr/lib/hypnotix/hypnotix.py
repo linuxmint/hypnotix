@@ -347,14 +347,14 @@ class MainWindow:
         self.window.add_accel_group(accel_group)
         menu = self.builder.get_object("main_menu")
         item = Gtk.ImageMenuItem()
-        item.set_image(Gtk.Image.new_from_icon_name("preferences-desktop-keyboard-shortcuts-symbolic", Gtk.IconSize.MENU))
+        item.set_image(Gtk.Image.new_from_icon_name("xapp-keyboard-shortcuts-symbolic", Gtk.IconSize.MENU))
         item.set_label(_("Keyboard Shortcuts"))
         item.connect("activate", self.open_keyboard_shortcuts)
         key, mod = Gtk.accelerator_parse("<Control>K")
         item.add_accelerator("activate", accel_group, key, mod, Gtk.AccelFlags.VISIBLE)
         menu.append(item)
         self.info_menu_item = Gtk.ImageMenuItem()
-        self.info_menu_item.set_image(Gtk.Image.new_from_icon_name("dialog-information-symbolic", Gtk.IconSize.MENU))
+        self.info_menu_item.set_image(Gtk.Image.new_from_icon_name("xapp-dialog-information-symbolic", Gtk.IconSize.MENU))
         self.info_menu_item.set_label(_("Stream Information"))
         self.info_menu_item.connect("activate", self.open_info)
         key, mod = Gtk.accelerator_parse("F2")
@@ -362,14 +362,14 @@ class MainWindow:
         self.info_menu_item.set_sensitive(False)
         menu.append(self.info_menu_item)
         item = Gtk.ImageMenuItem()
-        item.set_image(Gtk.Image.new_from_icon_name("help-about-symbolic", Gtk.IconSize.MENU))
+        item.set_image(Gtk.Image.new_from_icon_name("xapp-help-about-symbolic", Gtk.IconSize.MENU))
         item.set_label(_("About"))
         item.connect("activate", self.open_about)
         key, mod = Gtk.accelerator_parse("F1")
         item.add_accelerator("activate", accel_group, key, mod, Gtk.AccelFlags.VISIBLE)
         menu.append(item)
         item = Gtk.ImageMenuItem(label=_("Quit"))
-        image = Gtk.Image.new_from_icon_name("application-exit-symbolic", Gtk.IconSize.MENU)
+        image = Gtk.Image.new_from_icon_name("xapp-exit-symbolic", Gtk.IconSize.MENU)
         item.set_image(image)
         item.connect("activate", self.on_menu_quit)
         key, mod = Gtk.accelerator_parse("<Control>Q")
@@ -855,7 +855,7 @@ class MainWindow:
         elif widget.get_active() == False and data in self.favorite_data:
             print (f"Removing {name} from favorites")
             self.favorite_data.remove(data)
-        self.favorite_button_image.set_from_icon_name("starred-symbolic" if widget.get_active() else "non-starred-symbolic", Gtk.IconSize.BUTTON)
+        self.favorite_button_image.set_from_icon_name("xapp-starred-symbolic" if widget.get_active() else "non-xapp-starred-symbolic", Gtk.IconSize.BUTTON)
         self.manager.save_favorites(self.favorite_data)
 
     def on_channel_activated(self, box, widget):
@@ -910,11 +910,11 @@ class MainWindow:
         data = f"{channel.info}:::{channel.url}"
         if data in self.favorite_data:
             self.favorite_button.set_active(True)
-            self.favorite_button_image.set_from_icon_name("starred-symbolic", Gtk.IconSize.BUTTON)
+            self.favorite_button_image.set_from_icon_name("xapp-starred-symbolic", Gtk.IconSize.BUTTON)
             self.favorite_button.set_tooltip_text(_("Remove from favorites"))
         else:
             self.favorite_button.set_active(False)
-            self.favorite_button_image.set_from_icon_name("non-starred-symbolic", Gtk.IconSize.BUTTON)
+            self.favorite_button_image.set_from_icon_name("xapp-non-starred-symbolic", Gtk.IconSize.BUTTON)
             self.favorite_button.set_tooltip_text(_("Add to favorites"))
         self.page_is_loading = False
 
@@ -1058,7 +1058,7 @@ class MainWindow:
         for provider in self.providers:
             labels_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
             image = Gtk.Image()
-            image.set_from_icon_name("tv-symbolic", Gtk.IconSize.BUTTON)
+            image.set_from_icon_name("xapp-tv-symbolic", Gtk.IconSize.BUTTON)
             labels_box.pack_start(image, False, False, 0)
             label = Gtk.Label()
             label.set_markup("<b>%s</b>" % provider.name)
@@ -1105,7 +1105,7 @@ class MainWindow:
             button.set_relief(Gtk.ReliefStyle.NONE)
             button.connect("clicked", self.on_clear_icon_cache_button_clicked, provider)
             image = Gtk.Image()
-            image.set_from_icon_name("edit-clear-symbolic", Gtk.IconSize.BUTTON)
+            image.set_from_icon_name("xapp-edit-clear-symbolic", Gtk.IconSize.BUTTON)
             button.set_tooltip_text(_("Clear icon cache"))
             button.add(image)
             box.pack_start(button, False, False, 0)
@@ -1115,7 +1115,7 @@ class MainWindow:
             button.set_relief(Gtk.ReliefStyle.NONE)
             button.connect("clicked", self.on_delete_button_clicked, provider)
             image = Gtk.Image()
-            image.set_from_icon_name("edit-delete-symbolic", Gtk.IconSize.BUTTON)
+            image.set_from_icon_name("xapp-edit-delete-symbolic", Gtk.IconSize.BUTTON)
             button.set_tooltip_text(_("Remove"))
             button.add(image)
             box.pack_start(button, False, False, 0)
