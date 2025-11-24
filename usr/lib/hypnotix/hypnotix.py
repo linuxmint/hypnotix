@@ -1450,6 +1450,8 @@ class MainWindow:
         self.application.quit()
 
     def on_key_press_event(self, widget, event):
+        if isinstance(widget.get_focus(), Gtk.Entry):
+            return False
         # Get any active, but not pressed modifiers, like CapsLock and NumLock
         persistant_modifiers = Gtk.accelerator_get_default_mod_mask()
 
@@ -1467,7 +1469,7 @@ class MainWindow:
             else:
                 self.search_button.set_active(True)
         elif event.keyval == Gdk.KEY_F11 or \
-                (event.keyval == Gdk.KEY_f and not ctrl and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry):
+                (event.keyval == Gdk.KEY_f and not ctrl):
             self.full_screen_mode()
         elif event.keyval == Gdk.KEY_F6:
             self.theather_mode()
@@ -1475,7 +1477,7 @@ class MainWindow:
             self.borderless_mode()
         elif event.keyval == Gdk.KEY_Escape:
             self.normal_mode()
-        elif event.keyval == Gdk.KEY_BackSpace and not ctrl and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry:
+        elif event.keyval == Gdk.KEY_BackSpace and not ctrl:
             self.normal_mode()
             self.on_go_back_button()
         elif not shift and event.keyval == Gdk.KEY_Left:
