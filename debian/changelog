@@ -1,3 +1,21 @@
+hypnotix (5.4) zena; urgency=medium
+
+  [ Clement Lefebvre ]
+  * Switch to XApp symbolic icons
+  * Switch to xapp-symbolic-icons (XSI)
+
+  [ Frederic Bontemps ]
+  * Forward keys to mpv (#393)
+  * Disable any shortcut when a text field is focused (#395)
+  * Hide mouse cursor on full screen (#396)
+
+  [ Clement Lefebvre ]
+  * Use UP/DOWN arrows to navigate channels
+  * Fix preferences icon name
+  * Fix missing flags for FO and JP in default provider
+
+ -- Clement Lefebvre <root@linuxmint.com>  Mon, 24 Nov 2025 12:46:42 +0000
+
 hypnotix (5.3) zara; urgency=medium
 
   [ Clement Lefebvre ]
