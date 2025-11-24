@@ -142,7 +142,7 @@
                                   <object class="GtkImage">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
-                                    <property name="icon-name">xsi-prefs-behavior-symbolic</property>
+                                    <property name="icon-name">xsi-preferences-symbolic</property>
                                     <property name="icon_size">3</property>
                                   </object>
                                 </child>
