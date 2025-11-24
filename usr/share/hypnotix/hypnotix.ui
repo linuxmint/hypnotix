@@ -98,7 +98,7 @@
                                   <object class="GtkImage">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
-                                    <property name="icon-name">list-add-symbolic</property>
+                                    <property name="icon-name">xsi-list-add-symbolic</property>
                                     <property name="icon_size">3</property>
                                   </object>
                                 </child>
@@ -120,7 +120,7 @@
                                   <object class="GtkImage">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
-                                    <property name="icon-name">starred-symbolic</property>
+                                    <property name="icon-name">xsi-starred-symbolic</property>
                                     <property name="icon_size">3</property>
                                   </object>
                                 </child>
@@ -142,7 +142,7 @@
                                   <object class="GtkImage">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
-                                    <property name="icon-name">xapp-prefs-behavior-symbolic</property>
+                                    <property name="icon-name">xsi-prefs-behavior-symbolic</property>
                                     <property name="icon_size">3</property>
                                   </object>
                                 </child>
@@ -164,7 +164,7 @@
                                   <object class="GtkImage">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
-                                    <property name="icon-name">tv-symbolic</property>
+                                    <property name="icon-name">xsi-tv-symbolic</property>
                                     <property name="icon_size">3</property>
                                   </object>
                                 </child>
@@ -214,7 +214,7 @@
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
                                     <property name="pixel-size">128</property>
-                                    <property name="icon-name">tv</property>
+                                    <property name="icon-name">xsi-tv-symbolic</property>
                                     <property name="icon_size">3</property>
                                   </object>
                                   <packing>
@@ -263,7 +263,7 @@
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
                                     <property name="pixel-size">128</property>
-                                    <property name="icon-name">tv</property>
+                                    <property name="icon-name">xsi-tv-symbolic</property>
                                     <property name="icon_size">3</property>
                                   </object>
                                   <packing>
@@ -312,7 +312,7 @@
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
                                     <property name="pixel-size">128</property>
-                                    <property name="icon-name">tv</property>
+                                    <property name="icon-name">xsi-tv-symbolic</property>
                                     <property name="icon_size">3</property>
                                   </object>
                                   <packing>
@@ -520,7 +520,7 @@
                                       <object class="GtkImage" id="favorite_button_image">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="icon-name">starred-symbolic</property>
+                                        <property name="icon-name">xsi-starred-symbolic</property>
                                       </object>
                                     </child>
                                   </object>
@@ -831,7 +831,7 @@
                                   </object>
                                   <packing>
                                     <property name="title" translatable="yes">Playback</property>
-                                    <property name="icon-name">video-x-generic-symbolic</property>
+                                    <property name="icon-name">xsi-video-x-generic-symbolic</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -918,7 +918,7 @@
                                   </object>
                                   <packing>
                                     <property name="title" translatable="yes">Network</property>
-                                    <property name="icon-name">preferences-system-network-symbolic</property>
+                                    <property name="icon-name">xsi-network-symbolic</property>
                                     <property name="position">1</property>
                                   </packing>
                                 </child>
@@ -1088,7 +1088,7 @@
                                   </object>
                                   <packing>
                                     <property name="title" translatable="yes">Youtube</property>
-                                    <property name="icon-name">tv-symbolic</property>
+                                    <property name="icon-name">xsi-tv-symbolic</property>
                                     <property name="position">2</property>
                                   </packing>
                                 </child>
@@ -1192,7 +1192,7 @@
                                       <object class="GtkImage">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="icon-name">list-add-symbolic</property>
+                                        <property name="icon-name">xsi-list-add-symbolic</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1236,7 +1236,7 @@
                                       <object class="GtkImage">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
-                                        <property name="icon-name">view-refresh-symbolic</property>
+                                        <property name="icon-name">xsi-view-refresh-symbolic</property>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1472,7 +1472,7 @@
                           <object class="GtkImage">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="icon-name">folder-symbolic</property>
+                            <property name="icon-name">xsi-folder-symbolic</property>
                           </object>
                         </child>
                       </object>
@@ -2049,7 +2049,7 @@
                           <object class="GtkImage">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="icon-name">view-reveal-symbolic</property>
+                            <property name="icon-name">xsi-view-reveal-symbolic</property>
                           </object>
                         </child>
                       </object>
@@ -2070,7 +2070,7 @@
                           <object class="GtkImage">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="icon-name">media-playback-pause-symbolic</property>
+                            <property name="icon-name">xsi-media-playback-pause-symbolic</property>
                           </object>
                         </child>
                       </object>
@@ -2091,7 +2091,7 @@
                           <object class="GtkImage">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="icon-name">media-playback-stop-symbolic</property>
+                            <property name="icon-name">xsi-media-playback-stop-symbolic</property>
                           </object>
                         </child>
                       </object>
@@ -2144,7 +2144,7 @@
                   <object class="GtkImage">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="icon-name">go-previous-symbolic</property>
+                    <property name="icon-name">xsi-go-previous-symbolic</property>
                   </object>
                 </child>
               </object>
@@ -2168,7 +2168,7 @@
                   <object class="GtkImage">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="icon-name">system-search-symbolic</property>
+                    <property name="icon-name">xsi-search-symbolic</property>
                   </object>
                 </child>
               </object>
@@ -2196,7 +2196,7 @@
                   <object class="GtkImage">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="icon-name">view-fullscreen-symbolic</property>
+                    <property name="icon-name">xsi-view-fullscreen-symbolic</property>
                     <property name="icon_size">2</property>
                   </object>
                 </child>
@@ -2218,7 +2218,7 @@
                   <object class="GtkImage">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="icon-name">open-menu-symbolic</property>
+                    <property name="icon-name">xsi-open-menu-symbolic</property>
                   </object>
                 </child>
               </object>
