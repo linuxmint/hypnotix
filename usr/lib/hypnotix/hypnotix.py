@@ -1661,6 +1661,7 @@ class MainWindow:
         cr.paint()
 
     def normal_mode(self):
+        self.window.get_window().set_cursor(None)
         self.window.unfullscreen()
         self.mpv_top_box.show()
         self.mpv_bottom_box.hide()
@@ -1698,6 +1699,7 @@ class MainWindow:
         if self.stack.get_visible_child_name() == "channels_page":
             self.fullscreen = not self.fullscreen
             if self.fullscreen:
+                self.window.get_window().set_cursor(Gdk.Cursor.new_from_name(Gdk.Display.get_default(), "none"))
                 # Fullscreen mode
                 self.window.fullscreen()
                 self.mpv_top_box.hide()
