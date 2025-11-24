@@ -876,6 +876,7 @@ class MainWindow:
     def play_async(self, channel):
         if self.mpv is not None:
             self.mpv.stop()
+            self.mpv.pause = False
         print("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
         if channel is not None and channel.url is not None:
             # os.system("mpv --wid=%s %s &" % (self.wid, channel.url))
@@ -1477,10 +1478,16 @@ class MainWindow:
         elif event.keyval == Gdk.KEY_BackSpace and not ctrl and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry:
             self.normal_mode()
             self.on_go_back_button()
-        elif event.keyval == Gdk.KEY_Left:
+        elif not shift and event.keyval == Gdk.KEY_Left:
             self.on_prev_channel()
-        elif event.keyval == Gdk.KEY_Right:
+        elif not shift and event.keyval == Gdk.KEY_Right:
             self.on_next_channel()
+        elif not event.keyval in [Gdk.KEY_F1, Gdk.KEY_F2]:
+            try:
+                self.mpv.command("keypress", Gdk.keyval_name(event.keyval))
+            except:
+                pass
+            return True
         # elif event.keyval == Gdk.KEY_Up:
         #     # Up of in the list
         #     pass
