@@ -1480,10 +1480,12 @@ class MainWindow:
         elif event.keyval == Gdk.KEY_BackSpace and not ctrl:
             self.normal_mode()
             self.on_go_back_button()
-        elif not shift and event.keyval == Gdk.KEY_Left:
+        elif event.keyval == Gdk.KEY_Up:
             self.on_prev_channel()
-        elif not shift and event.keyval == Gdk.KEY_Right:
+            return True
+        elif event.keyval == Gdk.KEY_Down:
             self.on_next_channel()
+            return True
         elif not event.keyval in [Gdk.KEY_F1, Gdk.KEY_F2]:
             try:
                 self.mpv.command("keypress", Gdk.keyval_name(event.keyval))
