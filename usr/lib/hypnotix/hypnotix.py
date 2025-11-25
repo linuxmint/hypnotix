@@ -347,14 +347,14 @@ class MainWindow:
         self.window.add_accel_group(accel_group)
         menu = self.builder.get_object("main_menu")
         item = Gtk.ImageMenuItem()
-        item.set_image(Gtk.Image.new_from_icon_name("preferences-desktop-keyboard-shortcuts-symbolic", Gtk.IconSize.MENU))
+        item.set_image(Gtk.Image.new_from_icon_name("xsi-keyboard-shortcuts-symbolic", Gtk.IconSize.MENU))
         item.set_label(_("Keyboard Shortcuts"))
         item.connect("activate", self.open_keyboard_shortcuts)
         key, mod = Gtk.accelerator_parse("<Control>K")
         item.add_accelerator("activate", accel_group, key, mod, Gtk.AccelFlags.VISIBLE)
         menu.append(item)
         self.info_menu_item = Gtk.ImageMenuItem()
-        self.info_menu_item.set_image(Gtk.Image.new_from_icon_name("dialog-information-symbolic", Gtk.IconSize.MENU))
+        self.info_menu_item.set_image(Gtk.Image.new_from_icon_name("xsi-dialog-information-symbolic", Gtk.IconSize.MENU))
         self.info_menu_item.set_label(_("Stream Information"))
         self.info_menu_item.connect("activate", self.open_info)
         key, mod = Gtk.accelerator_parse("F2")
@@ -362,14 +362,14 @@ class MainWindow:
         self.info_menu_item.set_sensitive(False)
         menu.append(self.info_menu_item)
         item = Gtk.ImageMenuItem()
-        item.set_image(Gtk.Image.new_from_icon_name("help-about-symbolic", Gtk.IconSize.MENU))
+        item.set_image(Gtk.Image.new_from_icon_name("xsi-help-about-symbolic", Gtk.IconSize.MENU))
         item.set_label(_("About"))
         item.connect("activate", self.open_about)
         key, mod = Gtk.accelerator_parse("F1")
         item.add_accelerator("activate", accel_group, key, mod, Gtk.AccelFlags.VISIBLE)
         menu.append(item)
         item = Gtk.ImageMenuItem(label=_("Quit"))
-        image = Gtk.Image.new_from_icon_name("application-exit-symbolic", Gtk.IconSize.MENU)
+        image = Gtk.Image.new_from_icon_name("xsi-exit-symbolic", Gtk.IconSize.MENU)
         item.set_image(image)
         item.connect("activate", self.on_menu_quit)
         key, mod = Gtk.accelerator_parse("<Control>Q")
@@ -868,7 +868,7 @@ class MainWindow:
         elif widget.get_active() == False and data in self.favorite_data:
             print (f"Removing {name} from favorites")
             self.favorite_data.remove(data)
-        self.favorite_button_image.set_from_icon_name("starred-symbolic" if widget.get_active() else "non-starred-symbolic", Gtk.IconSize.BUTTON)
+        self.favorite_button_image.set_from_icon_name("xsi-starred-symbolic" if widget.get_active() else "non-xsi-starred-symbolic", Gtk.IconSize.BUTTON)
         self.manager.save_favorites(self.favorite_data)
 
     def on_channel_activated(self, box, widget):
@@ -900,6 +900,7 @@ class MainWindow:
     def play_async(self, channel):
         if self.mpv is not None:
             self.mpv.stop()
+            self.mpv.pause = False
         print("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
         if channel is not None and channel.url is not None:
             # os.system("mpv --wid=%s %s &" % (self.wid, channel.url))
@@ -934,11 +935,11 @@ class MainWindow:
         data = f"{channel.info}:::{channel.url}"
         if data in self.favorite_data:
             self.favorite_button.set_active(True)
-            self.favorite_button_image.set_from_icon_name("starred-symbolic", Gtk.IconSize.BUTTON)
+            self.favorite_button_image.set_from_icon_name("xsi-starred-symbolic", Gtk.IconSize.BUTTON)
             self.favorite_button.set_tooltip_text(_("Remove from favorites"))
         else:
             self.favorite_button.set_active(False)
-            self.favorite_button_image.set_from_icon_name("non-starred-symbolic", Gtk.IconSize.BUTTON)
+            self.favorite_button_image.set_from_icon_name("xsi-non-starred-symbolic", Gtk.IconSize.BUTTON)
             self.favorite_button.set_tooltip_text(_("Add to favorites"))
         self.page_is_loading = False
 
@@ -1082,7 +1083,7 @@ class MainWindow:
         for provider in self.providers:
             labels_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
             image = Gtk.Image()
-            image.set_from_icon_name("tv-symbolic", Gtk.IconSize.BUTTON)
+            image.set_from_icon_name("xsi-tv-symbolic", Gtk.IconSize.BUTTON)
             labels_box.pack_start(image, False, False, 0)
             label = Gtk.Label()
             label.set_markup("<b>%s</b>" % provider.name)
@@ -1119,7 +1120,7 @@ class MainWindow:
             button.set_relief(Gtk.ReliefStyle.NONE)
             button.connect("clicked", self.on_edit_button_clicked, provider)
             image = Gtk.Image()
-            image.set_from_icon_name("xapp-edit-symbolic", Gtk.IconSize.BUTTON)
+            image.set_from_icon_name("xsi-edit-symbolic", Gtk.IconSize.BUTTON)
             button.set_tooltip_text(_("Edit"))
             button.add(image)
             box.pack_start(button, False, False, 0)
@@ -1129,7 +1130,7 @@ class MainWindow:
             button.set_relief(Gtk.ReliefStyle.NONE)
             button.connect("clicked", self.on_clear_icon_cache_button_clicked, provider)
             image = Gtk.Image()
-            image.set_from_icon_name("edit-clear-symbolic", Gtk.IconSize.BUTTON)
+            image.set_from_icon_name("xsi-edit-clear-symbolic", Gtk.IconSize.BUTTON)
             button.set_tooltip_text(_("Clear icon cache"))
             button.add(image)
             box.pack_start(button, False, False, 0)
@@ -1139,7 +1140,7 @@ class MainWindow:
             button.set_relief(Gtk.ReliefStyle.NONE)
             button.connect("clicked", self.on_delete_button_clicked, provider)
             image = Gtk.Image()
-            image.set_from_icon_name("edit-delete-symbolic", Gtk.IconSize.BUTTON)
+            image.set_from_icon_name("xsi-edit-delete-symbolic", Gtk.IconSize.BUTTON)
             button.set_tooltip_text(_("Remove"))
             button.add(image)
             box.pack_start(button, False, False, 0)
@@ -1473,6 +1474,8 @@ class MainWindow:
         self.application.quit()
 
     def on_key_press_event(self, widget, event):
+        if isinstance(widget.get_focus(), Gtk.Entry):
+            return False
         try:
             widgetType = widget.get_focus().get_name()
         except: # we can pretend the channel widget is focused
@@ -1500,7 +1503,7 @@ class MainWindow:
             else:
                 self.search_button.set_active(True)
         elif event.keyval == Gdk.KEY_F11 or \
-                (event.keyval == Gdk.KEY_f and not ctrl and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry):
+                (event.keyval == Gdk.KEY_f and not ctrl):
             self.full_screen_mode()
         elif event.keyval == Gdk.KEY_F6:
             self.theather_mode()
@@ -1508,12 +1511,13 @@ class MainWindow:
             self.borderless_mode()
         elif event.keyval == Gdk.KEY_Escape:
             self.normal_mode()
-        elif event.keyval == Gdk.KEY_BackSpace and not ctrl and type(widget.get_focus()) != gi.repository.Gtk.SearchEntry:
+        elif event.keyval == Gdk.KEY_BackSpace and not ctrl:
             self.normal_mode()
             self.on_go_back_button()
-        elif event.keyval == Gdk.KEY_Left:
+        elif event.keyval == Gdk.KEY_Up:
             self.on_prev_channel()
-        elif event.keyval == Gdk.KEY_Right:
+            return True
+        elif event.keyval == Gdk.KEY_Down:
             self.on_next_channel()
             return True
         elif event.keyval == Gdk.KEY_Home:
@@ -1545,7 +1549,7 @@ class MainWindow:
             else:
                 self.chan_lcn_buf = 0
         else:
-            if channel_focused:
+            if channel_focused and not event.keyval in [Gdk.KEY_F1, Gdk.KEY_F2]:
                 try:
                     self.chan_lcn_buf = self.chan_lcn_buf * 10 + int(chr(event.keyval))
                     timeout = 1500
@@ -1562,6 +1566,11 @@ class MainWindow:
                     self.timeoutID = GLib.timeout_add(timeout, reset_chan_lcn_buf)
                 except:
                     self.chan_lcn_buf = 0
+                    try:
+                        self.mpv.command("keypress", Gdk.keyval_name(event.keyval))
+                    except:
+                        pass
+                    return True
         # elif event.keyval == Gdk.KEY_Up:
         #     # Up of in the list
         #     pass
@@ -1733,6 +1742,7 @@ class MainWindow:
         cr.paint()
 
     def normal_mode(self):
+        self.window.get_window().set_cursor(None)
         self.window.unfullscreen()
         self.mpv_top_box.show()
         self.mpv_bottom_box.hide()
@@ -1770,6 +1780,7 @@ class MainWindow:
         if self.stack.get_visible_child_name() == "channels_page":
             self.fullscreen = not self.fullscreen
             if self.fullscreen:
+                self.window.get_window().set_cursor(Gdk.Cursor.new_from_name(Gdk.Display.get_default(), "none"))
                 # Fullscreen mode
                 self.window.fullscreen()
                 self.mpv_top_box.hide()
