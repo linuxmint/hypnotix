@@ -1,3 +1,10 @@
+hypnotix (5.5) zena; urgency=medium
+
+  * l10n: Update translations
+  * l10n: Update files
+
+ -- Clement Lefebvre <root@linuxmint.com>  Fri, 12 Dec 2025 16:53:11 +0000
+
 hypnotix (5.4) zena; urgency=medium
 
   [ Clement Lefebvre ]
