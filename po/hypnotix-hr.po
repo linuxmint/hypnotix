@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2025-07-24 17:05+0200\n"
-"PO-Revision-Date: 2021-11-23 12:47+0000\n"
-"Last-Translator: gogo <trebelnik2@gmail.com>\n"
+"PO-Revision-Date: 2025-09-28 16:12+0000\n"
+"Last-Translator: Niko Košćina <nikokoscina@icloud.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2025-08-26 15:25+0000\n"
-"X-Generator: Launchpad (build 919009172d854f2b8e4e8262db447f12f11d25eb)\n"
+"X-Launchpad-Export-Date: 2025-12-12 13:32+0000\n"
+"X-Generator: Launchpad (build 379e22b8475e3402088a4cdb4a6e7936a4d28414)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:159 usr/lib/hypnotix/hypnotix.py:863
 #: usr/lib/hypnotix/hypnotix.py:1490 generate_desktop_files:25
@@ -67,7 +67,7 @@ msgstr "Epizoda %s"
 
 #: usr/lib/hypnotix/hypnotix.py:744
 msgid "No channels found"
-msgstr ""
+msgstr "Nema pronađenih kanala"
 
 #: usr/lib/hypnotix/hypnotix.py:768 usr/lib/hypnotix/hypnotix.py:1491
 #: generate_desktop_files:25 usr/share/hypnotix/hypnotix.ui.h:42
@@ -81,17 +81,17 @@ msgstr "Nema odabaranog pružatelja usluge"
 #: usr/lib/hypnotix/hypnotix.py:771 usr/lib/hypnotix/hypnotix.py:779
 #, python-format
 msgid "TV Channels (%d)"
-msgstr ""
+msgstr "TV kanale (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:772 usr/lib/hypnotix/hypnotix.py:780
 #, python-format
 msgid "Movies (%d)"
-msgstr ""
+msgstr "Filmovi (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:773 usr/lib/hypnotix/hypnotix.py:781
 #, python-format
 msgid "Series (%d)"
-msgstr ""
+msgstr "Serije (%d)"
 
 #: usr/lib/hypnotix/hypnotix.py:789 usr/lib/hypnotix/hypnotix.py:804
 msgid "TV Channels"
@@ -107,7 +107,7 @@ msgstr "Serije"
 
 #: usr/lib/hypnotix/hypnotix.py:799 usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Favorites"
-msgstr ""
+msgstr "Omiljeni"
 
 #: usr/lib/hypnotix/hypnotix.py:807
 #, python-format
@@ -126,7 +126,7 @@ msgstr "Serija > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:834
 msgid "New Channel"
-msgstr ""
+msgstr "Novi Kanal"
 
 #: usr/lib/hypnotix/hypnotix.py:837 usr/share/hypnotix/hypnotix.ui.h:3
 msgid "Preferences"
@@ -179,11 +179,11 @@ msgstr "Izgled"
 
 #: usr/lib/hypnotix/hypnotix.py:931
 msgid "Remove from favorites"
-msgstr ""
+msgstr "Ukloni iz omiljenih"
 
 #: usr/lib/hypnotix/hypnotix.py:935
 msgid "Add to favorites"
-msgstr ""
+msgstr "Dodaj u omiljeno"
 
 #: usr/lib/hypnotix/hypnotix.py:983 usr/lib/hypnotix/hypnotix.py:984
 #: usr/lib/hypnotix/hypnotix.py:998 usr/lib/hypnotix/hypnotix.py:1000
@@ -267,7 +267,7 @@ msgstr "Uredi"
 
 #: usr/lib/hypnotix/hypnotix.py:1176
 msgid "Clear icon cache"
-msgstr ""
+msgstr "Obriši predmemoriju ikona"
 
 #: usr/lib/hypnotix/hypnotix.py:1186
 msgid "Remove"
@@ -279,32 +279,32 @@ msgstr "M3U popis izvođenja"
 
 #: usr/lib/hypnotix/hypnotix.py:1567
 msgid "Loading providers..."
-msgstr ""
+msgstr "Učitavanje pružatelja usluga..."
 
 #: usr/lib/hypnotix/hypnotix.py:1580
 msgid "Downloading playlist..."
-msgstr ""
+msgstr "Preuzimanje liste izvođenja..."
 
 #: usr/lib/hypnotix/hypnotix.py:1582
 msgid "Getting playlist..."
-msgstr ""
+msgstr "Dobivanje liste izvođenja..."
 
 #: usr/lib/hypnotix/hypnotix.py:1585
 msgid "Checking playlist..."
-msgstr ""
+msgstr "Provjeravanje liste izvođenja..."
 
 #: usr/lib/hypnotix/hypnotix.py:1587
 msgid "Loading channels..."
-msgstr ""
+msgstr "Učitavanje kanala..."
 
 #: usr/lib/hypnotix/hypnotix.py:1595
 #, python-format
 msgid "Failed to download playlist from %s"
-msgstr ""
+msgstr "Neuspješno preuzimanje liste izvođenja %s"
 
 #: usr/share/hypnotix/hypnotix.ui.h:1
 msgid "Create a new channel"
-msgstr ""
+msgstr "Stvori novi kanal"
 
 #: usr/share/hypnotix/hypnotix.ui.h:5
 msgid "MPV Options"
@@ -332,33 +332,35 @@ msgstr "Mreža"
 
 #: usr/share/hypnotix/hypnotix.ui.h:11
 msgid "System version:"
-msgstr ""
+msgstr "Verzija sistema:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:12
 msgid ""
 "If Youtube channels stop working you can switch to a local version of yt-dlp "
 "and update it using the button above."
 msgstr ""
+"Ako Youtube kanali prestanu raditi možete prebaciti na lokalnu verziju yt-"
+"dlp i ažurirati koristeći gornji gumb."
 
 #: usr/share/hypnotix/hypnotix.ui.h:13
 msgid "Local version:"
-msgstr ""
+msgstr "Lokalna verzija:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Update from github.com/yt-dlp"
-msgstr ""
+msgstr "Ažuriranje github.com/yt-dlp"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Restart Hypnotix for changes to take effect."
-msgstr ""
+msgstr "Ponovno pokreni Hypnotix da promjene budu vidljive."
 
 #: usr/share/hypnotix/hypnotix.ui.h:16
 msgid "Use local version"
-msgstr ""
+msgstr "Koristite lokalnu verziju"
 
 #: usr/share/hypnotix/hypnotix.ui.h:17
 msgid "Youtube"
-msgstr ""
+msgstr "Youtube"
 
 #: usr/share/hypnotix/hypnotix.ui.h:18
 msgid "Add a new provider..."
@@ -426,16 +428,17 @@ msgstr "Sigurno želite vratiti izvorne pružatelje usluge?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:34
 msgid "Logo URL:"
-msgstr ""
+msgstr "Logo URL:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:35
 msgid "This channel will be added to your favorites."
-msgstr ""
+msgstr "Ovaj kanal će biti dodan tvojim favoritima."
 
 #: usr/share/hypnotix/hypnotix.ui.h:36
 msgid ""
 "Note: If the logo is a local file, upload it to imgur.com to get a URL."
 msgstr ""
+"Bilješka: Ako je logo lokalna datoteka, učitaj na imgur.com da dobiješ URL."
 
 #: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Currently playing:"
@@ -475,23 +478,23 @@ msgstr "Glavni prečaci"
 
 #: usr/share/hypnotix/shortcuts.ui.h:4
 msgid "Play previous/next channel"
-msgstr ""
+msgstr "Pokreni prethodni/sljedeći kanal"
 
 #: usr/share/hypnotix/shortcuts.ui.h:5
 msgid "Fullscreen mode"
-msgstr ""
+msgstr "Cjelozaslonski prikaz"
 
 #: usr/share/hypnotix/shortcuts.ui.h:6
 msgid "Theater mode (no controls)"
-msgstr ""
+msgstr "Kazališni način (bez kontrole)"
 
 #: usr/share/hypnotix/shortcuts.ui.h:7
 msgid "Borderless mode (no decorations)"
-msgstr ""
+msgstr "Bezgranični način (bez ukrasa)"
 
 #: usr/share/hypnotix/shortcuts.ui.h:8
 msgid "Normal mode"
-msgstr ""
+msgstr "Normalni način"
 
 #: usr/share/hypnotix/shortcuts.ui.h:11
 msgid "Reload all providers"

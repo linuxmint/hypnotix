@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2025-07-24 17:05+0200\n"
-"PO-Revision-Date: 2023-12-12 09:33+0000\n"
+"PO-Revision-Date: 2025-11-15 20:02+0000\n"
 "Last-Translator: Piet Coppens <Unknown>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2025-08-26 15:25+0000\n"
-"X-Generator: Launchpad (build 919009172d854f2b8e4e8262db447f12f11d25eb)\n"
+"X-Launchpad-Export-Date: 2025-12-12 13:32+0000\n"
+"X-Generator: Launchpad (build 379e22b8475e3402088a4cdb4a6e7936a4d28414)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:159 usr/lib/hypnotix/hypnotix.py:863
 #: usr/lib/hypnotix/hypnotix.py:1490 generate_desktop_files:25
@@ -364,7 +364,7 @@ msgstr "Aldoni novan provizanton..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:19
 msgid "Reset to defaults..."
-msgstr "Restarigi..."
+msgstr "Restarigi al defaŭltoj..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:20
 msgid "Name:"
@@ -420,7 +420,7 @@ msgstr "Jes"
 
 #: usr/share/hypnotix/hypnotix.ui.h:33
 msgid "Are you sure you want to reset to the default providers?"
-msgstr "Ĉu vi certas, ke vi volas restarigi la defaŭltajn provizantojn?"
+msgstr "Ĉu vi certas, ke vi volas restarigi al la defaŭltaj provizantoj?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:34
 msgid "Logo URL:"
@@ -463,7 +463,7 @@ msgstr "Serĉi"
 
 #: usr/share/hypnotix/hypnotix.ui.h:48
 msgid "Video"
-msgstr "Video"
+msgstr "Filmeto"
 
 #: usr/share/hypnotix/hypnotix.ui.h:50
 msgid "Audio"
@@ -479,19 +479,19 @@ msgstr "Ludi antaŭan/sekvan kanalon"
 
 #: usr/share/hypnotix/shortcuts.ui.h:5
 msgid "Fullscreen mode"
-msgstr ""
+msgstr "Tutekrana reĝimo"
 
 #: usr/share/hypnotix/shortcuts.ui.h:6
 msgid "Theater mode (no controls)"
-msgstr ""
+msgstr "Teatra reĝimo (neniu regilo)"
 
 #: usr/share/hypnotix/shortcuts.ui.h:7
 msgid "Borderless mode (no decorations)"
-msgstr ""
+msgstr "Senbordera reĝimo (neniu ornamaĵo)"
 
 #: usr/share/hypnotix/shortcuts.ui.h:8
 msgid "Normal mode"
-msgstr ""
+msgstr "Normala reĝimo"
 
 #: usr/share/hypnotix/shortcuts.ui.h:11
 msgid "Reload all providers"

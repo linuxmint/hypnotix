@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2025-07-24 17:05+0200\n"
-"PO-Revision-Date: 2023-10-25 12:26+0000\n"
-"Last-Translator: Dirga Afissabilla <Unknown>\n"
+"PO-Revision-Date: 2025-09-24 13:41+0000\n"
+"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2025-08-26 15:25+0000\n"
-"X-Generator: Launchpad (build 919009172d854f2b8e4e8262db447f12f11d25eb)\n"
+"X-Launchpad-Export-Date: 2025-12-12 13:32+0000\n"
+"X-Generator: Launchpad (build 379e22b8475e3402088a4cdb4a6e7936a4d28414)\n"
 
 #: usr/lib/hypnotix/hypnotix.py:159 usr/lib/hypnotix/hypnotix.py:863
 #: usr/lib/hypnotix/hypnotix.py:1490 generate_desktop_files:25
@@ -106,7 +106,7 @@ msgstr "Seri"
 
 #: usr/lib/hypnotix/hypnotix.py:799 usr/share/hypnotix/hypnotix.ui.h:2
 msgid "Favorites"
-msgstr ""
+msgstr "Favorit"
 
 #: usr/lib/hypnotix/hypnotix.py:807
 #, python-format
@@ -125,7 +125,7 @@ msgstr "Seri > %s"
 
 #: usr/lib/hypnotix/hypnotix.py:834
 msgid "New Channel"
-msgstr ""
+msgstr "Kanal Baru"
 
 #: usr/lib/hypnotix/hypnotix.py:837 usr/share/hypnotix/hypnotix.ui.h:3
 msgid "Preferences"
@@ -178,11 +178,11 @@ msgstr "Tata Letak"
 
 #: usr/lib/hypnotix/hypnotix.py:931
 msgid "Remove from favorites"
-msgstr ""
+msgstr "Hapus dari favorit"
 
 #: usr/lib/hypnotix/hypnotix.py:935
 msgid "Add to favorites"
-msgstr ""
+msgstr "Tambah ke favorit"
 
 #: usr/lib/hypnotix/hypnotix.py:983 usr/lib/hypnotix/hypnotix.py:984
 #: usr/lib/hypnotix/hypnotix.py:998 usr/lib/hypnotix/hypnotix.py:1000
@@ -297,7 +297,7 @@ msgstr "Gagal mengunduh daftar putar dari %s"
 
 #: usr/share/hypnotix/hypnotix.ui.h:1
 msgid "Create a new channel"
-msgstr ""
+msgstr "Buat suatu kanal baru"
 
 #: usr/share/hypnotix/hypnotix.ui.h:5
 msgid "MPV Options"
@@ -325,33 +325,35 @@ msgstr "Jaringan"
 
 #: usr/share/hypnotix/hypnotix.ui.h:11
 msgid "System version:"
-msgstr ""
+msgstr "Versi sistem:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:12
 msgid ""
 "If Youtube channels stop working you can switch to a local version of yt-dlp "
 "and update it using the button above."
 msgstr ""
+"Bila kanal Youtube berhenti bekerja Anda dapat beralih ke sebuah versi lokal "
+"yt-dlp dan memperbarui itu memakai tombol di atas."
 
 #: usr/share/hypnotix/hypnotix.ui.h:13
 msgid "Local version:"
-msgstr ""
+msgstr "Versi lokal:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:14
 msgid "Update from github.com/yt-dlp"
-msgstr ""
+msgstr "Mutakhirkan dari github.com/yt-dlp"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Restart Hypnotix for changes to take effect."
-msgstr ""
+msgstr "Jalankan ulang Hypnotix agar perubahan berdampak."
 
 #: usr/share/hypnotix/hypnotix.ui.h:16
 msgid "Use local version"
-msgstr ""
+msgstr "Gunakan versi lokal"
 
 #: usr/share/hypnotix/hypnotix.ui.h:17
 msgid "Youtube"
-msgstr ""
+msgstr "Youtube"
 
 #: usr/share/hypnotix/hypnotix.ui.h:18
 msgid "Add a new provider..."
@@ -419,16 +421,18 @@ msgstr "Apakah anda yakin untuk mengatur ulang ke Penyedia awal?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:34
 msgid "Logo URL:"
-msgstr ""
+msgstr "URL logo:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:35
 msgid "This channel will be added to your favorites."
-msgstr ""
+msgstr "Kanal ini akan ditambahkan ke favorit Anda."
 
 #: usr/share/hypnotix/hypnotix.ui.h:36
 msgid ""
 "Note: If the logo is a local file, upload it to imgur.com to get a URL."
 msgstr ""
+"Catatan: Bila logo ada sebuah berkas lokal, unggah itu ke imgur.com untuk "
+"memperoleh sebuah URL."
 
 #: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Currently playing:"
@@ -472,19 +476,19 @@ msgstr "Putar saluran sebelumnya/berikutnya"
 
 #: usr/share/hypnotix/shortcuts.ui.h:5
 msgid "Fullscreen mode"
-msgstr ""
+msgstr "Mode layar penuh"
 
 #: usr/share/hypnotix/shortcuts.ui.h:6
 msgid "Theater mode (no controls)"
-msgstr ""
+msgstr "Mode teater (tanpa kendali)"
 
 #: usr/share/hypnotix/shortcuts.ui.h:7
 msgid "Borderless mode (no decorations)"
-msgstr ""
+msgstr "Mode tanpa bilah (tanpa dekorasi)"
 
 #: usr/share/hypnotix/shortcuts.ui.h:8
 msgid "Normal mode"
-msgstr ""
+msgstr "Mode normal"
 
 #: usr/share/hypnotix/shortcuts.ui.h:11
 msgid "Reload all providers"
