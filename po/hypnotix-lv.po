@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2025-07-24 17:05+0200\n"
-"PO-Revision-Date: 2025-09-11 16:15+0000\n"
+"PO-Revision-Date: 2025-12-27 14:18+0000\n"
 "Last-Translator: Klavs Petersons <Unknown>\n"
 "Language-Team: Latvian <lv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2025-12-12 13:32+0000\n"
-"X-Generator: Launchpad (build 379e22b8475e3402088a4cdb4a6e7936a4d28414)\n"
+"X-Launchpad-Export-Date: 2026-01-08 15:44+0000\n"
+"X-Generator: Launchpad (build 99c00f518760bdd50fc6e353e7736d2fff8fba4a)\n"
+"Language: lv\n"
 
 #: usr/lib/hypnotix/hypnotix.py:159 usr/lib/hypnotix/hypnotix.py:863
 #: usr/lib/hypnotix/hypnotix.py:1490 generate_desktop_files:25
@@ -338,7 +339,7 @@ msgid ""
 "If Youtube channels stop working you can switch to a local version of yt-dlp "
 "and update it using the button above."
 msgstr ""
-"Ja Youtube kanāli pārstāj darboties, jūs varat pārslēgties uz vietējo yt-dlp "
+"Ja Youtube kanāli pārstāj darboties, tu vari pārslēgties uz vietējo yt-dlp "
 "versiju un atjaunināt to, izmantojot augstāk esošo pogu."
 
 #: usr/share/hypnotix/hypnotix.ui.h:13
@@ -371,7 +372,7 @@ msgstr "Atiestatīt noklusējuma iestatījumus..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:20
 msgid "Name:"
-msgstr "Nosaukums"
+msgstr "Nosaukums:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:21
 msgid "URL:"
@@ -411,7 +412,7 @@ msgstr "Veids:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:30
 msgid "Are you sure you want to delete this provider?"
-msgstr "Vai esat pārliecināts, ka vēlaties dzēst šo pakalpojumu sniedzēju?"
+msgstr "Vai esi pārliecināts, ka vēlaties dzēst šo pakalpojumu sniedzēju?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:31
 msgid "No"
@@ -424,8 +425,7 @@ msgstr "Jā"
 #: usr/share/hypnotix/hypnotix.ui.h:33
 msgid "Are you sure you want to reset to the default providers?"
 msgstr ""
-"Vai esat pārliecināts, ka vēlaties atjaunot noklusējuma pakalpojumu "
-"sniedzējus?"
+"Vai esi pārliecināts, ka vēlies atjaunot noklusējuma pakalpojumu sniedzējus?"
 
 #: usr/share/hypnotix/hypnotix.ui.h:34
 msgid "Logo URL:"
@@ -433,14 +433,14 @@ msgstr "Logo URL:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:35
 msgid "This channel will be added to your favorites."
-msgstr "Šis kanāls tiks pievienots jūsu izlasei."
+msgstr "Šis kanāls tiks pievienots tavai izlasei."
 
 #: usr/share/hypnotix/hypnotix.ui.h:36
 msgid ""
 "Note: If the logo is a local file, upload it to imgur.com to get a URL."
 msgstr ""
-"Piezīme. Ja logotips ir lokāls fails, augšupielādējiet to pakalpojumā "
-"imgur.com, lai iegūtu URL."
+"Piezīme. Ja logotips ir lokāls fails, augšupielādē to pakalpojumā imgur.com, "
+"lai iegūtu URL."
 
 #: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Currently playing:"
