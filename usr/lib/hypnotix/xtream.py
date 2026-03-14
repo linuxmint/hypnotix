@@ -351,23 +351,22 @@ class XTream:
 
         print("Checking {} movies".format(len(self.movies)))
         for stream in self.movies:
-            if re.match(regex, stream.name) is not None:
+            if regex.match(stream.name) is not None:
                 search_result.append(stream.export_json())
 
         print("Checking {} channels".format(len(self.channels)))
         for stream in self.channels:
-            if re.match(regex, stream.name) is not None:
+            if regex.match(stream.name) is not None:
                 search_result.append(stream.export_json())
 
         print("Checking {} series".format(len(self.series)))
         for stream in self.series:
-            if re.match(regex, stream.name) is not None:
+            if regex.match(stream.name) is not None:
                 search_result.append(stream.export_json())
 
         if return_type == "JSON":
-            if search_result is not None:
-                print("Found {} results `{}`".format(len(search_result), keyword))
-                return json.dumps(search_result, ensure_ascii=False)
+            print("Found {} results `{}`".format(len(search_result), keyword))
+            return json.dumps(search_result, ensure_ascii=False)
         else:
             return search_result
 
