@@ -655,13 +655,14 @@ class XTream:
                                         self, group_title, stream_channel
                                     )
 
-                                if new_channel.group_id == "9999":
-                                    print(" - xEverythingElse Channel -> {} - {}".format(new_channel.name,new_channel.stream_type))
-
                                 # Save the new channel to the local list of channels
                                 if loading_stream_type == self.live_type:
+                                    if new_channel.group_id == "9999":
+                                        print(" - xEverythingElse Channel -> {} - {}".format(new_channel.name, new_channel.stream_type))
                                     self.channels.append(new_channel)
                                 elif loading_stream_type == self.vod_type:
+                                    if new_channel.group_id == "9999":
+                                        print(" - xEverythingElse Channel -> {} - {}".format(new_channel.name, new_channel.stream_type))
                                     self.movies.append(new_channel)
                                 else:
                                     self.series.append(new_series)
