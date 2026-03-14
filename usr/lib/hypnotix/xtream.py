@@ -145,7 +145,7 @@ class Group:
             self.group_type = MOVIES_GROUP
         elif "Series" == stream_type:
             self.group_type = SERIES_GROUP
-        elif "Live":
+        elif stream_type == "Live":
             self.group_type = TV_GROUP
         else:
             print("Unrecognized stream type `{}` for `{}`".format(
