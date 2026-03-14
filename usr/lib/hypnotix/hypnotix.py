@@ -1066,7 +1066,7 @@ class MainWindow:
             image.set_from_icon_name("xsi-tv-symbolic", Gtk.IconSize.BUTTON)
             labels_box.pack_start(image, False, False, 0)
             label = Gtk.Label()
-            label.set_markup("<b>%s</b>" % provider.name)
+            label.set_markup("<b>%s</b>" % GLib.markup_escape_text(provider.name))
             labels_box.pack_start(label, False, False, 0)
             num = len(provider.channels)
             if num > 0:
