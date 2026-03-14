@@ -47,7 +47,10 @@ def slugify(string):
 class Provider:
     def __init__(self, name, provider_info):
         if provider_info is not None:
-            self.name, self.type_id, self.url, self.username, self.password, self.epg = provider_info.split(":::")
+            parts = provider_info.split(":::")
+            if len(parts) != 6:
+                raise ValueError("Invalid provider info: expected 6 fields, got %d" % len(parts))
+            self.name, self.type_id, self.url, self.username, self.password, self.epg = parts
         else:
             self.name = name
         self.path = os.path.join(PROVIDERS_PATH, slugify(self.name))
