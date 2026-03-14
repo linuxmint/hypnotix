@@ -556,9 +556,6 @@ class XTream:
                         ))
                         ## Add GROUPS to dictionaries
 
-                        # Add the catch-all-errors group
-                        self.groups.append(self.catch_all_group)
-
                         for cat_obj in all_cat:
                             # Create Group (Category)
                             new_group = Group(cat_obj, loading_stream_type)
