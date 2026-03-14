@@ -994,7 +994,7 @@ class MainWindow:
 
     @idle_function
     def on_video_params(self, property, params):
-        if not params or not type(params) == dict:
+        if not params or not isinstance(params, dict):
             return
         if "w" in params and "h" in params:
             self.video_properties[_("General")][_("Dimensions")] = "%sx%s" % (params["w"],params["h"])
@@ -1016,7 +1016,7 @@ class MainWindow:
 
     @idle_function
     def on_audio_params(self, property, params):
-        if not params or not type(params) == dict:
+        if not params or not isinstance(params, dict):
             return
         if "channels" in params:
             chans = params["channels"]
