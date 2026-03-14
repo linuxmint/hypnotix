@@ -718,6 +718,9 @@ class MainWindow:
     def on_search(self):
         self.visible_search_results = 0
         channels = []
+        if self.active_provider is None:
+            self.search_bar.set_sensitive(True)
+            return False
         for channel in self.active_provider.channels:
             if self.latest_search_bar_text in channel.name.lower():
                 channels.append(channel)
