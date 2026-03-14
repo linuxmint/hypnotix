@@ -713,7 +713,7 @@ class MainWindow:
         if search_bar_text != self.latest_search_bar_text:
             self.latest_search_bar_text = search_bar_text
             self.search_bar.set_sensitive(False)
-            GLib.timeout_add_seconds(0.1, self.on_search)
+            GLib.timeout_add(100, self.on_search)
 
     def on_search(self):
         self.visible_search_results = 0
