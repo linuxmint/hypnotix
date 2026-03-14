@@ -262,26 +262,8 @@ class XTream:
     vod_type = "VOD"
     series_type = "Series"
 
-    auth_data = {}
-    authorization = {}
-
-    groups = []
-    channels = []
-    series = []
-    movies = []
-
-    state = {"authenticated": False, "loaded": False}
-
     hide_adult_content = False
 
-    catch_all_group = Group(
-        {
-            "category_id": "9999",
-            "category_name":"xEverythingElse",
-            "parent_id":0
-        },
-        ""
-    )
     # If the cached JSON file is older than threshold_time_sec then load a new
     # JSON dictionary from the provider
     threshold_time_sec = 60 * 60 * 8
@@ -320,6 +302,18 @@ class XTream:
         self.cache_path = cache_path
         self.hide_adult_content = hide_adult_content
         self.user_agent = user_agent
+
+        self.auth_data = {}
+        self.authorization = {}
+        self.groups = []
+        self.channels = []
+        self.series = []
+        self.movies = []
+        self.state = {"authenticated": False, "loaded": False}
+        self.catch_all_group = Group(
+            {"category_id": "9999", "category_name": "xEverythingElse", "parent_id": 0},
+            "Live"
+        )
 
         # if the cache_path is specified, test that it is a directory
         if self.cache_path != "":
