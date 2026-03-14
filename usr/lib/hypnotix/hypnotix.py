@@ -1428,13 +1428,8 @@ class MainWindow:
         dlg.set_program_name(_("Hypnotix"))
         dlg.set_comments(_("Watch TV"))
         try:
-            h = open("/usr/share/common-licenses/GPL", encoding="utf-8")
-            s = h.readlines()
-            gpl = ""
-            for line in s:
-                gpl += line
-            h.close()
-            dlg.set_license(gpl)
+            with open("/usr/share/common-licenses/GPL", encoding="utf-8") as h:
+                dlg.set_license(h.read())
         except Exception as e:
             print(e)
 
