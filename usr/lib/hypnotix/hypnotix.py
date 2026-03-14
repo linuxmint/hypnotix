@@ -331,8 +331,9 @@ class MainWindow:
         self.ytdlp_local_switch.set_active(self.settings.get_boolean("use-local-ytdlp"))
         self.ytdlp_local_switch.connect("notify::active", self.on_ytdlp_local_switch_activated)
         self.ytdlp_system_version_label.set_text(subprocess.getoutput("/usr/bin/yt-dlp --version"))
-        if os.path.exists(os.path.expanduser("~/.cache/hypnotix/yt-dlp/yt-dlp")):
-            self.ytdlp_local_version_label.set_text(subprocess.getoutput("~/.cache/hypnotix/yt-dlp/yt-dlp --version"))
+        ytdlp_local_bin = os.path.expanduser("~/.cache/hypnotix/yt-dlp/yt-dlp")
+        if os.path.exists(ytdlp_local_bin):
+            self.ytdlp_local_version_label.set_text(subprocess.getoutput([ytdlp_local_bin, "--version"]))
         self.ytdlp_update_button.connect("clicked", self.update_ytdlp)
 
         # Dark mode manager
@@ -647,13 +648,13 @@ class MainWindow:
 
     def update_ytdlp(self, widget=None):
         path = os.path.expanduser("~/.cache/hypnotix/yt-dlp")
-        os.chdir(path)
-        if os.path.exists("yt-dlp"):
-            subprocess.getoutput("./yt-dlp --update")
+        ytdlp_bin = os.path.join(path, "yt-dlp")
+        if os.path.exists(ytdlp_bin):
+            subprocess.getoutput([ytdlp_bin, "--update"])
         else:
-            subprocess.getoutput("wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp")
-            subprocess.getoutput("chmod a+rx ./yt-dlp")
-        self.ytdlp_local_version_label.set_text(subprocess.getoutput("~/.cache/hypnotix/yt-dlp/yt-dlp --version"))
+            subprocess.getoutput(["wget", "-P", path, "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp"])
+            os.chmod(ytdlp_bin, 0o755)
+        self.ytdlp_local_version_label.set_text(subprocess.getoutput([ytdlp_bin, "--version"]))
 
     @async_function
     def download_channel_logos(self, logos_to_refresh):
