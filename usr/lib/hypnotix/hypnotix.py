@@ -877,7 +877,7 @@ class MainWindow:
         if self.mpv is not None:
             self.mpv.stop()
             self.mpv.pause = False
-        print("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
+        print("CHANNEL: '%s'" % channel.name)
         if channel is not None and channel.url is not None:
             # os.system("mpv --wid=%s %s &" % (self.wid, channel.url))
             # self.mpv_drawing_area.show()
@@ -1584,7 +1584,7 @@ class MainWindow:
             except Exception as e:
                 print(e)
                 traceback.print_exc()
-                print("Couldn't parse provider info: ", provider_info)
+                print("Couldn't parse provider info (details omitted)")
 
         # If there are more than 1 providers and no Active Provider, set to the first one
         if len(self.providers) > 0 and self.active_provider is None:
