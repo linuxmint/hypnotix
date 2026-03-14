@@ -298,12 +298,15 @@ class Manager:
 
     def load_favorites(self):
         favorites = []
+        if not os.path.exists(FAVORITES_PATH):
+            return favorites
         with open(FAVORITES_PATH, 'r', encoding="utf-8", errors="ignore") as f:
             for line in f:
                 favorites.append(line.strip())
         return favorites
 
     def save_favorites(self, favorites):
+        os.makedirs(os.path.dirname(FAVORITES_PATH), exist_ok=True)
         with open(FAVORITES_PATH, "w", encoding="utf-8") as f:
             for fav in favorites:
                 f.write(f"{fav}\n")
