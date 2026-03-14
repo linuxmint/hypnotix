@@ -145,7 +145,7 @@ class Group:
             self.group_type = MOVIES_GROUP
         elif "Series" == stream_type:
             self.group_type = SERIES_GROUP
-        elif "Live":
+        elif stream_type == "Live":
             self.group_type = TV_GROUP
         else:
             print("Unrecognized stream type `{}` for `{}`".format(
@@ -262,26 +262,8 @@ class XTream:
     vod_type = "VOD"
     series_type = "Series"
 
-    auth_data = {}
-    authorization = {}
-
-    groups = []
-    channels = []
-    series = []
-    movies = []
-
-    state = {"authenticated": False, "loaded": False}
-
     hide_adult_content = False
 
-    catch_all_group = Group(
-        {
-            "category_id": "9999",
-            "category_name":"xEverythingElse",
-            "parent_id":0
-        },
-        ""
-    )
     # If the cached JSON file is older than threshold_time_sec then load a new
     # JSON dictionary from the provider
     threshold_time_sec = 60 * 60 * 8
@@ -321,12 +303,24 @@ class XTream:
         self.hide_adult_content = hide_adult_content
         self.user_agent = user_agent
 
+        self.auth_data = {}
+        self.authorization = {}
+        self.groups = []
+        self.channels = []
+        self.series = []
+        self.movies = []
+        self.state = {"authenticated": False, "loaded": False}
+        self.catch_all_group = Group(
+            {"category_id": "9999", "category_name": "xEverythingElse", "parent_id": 0},
+            "Live"
+        )
+
         # if the cache_path is specified, test that it is a directory
         if self.cache_path != "":
             # If the cache_path is not a directory, clear it
             if not osp.isdir(self.cache_path):
                 print(" - Cache Path is not a directory, using default '~/.xtream-cache/'")
-                self.cache_path == ""
+                self.cache_path = ""
 
         # If the cache_path is still empty, use default
         if self.cache_path == "":
@@ -357,23 +351,22 @@ class XTream:
 
         print("Checking {} movies".format(len(self.movies)))
         for stream in self.movies:
-            if re.match(regex, stream.name) is not None:
+            if regex.match(stream.name) is not None:
                 search_result.append(stream.export_json())
 
         print("Checking {} channels".format(len(self.channels)))
         for stream in self.channels:
-            if re.match(regex, stream.name) is not None:
+            if regex.match(stream.name) is not None:
                 search_result.append(stream.export_json())
 
         print("Checking {} series".format(len(self.series)))
         for stream in self.series:
-            if re.match(regex, stream.name) is not None:
+            if regex.match(stream.name) is not None:
                 search_result.append(stream.export_json())
 
         if return_type == "JSON":
-            if search_result is not None:
-                print("Found {} results `{}`".format(len(search_result), keyword))
-                return json.dumps(search_result, ensure_ascii=False)
+            print("Found {} results `{}`".format(len(search_result), keyword))
+            return json.dumps(search_result, ensure_ascii=False)
         else:
             return search_result
 
@@ -562,9 +555,6 @@ class XTream:
                         ))
                         ## Add GROUPS to dictionaries
 
-                        # Add the catch-all-errors group
-                        self.groups.append(self.catch_all_group)
-
                         for cat_obj in all_cat:
                             # Create Group (Category)
                             new_group = Group(cat_obj, loading_stream_type)
@@ -661,13 +651,14 @@ class XTream:
                                         self, group_title, stream_channel
                                     )
 
-                                if new_channel.group_id == "9999":
-                                    print(" - xEverythingElse Channel -> {} - {}".format(new_channel.name,new_channel.stream_type))
-
                                 # Save the new channel to the local list of channels
                                 if loading_stream_type == self.live_type:
+                                    if new_channel.group_id == "9999":
+                                        print(" - xEverythingElse Channel -> {} - {}".format(new_channel.name, new_channel.stream_type))
                                     self.channels.append(new_channel)
                                 elif loading_stream_type == self.vod_type:
+                                    if new_channel.group_id == "9999":
+                                        print(" - xEverythingElse Channel -> {} - {}".format(new_channel.name, new_channel.stream_type))
                                     self.movies.append(new_channel)
                                 else:
                                     self.series.append(new_series)

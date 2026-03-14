@@ -331,8 +331,9 @@ class MainWindow:
         self.ytdlp_local_switch.set_active(self.settings.get_boolean("use-local-ytdlp"))
         self.ytdlp_local_switch.connect("notify::active", self.on_ytdlp_local_switch_activated)
         self.ytdlp_system_version_label.set_text(subprocess.getoutput("/usr/bin/yt-dlp --version"))
-        if os.path.exists(os.path.expanduser("~/.cache/hypnotix/yt-dlp/yt-dlp")):
-            self.ytdlp_local_version_label.set_text(subprocess.getoutput("~/.cache/hypnotix/yt-dlp/yt-dlp --version"))
+        ytdlp_local_bin = os.path.expanduser("~/.cache/hypnotix/yt-dlp/yt-dlp")
+        if os.path.exists(ytdlp_local_bin):
+            self.ytdlp_local_version_label.set_text(subprocess.getoutput([ytdlp_local_bin, "--version"]))
         self.ytdlp_update_button.connect("clicked", self.update_ytdlp)
 
         # Dark mode manager
@@ -647,13 +648,13 @@ class MainWindow:
 
     def update_ytdlp(self, widget=None):
         path = os.path.expanduser("~/.cache/hypnotix/yt-dlp")
-        os.chdir(path)
-        if os.path.exists("yt-dlp"):
-            subprocess.getoutput("./yt-dlp --update")
+        ytdlp_bin = os.path.join(path, "yt-dlp")
+        if os.path.exists(ytdlp_bin):
+            subprocess.getoutput([ytdlp_bin, "--update"])
         else:
-            subprocess.getoutput("wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp")
-            subprocess.getoutput("chmod a+rx ./yt-dlp")
-        self.ytdlp_local_version_label.set_text(subprocess.getoutput("~/.cache/hypnotix/yt-dlp/yt-dlp --version"))
+            subprocess.getoutput(["wget", "-P", path, "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp"])
+            os.chmod(ytdlp_bin, 0o755)
+        self.ytdlp_local_version_label.set_text(subprocess.getoutput([ytdlp_bin, "--version"]))
 
     @async_function
     def download_channel_logos(self, logos_to_refresh):
@@ -712,11 +713,14 @@ class MainWindow:
         if search_bar_text != self.latest_search_bar_text:
             self.latest_search_bar_text = search_bar_text
             self.search_bar.set_sensitive(False)
-            GLib.timeout_add_seconds(0.1, self.on_search)
+            GLib.timeout_add(100, self.on_search)
 
     def on_search(self):
         self.visible_search_results = 0
         channels = []
+        if self.active_provider is None:
+            self.search_bar.set_sensitive(True)
+            return False
         for channel in self.active_provider.channels:
             if self.latest_search_bar_text in channel.name.lower():
                 channels.append(channel)
@@ -877,7 +881,7 @@ class MainWindow:
         if self.mpv is not None:
             self.mpv.stop()
             self.mpv.pause = False
-        print("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
+        print("CHANNEL: '%s'" % channel.name)
         if channel is not None and channel.url is not None:
             # os.system("mpv --wid=%s %s &" % (self.wid, channel.url))
             # self.mpv_drawing_area.show()
@@ -936,7 +940,7 @@ class MainWindow:
             self.mpv.unobserve_property("video-bitrate", self.on_bitrate)
             self.mpv.unobserve_property("audio-bitrate", self.on_bitrate)
             self.mpv.unobserve_property("core-idle", self.on_playback_changed)
-        except:
+        except Exception:
             pass
         self.mpv.observe_property("video-params", self.on_video_params)
         self.mpv.observe_property("video-format", self.on_video_format)
@@ -990,7 +994,7 @@ class MainWindow:
 
     @idle_function
     def on_video_params(self, property, params):
-        if not params or not type(params) == dict:
+        if not params or not isinstance(params, dict):
             return
         if "w" in params and "h" in params:
             self.video_properties[_("General")][_("Dimensions")] = "%sx%s" % (params["w"],params["h"])
@@ -1012,7 +1016,7 @@ class MainWindow:
 
     @idle_function
     def on_audio_params(self, property, params):
-        if not params or not type(params) == dict:
+        if not params or not isinstance(params, dict):
             return
         if "channels" in params:
             chans = params["channels"]
@@ -1062,7 +1066,7 @@ class MainWindow:
             image.set_from_icon_name("xsi-tv-symbolic", Gtk.IconSize.BUTTON)
             labels_box.pack_start(image, False, False, 0)
             label = Gtk.Label()
-            label.set_markup("<b>%s</b>" % provider.name)
+            label.set_markup("<b>%s</b>" % GLib.markup_escape_text(provider.name))
             labels_box.pack_start(label, False, False, 0)
             num = len(provider.channels)
             if num > 0:
@@ -1424,13 +1428,8 @@ class MainWindow:
         dlg.set_program_name(_("Hypnotix"))
         dlg.set_comments(_("Watch TV"))
         try:
-            h = open("/usr/share/common-licenses/GPL", encoding="utf-8")
-            s = h.readlines()
-            gpl = ""
-            for line in s:
-                gpl += line
-            h.close()
-            dlg.set_license(gpl)
+            with open("/usr/share/common-licenses/GPL", encoding="utf-8") as h:
+                dlg.set_license(h.read())
         except Exception as e:
             print(e)
 
@@ -1489,7 +1488,7 @@ class MainWindow:
         elif not event.keyval in [Gdk.KEY_F1, Gdk.KEY_F2]:
             try:
                 self.mpv.command("keypress", Gdk.keyval_name(event.keyval))
-            except:
+            except Exception:
                 pass
             return True
         # elif event.keyval == Gdk.KEY_Up:
@@ -1584,7 +1583,7 @@ class MainWindow:
             except Exception as e:
                 print(e)
                 traceback.print_exc()
-                print("Couldn't parse provider info: ", provider_info)
+                print("Couldn't parse provider info (details omitted)")
 
         # If there are more than 1 providers and no Active Provider, set to the first one
         if len(self.providers) > 0 and self.active_provider is None:

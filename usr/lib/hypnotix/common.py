@@ -47,7 +47,10 @@ def slugify(string):
 class Provider:
     def __init__(self, name, provider_info):
         if provider_info is not None:
-            self.name, self.type_id, self.url, self.username, self.password, self.epg = provider_info.split(":::")
+            parts = provider_info.split(":::")
+            if len(parts) != 6:
+                raise ValueError("Invalid provider info: expected 6 fields, got %d" % len(parts))
+            self.name, self.type_id, self.url, self.username, self.password, self.epg = parts
         else:
             self.name = name
         self.path = os.path.join(PROVIDERS_PATH, slugify(self.name))
@@ -133,7 +136,7 @@ class Channel:
 
 class Manager:
     def __init__(self, settings):
-        os.system("mkdir -p '%s'" % PROVIDERS_PATH)
+        os.makedirs(PROVIDERS_PATH, exist_ok=True)
         self.verbose = False
         self.settings = settings
 
@@ -183,13 +186,13 @@ class Manager:
                         with open(provider.path, "w", encoding=response.encoding) as file:
                             # Grab data by block_bytes
                             for data in response.iter_content(block_bytes, decode_unicode=True):
-                                downloaded_bytes += block_bytes
-                                print("{} bytes".format(downloaded_bytes))
                                 # if data is still bytes, decode it
                                 if isinstance(data, bytes):
+                                    downloaded_bytes += len(data)
                                     data = data.decode('utf-8', errors='ignore')
                                 else:
                                     data = str(data)
+                                    downloaded_bytes += len(data.encode('utf-8'))
                                 # Write data to file
                                 file.write(data)
                         if downloaded_bytes < total_content_size:
@@ -295,12 +298,15 @@ class Manager:
 
     def load_favorites(self):
         favorites = []
+        if not os.path.exists(FAVORITES_PATH):
+            return favorites
         with open(FAVORITES_PATH, 'r', encoding="utf-8", errors="ignore") as f:
             for line in f:
                 favorites.append(line.strip())
         return favorites
 
     def save_favorites(self, favorites):
+        os.makedirs(os.path.dirname(FAVORITES_PATH), exist_ok=True)
         with open(FAVORITES_PATH, "w", encoding="utf-8") as f:
             for fav in favorites:
                 f.write(f"{fav}\n")
