@@ -936,7 +936,7 @@ class MainWindow:
             self.mpv.unobserve_property("video-bitrate", self.on_bitrate)
             self.mpv.unobserve_property("audio-bitrate", self.on_bitrate)
             self.mpv.unobserve_property("core-idle", self.on_playback_changed)
-        except:
+        except Exception:
             pass
         self.mpv.observe_property("video-params", self.on_video_params)
         self.mpv.observe_property("video-format", self.on_video_format)
@@ -1489,7 +1489,7 @@ class MainWindow:
         elif not event.keyval in [Gdk.KEY_F1, Gdk.KEY_F2]:
             try:
                 self.mpv.command("keypress", Gdk.keyval_name(event.keyval))
-            except:
+            except Exception:
                 pass
             return True
         # elif event.keyval == Gdk.KEY_Up:
