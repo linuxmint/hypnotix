@@ -133,7 +133,7 @@ class Channel:
 
 class Manager:
     def __init__(self, settings):
-        os.system("mkdir -p '%s'" % PROVIDERS_PATH)
+        os.makedirs(PROVIDERS_PATH, exist_ok=True)
         self.verbose = False
         self.settings = settings
 
