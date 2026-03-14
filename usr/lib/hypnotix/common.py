@@ -186,13 +186,13 @@ class Manager:
                         with open(provider.path, "w", encoding=response.encoding) as file:
                             # Grab data by block_bytes
                             for data in response.iter_content(block_bytes, decode_unicode=True):
-                                downloaded_bytes += block_bytes
-                                print("{} bytes".format(downloaded_bytes))
                                 # if data is still bytes, decode it
                                 if isinstance(data, bytes):
+                                    downloaded_bytes += len(data)
                                     data = data.decode('utf-8', errors='ignore')
                                 else:
                                     data = str(data)
+                                    downloaded_bytes += len(data.encode('utf-8'))
                                 # Write data to file
                                 file.write(data)
                         if downloaded_bytes < total_content_size:
