@@ -29,6 +29,10 @@ from typing import List, Tuple
 
 import requests
 
+HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+}
+
 
 class Channel:
     # Required by Hypnotix
@@ -433,7 +437,7 @@ class XTream:
             self.auth_data = {}
             try:
                 # Request authentication, wait 4 seconds maximum
-                r = requests.get(self.get_authenticate_URL(), timeout=(4), headers={'User-Agent': self.user_agent })
+                r = requests.get(self.get_authenticate_URL(), timeout=(4), headers=self._get_headers())
                 # If the answer is ok, process data and change state
                 if r.ok:
                     self.auth_data = r.json()
@@ -735,6 +739,21 @@ class XTream:
                         )
                         season.episodes[episode_info["title"]] = new_episode_channel
 
+    def _get_headers(self):
+        """Build the headers dictionary for outbound requests.
+
+        Uses the module-level HEADERS as a base. If the user has configured
+        a custom User-Agent (via Hypnotix preferences), it overrides the
+        default.
+
+        Returns:
+            dict: Headers dictionary suitable for requests.get()
+        """
+        headers = dict(HEADERS)
+        if self.user_agent:
+            headers['User-Agent'] = self.user_agent
+        return headers
+
     def _get_request(self, URL: str, timeout: Tuple = (2, 15)):
         """Generic GET Request with Error handling
 
@@ -746,7 +765,7 @@ class XTream:
             [type]: JSON dictionary of the loaded data, or None
         """
         try:
-            r = requests.get(URL, timeout=timeout, headers={'User-Agent': self.user_agent })
+            r = requests.get(URL, timeout=timeout, headers=self._get_headers())
             if r.status_code == 200:
                 return r.json()
 
