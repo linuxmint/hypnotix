@@ -24,7 +24,7 @@ gi.require_version("Gtk", "3.0")
 gi.require_version("XApp", "1.0")
 from gi.repository import Gtk, Gdk, Gio, XApp, GdkPixbuf, GLib, Pango
 
-import mpv
+from player import MpvEngine, VlcEngine
 import requests
 import setproctitle
 from unidecode import unidecode
@@ -242,6 +242,7 @@ class MainWindow:
             "useragent_entry",
             "referer_entry",
             "mpv_entry",
+            "video_backend_combo",
             "mpv_link",
             "ytdlp_local_switch",
             "ytdlp_system_version_label",
@@ -332,6 +333,29 @@ class MainWindow:
         self.bind_setting_widget("user-agent", self.useragent_entry)
         self.bind_setting_widget("http-referer", self.referer_entry)
         self.bind_setting_widget("mpv-options", self.mpv_entry)
+
+        # Video Backend combo box (in preferences, alongside mpv-options)
+        backend_model = Gtk.ListStore(str, str)
+        backend_model.append(["mpv", _("MPV (Default)")])
+        try:
+            import vlc
+            backend_model.append(["vlc", _("VLC Player")])
+        except ImportError:
+            pass
+        self.video_backend_combo.set_model(backend_model)
+        renderer = Gtk.CellRendererText()
+        self.video_backend_combo.pack_start(renderer, True)
+        self.video_backend_combo.add_attribute(renderer, "text", 1)
+
+        current_backend = self.settings.get_string("video-backend")
+        active_index = 0
+        for i, row in enumerate(backend_model):
+            if row[0] == current_backend:
+                active_index = i
+                break
+        self.video_backend_combo.set_active(active_index)
+
+        self.video_backend_combo.connect("changed", self.on_video_backend_combo_changed)
 
         # ytdlp
         self.ytdlp_local_switch.set_active(self.settings.get_boolean("use-local-ytdlp"))
@@ -647,6 +671,18 @@ class MainWindow:
 
     def on_entry_changed(self, widget, key):
         self.settings.set_string(key, widget.get_text())
+
+    def on_video_backend_combo_changed(self, combo):
+        model = combo.get_model()
+        active_iter = combo.get_active_iter()
+        if active_iter:
+            backend_id = model[active_iter][0]
+            if backend_id != self.settings.get_string("video-backend"):
+                self.settings.set_string("video-backend", backend_id)
+                if self.mpv is not None:
+                    self.on_stop_button(None)
+                    self.mpv = None
+                self.mpv_bottom_box.hide()
 
     def on_ytdlp_local_switch_activated(self, widget, data=None):
         self.settings.set_boolean("use-local-ytdlp", widget.get_active())
@@ -1658,15 +1694,19 @@ class MainWindow:
             osc = options.pop("osc") != "no"
 
         if self.mpv is None:
-            self.mpv = mpv.MPV(
-                **options,
-                script_opts="osc-layout=box,osc-seekbarstyle=bar,osc-deadzonesize=0,osc-minmousemove=3",
-                input_default_bindings=True,
-                input_vo_keyboard=True,
-                osc=osc,
-                ytdl=True,
-                wid=str(self.mpv_drawing_area.get_window().get_xid())
-            )
+            chosen_backend = self.settings.get_string("video-backend")
+            xid = str(self.mpv_drawing_area.get_window().get_xid())
+
+            if chosen_backend == "vlc":
+                try:
+                    self.mpv = VlcEngine()
+                except ImportError:
+                    print("VLC Python bindings missing! Falling back to default MPV.")
+                    chosen_backend = "mpv"
+
+            if chosen_backend != "vlc":
+                self.mpv = MpvEngine(options=options, osc=osc)
+            self.mpv.set_window(xid)
 
         self.mpv.volume = self.volume
         self.mpv.observe_property("volume", self.on_volume_prop)
