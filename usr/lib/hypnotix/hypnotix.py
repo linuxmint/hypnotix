@@ -24,7 +24,7 @@ gi.require_version("Gtk", "3.0")
 gi.require_version("XApp", "1.0")
 from gi.repository import Gtk, Gdk, Gio, XApp, GdkPixbuf, GLib, Pango
 
-import mpv
+from player import MpvEngine, VlcEngine
 import requests
 import setproctitle
 from unidecode import unidecode
@@ -1636,15 +1636,19 @@ class MainWindow:
             osc = options.pop("osc") != "no"
 
         if self.mpv is None:
-            self.mpv = mpv.MPV(
-                **options,
-                script_opts="osc-layout=box,osc-seekbarstyle=bar,osc-deadzonesize=0,osc-minmousemove=3",
-                input_default_bindings=True,
-                input_vo_keyboard=True,
-                osc=osc,
-                ytdl=True,
-                wid=str(self.mpv_drawing_area.get_window().get_xid())
-            )
+            chosen_backend = self.settings.get_string("video-backend")
+            xid = str(self.mpv_drawing_area.get_window().get_xid())
+
+            if chosen_backend == "vlc":
+                try:
+                    self.mpv = VlcEngine()
+                except ImportError:
+                    print("VLC Python bindings missing! Falling back to default MPV.")
+                    chosen_backend = "mpv"
+
+            if chosen_backend != "vlc":
+                self.mpv = MpvEngine(options=options, osc=osc)
+            self.mpv.set_window(xid)
 
         self.mpv.volume = self.volume
         self.mpv.observe_property("volume", self.on_volume_prop)

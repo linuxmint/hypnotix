@@ -31,5 +31,10 @@
       <summary></summary>
       <description></description>
     </key>
+    <key type="s" name="video-backend">
+      <default>'mpv'</default>
+      <summary>Media player engine backend</summary>
+      <description>Choose between 'mpv' and 'vlc' to render streams.</description>
+    </key>
   </schema>
 </schemalist>
