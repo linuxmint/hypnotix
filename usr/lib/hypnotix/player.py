@@ -2,7 +2,8 @@ import abc
 import time
 
 class VideoPlayer(abc.ABC):
-    """Abstract Interface layer containing upstream-compliant event/property hooks."""
+    """Abstract base class defining the media player engine interface."""
+
     @abc.abstractmethod
     def set_window(self, xid):
         pass
@@ -13,6 +14,10 @@ class VideoPlayer(abc.ABC):
 
     @abc.abstractmethod
     def stop(self):
+        pass
+
+    @abc.abstractmethod
+    def terminate(self):
         pass
 
     @abc.abstractmethod
@@ -35,28 +40,16 @@ class VideoPlayer(abc.ABC):
     def register_event_cb(self, callback):
         pass
 
-    @abc.abstractmethod
-    def is_paused(self) -> bool:
-        pass
-
-    @abc.abstractmethod
-    def set_engine_pause(self):
-        pass
-
-    @abc.abstractmethod
-    def set_engine_resume(self):
-        pass
-
     @property
+    @abc.abstractmethod
     def pause(self) -> bool:
-        return self.is_paused()
+        pass
 
     @pause.setter
+    @abc.abstractmethod
     def pause(self, value: bool):
-        if value:
-            self.set_engine_pause()
-        else:
-            self.set_engine_resume()
+        pass
+
 
 class MpvEngine(VideoPlayer):
     def __init__(self, options=None, osc=True):
@@ -92,6 +85,13 @@ class MpvEngine(VideoPlayer):
         except Exception:
             pass
 
+    def terminate(self):
+        self.stop()
+        try:
+            self.player.terminate()
+        except Exception:
+            pass
+
     def set_volume(self, value):
         self.player.volume = value
 
@@ -111,18 +111,20 @@ class MpvEngine(VideoPlayer):
     def __setitem__(self, key, value):
         self.player[key] = value
 
-    def set_engine_pause(self):
-        self.player.pause = True
-
-    def set_engine_resume(self):
-        self.player.pause = False
-
-    def is_paused(self) -> bool:
+    @property
+    def pause(self) -> bool:
         return getattr(self.player, "pause", False)
 
+    @pause.setter
+    def pause(self, value: bool):
+        self.player.pause = bool(value)
+
+
 class VlcEngine(VideoPlayer):
-    def __init__(self):
+    def __init__(self, gui=None):
         import vlc
+        self.gui = gui
+
         self.instance = vlc.Instance("--no-xlib --quiet --no-video-title-show")
         self.player = self.instance.media_player_new()
 
@@ -138,6 +140,7 @@ class VlcEngine(VideoPlayer):
         self.player.set_xwindow(int(xid))
 
     def play(self, url, user_agent=None, referrer=None):
+        self._stopped = False
         opts = []
         ua = user_agent or self._user_agent
         ref = referrer or self._referrer
@@ -150,15 +153,29 @@ class VlcEngine(VideoPlayer):
         media = self.instance.media_new(url, *opts)
         self.player.set_media(media)
         self.player.play()
+        if self.gui:
+            self.gui.set_controls_sensitive(True)
 
     def stop(self):
+        self._stopped = True
         self.player.stop()
+        if self.gui:
+            self.gui.set_controls_sensitive(False)
+
+    def terminate(self):
+        self.stop()
+        try:
+            self.player.release()
+            self.instance.release()
+        except Exception:
+            pass
 
     def set_volume(self, value):
         self.player.audio_set_volume(int(value))
 
     def is_playing(self) -> bool:
         import vlc
+
         return self.player.get_state() in [vlc.State.Playing, vlc.State.Buffering]
 
     def wait_until_playing(self):
@@ -170,6 +187,8 @@ class VlcEngine(VideoPlayer):
             time.sleep(0.1)
             if time.time() - start_time > timeout:
                 break
+        if self.gui and not getattr(self, "_stopped", False):
+            self.gui.set_controls_sensitive(True)
 
     def observe_property(self, name, callback):
         pass
@@ -183,13 +202,15 @@ class VlcEngine(VideoPlayer):
         elif key == "referrer":
             self._referrer = value
 
-    def set_engine_pause(self):
-        self.player.set_pause(True)
-        self.player.set_rate(0.0)  # Freezes the live video container frame solid
-
-    def set_engine_resume(self):
-        self.player.set_rate(1.0)  # Restores full video processing speed
-        self.player.set_pause(False)
-
-    def is_paused(self) -> bool:
+    @property
+    def pause(self) -> bool:
         return self.player.get_rate() == 0.0
+
+    @pause.setter
+    def pause(self, value: bool):
+        if value:
+            self.player.set_pause(True)
+            self.player.set_rate(0.0)  # Freezes the live video container frame solid
+        else:
+            self.player.set_rate(1.0)  # Restores full video processing speed
+            self.player.set_pause(False)

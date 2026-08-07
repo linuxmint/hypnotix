@@ -675,6 +675,7 @@ class MainWindow:
                 self.settings.set_string("video-backend", backend_id)
                 if self.mpv is not None:
                     self.on_stop_button(None)
+                    self.mpv.terminate()
                     self.mpv = None
                 self.mpv_bottom_box.hide()
 
@@ -1678,12 +1679,11 @@ class MainWindow:
 
             if chosen_backend == "vlc":
                 try:
-                    self.mpv = VlcEngine()
-
                     if not hasattr(self, "vlc_gui"):
                         self.vlc_gui = VLCGUIController(self)
                         self.vlc_gui.setup_ui()
 
+                    self.mpv = VlcEngine(gui=self.vlc_gui)
                     self.vlc_gui.show_controls()
 
                 except ImportError:

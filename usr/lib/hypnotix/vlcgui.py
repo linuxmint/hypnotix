@@ -1,7 +1,7 @@
 import gi
 
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk
+from gi.repository import GLib, Gtk
 
 
 class VLCGUIController:
@@ -11,6 +11,8 @@ class VLCGUIController:
         self.win = main_window
         self.vlc_control_layout = None
         self.btn_toggle = None
+        self.btn_stop = None
+        self.btn_menu = None
         self.vlc_stream_menu = None
 
     def setup_ui(self):
@@ -33,47 +35,53 @@ class VLCGUIController:
         self.vlc_control_layout.pack_start(self.btn_toggle, False, False, 5)
 
         # THE SIMPLE STOP BUTTON
-        btn_stop = Gtk.Button.new_from_icon_name(
+        self.btn_stop = Gtk.Button.new_from_icon_name(
             "media-playback-stop-symbolic", Gtk.IconSize.BUTTON
         )
-        btn_stop.connect("clicked", lambda w: self.win.on_stop_button(None))
-        self.vlc_control_layout.pack_start(btn_stop, False, False, 5)
+        self.btn_stop.connect("clicked", lambda w: self.win.on_stop_button(None))
+        self.vlc_control_layout.pack_start(self.btn_stop, False, False, 5)
 
         # THE SANDWICH MENU BUTTON (Audio, Video, Subtitle streams)
-        btn_menu = Gtk.MenuButton()
-        btn_menu.set_image(
+        self.btn_menu = Gtk.MenuButton()
+        self.btn_menu.set_image(
             Gtk.Image.new_from_icon_name("open-menu-symbolic", Gtk.IconSize.BUTTON)
         )
-        btn_menu.set_direction(Gtk.ArrowType.UP)
+        self.btn_menu.set_direction(Gtk.ArrowType.UP)
         self.vlc_stream_menu = Gtk.Menu()
-        btn_menu.set_popup(self.vlc_stream_menu)
+        self.btn_menu.set_popup(self.vlc_stream_menu)
         self.vlc_stream_menu.connect("show", lambda w: self.on_vlc_menu_show())
-        self.vlc_control_layout.pack_start(btn_menu, False, False, 5)
+        self.vlc_control_layout.pack_start(self.btn_menu, False, False, 5)
 
         self.win.mpv_bottom_box.pack_start(self.vlc_control_layout, True, True, 5)
+        self.set_controls_sensitive(False)
 
     def show_controls(self):
-        from gi.repository import GLib
         GLib.idle_add(self.win.mpv_bottom_box.show_all)
 
     def on_vlc_toggle_clicked(self):
         if not self.win.mpv:
             return
 
-        if getattr(self.win.mpv, "is_paused", lambda: False)():
-            self.win.mpv.set_engine_resume()
-            self.btn_toggle.set_image(
-                Gtk.Image.new_from_icon_name(
-                    "media-playback-pause-symbolic", Gtk.IconSize.BUTTON
+        self.win.mpv.pause = not self.win.mpv.pause
+        icon = "media-playback-start-symbolic" if self.win.mpv.pause else "media-playback-pause-symbolic"
+        self.btn_toggle.set_image(Gtk.Image.new_from_icon_name(icon, Gtk.IconSize.BUTTON))
+
+    def set_controls_sensitive(self, sensitive: bool):
+        def _update():
+            for btn in (self.btn_toggle, self.btn_stop, self.btn_menu):
+                if btn:
+                    btn.set_sensitive(sensitive)
+
+            if self.btn_toggle:
+                icon = "media-playback-pause-symbolic" if sensitive else "media-playback-start-symbolic"
+                self.btn_toggle.set_image(
+                    Gtk.Image.new_from_icon_name(
+                        icon, Gtk.IconSize.BUTTON
+                    )
                 )
-            )
-        else:
-            self.win.mpv.set_engine_pause()
-            self.btn_toggle.set_image(
-                Gtk.Image.new_from_icon_name(
-                    "media-playback-start-symbolic", Gtk.IconSize.BUTTON
-                )
-            )
+            return False
+
+        GLib.idle_add(_update)
 
     def on_vlc_menu_show(self):
         if not self.win.mpv or not hasattr(self.win.mpv, "player"):
