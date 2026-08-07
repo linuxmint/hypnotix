@@ -25,12 +25,13 @@ gi.require_version("XApp", "1.0")
 from gi.repository import Gtk, Gdk, Gio, XApp, GdkPixbuf, GLib, Pango
 
 from player import MpvEngine, VlcEngine
+from vlcgui import VLCGUIController
 import requests
 import setproctitle
 from unidecode import unidecode
 
 from common import Manager, Provider, Channel, MOVIES_GROUP, PROVIDERS_PATH, SERIES_GROUP, TV_GROUP,\
-    async_function, idle_function
+    async_function, idle_function, set_playback_button_state
 
 
 setproctitle.setproctitle("hypnotix")
@@ -334,14 +335,24 @@ class MainWindow:
         self.bind_setting_widget("http-referer", self.referer_entry)
         self.bind_setting_widget("mpv-options", self.mpv_entry)
 
+        try:
+            import vlc
+            self.is_vlc_available = True
+        except ImportError:
+            self.is_vlc_available = False
+
         # Video Backend combo box (in preferences, alongside mpv-options)
         backend_model = Gtk.ListStore(str, str)
         backend_model.append(["mpv", _("MPV (Default)")])
-        try:
-            import vlc
+        if self.is_vlc_available:
             backend_model.append(["vlc", _("VLC Player")])
-        except ImportError:
-            pass
+
+            # Setup the UI overlays only if VLC is installed
+            self.vlc_gui = VLCGUIController(self)
+            self.vlc_gui.setup_ui()
+        else:
+            self.vlc_gui = None
+
         self.video_backend_combo.set_model(backend_model)
         renderer = Gtk.CellRendererText()
         self.video_backend_combo.pack_start(renderer, True)
@@ -681,6 +692,7 @@ class MainWindow:
                 self.settings.set_string("video-backend", backend_id)
                 if self.mpv is not None:
                     self.on_stop_button(None)
+                    self.mpv.terminate()
                     self.mpv = None
                 self.mpv_bottom_box.hide()
 
@@ -976,6 +988,7 @@ class MainWindow:
             self.favorite_button.set_active(False)
             self.favorite_button_image.set_from_icon_name("xsi-non-starred-symbolic", Gtk.IconSize.BUTTON)
             self.favorite_button.set_tooltip_text(_("Add to favorites"))
+        set_playback_button_state(self.pause_button, False)
         self.page_is_loading = False
 
     @idle_function
@@ -1104,6 +1117,7 @@ class MainWindow:
 
     def on_pause_button(self, widget):
         self.mpv.pause = not self.mpv.pause
+        set_playback_button_state(self.pause_button, self.mpv.pause)
 
     def on_show_button(self, widget):
         self.navigate_to("channels_page")
@@ -1670,45 +1684,49 @@ class MainWindow:
     def reinit_mpv(self):
         if self.mpv is not None:
             self.mpv.stop()
-        options = {}
-        try:
-            mpv_options = self.settings.get_string("mpv-options")
-            if ("=") in mpv_options:
-                pairs = mpv_options.split()
-                for pair in pairs:
-                    key, value = pair.split("=", 1)
-                    options[key] = value
-        except Exception as e:
-            print("Could not parse MPV options!")
-            print(e)
-
-        options["user_agent"] = self.settings.get_string("user-agent")
-        options["referrer"] = self.settings.get_string("http-referer")
-
-        while not self.mpv_drawing_area.get_window() and not Gtk.events_pending():
-            time.sleep(0.1)
-
-        osc = True
-        if "osc" in options:
-            # To prevent 'multiple values for keyword argument'!
-            osc = options.pop("osc") != "no"
 
         if self.mpv is None:
+            # Map the player page if not realized yet
+            if not self.mpv_drawing_area.get_window():
+                self.mpv_stack.set_visible_child_name("player_page")
+                while not self.mpv_drawing_area.get_window():
+                    time.sleep(0.05)
+
             chosen_backend = self.settings.get_string("video-backend")
             xid = str(self.mpv_drawing_area.get_window().get_xid())
 
             if chosen_backend == "vlc":
-                try:
-                    self.mpv = VlcEngine()
-                except ImportError:
+                if getattr(self, "is_vlc_available", False) and self.vlc_gui is not None:
+                    self.mpv = VlcEngine(gui=self.vlc_gui)
+                    self.vlc_gui.show_controls()
+                else:
                     print("VLC Python bindings missing! Falling back to default MPV.")
                     chosen_backend = "mpv"
 
             if chosen_backend != "vlc":
+                options = {}
+                try:
+                    mpv_options = self.settings.get_string("mpv-options")
+                    if ("=") in mpv_options:
+                        pairs = mpv_options.split()
+                        for pair in pairs:
+                            key, value = pair.split("=", 1)
+                            options[key] = value
+                except Exception as e:
+                    print("Could not parse MPV options!")
+                    print(e)
+
+                osc = True
+                if "osc" in options:
+                    # To prevent 'multiple values for keyword argument'!
+                    osc = options.pop("osc") != "no"
+
                 self.mpv = MpvEngine(options=options, osc=osc)
             self.mpv.set_window(xid)
 
-        self.mpv.volume = self.volume
+        self.mpv["user-agent"] = self.settings.get_string("user-agent")
+        self.mpv["referrer"] = self.settings.get_string("http-referer")
+        self.mpv.set_volume(self.volume)
         self.mpv.observe_property("volume", self.on_volume_prop)
 
     def on_mpv_drawing_area_draw(self, widget, cr):
@@ -1717,6 +1735,8 @@ class MainWindow:
 
     def normal_mode(self):
         self.window.get_window().set_cursor(None)
+        if getattr(self, "vlc_gui", None) is not None:
+            self.vlc_gui.mouse_cursor_visible = True
         self.window.unfullscreen()
         self.mpv_top_box.show()
         self.mpv_bottom_box.hide()
@@ -1755,6 +1775,8 @@ class MainWindow:
             self.fullscreen = not self.fullscreen
             if self.fullscreen:
                 self.window.get_window().set_cursor(Gdk.Cursor.new_from_name(Gdk.Display.get_default(), "none"))
+                if getattr(self, "vlc_gui", None) is not None:
+                    self.vlc_gui.mouse_cursor_visible = False
                 # Fullscreen mode
                 self.window.fullscreen()
                 self.mpv_top_box.hide()

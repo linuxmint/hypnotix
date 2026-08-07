@@ -4,7 +4,9 @@ import re
 import threading
 
 import requests
-from gi.repository import GLib, GObject
+from gi.repository import GLib, GObject, Gtk
+import gettext
+_ = gettext.gettext
 
 # M3U parsing regex
 PARAMS = re.compile(r'(\S+)="(.*?)"')
@@ -35,6 +37,12 @@ def idle_function(func):
 
     return wrapper
 
+def set_playback_button_state(button: Gtk.Button, is_paused: bool):
+    """Updates a button's icon and tooltip based on the paused state."""
+    icon = "media-playback-start-symbolic" if is_paused else "media-playback-pause-symbolic"
+    tooltip = _("Play") if is_paused else _("Pause")
+    button.set_image(Gtk.Image.new_from_icon_name(icon, Gtk.IconSize.BUTTON))
+    button.set_tooltip_text(tooltip)
 
 def slugify(string):
     """
