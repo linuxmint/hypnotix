@@ -886,6 +886,14 @@ class MainWindow:
             self.before_play(channel)
             self.reinit_mpv()
             self.mpv.play(channel.url)
+
+            chosen_backend = self.settings.get_string("video-backend")
+
+            if chosen_backend == "vlc":
+                # Vlc does not give any way to control the playback
+                # So we implement a trivial UI elements
+                GLib.idle_add(self.mpv_bottom_box.show_all)
+
             self.mpv.wait_until_playing()
             self.after_play(channel)
 
@@ -1642,6 +1650,28 @@ class MainWindow:
             if chosen_backend == "vlc":
                 try:
                     self.mpv = VlcEngine()
+
+                    if not hasattr(self, "vlc_control_layout"):
+                        self.vlc_control_layout = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=15)
+                        self.vlc_control_layout.set_halign(Gtk.Align.CENTER)
+
+                        ctx = self.vlc_control_layout.get_style_context()
+                        ctx.add_class("osd")
+
+                        # THE DYNAMIC PLAY/PAUSE TOGGLE BUTTON
+                        self.btn_toggle = Gtk.Button.new_from_icon_name("media-playback-pause-symbolic", Gtk.IconSize.BUTTON)
+                        self.btn_toggle.connect("clicked", lambda w: self.on_vlc_toggle_clicked())
+                        self.vlc_control_layout.pack_start(self.btn_toggle, False, False, 5)
+
+                        # THE SIMPLE STOP BUTTON
+                        btn_stop = Gtk.Button.new_from_icon_name("media-playback-stop-symbolic", Gtk.IconSize.BUTTON)
+                        btn_stop.connect("clicked", lambda w: self.on_stop_button(None))
+                        self.vlc_control_layout.pack_start(btn_stop, False, False, 5)
+
+                        self.mpv_bottom_box.pack_start(self.vlc_control_layout, True, True, 5)
+
+                    self.mpv_bottom_box.show_all()
+
                 except ImportError:
                     print("VLC Python bindings missing! Falling back to default MPV.")
                     chosen_backend = "mpv"
@@ -1652,6 +1682,17 @@ class MainWindow:
 
         self.mpv.volume = self.volume
         self.mpv.observe_property("volume", self.on_volume_prop)
+
+    def on_vlc_toggle_clicked(self):
+        if not self.mpv:
+            return
+
+        if getattr(self.mpv, 'is_paused', lambda: False)():
+            self.mpv.set_engine_resume()
+            self.btn_toggle.set_image(Gtk.Image.new_from_icon_name("media-playback-pause-symbolic", Gtk.IconSize.BUTTON))
+        else:
+            self.mpv.set_engine_pause()
+            self.btn_toggle.set_image(Gtk.Image.new_from_icon_name("media-playback-start-symbolic", Gtk.IconSize.BUTTON))
 
     def on_mpv_drawing_area_draw(self, widget, cr):
         cr.set_source_rgb(0.0, 0.0, 0.0)

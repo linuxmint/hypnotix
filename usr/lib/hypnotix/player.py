@@ -89,6 +89,15 @@ class MpvEngine(VideoPlayer):
     def __setitem__(self, key, value):
         self.player[key] = value
 
+    def set_engine_pause(self):
+        self.player.pause = True
+
+    def set_engine_resume(self):
+        self.player.pause = False
+
+    def is_paused(self) -> bool:
+        return getattr(self.player, "pause", False)
+
 class VlcEngine(VideoPlayer):
     def __init__(self):
         import vlc
@@ -151,3 +160,14 @@ class VlcEngine(VideoPlayer):
             self._user_agent = value
         elif key == "referrer":
             self._referrer = value
+
+    def set_engine_pause(self):
+        self.player.set_pause(True)
+        self.player.set_rate(0.0)  # Freezes the live video container frame solid
+
+    def set_engine_resume(self):
+        self.player.set_rate(1.0)  # Restores full video processing speed
+        self.player.set_pause(False)
+
+    def is_paused(self) -> bool:
+        return self.player.get_rate() == 0.0
