@@ -3,6 +3,8 @@ import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import GLib, Gtk
 from common import set_playback_button_state
+import gettext
+_ = gettext.gettext
 
 class VLCGUIController:
     """Manages the OSD playback controls and stream selection menus when using the VLC backend."""
@@ -24,13 +26,10 @@ class VLCGUIController:
         )
         self.vlc_control_layout.set_halign(Gtk.Align.CENTER)
 
-        ctx = self.vlc_control_layout.get_style_context()
-        ctx.add_class("osd")
-
         # THE DYNAMIC PLAY/PAUSE TOGGLE BUTTON
-        self.btn_toggle = Gtk.Button.new_from_icon_name(
-            "media-playback-pause-symbolic", Gtk.IconSize.BUTTON
-        )
+        self.btn_toggle = Gtk.Button()
+        self.btn_toggle.set_relief(Gtk.ReliefStyle.NONE)
+        set_playback_button_state(self.btn_toggle, False)
         self.btn_toggle.connect("clicked", lambda w: self.on_vlc_toggle_clicked())
         self.vlc_control_layout.pack_start(self.btn_toggle, False, False, 5)
 
@@ -38,6 +37,8 @@ class VLCGUIController:
         self.btn_stop = Gtk.Button.new_from_icon_name(
             "media-playback-stop-symbolic", Gtk.IconSize.BUTTON
         )
+        self.btn_stop.set_relief(Gtk.ReliefStyle.NONE)
+        self.btn_stop.set_tooltip_text(_("Stop"))
         self.btn_stop.connect("clicked", lambda w: self.win.on_stop_button(None))
         self.vlc_control_layout.pack_start(self.btn_stop, False, False, 5)
 
@@ -46,6 +47,8 @@ class VLCGUIController:
         self.btn_menu.set_image(
             Gtk.Image.new_from_icon_name("open-menu-symbolic", Gtk.IconSize.BUTTON)
         )
+        self.btn_menu.set_relief(Gtk.ReliefStyle.NONE)
+        self.btn_menu.set_tooltip_text(_("Streams"))
         self.btn_menu.set_direction(Gtk.ArrowType.UP)
         self.vlc_stream_menu = Gtk.Menu()
         self.btn_menu.set_popup(self.vlc_stream_menu)
@@ -89,19 +92,19 @@ class VLCGUIController:
 
         stream_categories = [
             (
-                "Audio",
+                _("Audio"),
                 player.audio_get_track_description,
                 player.audio_get_track,
                 player.audio_set_track,
             ),
             (
-                "Video",
+                _("Video"),
                 player.video_get_track_description,
                 player.video_get_track,
                 player.video_set_track,
             ),
             (
-                "Subtitles",
+                _("Subtitles"),
                 player.video_get_spu_description,
                 player.video_get_spu,
                 player.video_set_spu,
@@ -119,7 +122,7 @@ class VLCGUIController:
 
             # Ensure an option to disable the stream is always available
             if not any(tid == -1 for tid, _ in tracks):
-                tracks.insert(0, (-1, b"Disable"))
+                tracks.insert(0, (-1, _("Disable").encode("utf-8")))
 
             group = None
             for track_id, track_name in tracks:
