@@ -956,6 +956,7 @@ class MainWindow:
             self.favorite_button.set_active(False)
             self.favorite_button_image.set_from_icon_name("xsi-non-starred-symbolic", Gtk.IconSize.BUTTON)
             self.favorite_button.set_tooltip_text(_("Add to favorites"))
+        self.update_pause_button(False)
         self.page_is_loading = False
 
     @idle_function
@@ -1082,8 +1083,15 @@ class MainWindow:
         self.info_menu_item.set_sensitive(False)
         self.playback_bar.hide()
 
+    def update_pause_button(self, is_paused: bool):
+        icon = "media-playback-start-symbolic" if is_paused else "media-playback-pause-symbolic"
+        tooltip = _("Play") if is_paused else _("Pause")
+        self.pause_button.set_image(Gtk.Image.new_from_icon_name(icon, Gtk.IconSize.BUTTON))
+        self.pause_button.set_tooltip_text(tooltip)
+
     def on_pause_button(self, widget):
         self.mpv.pause = not self.mpv.pause
+        self.update_pause_button(self.mpv.pause)
 
     def on_show_button(self, widget):
         self.navigate_to("channels_page")
