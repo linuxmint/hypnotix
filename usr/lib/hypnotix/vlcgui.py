@@ -2,7 +2,7 @@ import gi
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import GLib, Gtk
-
+from common import set_playback_button_state
 
 class VLCGUIController:
     """Manages the OSD playback controls and stream selection menus when using the VLC backend."""
@@ -63,8 +63,7 @@ class VLCGUIController:
             return
 
         self.win.mpv.pause = not self.win.mpv.pause
-        icon = "media-playback-start-symbolic" if self.win.mpv.pause else "media-playback-pause-symbolic"
-        self.btn_toggle.set_image(Gtk.Image.new_from_icon_name(icon, Gtk.IconSize.BUTTON))
+        set_playback_button_state(self.btn_toggle, self.win.mpv.pause)
 
     def set_controls_sensitive(self, sensitive: bool):
         def _update():
@@ -73,12 +72,8 @@ class VLCGUIController:
                     btn.set_sensitive(sensitive)
 
             if self.btn_toggle:
-                icon = "media-playback-pause-symbolic" if sensitive else "media-playback-start-symbolic"
-                self.btn_toggle.set_image(
-                    Gtk.Image.new_from_icon_name(
-                        icon, Gtk.IconSize.BUTTON
-                    )
-                )
+                set_playback_button_state(self.btn_toggle, not sensitive)
+
             return False
 
         GLib.idle_add(_update)
