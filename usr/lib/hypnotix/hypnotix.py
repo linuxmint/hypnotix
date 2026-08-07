@@ -333,19 +333,26 @@ class MainWindow:
         # Video Backend combo box (in preferences, alongside mpv-options)
         backend_model = Gtk.ListStore(str, str)
         backend_model.append(["mpv", _("MPV (Default)")])
-        backend_model.append(["vlc", _("VLC Player")])
+        try:
+            import vlc
+            backend_model.append(["vlc", _("VLC Player")])
+        except ImportError:
+            pass
         self.video_backend_combo.set_model(backend_model)
         renderer = Gtk.CellRendererText()
         self.video_backend_combo.pack_start(renderer, True)
         self.video_backend_combo.add_attribute(renderer, "text", 1)
 
         current_backend = self.settings.get_string("video-backend")
+        active_index = 0
         for i, row in enumerate(backend_model):
             if row[0] == current_backend:
-                self.video_backend_combo.set_active(i)
+                active_index = i
                 break
+        self.video_backend_combo.set_active(active_index)
 
         self.video_backend_combo.connect("changed", self.on_video_backend_combo_changed)
+
         # ytdlp
         self.ytdlp_local_switch.set_active(self.settings.get_boolean("use-local-ytdlp"))
         self.ytdlp_local_switch.connect("notify::active", self.on_ytdlp_local_switch_activated)
