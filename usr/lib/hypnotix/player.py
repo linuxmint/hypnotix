@@ -35,6 +35,28 @@ class VideoPlayer(abc.ABC):
     def register_event_cb(self, callback):
         pass
 
+    @abc.abstractmethod
+    def is_paused(self) -> bool:
+        pass
+
+    @abc.abstractmethod
+    def set_engine_pause(self):
+        pass
+
+    @abc.abstractmethod
+    def set_engine_resume(self):
+        pass
+
+    @property
+    def pause(self) -> bool:
+        return self.is_paused()
+
+    @pause.setter
+    def pause(self, value: bool):
+        if value:
+            self.set_engine_pause()
+        else:
+            self.set_engine_resume()
 
 class MpvEngine(VideoPlayer):
     def __init__(self, options=None, osc=True):

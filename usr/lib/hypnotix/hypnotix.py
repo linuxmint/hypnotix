@@ -238,6 +238,7 @@ class MainWindow:
             "useragent_entry",
             "referer_entry",
             "mpv_entry",
+            "video_backend_combo",
             "mpv_link",
             "ytdlp_local_switch",
             "ytdlp_system_version_label",
@@ -329,6 +330,22 @@ class MainWindow:
         self.bind_setting_widget("http-referer", self.referer_entry)
         self.bind_setting_widget("mpv-options", self.mpv_entry)
 
+        # Video Backend combo box (in preferences, alongside mpv-options)
+        backend_model = Gtk.ListStore(str, str)
+        backend_model.append(["mpv", _("MPV (Default)")])
+        backend_model.append(["vlc", _("VLC Player")])
+        self.video_backend_combo.set_model(backend_model)
+        renderer = Gtk.CellRendererText()
+        self.video_backend_combo.pack_start(renderer, True)
+        self.video_backend_combo.add_attribute(renderer, "text", 1)
+
+        current_backend = self.settings.get_string("video-backend")
+        for i, row in enumerate(backend_model):
+            if row[0] == current_backend:
+                self.video_backend_combo.set_active(i)
+                break
+
+        self.video_backend_combo.connect("changed", self.on_video_backend_combo_changed)
         # ytdlp
         self.ytdlp_local_switch.set_active(self.settings.get_boolean("use-local-ytdlp"))
         self.ytdlp_local_switch.connect("notify::active", self.on_ytdlp_local_switch_activated)
@@ -641,6 +658,18 @@ class MainWindow:
 
     def on_entry_changed(self, widget, key):
         self.settings.set_string(key, widget.get_text())
+
+    def on_video_backend_combo_changed(self, combo):
+        model = combo.get_model()
+        active_iter = combo.get_active_iter()
+        if active_iter:
+            backend_id = model[active_iter][0]
+            if backend_id != self.settings.get_string("video-backend"):
+                self.settings.set_string("video-backend", backend_id)
+                if self.mpv is not None:
+                    self.on_stop_button(None)
+                    self.mpv = None
+                self.mpv_bottom_box.hide()
 
     def on_ytdlp_local_switch_activated(self, widget, data=None):
         self.settings.set_boolean("use-local-ytdlp", widget.get_active())
