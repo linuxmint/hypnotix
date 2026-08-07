@@ -89,19 +89,43 @@ class ChannelWidget(Gtk.ListBoxRow):
         self.set_tooltip_text(channel.name)
 
         frame = Gtk.Frame()
-        label = Gtk.Label(channel.name)
-        label.set_max_width_chars(30)
-        label.set_ellipsize(Pango.EllipsizeMode.END)
+        self.name_label = Gtk.Label(channel.name)
+        self.name_label.set_max_width_chars(30)
+        self.name_label.set_ellipsize(Pango.EllipsizeMode.END)
+        self.name_label.set_no_show_all(True)
+
+        self.epg_label = Gtk.Label()
+        self.epg_label.set_max_width_chars(30)
+        self.epg_label.set_ellipsize(Pango.EllipsizeMode.END)
+        self.epg_label.get_style_context().add_class("dim-label")
+        self.epg_label.set_no_show_all(True)
+
+        logo.set_halign(Gtk.Align.FILL)
+
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, border_width=6)
-        box.pack_start(logo, False, False, 0)
-        box.pack_start(label, False, False, 0)
+        box.pack_start(logo, True, True, 0)
+        box.pack_start(self.name_label, False, False, 0)
+        box.pack_start(self.epg_label, False, False, 0)
         box.set_spacing(6)
         frame.add(box)
         self.add(frame)
+        self.name_label.show()
 
     @property
     def channel(self):
         return self._channel
+
+    def update_epg(self, epg_manager):
+        if epg_manager and getattr(self._channel, "xmltv_id", None):
+            now_playing, _ = epg_manager.get_current_and_next(self._channel.xmltv_id)
+            if now_playing and "title" in now_playing:
+                title = now_playing["title"]
+                self.epg_label.set_text(title)
+                self.epg_label.show()
+                self.name_label.hide()
+                return
+        self.epg_label.hide()
+        self.name_label.show()
 
 class MyApplication(Gtk.Application):
     # Main initialization routine
@@ -275,6 +299,7 @@ class MainWindow:
                 setattr(self, name, widget)
 
         # Widget signals
+        self.window.connect("delete-event", self.on_window_delete)
         self.window.connect("key-press-event", self.on_key_press_event)
         self.window.connect("window-state-event", self.on_window_state_event)
         self.mpv_drawing_area.connect("realize", self.on_mpv_drawing_area_realize)
@@ -408,6 +433,9 @@ class MainWindow:
         # Redownload playlists by default
         # This is going to get readjusted
         self._timerid = GLib.timeout_add_seconds(self.reload_timeout_sec, self.force_reload)
+
+        # Refresh EPG show titles every 60 seconds
+        GLib.timeout_add_seconds(60, self.update_epg_labels)
 
         self.window.show()
         self.playback_bar.hide()
@@ -544,11 +572,22 @@ class MainWindow:
                 self.channels_listbox.add(ChannelWidget(channel, image))
 
             self.channels_listbox.show_all()
+            self.update_epg_labels()
             self.visible_search_results = len(self.channels_listbox.get_children())
             if len(logos_to_refresh) > 0:
                 self.download_channel_logos(logos_to_refresh)
         else:
             self.sidebar.hide()
+
+    @idle_function
+    def update_epg_labels(self):
+        if not self.active_provider or not getattr(self.active_provider, "epg_manager", None):
+            return True
+        epg_mgr = self.active_provider.epg_manager
+        for widget in self.channels_listbox.get_children():
+            if isinstance(widget, ChannelWidget):
+                widget.update_epg(epg_mgr)
+        return True
 
     def show_vod(self, items):
         logos_to_refresh = []
@@ -1291,11 +1330,11 @@ class MainWindow:
         for widget in widgets:
             widget.hide()
         visible_widgets = []
+        visible_widgets.append(self.epg_label)
+        visible_widgets.append(self.epg_entry)
         if type_id == PROVIDER_TYPE_URL:
             visible_widgets.append(self.url_entry)
             visible_widgets.append(self.url_label)
-            visible_widgets.append(self.epg_label)
-            visible_widgets.append(self.epg_entry)
         elif type_id == PROVIDER_TYPE_LOCAL:
             visible_widgets.append(self.path_entry)
             visible_widgets.append(self.path_label)
@@ -1307,8 +1346,6 @@ class MainWindow:
             visible_widgets.append(self.username_label)
             visible_widgets.append(self.password_entry)
             visible_widgets.append(self.password_label)
-            visible_widgets.append(self.epg_label)
-            visible_widgets.append(self.epg_entry)
         else:
             print("Incorrect provider type: ", type_id)
 
@@ -1464,6 +1501,22 @@ class MainWindow:
         dlg.show()
 
     def on_menu_quit(self, widget):
+        self.cleanup_and_quit()
+
+    def on_window_delete(self, widget, event):
+        self.cleanup_and_quit()
+        return False
+
+    def cleanup_and_quit(self):
+        if self._timerid > 0:
+            GLib.source_remove(self._timerid)
+            self._timerid = -1
+        if self.mpv is not None:
+            try:
+                self.mpv.stop()
+                self.mpv.terminate()
+            except Exception:
+                pass
         self.application.quit()
 
     def on_key_press_event(self, widget, event):
@@ -1549,6 +1602,10 @@ class MainWindow:
                             self.manager.load_channels(provider)
                             if provider.name == self.settings.get_string("active-provider"):
                                 self.active_provider = provider
+                                if provider.epg:
+                                    self.status(_("Loading EPG..."), provider)
+                                    self.manager.load_epg(provider, refresh=refresh)
+                                    GLib.idle_add(self.update_epg_labels)
                             self.status(None)
                             print("%s: %d channels, %d groups, %d series, %d movies" % (provider.name, \
                                 len(provider.channels), len(provider.groups), len(provider.series), len(provider.movies)))
@@ -1592,6 +1649,10 @@ class MainWindow:
                         # If no errors, approve provider
                         if provider.name == self.settings.get_string("active-provider"):
                             self.active_provider = provider
+                            if provider.epg:
+                                self.status(_("Loading EPG..."), provider)
+                                self.manager.load_epg(provider, refresh=refresh)
+                                GLib.idle_add(self.update_epg_labels)
                         self.status(None)
                     else:
                         print("XTREAM Authentication Failed")
@@ -1604,6 +1665,10 @@ class MainWindow:
         # If there are more than 1 providers and no Active Provider, set to the first one
         if len(self.providers) > 0 and self.active_provider is None:
             self.active_provider = self.providers[0]
+            if self.active_provider.epg and not hasattr(self.active_provider, "epg_manager"):
+                self.status(_("Loading EPG..."), self.active_provider)
+                self.manager.load_epg(self.active_provider, refresh=refresh)
+                GLib.idle_add(self.update_epg_labels)
 
         self.refresh_providers_page()
 
