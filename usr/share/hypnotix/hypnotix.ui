@@ -1780,6 +1780,31 @@
                       </packing>
                     </child>
                     <child>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="halign">start</property>
+                        <property name="valign">center</property>
+                        <property name="label" translatable="yes">Favorites EPG URL</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">4</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="favorites_epg_entry">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="valign">center</property>
+                        <property name="hexpand">True</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">4</property>
+                      </packing>
+                    </child>
+                    <child>
                       <object class="GtkButtonBox">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>

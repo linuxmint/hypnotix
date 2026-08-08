@@ -52,6 +52,7 @@ class IPTVSimpleMatcher:
     def __init__(self, xmltv_channels):
         self.xml_by_id = {}
         self.xml_by_display_name = {}
+        self.name_by_id = {}
 
         for ch in xmltv_channels:
             cid = ch.get("id")
@@ -64,7 +65,11 @@ class IPTVSimpleMatcher:
             if cid_lower not in self.xml_by_id:
                 self.xml_by_id[cid_lower] = cid_clean
 
-            for name in ch.get("display_names", []):
+            names = ch.get("display_names", [])
+            if names and names[0]:
+                self.name_by_id[cid_clean] = names[0]
+
+            for name in names:
                 if name and name.strip():
                     name_lower = name.strip().lower()
                     if name_lower not in self.xml_by_display_name:
@@ -433,6 +438,10 @@ class EPGManager:
             channel.xmltv_id = matcher.match_channel(channel.tvg_id, channel.tvg_name, channel.title)
             if channel.xmltv_id:
                 matched_count += 1
+                epg_name = matcher.name_by_id.get(channel.xmltv_id)
+                if epg_name:
+                    channel.tvg_name = epg_name
+                    channel.name = epg_name
 
         print(f"[EPG] Matched {matched_count}/{len(provider.channels)} channels for provider '{provider.name}'")
 

@@ -142,8 +142,9 @@ class ChannelWidget(Gtk.ListBoxRow):
             menu = Gtk.Menu()
 
             epg_mgr = None
-            if self.main_window and self.main_window.active_provider:
-                epg_mgr = getattr(self.main_window.active_provider, "epg_manager", None)
+            provider = getattr(self._channel, "provider", None) or (self.main_window.active_provider if self.main_window else None)
+            if provider:
+                epg_mgr = getattr(provider, "epg_manager", None)
 
             xmltv_id = getattr(self._channel, "xmltv_id", None)
 
@@ -381,6 +382,7 @@ class MainWindow:
             "useragent_entry",
             "referer_entry",
             "mpv_entry",
+            "favorites_epg_entry",
             "mpv_link",
             "ytdlp_local_switch",
             "ytdlp_system_version_label",
@@ -473,6 +475,7 @@ class MainWindow:
         self.bind_setting_widget("user-agent", self.useragent_entry)
         self.bind_setting_widget("http-referer", self.referer_entry)
         self.bind_setting_widget("mpv-options", self.mpv_entry)
+        self.bind_setting_widget("favorites-epg", self.favorites_epg_entry)
 
         # ytdlp
         self.ytdlp_local_switch.set_active(self.settings.get_boolean("use-local-ytdlp"))
@@ -668,12 +671,142 @@ class MainWindow:
     def show_favorites(self, widget=None):
         self.content_type = TV_GROUP
         channels = []
+
+        if not getattr(self, "fav_provider", None):
+            self.fav_provider = Provider("Favorites", None)
+            self.dynamic_fav_providers = {}
+
+        new_epg = self.settings.get_string("favorites-epg").strip()
+        if getattr(self.fav_provider, "epg", None) != new_epg:
+            self.fav_provider.epg = new_epg
+            if hasattr(self.fav_provider, "epg_manager"):
+                delattr(self.fav_provider, "epg_manager")
+
+        self.fav_provider.channels = []
+        for dp in self.dynamic_fav_providers.values():
+            dp.channels = []
+
+        providers_to_load = []
+
         for line in self.favorite_data:
-            info, url = line.split(":::")
-            channel = Channel(None, info)
+            line = line.strip()
+            if not line:
+                continue
+            parts = line.split(":::")
+            info, url = parts[0], parts[1]
+
+            channel = Channel(self.fav_provider, info)
             channel.url = url
+            channel.provider = self.fav_provider
+            if len(parts) > 3:
+                channel.xmltv_id = parts[3]
+
+            matched_existing = False
+            if len(parts) > 2 and parts[2]:
+                epg_url = parts[2]
+                for p in self.providers:
+                    if getattr(p, "epg", None) == epg_url:
+                        channel.provider = p
+                        matched_existing = True
+                        if p not in providers_to_load and not hasattr(p, "epg_manager"):
+                            providers_to_load.append(p)
+                        break
+
+            # Add manual/unmatched channels to fav_provider so it can map their EPG
+            if not matched_existing:
+                if len(parts) > 2 and parts[2].strip():
+                    epg_url = parts[2].strip()
+                    if epg_url not in self.dynamic_fav_providers:
+                        dp = Provider(f"Favorites-Custom-{len(self.dynamic_fav_providers)}", None)
+                        dp.epg = f"{epg_url} {self.fav_provider.epg}".strip()
+                        self.dynamic_fav_providers[epg_url] = dp
+                        providers_to_load.append(dp)
+                    dp = self.dynamic_fav_providers[epg_url]
+                    channel.provider = dp
+                    dp.channels.append(channel)
+                else:
+                    # Add manual/unmatched channels to fav_provider so it can map their EPG
+                    self.fav_provider.channels.append(channel)
+
             channels.append(channel)
+
+        # Queue the fav_provider to load its EPG database asynchronously
+        if self.fav_provider.channels and self.fav_provider.epg and not hasattr(self.fav_provider, "epg_manager"):
+            providers_to_load.append(self.fav_provider)
+
+        if providers_to_load:
+            self.load_epgs_async(providers_to_load)
+
         self.show_channels(channels, favorites=True)
+
+    @async_function
+    def load_epgs_async(self, providers):
+        for p in providers:
+            self.manager.load_epg(p)
+
+        # Trigger an idle callback to save the newly discovered matches permanently
+        GLib.idle_add(self.save_matched_favorites_idle, providers)
+        GLib.idle_add(self.update_epg_labels)
+
+    def save_matched_favorites_idle(self, providers):
+        import re
+        fav_provider = next((p for p in providers if p.name == "Favorites"), None)
+        if not fav_provider:
+            return False
+
+        updated = False
+        new_fav_data = []
+
+        for line in self.favorite_data:
+            line = line.strip()
+            if not line:
+                continue
+
+            parts = line.split(":::")
+            info, url = parts[0], parts[1]
+
+            # Find the corresponding channel to see if the EPG Manager assigned it an xmltv_id
+            matched_channel = next((c for c in fav_provider.channels if c.url == url), None)
+
+            if matched_channel and matched_channel.xmltv_id:
+                # If the tvg-id in the EXTINF string doesn't perfectly match the resolved xmltv_id, rewrite it
+                if f'tvg-id="{matched_channel.xmltv_id}"' not in info:
+
+                    # Update or inject tvg-id
+                    if 'tvg-id="' in info:
+                        info = re.sub(r'tvg-id="[^"]*"', f'tvg-id="{matched_channel.xmltv_id}"', info)
+                    else:
+                        info = info.replace('#EXTINF:-1', f'#EXTINF:-1 tvg-id="{matched_channel.xmltv_id}"', 1)
+
+                    # Update or inject tvg-name as requested
+                    new_tvg_name = matched_channel.tvg_name or matched_channel.name
+                    if 'tvg-name="' in info:
+                        info = re.sub(r'tvg-name="[^"]*"', f'tvg-name="{new_tvg_name}"', info)
+                    else:
+                        info = info.replace('#EXTINF:-1', f'#EXTINF:-1 tvg-name="{new_tvg_name}"', 1)
+
+                    parts[0] = info
+
+                    # Update the explicit list indices for EPG url and XMLTV ID
+                    epg_url = getattr(matched_channel.provider, "epg", "") or ""
+                    if len(parts) == 2:
+                        parts.extend([epg_url, matched_channel.xmltv_id])
+                    elif len(parts) == 3:
+                        parts.append(matched_channel.xmltv_id)
+                    else:
+                        parts[3] = matched_channel.xmltv_id
+
+                    line = ":::".join(parts)
+                    updated = True
+
+            new_fav_data.append(line)
+
+        # Only flush to disk if a new match was injected
+        if updated:
+            self.favorite_data = new_fav_data
+            self.manager.save_favorites(self.favorite_data)
+
+        return False
 
     def show_channels(self, channels, favorites=False):
         self.navigate_to("channels_page", "", favorites)
@@ -698,12 +831,13 @@ class MainWindow:
 
     @idle_function
     def update_epg_labels(self):
-        if not self.active_provider or not getattr(self.active_provider, "epg_manager", None):
-            return True
-        epg_mgr = self.active_provider.epg_manager
         for widget in self.channels_listbox.get_children():
             if isinstance(widget, ChannelWidget):
-                widget.update_epg(epg_mgr)
+                provider = getattr(widget.channel, "provider", None) or getattr(self, "active_provider", None)
+                if provider and getattr(provider, "epg_manager", None):
+                    widget.update_epg(provider.epg_manager)
+                else:
+                    widget.update_epg(None)
         return True
 
     def show_channel_epg_info(self, channel):
@@ -716,7 +850,8 @@ class MainWindow:
         box.set_spacing(12)
         box.set_border_width(12)
 
-        epg_mgr = getattr(self.active_provider, "epg_manager", None) if self.active_provider else None
+        provider = getattr(channel, "provider", None) or getattr(self, "active_provider", None)
+        epg_mgr = getattr(provider, "epg_manager", None) if provider else None
         now_playing, next_up = (None, None)
         if epg_mgr and getattr(channel, "xmltv_id", None):
             now_playing, next_up = epg_mgr.get_current_and_next(channel.xmltv_id)
@@ -1069,17 +1204,26 @@ class MainWindow:
             return
 
         name = self.active_channel.name
-        data = f"{self.active_channel.info}:::{self.active_channel.url}"
-        if widget.get_active() and data not in self.favorite_data:
+
+        data_prefix = f"{self.active_channel.info}:::{self.active_channel.url}"
+        existing_match = next((fav for fav in self.favorite_data if fav == data_prefix or fav.startswith(data_prefix + ":::")), None)
+
+        if widget.get_active() and not existing_match:
             print (f"Adding {name} to favorites")
+            epg_url = ""
+            xmltv_id = getattr(self.active_channel, "xmltv_id", "")
+            provider = getattr(self.active_channel, "provider", None) or getattr(self, "active_provider", None)
+            if provider and getattr(provider, "epg", None):
+                epg_url = provider.epg
+            data = f"{data_prefix}:::{epg_url}:::{xmltv_id}"
             self.favorite_data.append(data)
 
             # Dynamically update the tooltip
             self.favorite_button.set_tooltip_text(_("Remove from favorites"))
 
-        elif widget.get_active() == False and data in self.favorite_data:
+        elif widget.get_active() == False and existing_match:
             print (f"Removing {name} from favorites")
-            self.favorite_data.remove(data)
+            self.favorite_data.remove(existing_match)
 
             # Dynamically update the tooltip
             self.favorite_button.set_tooltip_text(_("Add to favorites"))
@@ -1376,6 +1520,7 @@ class MainWindow:
         self.new_name_entry.set_text("")
         self.new_url_entry.set_text("")
         self.new_logo_entry.set_text("")
+        self.favorites_epg_entry.set_text("")
         self.new_ok_button.set_sensitive(False)
         self.navigate_to("new_channel_page")
 
@@ -1712,10 +1857,11 @@ class MainWindow:
                 self.osd_epg_visible_until = 0
             else:
                 # If it's hidden, fetch the info and toggle it on
-                if self.active_channel and self.active_provider and getattr(self.active_provider, "epg_manager", None):
+                provider = getattr(self.active_channel, "provider", None) or getattr(self, "active_provider", None)
+                if provider and getattr(provider, "epg_manager", None):
                     xmltv_id = getattr(self.active_channel, "xmltv_id", None)
                     if xmltv_id:
-                        now_playing, _ = self.active_provider.epg_manager.get_current_and_next(xmltv_id)
+                        now_playing, _ = provider.epg_manager.get_current_and_next(xmltv_id)
                         if now_playing:
                             start_str = datetime.datetime.fromtimestamp(now_playing["start"]).strftime("%H:%M")
                             stop_str = datetime.datetime.fromtimestamp(now_playing["stop"]).strftime("%H:%M")
