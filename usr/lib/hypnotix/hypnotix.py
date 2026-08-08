@@ -366,6 +366,8 @@ class MainWindow:
         # ytdlp
         self.ytdlp_local_switch.set_active(self.settings.get_boolean("use-local-ytdlp"))
         self.ytdlp_local_switch.connect("notify::active", self.on_ytdlp_local_switch_activated)
+        self.ytdlp_local_switch.set_valign(Gtk.Align.CENTER)
+        self.ytdlp_local_switch.set_halign(Gtk.Align.START)
         self.ytdlp_system_version_label.set_text(subprocess.getoutput("/usr/bin/yt-dlp --version"))
         if os.path.exists(os.path.expanduser("~/.cache/hypnotix/yt-dlp/yt-dlp")):
             self.ytdlp_local_version_label.set_text(subprocess.getoutput("~/.cache/hypnotix/yt-dlp/yt-dlp --version"))
@@ -694,6 +696,7 @@ class MainWindow:
         if widget.get_active():
             self.update_ytdlp()
 
+    @async_function
     def update_ytdlp(self, widget=None):
         path = os.path.expanduser("~/.cache/hypnotix/yt-dlp")
         os.chdir(path)
@@ -702,7 +705,8 @@ class MainWindow:
         else:
             subprocess.getoutput("wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp")
             subprocess.getoutput("chmod a+rx ./yt-dlp")
-        self.ytdlp_local_version_label.set_text(subprocess.getoutput("~/.cache/hypnotix/yt-dlp/yt-dlp --version"))
+        new_version = subprocess.getoutput("~/.cache/hypnotix/yt-dlp/yt-dlp --version")
+        GLib.idle_add(self.ytdlp_local_version_label.set_text, new_version)
 
     @async_function
     def download_channel_logos(self, logos_to_refresh):
