@@ -1490,7 +1490,7 @@ class MainWindow:
             self.borderless_mode()
         elif event.keyval == Gdk.KEY_Escape:
             self.normal_mode()
-        elif event.keyval == Gdk.KEY_BackSpace and not ctrl:
+        elif event.keyval == Gdk.KEY_BackSpace and not ctrl and not isinstance(widget.get_focus(), Gtk.SearchEntry):
             self.normal_mode()
             self.on_go_back_button()
         elif event.keyval == Gdk.KEY_Up:
