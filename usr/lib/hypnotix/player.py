@@ -40,6 +40,14 @@ class VideoPlayer(abc.ABC):
     def register_event_cb(self, callback):
         pass
 
+    @abc.abstractmethod
+    def show_osd_text(self, text: str, duration_ms: int = 6000):
+        pass
+
+    @abc.abstractmethod
+    def send_keypress(self, key_name: str):
+        pass
+
     @property
     @abc.abstractmethod
     def pause(self) -> bool:
@@ -108,6 +116,12 @@ class MpvEngine(VideoPlayer):
     def register_event_cb(self, callback):
         self.player.register_event_cb(callback)
 
+    def show_osd_text(self, text: str, duration_ms: int = 6000):
+        self.player.command("show-text", text, duration_ms)
+
+    def send_keypress(self, key_name: str):
+        self.player.command("keypress", key_name)
+
     def __setitem__(self, key, value):
         self.player[key] = value
 
@@ -125,7 +139,8 @@ class VlcEngine(VideoPlayer):
         import vlc
         self.gui = gui
 
-        self.instance = vlc.Instance("--no-xlib --quiet --no-video-title-show")
+        # Enable marquee and configure its text renderer (freetype) to match MPV's default styling
+        self.instance = vlc.Instance("--no-xlib --quiet --no-video-title-show --sub-source=marq --freetype-font=sans-serif --freetype-outline-thickness=2")
         self.player = self.instance.media_player_new()
 
         # Instruct the video surface wrapper to ignore inputs,
@@ -195,6 +210,45 @@ class VlcEngine(VideoPlayer):
 
     def register_event_cb(self, callback):
         pass
+
+    def show_osd_text(self, text: str, duration_ms: int = 6000):
+        if not self.player:
+            return
+        import vlc
+        if text:
+            self.player.video_set_marquee_int(vlc.VideoMarqueeOption.Enable, 1)
+
+            # Scale font size against a 720p base. Base 42 matches MPV's libass
+            # point size rendering visually in VLC freetype.
+            height = self.player.video_get_height()
+            font_size = int((height / 720.0) * 42) if height > 0 else 42
+
+            # Set a minimum floor so it never gets unreadable on tiny streams
+            font_size = max(16, font_size)
+
+            # VLC's Linux text renderer fails to calculate line widths properly
+            # if the string only contains standard Unix newline characters
+            formatted_text = text.replace('\n', '\r\n')
+            self.player.video_set_marquee_string(vlc.VideoMarqueeOption.Text, formatted_text)
+            self.player.video_set_marquee_int(vlc.VideoMarqueeOption.Timeout, duration_ms)
+            self.player.video_set_marquee_int(vlc.VideoMarqueeOption.Position, 5)  # 5 = Top-Left (1=Left + 4=Top)
+            self.player.video_set_marquee_int(vlc.VideoMarqueeOption.Size, font_size)
+        else:
+            self.player.video_set_marquee_int(vlc.VideoMarqueeOption.Enable, 0)
+
+    def send_keypress(self, key_name: str):
+        # Basic VLC key mapping since it lacks a native keypress injector
+        key = key_name.lower()
+        if key == "space":
+            self.pause = not self.pause
+        elif key == "right":
+            # Seek forward 10 seconds
+            self.player.set_time(self.player.get_time() + 10000)
+        elif key == "left":
+            # Seek backward 10 seconds
+            self.player.set_time(max(0, self.player.get_time() - 10000))
+        elif key == "m":
+            self.player.audio_toggle_mute()
 
     def __setitem__(self, key, value):
         if key == "user-agent":
