@@ -1534,7 +1534,7 @@ class MainWindow:
             return True
         elif not event.keyval in [Gdk.KEY_F1, Gdk.KEY_F2]:
             try:
-                self.mpv.command("keypress", Gdk.keyval_name(event.keyval))
+                self.mpv.send_keypress(Gdk.keyval_name(event.keyval))
             except:
                 pass
             return True
