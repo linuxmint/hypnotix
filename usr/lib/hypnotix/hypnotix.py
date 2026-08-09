@@ -1662,28 +1662,9 @@ class MainWindow:
     def reinit_mpv(self):
         if self.mpv is not None:
             self.mpv.stop()
-        options = {}
-        try:
-            mpv_options = self.settings.get_string("mpv-options")
-            if ("=") in mpv_options:
-                pairs = mpv_options.split()
-                for pair in pairs:
-                    key, value = pair.split("=", 1)
-                    options[key] = value
-        except Exception as e:
-            print("Could not parse MPV options!")
-            print(e)
-
-        options["user_agent"] = self.settings.get_string("user-agent")
-        options["referrer"] = self.settings.get_string("http-referer")
 
         while not self.mpv_drawing_area.get_window() and not Gtk.events_pending():
             time.sleep(0.1)
-
-        osc = True
-        if "osc" in options:
-            # To prevent 'multiple values for keyword argument'!
-            osc = options.pop("osc") != "no"
 
         if self.mpv is None:
             chosen_backend = self.settings.get_string("video-backend")
@@ -1698,10 +1679,29 @@ class MainWindow:
                     chosen_backend = "mpv"
 
             if chosen_backend != "vlc":
+                options = {}
+                try:
+                    mpv_options = self.settings.get_string("mpv-options")
+                    if ("=") in mpv_options:
+                        pairs = mpv_options.split()
+                        for pair in pairs:
+                            key, value = pair.split("=", 1)
+                            options[key] = value
+                except Exception as e:
+                    print("Could not parse MPV options!")
+                    print(e)
+
+                osc = True
+                if "osc" in options:
+                    # To prevent 'multiple values for keyword argument'!
+                    osc = options.pop("osc") != "no"
+
                 self.mpv = MpvEngine(options=options, osc=osc)
             self.mpv.set_window(xid)
 
-        self.mpv.volume = self.volume
+        self.mpv["user-agent"] = self.settings.get_string("user-agent")
+        self.mpv["referrer"] = self.settings.get_string("http-referer")
+        self.mpv.set_volume(self.volume)
         self.mpv.observe_property("volume", self.on_volume_prop)
 
     def on_mpv_drawing_area_draw(self, widget, cr):
