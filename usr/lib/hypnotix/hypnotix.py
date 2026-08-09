@@ -894,8 +894,9 @@ class MainWindow:
         window.show()
 
     def on_favorite_button_toggled(self, widget):
-        if self.page_is_loading:
+        if self.page_is_loading or self.active_channel is None:
             return
+
         name = self.active_channel.name
         data = f"{self.active_channel.info}:::{self.active_channel.url}"
         if widget.get_active() and data not in self.favorite_data:
