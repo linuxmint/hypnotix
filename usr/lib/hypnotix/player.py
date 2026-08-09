@@ -212,13 +212,26 @@ class VlcEngine(VideoPlayer):
         pass
 
     def show_osd_text(self, text: str, duration_ms: int = 6000):
+        if not self.player:
+            return
         import vlc
         if text:
             self.player.video_set_marquee_int(vlc.VideoMarqueeOption.Enable, 1)
-            self.player.video_set_marquee_string(vlc.VideoMarqueeOption.Text, text)
+
+            # Get the native video height and scale the text to ~5% of the screen
+            height = self.player.video_get_height()
+            font_size = int(height * 0.05) if height > 0 else 50
+
+            # Set a minimum floor so it never gets unreadable on tiny streams
+            font_size = max(24, font_size)
+
+            # VLC's Linux text renderer fails to calculate line widths properly
+            # if the string only contains standard Unix newline characters
+            formatted_text = text.replace('\n', '\r\n')
+            self.player.video_set_marquee_string(vlc.VideoMarqueeOption.Text, formatted_text)
             self.player.video_set_marquee_int(vlc.VideoMarqueeOption.Timeout, duration_ms)
             self.player.video_set_marquee_int(vlc.VideoMarqueeOption.Position, 5)  # 5 = Top-Left (1=Left + 4=Top)
-            self.player.video_set_marquee_int(vlc.VideoMarqueeOption.Size, 50)     # Match MPV's default 50px OSD size
+            self.player.video_set_marquee_int(vlc.VideoMarqueeOption.Size, font_size)
         else:
             self.player.video_set_marquee_int(vlc.VideoMarqueeOption.Enable, 0)
 
