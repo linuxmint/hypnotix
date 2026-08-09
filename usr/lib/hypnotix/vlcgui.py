@@ -99,12 +99,15 @@ class VLCGUIController:
         parent_stack.show_all()
 
         self.set_controls_sensitive(False)
+        self.control_wrapper.hide()
 
     def show_controls(self):
         GLib.idle_add(self.on_mouse_motion, None, None)
 
     def on_mouse_motion(self, widget, event):
         if self.win.settings.get_string("video-backend") != "vlc":
+            if self.control_wrapper.get_visible():
+                self.control_wrapper.hide()
             return False
 
         if not self.control_wrapper.get_visible():
