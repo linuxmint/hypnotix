@@ -1663,10 +1663,13 @@ class MainWindow:
         if self.mpv is not None:
             self.mpv.stop()
 
-        while not self.mpv_drawing_area.get_window() and not Gtk.events_pending():
-            time.sleep(0.1)
-
         if self.mpv is None:
+            # Map the player page if not realized yet
+            if not self.mpv_drawing_area.get_window():
+                self.mpv_stack.set_visible_child_name("player_page")
+                while not self.mpv_drawing_area.get_window():
+                    time.sleep(0.05)
+
             chosen_backend = self.settings.get_string("video-backend")
             xid = str(self.mpv_drawing_area.get_window().get_xid())
 
@@ -1710,12 +1713,11 @@ class MainWindow:
 
     def normal_mode(self):
         self.window.get_window().set_cursor(None)
+        if getattr(self, "vlc_gui", None) is not None:
+            self.vlc_gui.mouse_cursor_visible = True
         self.window.unfullscreen()
         self.mpv_top_box.show()
-        if self.settings.get_string("video-backend") == "vlc":
-            self.mpv_bottom_box.show()
-        else:
-            self.mpv_bottom_box.hide()
+        self.mpv_bottom_box.hide()
         if self.content_type == TV_GROUP:
             self.sidebar.show()
         self.headerbar.show()
@@ -1751,6 +1753,8 @@ class MainWindow:
             self.fullscreen = not self.fullscreen
             if self.fullscreen:
                 self.window.get_window().set_cursor(Gdk.Cursor.new_from_name(Gdk.Display.get_default(), "none"))
+                if getattr(self, "vlc_gui", None) is not None:
+                    self.vlc_gui.mouse_cursor_visible = False
                 # Fullscreen mode
                 self.window.fullscreen()
                 self.mpv_top_box.hide()
