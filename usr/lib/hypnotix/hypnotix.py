@@ -898,7 +898,7 @@ class MainWindow:
         window.show()
 
     def on_favorite_button_toggled(self, widget):
-        if self.page_is_loading or self.active_channel is None:
+        if self.page_is_loading or getattr(self, "active_channel", None) is None:
             return
 
         name = self.active_channel.name
@@ -906,10 +906,18 @@ class MainWindow:
         if widget.get_active() and data not in self.favorite_data:
             print (f"Adding {name} to favorites")
             self.favorite_data.append(data)
+
+            # Dynamically update the tooltip
+            self.favorite_button.set_tooltip_text(_("Remove from favorites"))
+
         elif widget.get_active() == False and data in self.favorite_data:
             print (f"Removing {name} from favorites")
             self.favorite_data.remove(data)
-        self.favorite_button_image.set_from_icon_name("xsi-starred-symbolic" if widget.get_active() else "non-xsi-starred-symbolic", Gtk.IconSize.BUTTON)
+
+            # Dynamically update the tooltip
+            self.favorite_button.set_tooltip_text(_("Add to favorites"))
+
+        self.favorite_button_image.set_from_icon_name("xsi-starred-symbolic" if widget.get_active() else "xsi-non-starred-symbolic", Gtk.IconSize.BUTTON)
         self.manager.save_favorites(self.favorite_data)
 
     def on_channel_activated(self, box, widget):
@@ -973,8 +981,12 @@ class MainWindow:
         self.label_channel_url.set_text(channel.url)
 
         self.page_is_loading = True
-        data = f"{channel.info}:::{channel.url}"
-        if data in self.favorite_data:
+
+        # Use prefix matching to ignore appended EPG/XMLTV metadata
+        data_prefix = f"{channel.info}:::{channel.url}"
+        existing_match = next((fav for fav in self.favorite_data if fav == data_prefix or fav.startswith(data_prefix + ":::")), None)
+
+        if existing_match:
             self.favorite_button.set_active(True)
             self.favorite_button_image.set_from_icon_name("xsi-starred-symbolic", Gtk.IconSize.BUTTON)
             self.favorite_button.set_tooltip_text(_("Remove from favorites"))
