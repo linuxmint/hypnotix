@@ -928,18 +928,29 @@ class MainWindow:
 
     @async_function
     def play_async(self, channel):
-        if self.mpv is not None:
-            self.mpv.stop()
-            self.mpv.pause = False
+        try:
+            if self.mpv is not None:
+                self.mpv.show_osd_text("", 1)
+                self.mpv.stop()
+                self.mpv.pause = False
+        except Exception:
+            pass
+
         print("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
+
         if channel is not None and channel.url is not None:
-            # os.system("mpv --wid=%s %s &" % (self.wid, channel.url))
-            # self.mpv_drawing_area.show()
-            self.info_menu_item.set_sensitive(False)
             self.before_play(channel)
-            self.reinit_mpv()
-            self.mpv.play(channel.url)
-            self.mpv.wait_until_playing()
+
+            try:
+                self.reinit_mpv()
+                self.mpv.play(channel.url)
+                self.mpv.wait_until_playing()
+            except Exception as e:
+                # Silently catch ShutdownError if the user clicked a new channel
+                # or closed the app before this thread finished loading.
+                print(f"Playback interrupted or stopped: {e}")
+                return
+
             self.after_play(channel)
 
     @idle_function
@@ -972,6 +983,7 @@ class MainWindow:
             self.favorite_button_image.set_from_icon_name("xsi-non-starred-symbolic", Gtk.IconSize.BUTTON)
             self.favorite_button.set_tooltip_text(_("Add to favorites"))
         set_playback_button_state(self.pause_button, False)
+        self.info_menu_item.set_sensitive(False)
         self.page_is_loading = False
 
     @idle_function
