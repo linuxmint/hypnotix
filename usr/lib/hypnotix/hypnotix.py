@@ -330,14 +330,24 @@ class MainWindow:
         self.bind_setting_widget("http-referer", self.referer_entry)
         self.bind_setting_widget("mpv-options", self.mpv_entry)
 
+        try:
+            import vlc
+            self.is_vlc_available = True
+        except ImportError:
+            self.is_vlc_available = False
+
         # Video Backend combo box (in preferences, alongside mpv-options)
         backend_model = Gtk.ListStore(str, str)
         backend_model.append(["mpv", _("MPV (Default)")])
-        try:
-            import vlc
+        if self.is_vlc_available:
             backend_model.append(["vlc", _("VLC Player")])
-        except ImportError:
-            pass
+
+            # Setup the UI overlays only if VLC is installed
+            self.vlc_gui = VLCGUIController(self)
+            self.vlc_gui.setup_ui()
+        else:
+            self.vlc_gui = None
+
         self.video_backend_combo.set_model(backend_model)
         renderer = Gtk.CellRendererText()
         self.video_backend_combo.pack_start(renderer, True)
@@ -1680,15 +1690,10 @@ class MainWindow:
             xid = str(self.mpv_drawing_area.get_window().get_xid())
 
             if chosen_backend == "vlc":
-                try:
-                    if not hasattr(self, "vlc_gui"):
-                        self.vlc_gui = VLCGUIController(self)
-                        self.vlc_gui.setup_ui()
-
+                if getattr(self, "is_vlc_available", False) and self.vlc_gui is not None:
                     self.mpv = VlcEngine(gui=self.vlc_gui)
                     self.vlc_gui.show_controls()
-
-                except ImportError:
+                else:
                     print("VLC Python bindings missing! Falling back to default MPV.")
                     chosen_backend = "mpv"
 
