@@ -1707,7 +1707,10 @@ class MainWindow:
         self.window.get_window().set_cursor(None)
         self.window.unfullscreen()
         self.mpv_top_box.show()
-        self.mpv_bottom_box.hide()
+        if self.settings.get_string("video-backend") == "vlc":
+            self.mpv_bottom_box.show()
+        else:
+            self.mpv_bottom_box.hide()
         if self.content_type == TV_GROUP:
             self.sidebar.show()
         self.headerbar.show()
