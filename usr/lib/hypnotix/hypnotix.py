@@ -581,6 +581,12 @@ class MainWindow:
                 self.channels_listbox.add(ChannelWidget(channel, image))
 
             self.channels_listbox.show_all()
+
+            if self.active_channel is None:
+                self.channel_stack.set_visible_child_name("empty_page")
+                self.label_channel_name.set_text("")
+                self.label_channel_url.set_text("")
+
             self.visible_search_results = len(self.channels_listbox.get_children())
             if len(logos_to_refresh) > 0:
                 self.download_channel_logos(logos_to_refresh)
@@ -753,8 +759,6 @@ class MainWindow:
 
     def on_go_back_button(self, widget=None):
         self.navigate_to(self.back_page)
-        if self.active_channel is not None:
-            self.playback_bar.show()
         if self.active_group and self.back_page == "categories_page":
             self.init_channels_listbox()
 
@@ -803,6 +807,14 @@ class MainWindow:
         self.stack.set_visible_child_name(page)
         provider = self.active_provider
         self.back_page = "landing_page"
+
+        # channels_page already shows the live video itself; elsewhere, surface
+        # the bar so a channel left playing in the background can be stopped.
+        if page != "channels_page" and self.active_channel is not None:
+            self.playback_bar.show()
+        else:
+            self.playback_bar.hide()
+
         if page == "landing_page":
             self.headerbar.set_title("Hypnotix")
             self.headerbar.set_subtitle(_("Watch TV"))
@@ -833,7 +845,6 @@ class MainWindow:
                 self.headerbar.set_subtitle(_("Series"))
         elif page == "channels_page":
             self.fullscreen_button.show()
-            self.playback_bar.hide()
             if favorites:
                 self.headerbar.set_title("Hypnotix")
                 self.headerbar.set_subtitle(_("Favorites"))
@@ -1139,11 +1150,15 @@ class MainWindow:
         self.audio_properties[_("General")][_("Codec")] = codec.split()[0]
 
     def on_stop_button(self, widget):
-        self.mpv.stop()
+        if self.mpv is not None:
+            self.mpv.stop()
         # self.mpv_drawing_area.hide()
         self.active_channel = None
         self.info_menu_item.set_sensitive(False)
         self.playback_bar.hide()
+        self.label_channel_name.set_text("")
+        self.label_channel_url.set_text("")
+        self.channel_stack.set_visible_child_name("empty_page")
 
     def on_pause_button(self, widget):
         self.mpv.pause = not self.mpv.pause
