@@ -575,6 +575,12 @@ class MainWindow:
                 self.channels_listbox.add(ChannelWidget(channel, image))
 
             self.channels_listbox.show_all()
+
+            if self.active_channel is None:
+                self.channel_stack.set_visible_child_name("empty_page")
+                self.label_channel_name.set_text("")
+                self.label_channel_url.set_text("")
+
             self.visible_search_results = len(self.channels_listbox.get_children())
             if len(logos_to_refresh) > 0:
                 self.download_channel_logos(logos_to_refresh)
@@ -1116,11 +1122,15 @@ class MainWindow:
         self.audio_properties[_("General")][_("Codec")] = codec.split()[0]
 
     def on_stop_button(self, widget):
-        self.mpv.stop()
+        if self.mpv is not None:
+            self.mpv.stop()
         # self.mpv_drawing_area.hide()
         self.active_channel = None
         self.info_menu_item.set_sensitive(False)
         self.playback_bar.hide()
+        self.label_channel_name.set_text("")
+        self.label_channel_url.set_text("")
+        self.channel_stack.set_visible_child_name("empty_page")
 
     def on_pause_button(self, widget):
         self.mpv.pause = not self.mpv.pause
