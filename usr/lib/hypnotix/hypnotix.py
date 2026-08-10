@@ -141,6 +141,7 @@ class MainWindow:
         self.latest_search_bar_text = None
         self.visible_search_results = 0
         self.mpv = None
+        self.is_changing_channel = False
         self.page_is_loading = False # used to ignore signals while we set widget states
 
         self.video_properties = {}
@@ -942,30 +943,34 @@ class MainWindow:
 
     @async_function
     def play_async(self, channel):
+        self.is_changing_channel = True
         try:
-            if self.mpv is not None:
-                self.mpv.show_osd_text("", 1)
-                self.mpv.stop()
-                self.mpv.pause = False
-        except Exception:
-            pass
-
-        print("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
-
-        if channel is not None and channel.url is not None:
-            self.before_play(channel)
-
             try:
-                self.reinit_mpv()
-                self.mpv.play(channel.url)
-                self.mpv.wait_until_playing()
-            except Exception as e:
-                # Silently catch ShutdownError if the user clicked a new channel
-                # or closed the app before this thread finished loading.
-                print(f"Playback interrupted or stopped: {e}")
-                return
+                if self.mpv is not None:
+                    self.mpv.show_osd_text("", 1)
+                    self.mpv.stop()
+                    self.mpv.pause = False
+            except Exception:
+                pass
 
-            self.after_play(channel)
+            print("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
+
+            if channel is not None and channel.url is not None:
+                self.before_play(channel)
+
+                try:
+                    self.reinit_mpv()
+                    self.mpv.play(channel.url)
+                    self.mpv.wait_until_playing()
+                except Exception as e:
+                    # Silently catch ShutdownError if the user clicked a new channel
+                    # or closed the app before this thread finished loading.
+                    print(f"Playback interrupted or stopped: {e}")
+                    return
+
+                self.after_play(channel)
+        finally:
+            self.is_changing_channel = False
 
     @idle_function
     def before_play(self, channel):
@@ -1021,6 +1026,7 @@ class MainWindow:
             self.mpv.unobserve_property("video-bitrate", self.on_bitrate)
             self.mpv.unobserve_property("audio-bitrate", self.on_bitrate)
             self.mpv.unobserve_property("core-idle", self.on_playback_changed)
+            self.mpv.unobserve_property("idle-active", self.on_idle_active)
         except:
             pass
         self.mpv.observe_property("video-params", self.on_video_params)
@@ -1030,6 +1036,13 @@ class MainWindow:
         self.mpv.observe_property("video-bitrate", self.on_bitrate)
         self.mpv.observe_property("audio-bitrate", self.on_bitrate)
         self.mpv.observe_property("core-idle", self.on_playback_changed)
+        self.mpv.observe_property("idle-active", self.on_idle_active)
+
+    @idle_function
+    def on_idle_active(self, prop, active):
+        if active and not self.is_changing_channel and self.active_channel is not None:
+            # Catch stops that occur while paused (core-idle is already True)
+            self.on_stop_button(None)
 
     @idle_function
     def on_playback_changed(self, prop, idle):
@@ -1037,6 +1050,11 @@ class MainWindow:
             if self.inhibit_id != 0:
                 self.application.uninhibit(self.inhibit_id)
                 self.inhibit_id = 0
+
+            # Handle MPV fully stopping (e.g., from OSD or EOF) versus pausing
+            if getattr(self.mpv, 'idle_active', False):
+                if not self.is_changing_channel and self.active_channel is not None:
+                    self.on_stop_button(None)
         else:
             if self.inhibit_id == 0:
                 self.inhibit_id = self.application.inhibit(
