@@ -218,12 +218,13 @@ class VlcEngine(VideoPlayer):
         if text:
             self.player.video_set_marquee_int(vlc.VideoMarqueeOption.Enable, 1)
 
-            # Get the native video height and scale the text to ~5% of the screen
+            # Scale font size against a 720p base. Base 42 matches MPV's libass
+            # point size rendering visually in VLC freetype.
             height = self.player.video_get_height()
-            font_size = int(height * 0.05) if height > 0 else 50
+            font_size = int((height / 720.0) * 42) if height > 0 else 42
 
             # Set a minimum floor so it never gets unreadable on tiny streams
-            font_size = max(24, font_size)
+            font_size = max(16, font_size)
 
             # VLC's Linux text renderer fails to calculate line widths properly
             # if the string only contains standard Unix newline characters
