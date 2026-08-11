@@ -201,11 +201,6 @@ class XMLTVParser:
                             continue
 
                         stop = parse_xmltv_time(elem.attrib.get("stop"))
-                        # Optimization: Prune programmes where stop time is in the past
-                        if stop <= now:
-                            elem.clear()
-                            continue
-
                         start = parse_xmltv_time(elem.attrib.get("start"))
 
                         title_elem = elem.find("title")
@@ -353,11 +348,10 @@ class EPGManager:
         return channels
 
     def load_programmes_from_db(self, db_path: str, valid_xmltv_ids: set = None) -> dict:
-        """Loads non-expired EPG programmes from SQLite database."""
+        """Loads all EPG programmes from SQLite database (including historical)."""
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
-        now = int(time.time())
-        cursor.execute("SELECT channel_id, start, stop, title, desc FROM programmes WHERE stop > ?", (now,))
+        cursor.execute("SELECT channel_id, start, stop, title, desc FROM programmes")
 
         programmes = {}
         for cid, start, stop, title, desc in cursor.fetchall():

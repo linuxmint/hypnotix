@@ -414,22 +414,34 @@
                     <property name="can-focus">False</property>
                     <property name="spacing">12</property>
                     <child>
-                      <object class="GtkScrolledWindow" id="sidebar">
+                      <object class="GtkBox" id="sidebar_vbox">
                         <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="min-content-width">150</property>
+                        <property name="can-focus">False</property>
+                        <property name="orientation">vertical</property>
                         <child>
-                          <object class="GtkViewport">
+                          <object class="GtkScrolledWindow" id="sidebar">
                             <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <property name="margin-end">12</property>
+                            <property name="can-focus">True</property>
+                            <property name="min-content-width">150</property>
                             <child>
-                              <object class="GtkListBox" id="channels_listbox">
+                              <object class="GtkViewport">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
+                                <property name="margin-end">12</property>
+                                <child>
+                                  <object class="GtkListBox" id="channels_listbox">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                  </object>
+                                </child>
                               </object>
                             </child>
                           </object>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
                         </child>
                       </object>
                       <packing>

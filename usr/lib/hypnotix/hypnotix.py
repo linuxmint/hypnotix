@@ -36,6 +36,7 @@ from unidecode import unidecode
 
 from common import Manager, Provider, Channel, MOVIES_GROUP, PROVIDERS_PATH, SERIES_GROUP, TV_GROUP,\
     async_function, idle_function
+from guide import EPGGuideWidget
 
 
 setproctitle.setproctitle("hypnotix")
@@ -324,6 +325,7 @@ class MainWindow:
             "status_label",
             "status_bar",
             "sidebar",
+            "sidebar_vbox",
             "go_back_button",
             "search_button",
             "search_bar",
@@ -416,6 +418,10 @@ class MainWindow:
                 sys.exit(1)
             else:
                 setattr(self, name, widget)
+
+        self.guide_widget = EPGGuideWidget(self)
+        self.guide_widget.show_all()
+        self.channel_stack.add_named(self.guide_widget, "guide_page")
 
         # Widget signals
         self.window.connect("delete-event", self.on_window_delete)
@@ -811,7 +817,10 @@ class MainWindow:
     def show_channels(self, channels, favorites=False):
         self.navigate_to("channels_page", "", favorites)
         if self.content_type == TV_GROUP:
-            self.sidebar.show()
+            if self.fullscreen and getattr(self, "active_channel", None) is not None:
+                self.sidebar_vbox.hide()
+            else:
+                self.sidebar_vbox.show()
             for child in self.channels_listbox.get_children():
                 self.channels_listbox.remove(child)
 
@@ -822,12 +831,22 @@ class MainWindow:
                 self.channels_listbox.add(ChannelWidget(channel, image, main_window=self))
 
             self.channels_listbox.show_all()
+
+            if self.active_channel is None:
+                self.channel_stack.set_visible_child_name("guide_page")
+                self.label_channel_name.set_text("")
+                self.label_channel_url.set_text("")
+
+                provider = getattr(self, "active_provider", None)
+                epg_mgr = getattr(provider, "epg_manager", None) if provider else None
+                self.guide_widget.render_guide(channels, epg_mgr)
+
             self.update_epg_labels()
             self.visible_search_results = len(self.channels_listbox.get_children())
             if len(logos_to_refresh) > 0:
                 self.download_channel_logos(logos_to_refresh)
         else:
-            self.sidebar.hide()
+            self.sidebar_vbox.hide()
 
     @idle_function
     def update_epg_labels(self):
@@ -838,6 +857,16 @@ class MainWindow:
                     widget.update_epg(provider.epg_manager)
                 else:
                     widget.update_epg(None)
+
+        # Also asynchronously update the EPG Guide widget if it's currently loaded
+        if getattr(self, "active_provider", None):
+            channels = getattr(self.active_provider, "channels", [])
+            # In case we are currently filtering by search, or looking at favorites
+            # Note: A safer approach is to pass exactly the channels currently drawn in the listbox
+            visible_channels = [w.channel for w in self.channels_listbox.get_children() if isinstance(w, ChannelWidget)]
+            epg_mgr = getattr(self.active_provider, "epg_manager", None)
+            self.guide_widget.render_guide(visible_channels, epg_mgr, initial_load=False)
+
         return True
 
     def show_channel_epg_info(self, channel):
@@ -1271,6 +1300,8 @@ class MainWindow:
     def before_play(self, channel):
         self.info_menu_item.set_sensitive(False)
         self.channel_stack.set_visible_child_name("channel_page")
+        if self.fullscreen:
+            self.sidebar_vbox.hide()
         self.mpv_stack.set_visible_child_name("spinner_page")
         self.video_properties.clear()
         self.video_properties[_("General")] = {}
@@ -1426,6 +1457,11 @@ class MainWindow:
         self.active_channel = None
         self.info_menu_item.set_sensitive(False)
         self.playback_bar.hide()
+        self.label_channel_name.set_text("")
+        self.label_channel_url.set_text("")
+        self.channel_stack.set_visible_child_name("guide_page")
+        if self.fullscreen and self.content_type == TV_GROUP:
+            self.sidebar_vbox.show()
 
     def on_pause_button(self, widget):
         self.mpv.pause = not self.mpv.pause
@@ -1917,6 +1953,9 @@ class MainWindow:
 
     @async_function
     def reload(self, page=None, refresh=False):
+        if page is not None:
+            self.navigate_to(page)
+
         self.favorite_data = self.manager.load_favorites()
         self.status(_("Loading providers..."))
         self.providers = []
@@ -2012,8 +2051,6 @@ class MainWindow:
 
         self.refresh_providers_page()
 
-        if page is not None:
-            self.navigate_to(page)
         self.status(None)
         self.latest_search_bar_text = None
 
@@ -2101,17 +2138,17 @@ class MainWindow:
         self.mpv_top_box.show()
         self.mpv_bottom_box.hide()
         if self.content_type == TV_GROUP:
-            self.sidebar.show()
+            self.sidebar_vbox.show()
         self.headerbar.show()
         self.channels_box.set_border_width(12)
         self.fullscreen = False
 
     def theather_mode(self):
         if self.stack.get_visible_child_name() == "channels_page":
-            if self.sidebar.get_visible():
+            if self.sidebar_vbox.get_visible():
                 self.mpv_top_box.hide()
                 self.mpv_bottom_box.hide()
-                self.sidebar.hide()
+                self.sidebar_vbox.hide()
                 # self.headerbar.hide()
                 self.status_label.hide()
                 self.channels_box.set_border_width(0)
@@ -2123,7 +2160,7 @@ class MainWindow:
             if self.headerbar.get_visible():
                 self.mpv_top_box.hide()
                 self.mpv_bottom_box.hide()
-                self.sidebar.hide()
+                self.sidebar_vbox.hide()
                 self.headerbar.hide()
                 self.status_label.hide()
                 self.channels_box.set_border_width(0)
@@ -2161,7 +2198,8 @@ class MainWindow:
                 self.window.fullscreen()
                 self.mpv_top_box.hide()
                 self.mpv_bottom_box.hide()
-                self.sidebar.hide()
+                if self.active_channel is not None:
+                    self.sidebar_vbox.hide()
                 self.headerbar.hide()
                 self.status_label.hide()
                 self.channels_box.set_border_width(0)
