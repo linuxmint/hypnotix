@@ -144,6 +144,9 @@ class MainWindow:
         self.is_changing_channel = False
         self.page_is_loading = False # used to ignore signals while we set widget states
 
+        self.cursor_hide_timer_id = 0
+        self.mouse_poll_timer_id = 0
+
         self.video_properties = {}
         self.audio_properties = {}
         self.volume = 100
@@ -975,6 +978,11 @@ class MainWindow:
     @idle_function
     def before_play(self, channel):
         self.channel_stack.set_visible_child_name("channel_page")
+        if self.fullscreen:
+            self.sidebar.hide()
+            if getattr(self, "cursor_hide_timer_id", 0) > 0:
+                GLib.source_remove(self.cursor_hide_timer_id)
+            self.cursor_hide_timer_id = GLib.timeout_add(2000, self.hide_cursor)
         self.mpv_stack.set_visible_child_name("spinner_page")
         self.video_properties.clear()
         self.video_properties[_("General")] = {}
@@ -1149,6 +1157,17 @@ class MainWindow:
         self.label_channel_name.set_text("")
         self.label_channel_url.set_text("")
         self.channel_stack.set_visible_child_name("empty_page")
+        # if self.fullscreen and self.content_type == TV_GROUP:
+        #     self.sidebar.show()
+        if self.fullscreen:
+            gdk_win = self.window.get_window()
+            if gdk_win:
+                gdk_win.set_cursor(None)
+            if getattr(self, "cursor_hide_timer_id", 0) > 0:
+                GLib.source_remove(self.cursor_hide_timer_id)
+                self.cursor_hide_timer_id = 0
+            if self.content_type == TV_GROUP:
+                self.sidebar.show()
 
     def on_pause_button(self, widget):
         self.mpv.pause = not self.mpv.pause
@@ -1772,6 +1791,12 @@ class MainWindow:
 
     def normal_mode(self):
         self.window.get_window().set_cursor(None)
+        if getattr(self, "cursor_hide_timer_id", 0) > 0:
+            GLib.source_remove(self.cursor_hide_timer_id)
+            self.cursor_hide_timer_id = 0
+        if getattr(self, "mouse_poll_timer_id", 0) > 0:
+            GLib.source_remove(self.mouse_poll_timer_id)
+            self.mouse_poll_timer_id = 0
         if getattr(self, "vlc_gui", None) is not None:
             self.vlc_gui.mouse_cursor_visible = True
         self.window.unfullscreen()
@@ -1811,14 +1836,18 @@ class MainWindow:
         if self.stack.get_visible_child_name() == "channels_page":
             self.fullscreen = not self.fullscreen
             if self.fullscreen:
-                self.window.get_window().set_cursor(Gdk.Cursor.new_from_name(Gdk.Display.get_default(), "none"))
-                if getattr(self, "vlc_gui", None) is not None:
-                    self.vlc_gui.mouse_cursor_visible = False
                 # Fullscreen mode
                 self.window.fullscreen()
                 self.mpv_top_box.hide()
                 self.mpv_bottom_box.hide()
+                if not getattr(self, "mouse_poll_timer_id", 0):
+                    self.last_mouse_pos = None
+                    self.mouse_poll_timer_id = GLib.timeout_add(200, self.poll_mouse_position)
                 self.sidebar.hide()
+                if self.active_channel is not None:
+                    if getattr(self, "cursor_hide_timer_id", 0) > 0:
+                        GLib.source_remove(self.cursor_hide_timer_id)
+                    self.cursor_hide_timer_id = GLib.timeout_add(2000, self.hide_cursor)
                 self.headerbar.hide()
                 self.status_label.hide()
                 self.channels_box.set_border_width(0)
@@ -1833,6 +1862,53 @@ class MainWindow:
 
     def on_volume_prop(self, name, value ):
         self.volume = value
+
+    def poll_mouse_position(self):
+        if not self.fullscreen:
+            self.mouse_poll_timer_id = 0
+            return False
+
+        if getattr(self, "active_channel", None) is not None:
+            display = Gdk.Display.get_default()
+            seat = display.get_default_seat()
+            if seat:
+                pointer = seat.get_pointer()
+                screen, x, y = pointer.get_position()
+                if getattr(self, "last_mouse_pos", None) != (x, y):
+                    self.last_mouse_pos = (x, y)
+
+                    # Wake up cursor for the main window
+                    gdk_win = self.window.get_window()
+                    if gdk_win:
+                        gdk_win.set_cursor(None)
+
+                    # Wake up cursor for the MPV drawing area
+                    draw_win = self.mpv_drawing_area.get_window()
+                    if draw_win:
+                        draw_win.set_cursor(None)
+
+                    # Reset the hide countdown
+                    if getattr(self, "cursor_hide_timer_id", 0) > 0:
+                        GLib.source_remove(self.cursor_hide_timer_id)
+                    self.cursor_hide_timer_id = GLib.timeout_add(2000, self.hide_cursor)
+        return True
+
+    def hide_cursor(self):
+        if self.fullscreen and getattr(self, "active_channel", None) is not None:
+            hidden_cursor = Gdk.Cursor.new_from_name(Gdk.Display.get_default(), "none")
+
+            # Hide cursor for the main window
+            gdk_win = self.window.get_window()
+            if gdk_win:
+                gdk_win.set_cursor(hidden_cursor)
+
+            # Hide cursor for the MPV drawing area
+            draw_win = self.mpv_drawing_area.get_window()
+            if draw_win:
+                draw_win.set_cursor(hidden_cursor)
+
+        self.cursor_hide_timer_id = 0
+        return False
 
 if __name__ == "__main__":
     application = MyApplication("org.x.hypnotix", Gio.ApplicationFlags.FLAGS_NONE)

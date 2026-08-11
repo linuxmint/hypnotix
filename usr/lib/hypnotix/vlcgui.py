@@ -17,10 +17,6 @@ class VLCGUIController:
         self.btn_menu = None
         self.vlc_stream_menu = None
         self.hide_timer_id = 0
-        self.mouse_cursor_visible = True
-
-        # Cache the hidden cursor to prevent recreating it dynamically on every timeout
-        self.hidden_cursor = Gdk.Cursor.new_from_name(Gdk.Display.get_default(), "none")
 
     def setup_ui(self):
         if self.vlc_control_layout is not None:
@@ -113,13 +109,6 @@ class VLCGUIController:
         if not self.control_wrapper.get_visible():
             self.control_wrapper.show()
 
-        # Restore the cursor dynamically while the mouse is moving in fullscreen
-        if self.win.fullscreen and not self.mouse_cursor_visible:
-            gdk_win = self.win.window.get_window()
-            if gdk_win:
-                gdk_win.set_cursor(None)
-            self.mouse_cursor_visible = True
-
         if self.hide_timer_id > 0:
             GLib.source_remove(self.hide_timer_id)
         self.hide_timer_id = GLib.timeout_add(2000, self.hide_controls)
@@ -132,13 +121,6 @@ class VLCGUIController:
 
         self.control_wrapper.hide()
         self.hide_timer_id = 0
-
-        # Hide the cursor entirely if we are in fullscreen mode
-        if self.win.fullscreen:
-            gdk_win = self.win.window.get_window()
-            if gdk_win:
-                gdk_win.set_cursor(self.hidden_cursor)
-            self.mouse_cursor_visible = False
 
         return False
 
