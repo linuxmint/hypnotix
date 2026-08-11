@@ -1723,9 +1723,11 @@ class MainWindow:
         if self.mpv is None:
             # Map the player page if not realized yet
             if not self.mpv_drawing_area.get_window():
-                self.mpv_stack.set_visible_child_name("player_page")
-                while not self.mpv_drawing_area.get_window():
+                GLib.idle_add(self.mpv_drawing_area.realize)
+                timeout = 100
+                while not self.mpv_drawing_area.get_window() and timeout > 0:
                     time.sleep(0.05)
+                    timeout -= 1
 
             chosen_backend = self.settings.get_string("video-backend")
             xid = str(self.mpv_drawing_area.get_window().get_xid())
