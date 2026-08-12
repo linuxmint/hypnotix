@@ -4,7 +4,7 @@ import gi
 
 gi.require_version("Gtk", "3.0")
 gi.require_version("PangoCairo", "1.0")
-from gi.repository import Gtk, Gdk, Pango, PangoCairo, GdkPixbuf, GLib
+from gi.repository import Gtk, Gdk, Pango, PangoCairo, GLib
 import gettext
 _ = gettext.gettext
 
@@ -31,14 +31,12 @@ class EPGTimeline(Gtk.DrawingArea):
         current_y = 0
         target_row = -1
         target_channel = None
-        target_row_height = 0
 
         for i, (channel, widget) in enumerate(zip(self.guide.channels, self.guide.channel_widgets)):
-            min_height, row_height = widget.get_preferred_height()
+            _, row_height = widget.get_preferred_height()
             if current_y <= y < current_y + row_height:
                 target_row = i
                 target_channel = channel
-                target_row_height = row_height
                 break
             current_y += row_height
 
@@ -143,7 +141,7 @@ class EPGTimeline(Gtk.DrawingArea):
 
         y_pos = 0
         for channel, cwidget in zip(self.guide.channels, self.guide.channel_widgets):
-            min_height, row_height = cwidget.get_preferred_height()
+            _, row_height = cwidget.get_preferred_height()
 
             # Only draw rows that intersect with the clip region (visible screen)
             if y_pos + row_height >= clip_y1 and y_pos <= clip_y2:
@@ -201,7 +199,7 @@ class EPGTimeline(Gtk.DrawingArea):
                                     cr.set_source_rgba(theme_fg.red, theme_fg.green, theme_fg.blue, theme_fg.alpha)
 
                                 # Center text vertically
-                                ink_rect, logical_rect = layout.get_pixel_extents()
+                                _, logical_rect = layout.get_pixel_extents()
                                 text_y = y_pos + (row_height - logical_rect.height) / 2
 
                                 cr.move_to(x_pos + 4, text_y)
@@ -354,7 +352,7 @@ class EPGGuideWidget(Gtk.Box):
 
         total_height = 0
         for widget in self.channel_widgets:
-            min_height, row_height = widget.get_preferred_height()
+            _, row_height = widget.get_preferred_height()
             total_height += row_height
 
         self.timeline_area.set_size_request(total_width, total_height)

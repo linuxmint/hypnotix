@@ -9,7 +9,7 @@ import urllib.error
 import xml.etree.ElementTree as ET
 from email.utils import formatdate
 
-from common import EPG_PATH, async_function, slugify
+from common import EPG_PATH, slugify
 
 
 def parse_xmltv_time(s: str) -> int:
@@ -183,7 +183,8 @@ class XMLTVParser:
     def parse_programmes(cls, file_path: str, valid_xmltv_ids: set = None):
         """Pass 2: Parses <programme> elements, pruning past shows and unmatched channels."""
         programmes = {}
-        now = int(time.time())
+        # Keep a bit of trailing history (matches guide.py's default 1h-in-the-past window)
+        past_cutoff = int(time.time()) - 3600
 
         try:
             with cls._open_source(file_path) as f:
@@ -202,6 +203,10 @@ class XMLTVParser:
 
                         stop = parse_xmltv_time(elem.attrib.get("stop"))
                         start = parse_xmltv_time(elem.attrib.get("start"))
+
+                        if stop and stop < past_cutoff:
+                            elem.clear()
+                            continue
 
                         title_elem = elem.find("title")
                         title = title_elem.text if title_elem is not None else ""
@@ -233,25 +238,6 @@ class EPGManager:
         self.user_agent = user_agent
         self.programmes = {}  # { xmltv_id: [program_dicts] }
 
-    def resolve_epg_path(self, provider) -> str:
-        """Resolves provider.epg into a local file path."""
-        epg_src = provider.epg.strip() if provider.epg else ""
-        if not epg_src:
-            return None
-
-        # Local file URI or raw filesystem path
-        if epg_src.startswith("file://") or epg_src.startswith("/"):
-            path = epg_src[7:] if epg_src.startswith("file://") else epg_src
-            return os.path.expanduser(path)
-
-        # Remote URL: cache locally in ~/.cache/hypnotix/epg/
-        ext = ".xml.gz" if epg_src.endswith(".gz") else ".xml"
-        return os.path.join(EPG_PATH, f"{slugify(provider.name)}{ext}")
-
-    def get_db_path(self, local_path: str) -> str:
-        """Returns the SQLite database cache path corresponding to the XML file."""
-        return local_path + ".db"
-
     def is_cache_valid(self, local_path: str, ttl_hours: int = 24) -> bool:
         """Checks if the local cache file exists and is newer than TTL."""
         if not local_path or not os.path.exists(local_path):
@@ -260,26 +246,47 @@ class EPGManager:
         return (time.time() - mtime) < (ttl_hours * 3600)
 
     def is_db_valid(self, db_path: str, xml_path: str) -> bool:
-        """Checks if the SQLite database exists and is newer than the XMLTV file."""
+        """Checks if the SQLite database exists, is newer than the XMLTV file, and has required tables."""
         if not db_path or not os.path.exists(db_path):
             return False
+            
+        # Check timestamps first to fail fast
+        is_newer = False
         if isinstance(xml_path, list):
+            is_newer = True
             for xp in xml_path:
                 if not os.path.exists(xp) or os.path.getmtime(db_path) < os.path.getmtime(xp):
-                    return False
-            return True
+                    is_newer = False
+                    break
         else:
-            return os.path.exists(xml_path) and os.path.getmtime(db_path) >= os.path.getmtime(xml_path)
+            is_newer = os.path.exists(xml_path) and os.path.getmtime(db_path) >= os.path.getmtime(xml_path)
+            
+        if not is_newer:
+            return False
+            
+        # Verify schema is intact (tables exist)
+        try:
+            conn = sqlite3.connect(db_path)
+            cursor = conn.cursor()
+            cursor.execute("SELECT count(name) FROM sqlite_master WHERE type='table' AND name IN ('channels', 'programmes')")
+            count = cursor.fetchone()[0]
+            conn.close()
+            return count == 2
+        except sqlite3.OperationalError:
+            return False
 
     def download_epg(self, epg_url: str, local_path: str) -> bool:
         """Downloads a remote EPG XML file to the local cache path."""
+        tmp_path = f"{local_path}.part"
         try:
             req = urllib.request.Request(epg_url, headers={"User-Agent": self.user_agent})
             if os.path.exists(local_path):
                 mtime = os.path.getmtime(local_path)
                 req.add_header("If-Modified-Since", formatdate(mtime, usegmt=True))
-            with urllib.request.urlopen(req, timeout=30) as resp, open(local_path, "wb") as out:
+            # Download to a temp file first so an interrupted transfer never clobbers a valid cache
+            with urllib.request.urlopen(req, timeout=30) as resp, open(tmp_path, "wb") as out:
                 out.write(resp.read())
+            os.replace(tmp_path, local_path)
             return True
         except urllib.error.HTTPError as e:
             if e.code == 304:
@@ -290,6 +297,9 @@ class EPGManager:
         except Exception as e:
             print(f"[EPG] Download failed for {epg_url}: {e}")
             return False
+        finally:
+            if os.path.exists(tmp_path):
+                os.remove(tmp_path)
 
     def save_to_db(self, db_path: str, channels: list, programmes: dict):
         """Caches parsed XMLTV channels and programmes into SQLite."""
@@ -348,7 +358,8 @@ class EPGManager:
         return channels
 
     def load_programmes_from_db(self, db_path: str, valid_xmltv_ids: set = None) -> dict:
-        """Loads all EPG programmes from SQLite database (including historical)."""
+        """Loads EPG programmes from SQLite database, pruning shows older than the guide's past window."""
+        past_cutoff = int(time.time()) - 3600
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
         cursor.execute("SELECT channel_id, start, stop, title, desc FROM programmes")
@@ -356,6 +367,8 @@ class EPGManager:
         programmes = {}
         for cid, start, stop, title, desc in cursor.fetchall():
             if valid_xmltv_ids is not None and cid not in valid_xmltv_ids:
+                continue
+            if stop and stop < past_cutoff:
                 continue
             if cid not in programmes:
                 programmes[cid] = []
