@@ -24,8 +24,6 @@ gi.require_version("Gtk", "3.0")
 gi.require_version("XApp", "1.0")
 from gi.repository import Gtk, Gdk, Gio, XApp, GdkPixbuf, GLib, Pango
 
-from player import MpvEngine, VlcEngine
-from vlcgui import VLCGUIController
 import requests
 import setproctitle
 from unidecode import unidecode
@@ -334,15 +332,21 @@ class MainWindow:
         self.bind_setting_widget("http-referer", self.referer_entry)
         self.bind_setting_widget("mpv-options", self.mpv_entry)
 
-        try:
-            import vlc
-            self.is_vlc_available = True
-        except ImportError:
-            self.is_vlc_available = False
+        import player
+        self.is_mpv_available = player.mpv is not None
+        self.is_vlc_available = player.vlc is not None
+
+        if not self.is_mpv_available and not self.is_vlc_available:
+            print("Error: Neither MPV nor VLC backend is available. Please install at least one.", file=sys.stderr)
+            sys.exit(1)
+
+        if self.is_vlc_available:
+            from vlcgui import VLCGUIController
 
         # Video Backend combo box (in preferences, alongside mpv-options)
         backend_model = Gtk.ListStore(str, str)
-        backend_model.append(["mpv", _("MPV (Default)")])
+        if self.is_mpv_available:
+            backend_model.append(["mpv", _("MPV (Default)")])
         if self.is_vlc_available:
             backend_model.append(["vlc", _("VLC Player")])
 
@@ -1749,17 +1753,29 @@ class MainWindow:
                     timeout -= 1
 
             chosen_backend = self.settings.get_string("video-backend")
+
+            if self.is_mpv_available and self.is_vlc_available:
+                if chosen_backend not in ["mpv", "vlc"]:
+                    chosen_backend = "mpv"
+            elif self.is_mpv_available:
+                if chosen_backend == "vlc":
+                    print("VLC backend is not available! Falling back to MPV.")
+                chosen_backend = "mpv"
+            elif self.is_vlc_available:
+                if chosen_backend == "mpv":
+                    print("MPV backend is not available! Falling back to VLC.")
+                chosen_backend = "vlc"
+            else:
+                print("Error: No media backend is available!", file=sys.stderr)
+                sys.exit(1)
+
             xid = str(self.mpv_drawing_area.get_window().get_xid())
 
             if chosen_backend == "vlc":
-                if getattr(self, "is_vlc_available", False) and self.vlc_gui is not None:
-                    self.mpv = VlcEngine(gui=self.vlc_gui)
-                    self.vlc_gui.show_controls()
-                else:
-                    print("VLC Python bindings missing! Falling back to default MPV.")
-                    chosen_backend = "mpv"
-
-            if chosen_backend != "vlc":
+                from player import VlcEngine
+                self.mpv = VlcEngine(gui=self.vlc_gui)
+                self.vlc_gui.show_controls()
+            else:
                 options = {}
                 try:
                     mpv_options = self.settings.get_string("mpv-options")
@@ -1777,6 +1793,7 @@ class MainWindow:
                     # To prevent 'multiple values for keyword argument'!
                     osc = options.pop("osc") != "no"
 
+                from player import MpvEngine
                 self.mpv = MpvEngine(options=options, osc=osc)
             self.mpv.set_window(xid)
 
