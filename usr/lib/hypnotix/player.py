@@ -1,6 +1,18 @@
 import abc
 import time
 
+vlc = None
+try:
+    import vlc
+except (ImportError, OSError):
+    pass
+
+mpv = None
+try:
+    import mpv
+except (ImportError, OSError):
+    pass
+
 class VideoPlayer(abc.ABC):
     """Abstract base class defining the media player engine interface."""
 
@@ -70,14 +82,12 @@ class VideoPlayer(abc.ABC):
 
 class MpvEngine(VideoPlayer):
     def __init__(self, options=None, osc=True):
-        try:
-            from . import mpv as hypnotix_mpv
-        except ImportError:
-            import mpv as hypnotix_mpv
+        if mpv is None:
+            raise ImportError("mpv library not found")
 
         mpv_options = options if options is not None else {}
 
-        self.player = hypnotix_mpv.MPV(
+        self.player = mpv.MPV(
             **mpv_options,
             script_opts="osc-layout=box,osc-seekbarstyle=bar,osc-deadzonesize=0,osc-minmousemove=3",
             input_default_bindings=True,
@@ -155,7 +165,6 @@ class MpvEngine(VideoPlayer):
 
 class VlcEngine(VideoPlayer):
     def __init__(self, gui=None):
-        import vlc
         self.gui = gui
 
         # Enable marquee and configure its text renderer (freetype) to match MPV's default styling
@@ -208,8 +217,6 @@ class VlcEngine(VideoPlayer):
         self.player.audio_set_volume(int(value))
 
     def is_playing(self) -> bool:
-        import vlc
-
         return self.player.get_state() in [vlc.State.Playing, vlc.State.Buffering]
 
     def wait_until_playing(self):
@@ -236,7 +243,6 @@ class VlcEngine(VideoPlayer):
     def show_osd_text(self, text: str, duration_ms: int = 6000):
         if not self.player:
             return
-        import vlc
         if text:
             self.player.video_set_marquee_int(vlc.VideoMarqueeOption.Enable, 1)
 
