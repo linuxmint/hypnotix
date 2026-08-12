@@ -34,9 +34,14 @@ from common import Manager, Provider, Channel, MOVIES_GROUP, PROVIDERS_PATH, SER
 
 setproctitle.setproctitle("hypnotix")
 
+# Setup dynamic paths based on the script's location
+SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
+PREFIX = os.path.abspath(os.path.join(SCRIPT_DIR, "../../"))
+PKG_DATA_DIR = os.path.join(PREFIX, "share", "hypnotix")
+LOCALE_DIR = os.path.join(PREFIX, "share", "locale")
+
 # i18n
 APP = "hypnotix"
-LOCALE_DIR = "/usr/share/locale"
 locale.bindtextdomain(APP, LOCALE_DIR)
 gettext.bindtextdomain(APP, LOCALE_DIR)
 gettext.textdomain(APP)
@@ -70,7 +75,7 @@ AUDIO_SAMPLE_FORMATS = {
 }
 
 COUNTRY_CODES = {}
-with open("/usr/share/hypnotix/countries.list") as f:
+with open(os.path.join(PKG_DATA_DIR, "countries.list")) as f:
     for line in f:
         line = line.strip()
         code, name = line.split(":")
@@ -152,7 +157,7 @@ class MainWindow:
         # Used for redownloading timer
         self.reload_timeout_sec = 60 * 5
         self._timerid = -1
-        gladefile = "/usr/share/hypnotix/hypnotix.ui"
+        gladefile = os.path.join(PKG_DATA_DIR, "hypnotix.ui")
         self.builder = Gtk.Builder()
         self.builder.set_translation_domain(APP)
         self.builder.add_from_file(gladefile)
@@ -164,7 +169,7 @@ class MainWindow:
         self.info_window = self.builder.get_object("stream_info_window")
 
         provider = Gtk.CssProvider()
-        provider.load_from_path("/usr/share/hypnotix/hypnotix.css")
+        provider.load_from_path(os.path.join(PKG_DATA_DIR, "hypnotix.css"))
         screen = Gdk.Display.get_default_screen(Gdk.Display.get_default())
         # I was unable to found instrospected version of this
         Gtk.StyleContext.add_provider_for_screen(
@@ -438,9 +443,9 @@ class MainWindow:
         self.provider_type_combo.set_active(0)  # Select 1st type
         self.provider_type_combo.connect("changed", self.on_provider_type_combo_changed)
 
-        self.tv_logo.set_from_surface(self.get_surface_for_file("/usr/share/hypnotix/pictures/tv.svg", 258, 258))
-        self.movies_logo.set_from_surface(self.get_surface_for_file("/usr/share/hypnotix/pictures/movies.svg", 258, 258))
-        self.series_logo.set_from_surface(self.get_surface_for_file("/usr/share/hypnotix/pictures/series.svg", 258, 258))
+        self.tv_logo.set_from_surface(self.get_surface_for_file(os.path.join(PKG_DATA_DIR, "pictures/tv.svg"), 258, 258))
+        self.movies_logo.set_from_surface(self.get_surface_for_file(os.path.join(PKG_DATA_DIR, "pictures/movies.svg"), 258, 258))
+        self.series_logo.set_from_surface(self.get_surface_for_file(os.path.join(PKG_DATA_DIR, "pictures/series.svg"), 258, 258))
 
         self.reload(page="landing_page")
 
@@ -486,7 +491,7 @@ class MainWindow:
     def add_badge(self, word, box, added_words):
         if word not in added_words:
             for extension in ["svg", "png"]:
-                path = "/usr/share/hypnotix/pictures/badges/%s.%s" % (word, extension)
+                path = os.path.join(PKG_DATA_DIR, "pictures", "badges", "%s.%s" % (word, extension))
                 if os.path.exists(path):
                     try:
                         image = self.get_surf_based_image(path, -1, 32)
@@ -756,7 +761,7 @@ class MainWindow:
             else:
                 surface = self.get_surface_for_file(path, 200, 200)
         except Exception:
-            surface = self.get_surface_for_file("/usr/share/hypnotix/generic_tv_logo.png", 22, 22)
+            surface = self.get_surface_for_file(os.path.join(PKG_DATA_DIR, "generic_tv_logo.png"), 22, 22)
         return surface
 
     def on_go_back_button(self, widget=None):
@@ -903,7 +908,7 @@ class MainWindow:
             self.headerbar.set_subtitle(_("Reset providers"))
 
     def open_keyboard_shortcuts(self, widget):
-        gladefile = "/usr/share/hypnotix/shortcuts.ui"
+        gladefile = os.path.join(PKG_DATA_DIR, "shortcuts.ui")
         builder = Gtk.Builder()
         builder.set_translation_domain(APP)
         builder.add_from_file(gladefile)
