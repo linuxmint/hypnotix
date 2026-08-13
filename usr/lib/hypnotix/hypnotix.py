@@ -128,7 +128,6 @@ class MainWindow:
 
         self.application = application
         self.settings = Gio.Settings(schema_id="org.x.hypnotix")
-        self.icon_theme = Gtk.IconTheme.get_default()
         self.manager = Manager(self.settings)
         self.providers = []
         self.favorite_data = []
@@ -178,7 +177,6 @@ class MainWindow:
         )
 
         # Prefs variables
-        self.selected_pref_provider = None
         self.edit_mode = False
 
         # Create variables to quickly access dynamic widgets
@@ -526,10 +524,8 @@ class MainWindow:
             name = group.name.lower().replace("(", " ").replace(")", " ")
             added_words = []
 
-            found_flag = False
             for country_name in COUNTRY_CODES.keys():
                 if country_name.lower() == group.name.lower():
-                    found_flag = True
                     self.add_flag(COUNTRY_CODES[country_name], box)
                     break
 
@@ -1583,9 +1579,8 @@ class MainWindow:
 
         # Determine the actively pressed modifier
         modifier = event.get_state() & persistant_modifiers
-        # Bool of Control or Shift modifier states
+        # Bool of Control modifier state
         ctrl = modifier == Gdk.ModifierType.CONTROL_MASK
-        shift = modifier == Gdk.ModifierType.SHIFT_MASK
 
         if ctrl and event.keyval == Gdk.KEY_r:
             self.reload(page=None, refresh=True)
@@ -1819,8 +1814,6 @@ class MainWindow:
         if getattr(self, "mouse_poll_timer_id", 0) > 0:
             GLib.source_remove(self.mouse_poll_timer_id)
             self.mouse_poll_timer_id = 0
-        if getattr(self, "vlc_gui", None) is not None:
-            self.vlc_gui.mouse_cursor_visible = True
         self.window.unfullscreen()
         self.mpv_top_box.show()
         self.mpv_bottom_box.hide()
