@@ -163,6 +163,9 @@ class MpvEngine(VideoPlayer):
         self.player.pause = bool(value)
 
 
+import subprocess
+import os
+
 class VlcEngine(VideoPlayer):
     def __init__(self, gui=None):
         self.gui = gui
@@ -182,6 +185,28 @@ class VlcEngine(VideoPlayer):
     def set_window(self, xid):
         self.player.set_xwindow(int(xid))
 
+    def _resolve_ytdlp(self, url):
+        local_path = os.path.expanduser("~/.cache/hypnotix/yt-dlp/yt-dlp")
+        ytdlp_path = local_path if os.path.exists(local_path) else "/usr/bin/yt-dlp"
+
+        # Fast check if it is a Youtube url, if not, do a dry-run check
+        if not ("youtube.com" in url or "youtu.be" in url):
+            try:
+                subprocess.run([ytdlp_path, "--dump-json", "--no-download", url], capture_output=True, check=True)
+            except (subprocess.CalledProcessError, FileNotFoundError):
+                return url, None
+
+        try:
+            result = subprocess.run([ytdlp_path, "-f", "bestvideo+bestaudio/best", "-g", url], capture_output=True, text=True, check=True)
+            lines = result.stdout.strip().split('\n')
+            if len(lines) == 2:
+                return lines[0], lines[1]
+            elif len(lines) == 1:
+                return lines[0], None
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            pass
+        return url, None
+
     def play(self, url, user_agent=None, referrer=None):
         self._stopped = False
         opts = []
@@ -193,7 +218,12 @@ class VlcEngine(VideoPlayer):
         if ref:
             opts.append(f":http-referrer={ref}")
 
-        media = self.instance.media_new(url, *opts)
+        video_url, audio_url = self._resolve_ytdlp(url)
+
+        if audio_url:
+            opts.append(f":input-slave={audio_url}")
+
+        media = self.instance.media_new(video_url, *opts)
         self.player.set_media(media)
         self.player.play()
         if self.gui:

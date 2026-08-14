@@ -1465,9 +1465,8 @@ class MainWindow:
         self.new_ok_button.set_sensitive(True)
         if self.new_name_entry.get_text() == "":
             self.new_ok_button.set_sensitive(False)
-        for widget in (self.new_url_entry, self.new_logo_entry):
-            if "://" not in widget.get_text():
-                self.new_ok_button.set_sensitive(False)
+        if self.new_url_entry.get_text() == "":
+            self.new_ok_button.set_sensitive(False)
 
     def get_url(self):
         type_id = self.provider_type_combo.get_model()[self.provider_type_combo.get_active()][PROVIDER_TYPE_ID]
