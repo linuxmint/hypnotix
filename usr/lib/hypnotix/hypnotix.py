@@ -709,6 +709,8 @@ class MainWindow:
                     self.mpv.terminate()
                     self.mpv = None
                 self.mpv_bottom_box.hide()
+                if self.vlc_gui is not None:
+                    self.vlc_gui.hide_controls()
 
     def on_ytdlp_local_switch_activated(self, widget, data=None):
         self.settings.set_boolean("use-local-ytdlp", widget.get_active())
@@ -1015,11 +1017,8 @@ class MainWindow:
 
         self.page_is_loading = True
 
-        # Use prefix matching to ignore appended EPG/XMLTV metadata
-        data_prefix = f"{channel.info}:::{channel.url}"
-        existing_match = next((fav for fav in self.favorite_data if fav == data_prefix or fav.startswith(data_prefix + ":::")), None)
-
-        if existing_match:
+        data = f"{channel.info}:::{channel.url}"
+        if data in self.favorite_data:
             self.favorite_button.set_active(True)
             self.favorite_button_image.set_from_icon_name("xsi-starred-symbolic", Gtk.IconSize.BUTTON)
             self.favorite_button.set_tooltip_text(_("Remove from favorites"))
@@ -1474,9 +1473,8 @@ class MainWindow:
         self.new_ok_button.set_sensitive(True)
         if self.new_name_entry.get_text() == "":
             self.new_ok_button.set_sensitive(False)
-        for widget in (self.new_url_entry, self.new_logo_entry):
-            if "://" not in widget.get_text():
-                self.new_ok_button.set_sensitive(False)
+        if self.new_url_entry.get_text() == "":
+            self.new_ok_button.set_sensitive(False)
 
     def get_url(self):
         type_id = self.provider_type_combo.get_model()[self.provider_type_combo.get_active()][PROVIDER_TYPE_ID]
@@ -1762,6 +1760,9 @@ class MainWindow:
                     time.sleep(0.05)
                     timeout -= 1
 
+                if not self.mpv_drawing_area.get_window():
+                    raise RuntimeError("Timed out waiting for the video drawing area to be realized")
+
             chosen_backend = self.settings.get_string("video-backend")
 
             if self.is_mpv_available and self.is_vlc_available:
@@ -1783,7 +1784,7 @@ class MainWindow:
 
             if chosen_backend == "vlc":
                 from player import VlcEngine
-                self.mpv = VlcEngine(gui=self.vlc_gui)
+                self.mpv = VlcEngine(gui=self.vlc_gui, settings=self.settings)
                 self.vlc_gui.show_controls()
             else:
                 options = {}

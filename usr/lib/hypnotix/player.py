@@ -163,9 +163,13 @@ class MpvEngine(VideoPlayer):
         self.player.pause = bool(value)
 
 
+import subprocess
+import os
+
 class VlcEngine(VideoPlayer):
-    def __init__(self, gui=None):
+    def __init__(self, gui=None, settings=None):
         self.gui = gui
+        self.settings = settings
 
         # Enable marquee and configure its text renderer (freetype) to match MPV's default styling
         self.instance = vlc.Instance("--no-xlib --quiet --no-video-title-show --sub-source=marq --freetype-font=sans-serif --freetype-outline-thickness=2")
@@ -178,12 +182,40 @@ class VlcEngine(VideoPlayer):
 
         self._user_agent = "Mozilla/5.0"
         self._referrer = ""
+        # Bumped on every play()/stop() so a slow, superseded yt-dlp resolution
+        # can detect it's stale and avoid clobbering a newer channel's playback
+        self._play_generation = 0
 
     def set_window(self, xid):
         self.player.set_xwindow(int(xid))
 
+    def _resolve_ytdlp(self, url):
+        use_local = self.settings.get_boolean("use-local-ytdlp") if self.settings else False
+        local_path = os.path.expanduser("~/.cache/hypnotix/yt-dlp/yt-dlp")
+        ytdlp_path = local_path if use_local and os.path.exists(local_path) else "/usr/bin/yt-dlp"
+
+        # Fast check if it is a Youtube url, if not, do a dry-run check
+        if not ("youtube.com" in url or "youtu.be" in url):
+            try:
+                subprocess.run([ytdlp_path, "--dump-json", "--no-download", url], capture_output=True, check=True, timeout=10)
+            except (subprocess.CalledProcessError, subprocess.TimeoutExpired, FileNotFoundError):
+                return url, None
+
+        try:
+            result = subprocess.run([ytdlp_path, "-f", "bestvideo+bestaudio/best", "-g", url], capture_output=True, text=True, check=True, timeout=15)
+            lines = result.stdout.strip().split('\n')
+            if len(lines) == 2:
+                return lines[0], lines[1]
+            elif len(lines) == 1:
+                return lines[0], None
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired, FileNotFoundError):
+            pass
+        return url, None
+
     def play(self, url, user_agent=None, referrer=None):
         self._stopped = False
+        self._play_generation += 1
+        my_generation = self._play_generation
         opts = []
         ua = user_agent or self._user_agent
         ref = referrer or self._referrer
@@ -193,7 +225,16 @@ class VlcEngine(VideoPlayer):
         if ref:
             opts.append(f":http-referrer={ref}")
 
-        media = self.instance.media_new(url, *opts)
+        video_url, audio_url = self._resolve_ytdlp(url)
+
+        # A newer play()/stop() call superseded this one while yt-dlp was resolving
+        if my_generation != self._play_generation:
+            return
+
+        if audio_url:
+            opts.append(f":input-slave={audio_url}")
+
+        media = self.instance.media_new(video_url, *opts)
         self.player.set_media(media)
         self.player.play()
         if self.gui:
@@ -201,6 +242,7 @@ class VlcEngine(VideoPlayer):
 
     def stop(self):
         self._stopped = True
+        self._play_generation += 1
         self.player.stop()
         if self.gui:
             self.gui.set_controls_sensitive(False)
