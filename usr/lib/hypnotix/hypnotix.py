@@ -86,19 +86,37 @@ class ChannelWidget(Gtk.ListBoxRow):
         self.set_tooltip_text(channel.name)
 
         frame = Gtk.Frame()
+
         label = Gtk.Label(channel.name)
         label.set_max_width_chars(30)
         label.set_ellipsize(Pango.EllipsizeMode.END)
+        label.set_xalign(0.0)
+
+        copy_button = Gtk.Button.new_from_icon_name("edit-copy-symbolic", Gtk.IconSize.BUTTON)
+        copy_button.set_tooltip_text(_("Copy channel URL to clipboard"))
+        copy_button.connect("clicked", self.on_copy_clicked)
+
+        info_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        info_box.pack_start(label, True, True, 0)
+        info_box.pack_start(copy_button, False, False, 0)
+        info_box.set_spacing(6)
+
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, border_width=6)
         box.pack_start(logo, False, False, 0)
-        box.pack_start(label, False, False, 0)
+        box.pack_start(info_box, False, False, 0)
         box.set_spacing(6)
+
         frame.add(box)
         self.add(frame)
 
     @property
     def channel(self):
         return self._channel
+
+    def on_copy_clicked(self, widget):
+        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+        if self._channel.url:
+            clipboard.set_text(self._channel.url, -1)
 
 class MyApplication(Gtk.Application):
     # Main initialization routine
