@@ -1613,6 +1613,8 @@ class MainWindow:
         if self.mpv is not None:
             self.mpv.stop()
         options = {}
+        options["vo"] = "x11"
+
         try:
             mpv_options = self.settings.get_string("mpv-options")
             if ("=") in mpv_options:
