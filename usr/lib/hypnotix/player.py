@@ -167,8 +167,9 @@ import subprocess
 import os
 
 class VlcEngine(VideoPlayer):
-    def __init__(self, gui=None):
+    def __init__(self, gui=None, settings=None):
         self.gui = gui
+        self.settings = settings
 
         # Enable marquee and configure its text renderer (freetype) to match MPV's default styling
         self.instance = vlc.Instance("--no-xlib --quiet --no-video-title-show --sub-source=marq --freetype-font=sans-serif --freetype-outline-thickness=2")
@@ -189,8 +190,9 @@ class VlcEngine(VideoPlayer):
         self.player.set_xwindow(int(xid))
 
     def _resolve_ytdlp(self, url):
+        use_local = self.settings.get_boolean("use-local-ytdlp") if self.settings else False
         local_path = os.path.expanduser("~/.cache/hypnotix/yt-dlp/yt-dlp")
-        ytdlp_path = local_path if os.path.exists(local_path) else "/usr/bin/yt-dlp"
+        ytdlp_path = local_path if use_local and os.path.exists(local_path) else "/usr/bin/yt-dlp"
 
         # Fast check if it is a Youtube url, if not, do a dry-run check
         if not ("youtube.com" in url or "youtu.be" in url):

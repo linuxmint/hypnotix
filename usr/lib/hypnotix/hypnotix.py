@@ -1774,7 +1774,7 @@ class MainWindow:
 
             if chosen_backend == "vlc":
                 from player import VlcEngine
-                self.mpv = VlcEngine(gui=self.vlc_gui)
+                self.mpv = VlcEngine(gui=self.vlc_gui, settings=self.settings)
                 self.vlc_gui.show_controls()
             else:
                 options = {}
