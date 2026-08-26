@@ -181,6 +181,9 @@ class VlcEngine(VideoPlayer):
 
         self._user_agent = "Mozilla/5.0"
         self._referrer = ""
+        # Bumped on every play()/stop() so a slow, superseded yt-dlp resolution
+        # can detect it's stale and avoid clobbering a newer channel's playback
+        self._play_generation = 0
 
     def set_window(self, xid):
         self.player.set_xwindow(int(xid))
@@ -192,23 +195,25 @@ class VlcEngine(VideoPlayer):
         # Fast check if it is a Youtube url, if not, do a dry-run check
         if not ("youtube.com" in url or "youtu.be" in url):
             try:
-                subprocess.run([ytdlp_path, "--dump-json", "--no-download", url], capture_output=True, check=True)
-            except (subprocess.CalledProcessError, FileNotFoundError):
+                subprocess.run([ytdlp_path, "--dump-json", "--no-download", url], capture_output=True, check=True, timeout=10)
+            except (subprocess.CalledProcessError, subprocess.TimeoutExpired, FileNotFoundError):
                 return url, None
 
         try:
-            result = subprocess.run([ytdlp_path, "-f", "bestvideo+bestaudio/best", "-g", url], capture_output=True, text=True, check=True)
+            result = subprocess.run([ytdlp_path, "-f", "bestvideo+bestaudio/best", "-g", url], capture_output=True, text=True, check=True, timeout=15)
             lines = result.stdout.strip().split('\n')
             if len(lines) == 2:
                 return lines[0], lines[1]
             elif len(lines) == 1:
                 return lines[0], None
-        except (subprocess.CalledProcessError, FileNotFoundError):
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired, FileNotFoundError):
             pass
         return url, None
 
     def play(self, url, user_agent=None, referrer=None):
         self._stopped = False
+        self._play_generation += 1
+        my_generation = self._play_generation
         opts = []
         ua = user_agent or self._user_agent
         ref = referrer or self._referrer
@@ -219,6 +224,10 @@ class VlcEngine(VideoPlayer):
             opts.append(f":http-referrer={ref}")
 
         video_url, audio_url = self._resolve_ytdlp(url)
+
+        # A newer play()/stop() call superseded this one while yt-dlp was resolving
+        if my_generation != self._play_generation:
+            return
 
         if audio_url:
             opts.append(f":input-slave={audio_url}")
@@ -231,6 +240,7 @@ class VlcEngine(VideoPlayer):
 
     def stop(self):
         self._stopped = True
+        self._play_generation += 1
         self.player.stop()
         if self.gui:
             self.gui.set_controls_sensitive(False)
