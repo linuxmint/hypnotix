@@ -764,8 +764,6 @@ class MainWindow:
 
     def on_go_back_button(self, widget=None):
         self.navigate_to(self.back_page)
-        if self.active_channel is not None:
-            self.playback_bar.show()
         if self.active_group and self.back_page == "categories_page":
             self.init_channels_listbox()
 
@@ -814,6 +812,14 @@ class MainWindow:
         self.stack.set_visible_child_name(page)
         provider = self.active_provider
         self.back_page = "landing_page"
+
+        # channels_page already shows the live video itself; elsewhere, surface
+        # the bar so a channel left playing in the background can be stopped.
+        if page != "channels_page" and self.active_channel is not None:
+            self.playback_bar.show()
+        else:
+            self.playback_bar.hide()
+
         if page == "landing_page":
             self.headerbar.set_title("Hypnotix")
             self.headerbar.set_subtitle(_("Watch TV"))
@@ -844,7 +850,6 @@ class MainWindow:
                 self.headerbar.set_subtitle(_("Series"))
         elif page == "channels_page":
             self.fullscreen_button.show()
-            self.playback_bar.hide()
             if favorites:
                 self.headerbar.set_title("Hypnotix")
                 self.headerbar.set_subtitle(_("Favorites"))
