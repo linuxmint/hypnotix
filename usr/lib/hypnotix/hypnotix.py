@@ -849,7 +849,7 @@ class MainWindow:
         if self.page_is_loading:
             return
         name = self.active_channel.name
-        data = f"{self.active_channel.info}:::{self.active_channel.url}"
+        data = f"{getattr(self.active_channel, 'info', '')}:::{self.active_channel.url}"
         if widget.get_active() and data not in self.favorite_data:
             print (f"Adding {name} to favorites")
             self.favorite_data.append(data)
@@ -909,7 +909,7 @@ class MainWindow:
         self.label_channel_url.set_text(channel.url)
 
         self.page_is_loading = True
-        data = f"{channel.info}:::{channel.url}"
+        data = f"{getattr(channel, 'info', '')}:::{channel.url}"
         if data in self.favorite_data:
             self.favorite_button.set_active(True)
             self.favorite_button_image.set_from_icon_name("xsi-starred-symbolic", Gtk.IconSize.BUTTON)
