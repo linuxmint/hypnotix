@@ -273,6 +273,7 @@ class MainWindow:
 
         # Widget signals
         self.window.connect("key-press-event", self.on_key_press_event)
+        self.window.connect("window-state-event", self.on_window_state_event)
         self.mpv_drawing_area.connect("realize", self.on_mpv_drawing_area_realize)
         self.mpv_drawing_area.connect("draw", self.on_mpv_drawing_area_draw)
         self.fullscreen_button.connect("clicked", self.on_fullscreen_button_clicked)
@@ -882,7 +883,7 @@ class MainWindow:
         if channel is not None and channel.url is not None:
             # os.system("mpv --wid=%s %s &" % (self.wid, channel.url))
             # self.mpv_drawing_area.show()
-            self.info_menu_item.set_sensitive(False)
+            # GTK calls must happen on the main thread — use before_play (idle_function)
             self.before_play(channel)
             self.reinit_mpv()
             self.mpv.play(channel.url)
@@ -891,6 +892,7 @@ class MainWindow:
 
     @idle_function
     def before_play(self, channel):
+        self.info_menu_item.set_sensitive(False)
         self.channel_stack.set_visible_child_name("channel_page")
         self.mpv_stack.set_visible_child_name("spinner_page")
         self.video_properties.clear()
@@ -1545,14 +1547,12 @@ class MainWindow:
                     )
                     if self.x.auth_data != {}:
                         print("XTREAM `{}` Loading Channels".format(provider.name))
-                        # Save default cursor
-                        current_cursor = self.window.get_window().get_cursor()
-                        # Set waiting cursor
-                        self.window.get_window().set_cursor(Gdk.Cursor.new_from_name(Gdk.Display.get_default(), "wait"))
-                        # Load data
+                        # Cursor changes must happen on the main GTK thread (issue #409)
+                        self.set_cursor("wait")
+                        # Load data (blocking I/O — safe to do in async thread)
                         self.x.load_iptv()
-                        # Restore default cursor
-                        self.window.get_window().set_cursor(current_cursor)
+                        # Restore default cursor on main thread
+                        self.set_cursor(None)
                         # Inform Provider of data
                         provider.channels = self.x.channels
                         provider.movies = self.x.movies
@@ -1653,6 +1653,16 @@ class MainWindow:
         cr.set_source_rgb(0.0, 0.0, 0.0)
         cr.paint()
 
+    @idle_function
+    def set_cursor(self, cursor_name):
+        # Helper to change the window cursor safely from any thread (issue #409).
+        if cursor_name is None:
+            self.window.get_window().set_cursor(None)
+        else:
+            self.window.get_window().set_cursor(
+                Gdk.Cursor.new_from_name(Gdk.Display.get_default(), cursor_name)
+            )
+
     def normal_mode(self):
         self.window.get_window().set_cursor(None)
         self.window.unfullscreen()
@@ -1688,12 +1698,34 @@ class MainWindow:
             else:
                 self.normal_mode()
 
+    def on_window_state_event(self, widget, event):
+        # Sync self.fullscreen with the actual window state reported by the WM.
+        # This handles cases where the WM (e.g. Hyprland on Wayland) toggles
+        # fullscreen independently, which would otherwise desync our internal state.
+        is_fullscreen = bool(event.new_window_state & Gdk.WindowState.FULLSCREEN)
+        if self.fullscreen and not is_fullscreen:
+            # WM left fullscreen (e.g. via its own keybinding) — sync UI
+            self.fullscreen = False
+            self.mpv_top_box.show()
+            self.mpv_bottom_box.hide()
+            if self.content_type == TV_GROUP:
+                self.sidebar.show()
+            self.headerbar.show()
+            self.channels_box.set_border_width(12)
+            self.window.get_window().set_cursor(None)
+
     def full_screen_mode(self):
         if self.stack.get_visible_child_name() == "channels_page":
-            self.fullscreen = not self.fullscreen
-            if self.fullscreen:
+            # Read the actual window state instead of relying on the internal toggle,
+            # so we stay in sync with the WM (fixes Hyprland/Wayland desync, issue #385).
+            gdk_window = self.window.get_window()
+            if gdk_window is not None:
+                actual_fullscreen = bool(gdk_window.get_state() & Gdk.WindowState.FULLSCREEN)
+            else:
+                actual_fullscreen = self.fullscreen
+            if not actual_fullscreen:
+                self.fullscreen = True
                 self.window.get_window().set_cursor(Gdk.Cursor.new_from_name(Gdk.Display.get_default(), "none"))
-                # Fullscreen mode
                 self.window.fullscreen()
                 self.mpv_top_box.hide()
                 self.mpv_bottom_box.hide()
