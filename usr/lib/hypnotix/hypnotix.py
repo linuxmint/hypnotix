@@ -95,6 +95,7 @@ class ChannelWidget(Gtk.ListBoxRow):
         box.set_spacing(6)
         frame.add(box)
         self.add(frame)
+        self.show_all()
 
     @property
     def channel(self):
@@ -260,7 +261,8 @@ class MainWindow:
             "new_url_entry",
             "new_logo_entry",
             "new_ok_button",
-            "new_cancel_button"
+            "new_cancel_button",
+            "play_all_button"
         ]
 
         for name in widget_names:
@@ -322,6 +324,8 @@ class MainWindow:
         self.channels_listbox.connect("row-activated", self.on_channel_activated)
 
         self.favorite_button.connect("toggled", self.on_favorite_button_toggled)
+
+        self.play_all_button.connect("clicked", self.on_play_all_button)
 
         # Settings widgets
         self.bind_setting_widget("user-agent", self.useragent_entry)
@@ -476,10 +480,8 @@ class MainWindow:
             name = group.name.lower().replace("(", " ").replace(")", " ")
             added_words = []
 
-            found_flag = False
             for country_name in COUNTRY_CODES.keys():
                 if country_name.lower() == group.name.lower():
-                    found_flag = True
                     self.add_flag(COUNTRY_CODES[country_name], box)
                     break
 
@@ -514,6 +516,14 @@ class MainWindow:
             else:
                 self.show_vod(self.active_provider.series)
 
+    @idle_function
+    def on_play_all_button(self, widget=None):
+        if not self.active_provider:
+            return
+
+        if self.content_type == TV_GROUP:
+            self.show_channels(c for g in self.active_provider.groups for c in g.channels)
+
     def show_favorites(self, widget=None):
         self.content_type = TV_GROUP
         channels = []
@@ -526,23 +536,38 @@ class MainWindow:
 
     def show_channels(self, channels, favorites=False):
         self.navigate_to("channels_page", "", favorites)
+        gen = self.update_channels(channels)
+        GLib.idle_add(lambda: next(gen, False), priority=GLib.PRIORITY_LOW)
+
+    def update_channels(self, channels):
+        self.status("Loading channels...")
+        current_cursor = self.window.get_window().get_cursor()
+        self.window.get_window().set_cursor(Gdk.Cursor.new_from_name(Gdk.Display.get_default(), "wait"))
+        factor = 100
         if self.content_type == TV_GROUP:
             self.sidebar.show()
-            for child in self.channels_listbox.get_children():
+            for i, child in enumerate(self.channels_listbox.get_children()):
                 self.channels_listbox.remove(child)
+                if i % factor == 0:
+                    yield True
 
             logos_to_refresh = []
-            for channel in channels:
+            for i, channel in enumerate(channels):
                 image = Gtk.Image().new_from_surface(self.get_channel_surface(channel.logo_path))
                 logos_to_refresh.append((channel, image))
                 self.channels_listbox.add(ChannelWidget(channel, image))
+                if i % factor == 0:
+                    yield True
 
-            self.channels_listbox.show_all()
             self.visible_search_results = len(self.channels_listbox.get_children())
             if len(logos_to_refresh) > 0:
                 self.download_channel_logos(logos_to_refresh)
         else:
             self.sidebar.hide()
+
+        self.window.get_window().set_cursor(current_cursor)
+        self.status(None)
+        yield True
 
     def show_vod(self, items):
         logos_to_refresh = []
@@ -743,8 +768,11 @@ class MainWindow:
         self.search_button.show()
         self.fullscreen_button.hide()
         self.stack.set_visible_child_name(page)
+        self.play_all_button.hide()
+
         provider = self.active_provider
         self.back_page = "landing_page"
+
         if page == "landing_page":
             self.headerbar.set_title("Hypnotix")
             self.headerbar.set_subtitle(_("Watch TV"))
@@ -769,6 +797,7 @@ class MainWindow:
             self.headerbar.set_title(provider.name)
             if self.content_type == TV_GROUP:
                 self.headerbar.set_subtitle(_("TV Channels"))
+                self.play_all_button.show()
             elif self.content_type == MOVIES_GROUP:
                 self.headerbar.set_subtitle(_("Movies"))
             else:
