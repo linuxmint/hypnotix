@@ -39,6 +39,7 @@ class Channel:
     group_title = ""
     title = ""
     url = ""
+    info = ""
 
     # XTream
     stream_type = ""
@@ -74,6 +75,14 @@ class Channel:
             self.logo_path = xtream._get_logo_local_path(self.logo)
             self.group_title = group_title
             self.title = stream_name
+
+            # Required by the favorites system
+            self.info = (
+                f'#EXTINF:-1 tvg-name="{self.name}" '
+                f'tvg-logo="{self.logo}" '
+                f'group-title="{self.group_title}",'
+                f'{self.name}'
+            )
 
             # Check if category_id key is available
             if "category_id" in stream_info.keys():
