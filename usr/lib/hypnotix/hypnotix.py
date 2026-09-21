@@ -1386,9 +1386,9 @@ class MainWindow:
                 box.set_halign(Gtk.Align.FILL)
                 box_inner = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL,
                     spacing=14 * 12, expand=True)
-                k = Gtk.Label(label=prop_k, margin_top=12, margin_bottom=12)
+                k = Gtk.Label(label=str(prop_k), margin_top=12, margin_bottom=12)
                 k.set_halign(Gtk.Align.START)
-                v = Gtk.Label(label=prop_v, margin_top=12, margin_bottom=12)
+                v = Gtk.Label(label=str(prop_v), margin_top=12, margin_bottom=12)
 
                 def update_bitrate(label, properties):
                     """
