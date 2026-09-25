@@ -1640,7 +1640,10 @@ class MainWindow:
                 **options,
                 script_opts="osc-layout=box,osc-seekbarstyle=bar,osc-deadzonesize=0,osc-minmousemove=3",
                 input_default_bindings=True,
-                input_vo_keyboard=True,
+                # Under XWayland the embedded mpv window takes key presses first,
+                # so on_key_press_event never runs. It already forwards unhandled
+                # keys to mpv, so mpv's own bindings keep working.
+                input_vo_keyboard=os.environ.get("XDG_SESSION_TYPE") != "wayland",
                 osc=osc,
                 ytdl=True,
                 wid=str(self.mpv_drawing_area.get_window().get_xid())
