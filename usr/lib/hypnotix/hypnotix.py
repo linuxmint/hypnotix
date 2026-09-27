@@ -4,6 +4,7 @@ import locale
 import os
 import shutil
 import sys
+import tempfile
 import time
 import traceback
 import warnings
@@ -667,15 +668,36 @@ class MainWindow:
                 continue
             if os.path.isfile(channel.logo_path):
                 continue
+            tmp_name = None
             try:
                 response = requests.get(channel.logo, headers=headers, timeout=10, stream=True)
                 if response.status_code == 200:
                     response.raw.decode_content = True
-                    with open(channel.logo_path, "wb") as f:
-                        shutil.copyfileobj(response.raw, f)
-                        self.refresh_channel_logo(channel, image)
+                    os.makedirs(os.path.dirname(channel.logo_path), exist_ok=True)
+                    with tempfile.NamedTemporaryFile(dir=os.path.dirname(channel.logo_path),
+                                                   prefix=".logo_",
+                                                   suffix=".part",
+                                                   delete=False) as tmp_file:
+                        tmp_name = tmp_file.name
+                        shutil.copyfileobj(response.raw, tmp_file)
+
+                    if os.path.getsize(tmp_name) == 0:
+                        raise ValueError("Downloaded logo is empty")
+
+                    # Verify downloaded content is a valid decodable image before caching
+                    GdkPixbuf.Pixbuf.new_from_file(tmp_name)
+
+                    os.replace(tmp_name, channel.logo_path)
+                    tmp_name = None
+                    self.refresh_channel_logo(channel, image)
             except Exception as e:
                 print(e)
+            finally:
+                if tmp_name and os.path.exists(tmp_name):
+                    try:
+                        os.remove(tmp_name)
+                    except Exception:
+                        pass
 
     @idle_function
     def refresh_channel_logo(self, channel, image):
