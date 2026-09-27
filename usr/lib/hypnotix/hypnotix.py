@@ -667,14 +667,21 @@ class MainWindow:
                 continue
             if os.path.isfile(channel.logo_path):
                 continue
+            tmp_path = f"{channel.logo_path}.part"
             try:
                 response = requests.get(channel.logo, headers=headers, timeout=10, stream=True)
                 if response.status_code == 200:
                     response.raw.decode_content = True
-                    with open(channel.logo_path, "wb") as f:
+                    with open(tmp_path, "wb") as f:
                         shutil.copyfileobj(response.raw, f)
-                        self.refresh_channel_logo(channel, image)
+                    os.replace(tmp_path, channel.logo_path)
+                    self.refresh_channel_logo(channel, image)
             except Exception as e:
+                if os.path.exists(tmp_path):
+                    try:
+                        os.remove(tmp_path)
+                    except Exception:
+                        pass
                 print(e)
 
     @idle_function
