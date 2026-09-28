@@ -24,20 +24,24 @@ gi.require_version("Gtk", "3.0")
 gi.require_version("XApp", "1.0")
 from gi.repository import Gtk, Gdk, Gio, XApp, GdkPixbuf, GLib, Pango
 
-import mpv
 import requests
 import setproctitle
 from unidecode import unidecode
 
 from common import Manager, Provider, Channel, MOVIES_GROUP, PROVIDERS_PATH, SERIES_GROUP, TV_GROUP,\
-    async_function, idle_function
+    async_function, idle_function, set_playback_button_state
 
 
 setproctitle.setproctitle("hypnotix")
 
+# Setup dynamic paths based on the script's location
+SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
+PREFIX = os.path.abspath(os.path.join(SCRIPT_DIR, "../../"))
+PKG_DATA_DIR = os.path.join(PREFIX, "share", "hypnotix")
+LOCALE_DIR = os.path.join(PREFIX, "share", "locale")
+
 # i18n
 APP = "hypnotix"
-LOCALE_DIR = "/usr/share/locale"
 locale.bindtextdomain(APP, LOCALE_DIR)
 gettext.bindtextdomain(APP, LOCALE_DIR)
 gettext.textdomain(APP)
@@ -71,7 +75,7 @@ AUDIO_SAMPLE_FORMATS = {
 }
 
 COUNTRY_CODES = {}
-with open("/usr/share/hypnotix/countries.list") as f:
+with open(os.path.join(PKG_DATA_DIR, "countries.list")) as f:
     for line in f:
         line = line.strip()
         code, name = line.split(":")
@@ -124,7 +128,6 @@ class MainWindow:
 
         self.application = application
         self.settings = Gio.Settings(schema_id="org.x.hypnotix")
-        self.icon_theme = Gtk.IconTheme.get_default()
         self.manager = Manager(self.settings)
         self.providers = []
         self.favorite_data = []
@@ -140,7 +143,11 @@ class MainWindow:
         self.latest_search_bar_text = None
         self.visible_search_results = 0
         self.mpv = None
+        self.is_changing_channel = False
         self.page_is_loading = False # used to ignore signals while we set widget states
+
+        self.cursor_hide_timer_id = 0
+        self.mouse_poll_timer_id = 0
 
         self.video_properties = {}
         self.audio_properties = {}
@@ -149,7 +156,7 @@ class MainWindow:
         # Used for redownloading timer
         self.reload_timeout_sec = 60 * 5
         self._timerid = -1
-        gladefile = "/usr/share/hypnotix/hypnotix.ui"
+        gladefile = os.path.join(PKG_DATA_DIR, "hypnotix.ui")
         self.builder = Gtk.Builder()
         self.builder.set_translation_domain(APP)
         self.builder.add_from_file(gladefile)
@@ -161,7 +168,7 @@ class MainWindow:
         self.info_window = self.builder.get_object("stream_info_window")
 
         provider = Gtk.CssProvider()
-        provider.load_from_path("/usr/share/hypnotix/hypnotix.css")
+        provider.load_from_path(os.path.join(PKG_DATA_DIR, "hypnotix.css"))
         screen = Gdk.Display.get_default_screen(Gdk.Display.get_default())
         # I was unable to found instrospected version of this
         Gtk.StyleContext.add_provider_for_screen(
@@ -170,7 +177,6 @@ class MainWindow:
         )
 
         # Prefs variables
-        self.selected_pref_provider = None
         self.edit_mode = False
 
         # Create variables to quickly access dynamic widgets
@@ -237,6 +243,7 @@ class MainWindow:
             "useragent_entry",
             "referer_entry",
             "mpv_entry",
+            "video_backend_combo",
             "mpv_link",
             "ytdlp_local_switch",
             "ytdlp_system_version_label",
@@ -328,9 +335,50 @@ class MainWindow:
         self.bind_setting_widget("http-referer", self.referer_entry)
         self.bind_setting_widget("mpv-options", self.mpv_entry)
 
+        import player
+        self.is_mpv_available = player.mpv is not None
+        self.is_vlc_available = player.vlc is not None
+
+        if not self.is_mpv_available and not self.is_vlc_available:
+            print("Error: Neither MPV nor VLC backend is available. Please install at least one.", file=sys.stderr)
+            sys.exit(1)
+
+        if self.is_vlc_available:
+            from vlcgui import VLCGUIController
+
+        # Video Backend combo box (in preferences, alongside mpv-options)
+        backend_model = Gtk.ListStore(str, str)
+        if self.is_mpv_available:
+            backend_model.append(["mpv", _("MPV (Default)")])
+        if self.is_vlc_available:
+            backend_model.append(["vlc", _("VLC Player")])
+
+            # Setup the UI overlays only if VLC is installed
+            self.vlc_gui = VLCGUIController(self)
+            self.vlc_gui.setup_ui()
+        else:
+            self.vlc_gui = None
+
+        self.video_backend_combo.set_model(backend_model)
+        renderer = Gtk.CellRendererText()
+        self.video_backend_combo.pack_start(renderer, True)
+        self.video_backend_combo.add_attribute(renderer, "text", 1)
+
+        current_backend = self.settings.get_string("video-backend")
+        active_index = 0
+        for i, row in enumerate(backend_model):
+            if row[0] == current_backend:
+                active_index = i
+                break
+        self.video_backend_combo.set_active(active_index)
+
+        self.video_backend_combo.connect("changed", self.on_video_backend_combo_changed)
+
         # ytdlp
         self.ytdlp_local_switch.set_active(self.settings.get_boolean("use-local-ytdlp"))
         self.ytdlp_local_switch.connect("notify::active", self.on_ytdlp_local_switch_activated)
+        self.ytdlp_local_switch.set_valign(Gtk.Align.CENTER)
+        self.ytdlp_local_switch.set_halign(Gtk.Align.START)
         self.ytdlp_system_version_label.set_text(subprocess.getoutput("/usr/bin/yt-dlp --version"))
         if os.path.exists(os.path.expanduser("~/.cache/hypnotix/yt-dlp/yt-dlp")):
             self.ytdlp_local_version_label.set_text(subprocess.getoutput("~/.cache/hypnotix/yt-dlp/yt-dlp --version"))
@@ -393,9 +441,9 @@ class MainWindow:
         self.provider_type_combo.set_active(0)  # Select 1st type
         self.provider_type_combo.connect("changed", self.on_provider_type_combo_changed)
 
-        self.tv_logo.set_from_surface(self.get_surface_for_file("/usr/share/hypnotix/pictures/tv.svg", 258, 258))
-        self.movies_logo.set_from_surface(self.get_surface_for_file("/usr/share/hypnotix/pictures/movies.svg", 258, 258))
-        self.series_logo.set_from_surface(self.get_surface_for_file("/usr/share/hypnotix/pictures/series.svg", 258, 258))
+        self.tv_logo.set_from_surface(self.get_surface_for_file(os.path.join(PKG_DATA_DIR, "pictures/tv.svg"), 258, 258))
+        self.movies_logo.set_from_surface(self.get_surface_for_file(os.path.join(PKG_DATA_DIR, "pictures/movies.svg"), 258, 258))
+        self.series_logo.set_from_surface(self.get_surface_for_file(os.path.join(PKG_DATA_DIR, "pictures/series.svg"), 258, 258))
 
         self.reload(page="landing_page")
 
@@ -441,7 +489,7 @@ class MainWindow:
     def add_badge(self, word, box, added_words):
         if word not in added_words:
             for extension in ["svg", "png"]:
-                path = "/usr/share/hypnotix/pictures/badges/%s.%s" % (word, extension)
+                path = os.path.join(PKG_DATA_DIR, "pictures", "badges", "%s.%s" % (word, extension))
                 if os.path.exists(path):
                     try:
                         image = self.get_surf_based_image(path, -1, 32)
@@ -476,10 +524,8 @@ class MainWindow:
             name = group.name.lower().replace("(", " ").replace(")", " ")
             added_words = []
 
-            found_flag = False
             for country_name in COUNTRY_CODES.keys():
                 if country_name.lower() == group.name.lower():
-                    found_flag = True
                     self.add_flag(COUNTRY_CODES[country_name], box)
                     break
 
@@ -538,6 +584,12 @@ class MainWindow:
                 self.channels_listbox.add(ChannelWidget(channel, image))
 
             self.channels_listbox.show_all()
+
+            if self.active_channel is None:
+                self.channel_stack.set_visible_child_name("empty_page")
+                self.label_channel_name.set_text("")
+                self.label_channel_url.set_text("")
+
             self.visible_search_results = len(self.channels_listbox.get_children())
             if len(logos_to_refresh) > 0:
                 self.download_channel_logos(logos_to_refresh)
@@ -641,11 +693,27 @@ class MainWindow:
     def on_entry_changed(self, widget, key):
         self.settings.set_string(key, widget.get_text())
 
+    def on_video_backend_combo_changed(self, combo):
+        model = combo.get_model()
+        active_iter = combo.get_active_iter()
+        if active_iter:
+            backend_id = model[active_iter][0]
+            if backend_id != self.settings.get_string("video-backend"):
+                self.settings.set_string("video-backend", backend_id)
+                if self.mpv is not None:
+                    self.on_stop_button(None)
+                    self.mpv.terminate()
+                    self.mpv = None
+                self.mpv_bottom_box.hide()
+                if self.vlc_gui is not None:
+                    self.vlc_gui.hide_controls()
+
     def on_ytdlp_local_switch_activated(self, widget, data=None):
         self.settings.set_boolean("use-local-ytdlp", widget.get_active())
         if widget.get_active():
             self.update_ytdlp()
 
+    @async_function
     def update_ytdlp(self, widget=None):
         path = os.path.expanduser("~/.cache/hypnotix/yt-dlp")
         os.chdir(path)
@@ -654,7 +722,8 @@ class MainWindow:
         else:
             subprocess.getoutput("wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp")
             subprocess.getoutput("chmod a+rx ./yt-dlp")
-        self.ytdlp_local_version_label.set_text(subprocess.getoutput("~/.cache/hypnotix/yt-dlp/yt-dlp --version"))
+        new_version = subprocess.getoutput("~/.cache/hypnotix/yt-dlp/yt-dlp --version")
+        GLib.idle_add(self.ytdlp_local_version_label.set_text, new_version)
 
     @async_function
     def download_channel_logos(self, logos_to_refresh):
@@ -690,13 +759,11 @@ class MainWindow:
             else:
                 surface = self.get_surface_for_file(path, 200, 200)
         except Exception:
-            surface = self.get_surface_for_file("/usr/share/hypnotix/generic_tv_logo.png", 22, 22)
+            surface = self.get_surface_for_file(os.path.join(PKG_DATA_DIR, "generic_tv_logo.png"), 22, 22)
         return surface
 
     def on_go_back_button(self, widget=None):
         self.navigate_to(self.back_page)
-        if self.active_channel is not None:
-            self.playback_bar.show()
         if self.active_group and self.back_page == "categories_page":
             self.init_channels_listbox()
 
@@ -745,6 +812,14 @@ class MainWindow:
         self.stack.set_visible_child_name(page)
         provider = self.active_provider
         self.back_page = "landing_page"
+
+        # channels_page already shows the live video itself; elsewhere, surface
+        # the bar so a channel left playing in the background can be stopped.
+        if page != "channels_page" and self.active_channel is not None:
+            self.playback_bar.show()
+        else:
+            self.playback_bar.hide()
+
         if page == "landing_page":
             self.headerbar.set_title("Hypnotix")
             self.headerbar.set_subtitle(_("Watch TV"))
@@ -775,7 +850,6 @@ class MainWindow:
                 self.headerbar.set_subtitle(_("Series"))
         elif page == "channels_page":
             self.fullscreen_button.show()
-            self.playback_bar.hide()
             if favorites:
                 self.headerbar.set_title("Hypnotix")
                 self.headerbar.set_subtitle(_("Favorites"))
@@ -837,7 +911,7 @@ class MainWindow:
             self.headerbar.set_subtitle(_("Reset providers"))
 
     def open_keyboard_shortcuts(self, widget):
-        gladefile = "/usr/share/hypnotix/shortcuts.ui"
+        gladefile = os.path.join(PKG_DATA_DIR, "shortcuts.ui")
         builder = Gtk.Builder()
         builder.set_translation_domain(APP)
         builder.add_from_file(gladefile)
@@ -846,17 +920,26 @@ class MainWindow:
         window.show()
 
     def on_favorite_button_toggled(self, widget):
-        if self.page_is_loading:
+        if self.page_is_loading or getattr(self, "active_channel", None) is None:
             return
+
         name = self.active_channel.name
         data = f"{self.active_channel.info}:::{self.active_channel.url}"
         if widget.get_active() and data not in self.favorite_data:
             print (f"Adding {name} to favorites")
             self.favorite_data.append(data)
+
+            # Dynamically update the tooltip
+            self.favorite_button.set_tooltip_text(_("Remove from favorites"))
+
         elif widget.get_active() == False and data in self.favorite_data:
             print (f"Removing {name} from favorites")
             self.favorite_data.remove(data)
-        self.favorite_button_image.set_from_icon_name("xsi-starred-symbolic" if widget.get_active() else "non-xsi-starred-symbolic", Gtk.IconSize.BUTTON)
+
+            # Dynamically update the tooltip
+            self.favorite_button.set_tooltip_text(_("Add to favorites"))
+
+        self.favorite_button_image.set_from_icon_name("xsi-starred-symbolic" if widget.get_active() else "xsi-non-starred-symbolic", Gtk.IconSize.BUTTON)
         self.manager.save_favorites(self.favorite_data)
 
     def on_channel_activated(self, box, widget):
@@ -875,23 +958,43 @@ class MainWindow:
 
     @async_function
     def play_async(self, channel):
-        if self.mpv is not None:
-            self.mpv.stop()
-            self.mpv.pause = False
-        print("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
-        if channel is not None and channel.url is not None:
-            # os.system("mpv --wid=%s %s &" % (self.wid, channel.url))
-            # self.mpv_drawing_area.show()
-            self.info_menu_item.set_sensitive(False)
-            self.before_play(channel)
-            self.reinit_mpv()
-            self.mpv.play(channel.url)
-            self.mpv.wait_until_playing()
-            self.after_play(channel)
+        self.is_changing_channel = True
+        try:
+            try:
+                if self.mpv is not None:
+                    self.mpv.show_osd_text("", 1)
+                    self.mpv.stop()
+                    self.mpv.pause = False
+            except Exception:
+                pass
+
+            print("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
+
+            if channel is not None and channel.url is not None:
+                self.before_play(channel)
+
+                try:
+                    self.reinit_mpv()
+                    self.mpv.play(channel.url)
+                    self.mpv.wait_until_playing()
+                except Exception as e:
+                    # Silently catch ShutdownError if the user clicked a new channel
+                    # or closed the app before this thread finished loading.
+                    print(f"Playback interrupted or stopped: {e}")
+                    return
+
+                self.after_play(channel)
+        finally:
+            self.is_changing_channel = False
 
     @idle_function
     def before_play(self, channel):
         self.channel_stack.set_visible_child_name("channel_page")
+        if self.fullscreen:
+            self.sidebar.hide()
+            if getattr(self, "cursor_hide_timer_id", 0) > 0:
+                GLib.source_remove(self.cursor_hide_timer_id)
+            self.cursor_hide_timer_id = GLib.timeout_add(2000, self.hide_cursor)
         self.mpv_stack.set_visible_child_name("spinner_page")
         self.video_properties.clear()
         self.video_properties[_("General")] = {}
@@ -909,6 +1012,7 @@ class MainWindow:
         self.label_channel_url.set_text(channel.url)
 
         self.page_is_loading = True
+
         data = f"{channel.info}:::{channel.url}"
         if data in self.favorite_data:
             self.favorite_button.set_active(True)
@@ -918,6 +1022,8 @@ class MainWindow:
             self.favorite_button.set_active(False)
             self.favorite_button_image.set_from_icon_name("xsi-non-starred-symbolic", Gtk.IconSize.BUTTON)
             self.favorite_button.set_tooltip_text(_("Add to favorites"))
+        set_playback_button_state(self.pause_button, False)
+        self.info_menu_item.set_sensitive(False)
         self.page_is_loading = False
 
     @idle_function
@@ -937,6 +1043,7 @@ class MainWindow:
             self.mpv.unobserve_property("video-bitrate", self.on_bitrate)
             self.mpv.unobserve_property("audio-bitrate", self.on_bitrate)
             self.mpv.unobserve_property("core-idle", self.on_playback_changed)
+            self.mpv.unobserve_property("idle-active", self.on_idle_active)
         except:
             pass
         self.mpv.observe_property("video-params", self.on_video_params)
@@ -946,6 +1053,13 @@ class MainWindow:
         self.mpv.observe_property("video-bitrate", self.on_bitrate)
         self.mpv.observe_property("audio-bitrate", self.on_bitrate)
         self.mpv.observe_property("core-idle", self.on_playback_changed)
+        self.mpv.observe_property("idle-active", self.on_idle_active)
+
+    @idle_function
+    def on_idle_active(self, prop, active):
+        if active and not self.is_changing_channel and self.active_channel is not None:
+            # Catch stops that occur while paused (core-idle is already True)
+            self.on_stop_button(None)
 
     @idle_function
     def on_playback_changed(self, prop, idle):
@@ -953,6 +1067,11 @@ class MainWindow:
             if self.inhibit_id != 0:
                 self.application.uninhibit(self.inhibit_id)
                 self.inhibit_id = 0
+
+            # Handle MPV fully stopping (e.g., from OSD or EOF) versus pausing
+            if getattr(self.mpv, 'idle_active', False):
+                if not self.is_changing_channel and self.active_channel is not None:
+                    self.on_stop_button(None)
         else:
             if self.inhibit_id == 0:
                 self.inhibit_id = self.application.inhibit(
@@ -1038,14 +1157,30 @@ class MainWindow:
         self.audio_properties[_("General")][_("Codec")] = codec.split()[0]
 
     def on_stop_button(self, widget):
-        self.mpv.stop()
+        if self.mpv is not None:
+            self.mpv.stop()
         # self.mpv_drawing_area.hide()
         self.active_channel = None
         self.info_menu_item.set_sensitive(False)
         self.playback_bar.hide()
+        self.label_channel_name.set_text("")
+        self.label_channel_url.set_text("")
+        self.channel_stack.set_visible_child_name("empty_page")
+        # if self.fullscreen and self.content_type == TV_GROUP:
+        #     self.sidebar.show()
+        if self.fullscreen:
+            gdk_win = self.window.get_window()
+            if gdk_win:
+                gdk_win.set_cursor(None)
+            if getattr(self, "cursor_hide_timer_id", 0) > 0:
+                GLib.source_remove(self.cursor_hide_timer_id)
+                self.cursor_hide_timer_id = 0
+            if self.content_type == TV_GROUP:
+                self.sidebar.show()
 
     def on_pause_button(self, widget):
         self.mpv.pause = not self.mpv.pause
+        set_playback_button_state(self.pause_button, self.mpv.pause)
 
     def on_show_button(self, widget):
         self.navigate_to("channels_page")
@@ -1334,9 +1469,8 @@ class MainWindow:
         self.new_ok_button.set_sensitive(True)
         if self.new_name_entry.get_text() == "":
             self.new_ok_button.set_sensitive(False)
-        for widget in (self.new_url_entry, self.new_logo_entry):
-            if "://" not in widget.get_text():
-                self.new_ok_button.set_sensitive(False)
+        if self.new_url_entry.get_text() == "":
+            self.new_ok_button.set_sensitive(False)
 
     def get_url(self):
         type_id = self.provider_type_combo.get_model()[self.provider_type_combo.get_active()][PROVIDER_TYPE_ID]
@@ -1448,9 +1582,8 @@ class MainWindow:
 
         # Determine the actively pressed modifier
         modifier = event.get_state() & persistant_modifiers
-        # Bool of Control or Shift modifier states
+        # Bool of Control modifier state
         ctrl = modifier == Gdk.ModifierType.CONTROL_MASK
-        shift = modifier == Gdk.ModifierType.SHIFT_MASK
 
         if ctrl and event.keyval == Gdk.KEY_r:
             self.reload(page=None, refresh=True)
@@ -1479,7 +1612,7 @@ class MainWindow:
             return True
         elif not event.keyval in [Gdk.KEY_F1, Gdk.KEY_F2]:
             try:
-                self.mpv.command("keypress", Gdk.keyval_name(event.keyval))
+                self.mpv.send_keypress(Gdk.keyval_name(event.keyval))
             except:
                 pass
             return True
@@ -1612,41 +1745,67 @@ class MainWindow:
     def reinit_mpv(self):
         if self.mpv is not None:
             self.mpv.stop()
-        options = {}
-        try:
-            mpv_options = self.settings.get_string("mpv-options")
-            if ("=") in mpv_options:
-                pairs = mpv_options.split()
-                for pair in pairs:
-                    key, value = pair.split("=", 1)
-                    options[key] = value
-        except Exception as e:
-            print("Could not parse MPV options!")
-            print(e)
-
-        options["user_agent"] = self.settings.get_string("user-agent")
-        options["referrer"] = self.settings.get_string("http-referer")
-
-        while not self.mpv_drawing_area.get_window() and not Gtk.events_pending():
-            time.sleep(0.1)
-
-        osc = True
-        if "osc" in options:
-            # To prevent 'multiple values for keyword argument'!
-            osc = options.pop("osc") != "no"
 
         if self.mpv is None:
-            self.mpv = mpv.MPV(
-                **options,
-                script_opts="osc-layout=box,osc-seekbarstyle=bar,osc-deadzonesize=0,osc-minmousemove=3",
-                input_default_bindings=True,
-                input_vo_keyboard=True,
-                osc=osc,
-                ytdl=True,
-                wid=str(self.mpv_drawing_area.get_window().get_xid())
-            )
+            # Map the player page if not realized yet
+            if not self.mpv_drawing_area.get_window():
+                GLib.idle_add(self.mpv_drawing_area.realize)
+                timeout = 100
+                while not self.mpv_drawing_area.get_window() and timeout > 0:
+                    time.sleep(0.05)
+                    timeout -= 1
 
-        self.mpv.volume = self.volume
+                if not self.mpv_drawing_area.get_window():
+                    raise RuntimeError("Timed out waiting for the video drawing area to be realized")
+
+            chosen_backend = self.settings.get_string("video-backend")
+
+            if self.is_mpv_available and self.is_vlc_available:
+                if chosen_backend not in ["mpv", "vlc"]:
+                    chosen_backend = "mpv"
+            elif self.is_mpv_available:
+                if chosen_backend == "vlc":
+                    print("VLC backend is not available! Falling back to MPV.")
+                chosen_backend = "mpv"
+            elif self.is_vlc_available:
+                if chosen_backend == "mpv":
+                    print("MPV backend is not available! Falling back to VLC.")
+                chosen_backend = "vlc"
+            else:
+                print("Error: No media backend is available!", file=sys.stderr)
+                sys.exit(1)
+
+            xid = str(self.mpv_drawing_area.get_window().get_xid())
+
+            if chosen_backend == "vlc":
+                from player import VlcEngine
+                self.mpv = VlcEngine(gui=self.vlc_gui, settings=self.settings)
+                self.vlc_gui.show_controls()
+            else:
+                options = {}
+                try:
+                    mpv_options = self.settings.get_string("mpv-options")
+                    if ("=") in mpv_options:
+                        pairs = mpv_options.split()
+                        for pair in pairs:
+                            key, value = pair.split("=", 1)
+                            options[key] = value
+                except Exception as e:
+                    print("Could not parse MPV options!")
+                    print(e)
+
+                osc = True
+                if "osc" in options:
+                    # To prevent 'multiple values for keyword argument'!
+                    osc = options.pop("osc") != "no"
+
+                from player import MpvEngine
+                self.mpv = MpvEngine(options=options, osc=osc)
+            self.mpv.set_window(xid)
+
+        self.mpv["user-agent"] = self.settings.get_string("user-agent")
+        self.mpv["referrer"] = self.settings.get_string("http-referer")
+        self.mpv.set_volume(self.volume)
         self.mpv.observe_property("volume", self.on_volume_prop)
 
     def on_mpv_drawing_area_draw(self, widget, cr):
@@ -1655,6 +1814,12 @@ class MainWindow:
 
     def normal_mode(self):
         self.window.get_window().set_cursor(None)
+        if getattr(self, "cursor_hide_timer_id", 0) > 0:
+            GLib.source_remove(self.cursor_hide_timer_id)
+            self.cursor_hide_timer_id = 0
+        if getattr(self, "mouse_poll_timer_id", 0) > 0:
+            GLib.source_remove(self.mouse_poll_timer_id)
+            self.mouse_poll_timer_id = 0
         self.window.unfullscreen()
         self.mpv_top_box.show()
         self.mpv_bottom_box.hide()
@@ -1692,12 +1857,18 @@ class MainWindow:
         if self.stack.get_visible_child_name() == "channels_page":
             self.fullscreen = not self.fullscreen
             if self.fullscreen:
-                self.window.get_window().set_cursor(Gdk.Cursor.new_from_name(Gdk.Display.get_default(), "none"))
                 # Fullscreen mode
                 self.window.fullscreen()
                 self.mpv_top_box.hide()
                 self.mpv_bottom_box.hide()
+                if not getattr(self, "mouse_poll_timer_id", 0):
+                    self.last_mouse_pos = None
+                    self.mouse_poll_timer_id = GLib.timeout_add(200, self.poll_mouse_position)
                 self.sidebar.hide()
+                if self.active_channel is not None:
+                    if getattr(self, "cursor_hide_timer_id", 0) > 0:
+                        GLib.source_remove(self.cursor_hide_timer_id)
+                    self.cursor_hide_timer_id = GLib.timeout_add(2000, self.hide_cursor)
                 self.headerbar.hide()
                 self.status_label.hide()
                 self.channels_box.set_border_width(0)
@@ -1712,6 +1883,53 @@ class MainWindow:
 
     def on_volume_prop(self, name, value ):
         self.volume = value
+
+    def poll_mouse_position(self):
+        if not self.fullscreen:
+            self.mouse_poll_timer_id = 0
+            return False
+
+        if getattr(self, "active_channel", None) is not None:
+            display = Gdk.Display.get_default()
+            seat = display.get_default_seat()
+            if seat:
+                pointer = seat.get_pointer()
+                screen, x, y = pointer.get_position()
+                if getattr(self, "last_mouse_pos", None) != (x, y):
+                    self.last_mouse_pos = (x, y)
+
+                    # Wake up cursor for the main window
+                    gdk_win = self.window.get_window()
+                    if gdk_win:
+                        gdk_win.set_cursor(None)
+
+                    # Wake up cursor for the MPV drawing area
+                    draw_win = self.mpv_drawing_area.get_window()
+                    if draw_win:
+                        draw_win.set_cursor(None)
+
+                    # Reset the hide countdown
+                    if getattr(self, "cursor_hide_timer_id", 0) > 0:
+                        GLib.source_remove(self.cursor_hide_timer_id)
+                    self.cursor_hide_timer_id = GLib.timeout_add(2000, self.hide_cursor)
+        return True
+
+    def hide_cursor(self):
+        if self.fullscreen and getattr(self, "active_channel", None) is not None:
+            hidden_cursor = Gdk.Cursor.new_from_name(Gdk.Display.get_default(), "none")
+
+            # Hide cursor for the main window
+            gdk_win = self.window.get_window()
+            if gdk_win:
+                gdk_win.set_cursor(hidden_cursor)
+
+            # Hide cursor for the MPV drawing area
+            draw_win = self.mpv_drawing_area.get_window()
+            if draw_win:
+                draw_win.set_cursor(hidden_cursor)
+
+        self.cursor_hide_timer_id = 0
+        return False
 
 if __name__ == "__main__":
     application = MyApplication("org.x.hypnotix", Gio.ApplicationFlags.FLAGS_NONE)
