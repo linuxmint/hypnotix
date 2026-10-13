@@ -1,3 +1,14 @@
+hypnotix (5.7) adrien; urgency=medium
+
+  [ Michael Webster ]
+  * .github/workflows: Add generate-test-packages trigger.
+
+  [ Balló György ]
+  * Set prgname to match with the executable (#419)
+  * about: Set license type (#406)
+
+ -- Clement Lefebvre <root@linuxmint.com>  Tue, 13 Oct 2026 15:09:06 +0100
+
 hypnotix (5.6) zena; urgency=medium
 
   * l10n: Update translations
