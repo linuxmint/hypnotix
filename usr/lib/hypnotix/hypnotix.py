@@ -32,6 +32,8 @@ from unidecode import unidecode
 from common import Manager, Provider, Channel, MOVIES_GROUP, PROVIDERS_PATH, SERIES_GROUP, TV_GROUP,\
     async_function, idle_function
 
+# Load xtream class
+from xtream import XTream
 
 setproctitle.setproctitle("hypnotix")
 
@@ -403,6 +405,7 @@ class MainWindow:
         # This is going to get readjusted
         self._timerid = GLib.timeout_add_seconds(self.reload_timeout_sec, self.force_reload)
 
+        self.current_cursor = None
         self.window.show()
         self.playback_bar.hide()
         self.search_bar.hide()
@@ -460,6 +463,7 @@ class MainWindow:
         self.active_group = None
         found_groups = False
         for group in self.active_provider.groups:
+            # Skip if the group is not from the current displayed content type
             if group.group_type != self.content_type:
                 continue
             found_groups = True
@@ -586,7 +590,7 @@ class MainWindow:
         # If we are using xtream provider
         # Load every Episodes of every Season for this Series
         if self.active_provider.type_id == "xtream":
-            self.x.get_series_info_by_id(self.active_serie)
+            serie.xtream.get_series_info_by_id(self.active_serie)
 
         self.navigate_to("episodes_page")
         for child in self.episodes_box.get_children():
@@ -1500,7 +1504,12 @@ class MainWindow:
     def reload(self, page=None, refresh=False):
         self.favorite_data = self.manager.load_favorites()
         self.status(_("Loading providers..."))
+        self.start_loading_cursor()
         self.providers = []
+        headers = {
+            'User-Agent': self.settings.get_string("user-agent"),
+            'Referer': self.settings.get_string("http-referer")
+        }
         for provider_info in self.settings.get_strv("providers"):
             try:
                 provider = Provider(name=None, provider_info=provider_info)
@@ -1530,44 +1539,40 @@ class MainWindow:
                         self.status(_("Failed to download playlist from %s") %  provider.name, provider)
 
                 else:
-                    # Load xtream class
-                    from xtream import XTream
-
                     # Download via Xtream
-                    self.x = XTream(
+                    x = XTream(
+                        self.status,
                         provider.name,
                         provider.username,
                         provider.password,
                         provider.url,
                         hide_adult_content=False,
                         user_agent=self.settings.get_string("user-agent"),
-                        cache_path=PROVIDERS_PATH,
+                        cache_path=PROVIDERS_PATH
                     )
-                    if self.x.auth_data != {}:
-                        print("XTREAM `{}` Loading Channels".format(provider.name))
-                        # Save default cursor
-                        current_cursor = self.window.get_window().get_cursor()
-                        # Set waiting cursor
-                        self.window.get_window().set_cursor(Gdk.Cursor.new_from_name(Gdk.Display.get_default(), "wait"))
+                    if x.auth_data != {}:
+                        self.status("Loading Channels...", provider)
                         # Load data
-                        self.x.load_iptv()
-                        # Restore default cursor
-                        self.window.get_window().set_cursor(current_cursor)
-                        # Inform Provider of data
-                        provider.channels = self.x.channels
-                        provider.movies = self.x.movies
-                        provider.series = self.x.series
-                        provider.groups = self.x.groups
+                        x.load_iptv()
+                        # If there are no stream to show, pass this provider.
+                        if (len(x.channels) == 0) and (len(x.movies) == 0) and (len(x.series) == 0) and (len(x.groups) == 0):
+                            pass
+                        else:
+                            # Inform Provider of data
+                            provider.channels = x.channels
+                            provider.movies = x.movies
+                            provider.series = x.series
+                            provider.groups = x.groups
 
-                        # Change redownload timeout
-                        self.reload_timeout_sec = 60 * 60 * 2  # 2 hours
-                        if self._timerid:
-                            GLib.source_remove(self._timerid)
-                        self._timerid = GLib.timeout_add_seconds(self.reload_timeout_sec, self.force_reload)
+                            # Change redownload timeout
+                            self.reload_timeout_sec = 60 * 60 * 2  # 2 hours
+                            if self._timerid:
+                                GLib.source_remove(self._timerid)
+                            self._timerid = GLib.timeout_add_seconds(self.reload_timeout_sec, self.force_reload)
 
-                        # If no errors, approve provider
-                        if provider.name == self.settings.get_string("active-provider"):
-                            self.active_provider = provider
+                            # If no errors, approve provider
+                            if provider.name == self.settings.get_string("active-provider"):
+                                self.active_provider = provider
                         self.status(None)
                     else:
                         print("XTREAM Authentication Failed")
@@ -1587,13 +1592,27 @@ class MainWindow:
             self.navigate_to(page)
         self.status(None)
         self.latest_search_bar_text = None
+        self.end_loading_cursor()
+
+    @idle_function
+    def start_loading_cursor(self):
+        # Restore default cursor
+        self.current_cursor = self.window.get_window().get_cursor()
+        self.window.get_window().set_cursor(Gdk.Cursor.new_from_name(Gdk.Display.get_default(), "wait"))
+
+    @idle_function
+    def end_loading_cursor(self):
+        # Restore default cursor
+        self.window.get_window().set_cursor(self.current_cursor)
+        self.current_cursor = None
 
     def force_reload(self):
+        print("force_reload")
         self.reload(page=None, refresh=True)
         return False
 
     @idle_function
-    def status(self, string, provider=None):
+    def status(self, string, provider=None, gui_only=False):
         if string is None:
             self.status_label.set_text("")
             self.status_label.hide()
@@ -1601,10 +1620,12 @@ class MainWindow:
         self.status_label.show()
         if provider is not None:
             self.status_label.set_text("%s: %s" % (provider.name, string))
-            print("%s: %s" % (provider.name, string))
+            if not gui_only:
+                print("%s: %s" % (provider.name, string))
         else:
             self.status_label.set_text(string)
-            print(string)
+            if not gui_only:
+                print(string)
 
     def on_mpv_drawing_area_realize(self, widget):
         self.reinit_mpv()
