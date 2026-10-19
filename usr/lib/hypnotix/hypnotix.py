@@ -12,8 +12,7 @@ from functools import partial
 from pathlib import Path
 
 # Force X11 on a Wayland session
-if "WAYLAND_DISPLAY" in os.environ:
-    os.environ["WAYLAND_DISPLAY"] = ""
+os.environ["GDK_BACKEND"] = "x11"
 
 # mpv's sdl output can't embed in our window,
 # make it unavailable so mpv falls back to one that can
