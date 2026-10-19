@@ -15,6 +15,10 @@ from pathlib import Path
 if "WAYLAND_DISPLAY" in os.environ:
     os.environ["WAYLAND_DISPLAY"] = ""
 
+# mpv's sdl output can't embed in our window,
+# make it unavailable so mpv falls back to one that can
+os.environ["SDL_VIDEODRIVER"] = "none"
+
 # Suppress GTK deprecation warnings
 warnings.filterwarnings("ignore")
 
