@@ -225,6 +225,9 @@ class MpvRenderParam(Structure):
         elif cons is bool:
             self.value = c_int(int(bool(value)))
             self.data = cast(pointer(self.value), c_void_p)
+        elif cons is c_void_p:
+            self.value = value
+            self.data = cast(self.value, c_void_p)
         else:
             self.value = cons(**value)
             self.data = cast(pointer(self.value), c_void_p)

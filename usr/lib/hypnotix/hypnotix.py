@@ -4,19 +4,11 @@ import locale
 import os
 import shutil
 import sys
-import time
 import traceback
 import warnings
 import subprocess
 from functools import partial
 from pathlib import Path
-
-# Force X11 on a Wayland session
-os.environ["GDK_BACKEND"] = "x11"
-
-# mpv's sdl output can't embed in our window,
-# make it unavailable so mpv falls back to one that can
-os.environ["SDL_VIDEODRIVER"] = "none"
 
 # Suppress GTK deprecation warnings
 warnings.filterwarnings("ignore")
@@ -34,6 +26,7 @@ from unidecode import unidecode
 
 from common import Manager, Provider, Channel, MOVIES_GROUP, PROVIDERS_PATH, SERIES_GROUP, TV_GROUP,\
     async_function, idle_function
+from mpvgl import MpvGLRenderer
 
 
 setproctitle.setproctitle("hypnotix")
@@ -187,7 +180,7 @@ class MainWindow:
             "search_bar",
             "channels_box",
             "current_provider_label",
-            "mpv_drawing_area",
+            "mpv_gl_area",
             "stack",
             "channel_stack",
             "fullscreen_button",
@@ -276,8 +269,9 @@ class MainWindow:
 
         # Widget signals
         self.window.connect("key-press-event", self.on_key_press_event)
-        self.mpv_drawing_area.connect("realize", self.on_mpv_drawing_area_realize)
-        self.mpv_drawing_area.connect("draw", self.on_mpv_drawing_area_draw)
+        self.mpv_renderer = MpvGLRenderer(self.mpv_gl_area)
+        self.mpv_gl_area.connect("realize", self.on_mpv_gl_area_realize)
+        self.application.connect("shutdown", self.on_application_shutdown)
         self.fullscreen_button.connect("clicked", self.on_fullscreen_button_clicked)
 
         self.info_window.connect("delete-event", self.on_close_info_window)
@@ -1609,8 +1603,15 @@ class MainWindow:
             self.status_label.set_text(string)
             print(string)
 
-    def on_mpv_drawing_area_realize(self, widget):
+    def on_mpv_gl_area_realize(self, widget):
         self.reinit_mpv()
+        self.mpv_renderer.start(self.mpv)
+
+    def on_application_shutdown(self, application):
+        self.mpv_renderer.stop()
+        if self.mpv is not None:
+            self.mpv.terminate()
+            self.mpv = None
 
     def reinit_mpv(self):
         if self.mpv is not None:
@@ -1629,9 +1630,8 @@ class MainWindow:
 
         options["user_agent"] = self.settings.get_string("user-agent")
         options["referrer"] = self.settings.get_string("http-referer")
-
-        while not self.mpv_drawing_area.get_window() and not Gtk.events_pending():
-            time.sleep(0.1)
+        # Video is drawn through MpvGLRenderer, no other output can work
+        options["vo"] = "libmpv"
 
         osc = True
         if "osc" in options:
@@ -1643,18 +1643,12 @@ class MainWindow:
                 **options,
                 script_opts="osc-layout=box,osc-seekbarstyle=bar,osc-deadzonesize=0,osc-minmousemove=3",
                 input_default_bindings=True,
-                input_vo_keyboard=True,
                 osc=osc,
-                ytdl=True,
-                wid=str(self.mpv_drawing_area.get_window().get_xid())
+                ytdl=True
             )
 
         self.mpv.volume = self.volume
         self.mpv.observe_property("volume", self.on_volume_prop)
-
-    def on_mpv_drawing_area_draw(self, widget, cr):
-        cr.set_source_rgb(0.0, 0.0, 0.0)
-        cr.paint()
 
     def normal_mode(self):
         self.window.get_window().set_cursor(None)
