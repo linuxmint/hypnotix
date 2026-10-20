@@ -548,7 +548,7 @@
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
                                     <child>
-                                      <object class="GtkDrawingArea" id="mpv_drawing_area">
+                                      <object class="GtkGLArea" id="mpv_gl_area">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
                                       </object>
