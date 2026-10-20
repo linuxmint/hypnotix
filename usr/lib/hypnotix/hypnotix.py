@@ -888,7 +888,11 @@ class MainWindow:
             self.info_menu_item.set_sensitive(False)
             self.before_play(channel)
             self.reinit_mpv()
-            self.mpv.play(channel.url)
+            if channel.url.startswith("rtp://"):
+                # Default rtp:// handling corrupts MPEG-TS multicast; lavf's rtp demuxer doesn't
+                self.mpv.loadfile(channel.url, demuxer_lavf_format="rtp")
+            else:
+                self.mpv.play(channel.url)
             self.mpv.wait_until_playing()
             self.after_play(channel)
 
