@@ -143,6 +143,7 @@ class MainWindow:
         self.latest_search_bar_text = None
         self.visible_search_results = 0
         self.mpv = None
+        self.is_changing_channel = False
         self.page_is_loading = False # used to ignore signals while we set widget states
 
         self.video_properties = {}
@@ -878,23 +879,28 @@ class MainWindow:
 
     @async_function
     def play_async(self, channel):
-        if self.mpv is not None:
-            self.mpv.stop()
-            self.mpv.pause = False
-        print("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
-        if channel is not None and channel.url is not None:
-            # os.system("mpv --wid=%s %s &" % (self.wid, channel.url))
-            # self.mpv_drawing_area.show()
-            self.info_menu_item.set_sensitive(False)
-            self.before_play(channel)
-            self.reinit_mpv()
-            if channel.url.startswith("rtp://"):
-                # Default rtp:// handling corrupts MPEG-TS multicast; lavf's rtp demuxer doesn't
-                self.mpv.loadfile(channel.url, demuxer_lavf_format="rtp")
-            else:
-                self.mpv.play(channel.url)
-            self.mpv.wait_until_playing()
-            self.after_play(channel)
+        # mpv goes idle between stop() and the next file; on_idle_active must not treat that as a stop
+        self.is_changing_channel = True
+        try:
+            if self.mpv is not None:
+                self.mpv.stop()
+                self.mpv.pause = False
+            print("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
+            if channel is not None and channel.url is not None:
+                # os.system("mpv --wid=%s %s &" % (self.wid, channel.url))
+                # self.mpv_drawing_area.show()
+                self.info_menu_item.set_sensitive(False)
+                self.before_play(channel)
+                self.reinit_mpv()
+                if channel.url.startswith("rtp://"):
+                    # Default rtp:// handling corrupts MPEG-TS multicast; lavf's rtp demuxer doesn't
+                    self.mpv.loadfile(channel.url, demuxer_lavf_format="rtp")
+                else:
+                    self.mpv.play(channel.url)
+                self.mpv.wait_until_playing()
+                self.after_play(channel)
+        finally:
+            self.is_changing_channel = False
 
     @idle_function
     def before_play(self, channel):
@@ -944,6 +950,7 @@ class MainWindow:
             self.mpv.unobserve_property("video-bitrate", self.on_bitrate)
             self.mpv.unobserve_property("audio-bitrate", self.on_bitrate)
             self.mpv.unobserve_property("core-idle", self.on_playback_changed)
+            self.mpv.unobserve_property("idle-active", self.on_idle_active)
         except:
             pass
         self.mpv.observe_property("video-params", self.on_video_params)
@@ -953,6 +960,13 @@ class MainWindow:
         self.mpv.observe_property("video-bitrate", self.on_bitrate)
         self.mpv.observe_property("audio-bitrate", self.on_bitrate)
         self.mpv.observe_property("core-idle", self.on_playback_changed)
+        self.mpv.observe_property("idle-active", self.on_idle_active)
+
+    @idle_function
+    def on_idle_active(self, prop, active):
+        # Stopped from mpv itself (OSD, keys, EOF). Re-read idle_active: a new channel may have started since.
+        if active and not self.is_changing_channel and self.active_channel is not None and self.mpv.idle_active:
+            self.on_stop_button(None)
 
     @idle_function
     def on_playback_changed(self, prop, idle):
@@ -1050,6 +1064,9 @@ class MainWindow:
         self.active_channel = None
         self.info_menu_item.set_sensitive(False)
         self.playback_bar.hide()
+        self.label_channel_name.set_text("")
+        self.label_channel_url.set_text("")
+        self.channel_stack.set_visible_child_name("empty_page")
 
     def on_pause_button(self, widget):
         self.mpv.pause = not self.mpv.pause
