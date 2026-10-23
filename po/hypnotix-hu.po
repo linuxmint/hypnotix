@@ -490,7 +490,7 @@ msgstr "Keret (ablakdekoráció) nélkül"
 
 #: usr/share/hypnotix/shortcuts.ui.h:8
 msgid "Normal mode"
-msgstr "Normál"
+msgstr "Normál mód"
 
 #: usr/share/hypnotix/shortcuts.ui.h:11
 msgid "Reload all providers"
