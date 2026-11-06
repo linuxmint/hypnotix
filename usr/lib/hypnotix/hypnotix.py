@@ -31,6 +31,7 @@ import mpv
 import requests
 import setproctitle
 from unidecode import unidecode
+from image_loader import load_pixels
 
 from common import Manager, Provider, Channel, MOVIES_GROUP, PROVIDERS_PATH, SERIES_GROUP, TV_GROUP,\
     async_function, idle_function
@@ -676,7 +677,7 @@ class MainWindow:
                     response.raw.decode_content = True
                     with open(channel.logo_path, "wb") as f:
                         shutil.copyfileobj(response.raw, f)
-                        self.refresh_channel_logo(channel, image)
+                    self.refresh_channel_logo(channel, image)
             except Exception as e:
                 print(e)
 
@@ -687,11 +688,19 @@ class MainWindow:
     def get_channel_surface(self, path):
         try:
             if self.content_type == TV_GROUP:
-                surface = self.get_surface_for_file(path, 64, 32)
-            elif self.content_type == MOVIES_GROUP:
-                surface = self.get_surface_for_file(path, 200, 200)
+                width, height = 64, 32
             else:
-                surface = self.get_surface_for_file(path, 200, 200)
+                width, height = 200, 200
+            scale = self.window.get_scale_factor()
+            decoded = load_pixels(path, width * scale, height * scale)
+            if decoded is None:
+                raise ValueError("Provider artwork could not be decoded")
+            width, height, channels, pixels = decoded
+            pixbuf = GdkPixbuf.Pixbuf.new_from_bytes(
+                GLib.Bytes.new(pixels), GdkPixbuf.Colorspace.RGB,
+                channels == 4, 8, width, height, width * channels,
+            )
+            surface = Gdk.cairo_surface_create_from_pixbuf(pixbuf, scale)
         except Exception:
             surface = self.get_surface_for_file("/usr/share/hypnotix/generic_tv_logo.png", 22, 22)
         return surface
