@@ -1,3 +1,29 @@
+hypnotix (5.8) adrien; urgency=medium
+
+  [ Michael Webster ]
+  * hypnotix.py: Disable sdl video output.
+
+  [ Balló György ]
+  * Use GDK_BACKEND environment variable to select x11 backend (#418)
+  * Fix missing conversion of label values to string (#432)
+
+  [ Fridrich Strba ]
+  * Use lavf rtp demuxer for rtp:// streams (#440)
+  * Fix yt-dlp local switch alignment and blocking update (#436)
+  * Ignore Backspace navigation if search bar has focus (#438)
+  * Fix favourites button icon, tooltip and lookup (#437)
+
+  [ MauricioBarrientos ]
+  * fix: sync fullscreen state with WM and move GTK calls to main thread (#415)
+
+  [ kougyokugentou ]
+  * Update xtream.py with support for hypnotix favorites system (#429)
+
+  [ Alex Reed ]
+  * Fix keyboard shortcuts on Wayland sessions (#433)
+
+ -- Clement Lefebvre <root@linuxmint.com>  Tue, 10 Nov 2026 16:10:34 +0000
+
 hypnotix (5.7) adrien; urgency=medium
 
   [ Michael Webster ]
