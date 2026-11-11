@@ -40,6 +40,9 @@ class Channel:
     title = ""
     url = ""
     info = ""
+    tvg_id = ""
+    tvg_name = ""
+    xmltv_id = None
 
     # XTream
     stream_type = ""
@@ -75,10 +78,13 @@ class Channel:
             self.logo_path = xtream._get_logo_local_path(self.logo)
             self.group_title = group_title
             self.title = stream_name
+            self.tvg_id = stream_info.get("epg_channel_id") or ""
+            self.tvg_name = stream_name
 
             # Required by the favorites system
             self.info = (
                 f'#EXTINF:-1 tvg-name="{self.name}" '
+                f'tvg-id="{self.tvg_id}" '
                 f'tvg-logo="{self.logo}" '
                 f'group-title="{self.group_title}",'
                 f'{self.name}'
