@@ -1,0 +1,500 @@
+# Kazakh translation for linuxmint
+# Copyright (c) 2026 Rosetta Contributors and Canonical Ltd 2026
+# This file is distributed under the same license as the linuxmint package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: linuxmint\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2025-07-24 17:05+0200\n"
+"PO-Revision-Date: 2026-01-24 14:58+0000\n"
+"Last-Translator: Baurzhan Muftakhidinov <Unknown>\n"
+"Language-Team: Kazakh <kk@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2026-11-16 12:00+0000\n"
+"X-Generator: Launchpad (build 72ba15af7e009b17d4aa1467977127ac8392a4de)\n"
+"Language: kk\n"
+
+#: usr/lib/hypnotix/hypnotix.py:159 usr/lib/hypnotix/hypnotix.py:863
+#: usr/lib/hypnotix/hypnotix.py:1490 generate_desktop_files:25
+#: usr/share/hypnotix/hypnotix.ui.h:41
+msgid "Hypnotix"
+msgstr "Hypnotix"
+
+#: usr/lib/hypnotix/hypnotix.py:370 usr/share/hypnotix/shortcuts.ui.h:10
+msgid "Keyboard Shortcuts"
+msgstr "Пернетақта жарлықтары"
+
+#: usr/lib/hypnotix/hypnotix.py:377 usr/share/hypnotix/hypnotix.ui.h:51
+#: usr/share/hypnotix/shortcuts.ui.h:3
+msgid "Stream Information"
+msgstr "Ағын ақпараты"
+
+#: usr/lib/hypnotix/hypnotix.py:385 usr/lib/hypnotix/hypnotix.py:1489
+#: usr/share/hypnotix/shortcuts.ui.h:2
+msgid "About"
+msgstr "Осы туралы"
+
+#: usr/lib/hypnotix/hypnotix.py:390 usr/share/hypnotix/shortcuts.ui.h:12
+msgid "Quit"
+msgstr "Шығу"
+
+#: usr/lib/hypnotix/hypnotix.py:403
+msgid "M3U URL"
+msgstr "M3U URL адресі"
+
+#: usr/lib/hypnotix/hypnotix.py:404
+msgid "Local M3U File"
+msgstr "Жергілікті M3U файлы"
+
+#: usr/lib/hypnotix/hypnotix.py:405
+msgid "Xtream API"
+msgstr "Xtream API"
+
+#: usr/lib/hypnotix/hypnotix.py:615
+#, python-format
+msgid "Season %s"
+msgstr "%s маусым"
+
+#: usr/lib/hypnotix/hypnotix.py:626
+#, python-format
+msgid "Episode %s"
+msgstr "%s бөлім"
+
+#: usr/lib/hypnotix/hypnotix.py:744
+msgid "No channels found"
+msgstr "Арналар табылмады"
+
+#: usr/lib/hypnotix/hypnotix.py:768 usr/lib/hypnotix/hypnotix.py:1491
+#: generate_desktop_files:25 usr/share/hypnotix/hypnotix.ui.h:42
+msgid "Watch TV"
+msgstr "Теледидар көру"
+
+#: usr/lib/hypnotix/hypnotix.py:770
+msgid "No provider selected"
+msgstr "Провайдер таңдалмады"
+
+#: usr/lib/hypnotix/hypnotix.py:771 usr/lib/hypnotix/hypnotix.py:779
+#, python-format
+msgid "TV Channels (%d)"
+msgstr "ТВ арналары (%d)"
+
+#: usr/lib/hypnotix/hypnotix.py:772 usr/lib/hypnotix/hypnotix.py:780
+#, python-format
+msgid "Movies (%d)"
+msgstr "Фильмдер (%d)"
+
+#: usr/lib/hypnotix/hypnotix.py:773 usr/lib/hypnotix/hypnotix.py:781
+#, python-format
+msgid "Series (%d)"
+msgstr "Сериалдар (%d)"
+
+#: usr/lib/hypnotix/hypnotix.py:789 usr/lib/hypnotix/hypnotix.py:804
+msgid "TV Channels"
+msgstr "ТВ арналары"
+
+#: usr/lib/hypnotix/hypnotix.py:791 usr/lib/hypnotix/hypnotix.py:818
+msgid "Movies"
+msgstr "Фильмдер"
+
+#: usr/lib/hypnotix/hypnotix.py:793 usr/lib/hypnotix/hypnotix.py:824
+msgid "Series"
+msgstr "Сериалдар"
+
+#: usr/lib/hypnotix/hypnotix.py:799 usr/share/hypnotix/hypnotix.ui.h:2
+msgid "Favorites"
+msgstr "Таңдаулылар"
+
+#: usr/lib/hypnotix/hypnotix.py:807
+#, python-format
+msgid "TV Channels > %s"
+msgstr "ТВ арналары > %s"
+
+#: usr/lib/hypnotix/hypnotix.py:821
+#, python-format
+msgid "Movies > %s"
+msgstr "Фильмдер > %s"
+
+#: usr/lib/hypnotix/hypnotix.py:827
+#, python-format
+msgid "Series > %s"
+msgstr "Сериалдар > %s"
+
+#: usr/lib/hypnotix/hypnotix.py:834
+msgid "New Channel"
+msgstr "Жаңа арна"
+
+#: usr/lib/hypnotix/hypnotix.py:837 usr/share/hypnotix/hypnotix.ui.h:3
+msgid "Preferences"
+msgstr "Қалаулар"
+
+#: usr/lib/hypnotix/hypnotix.py:840 usr/share/hypnotix/hypnotix.ui.h:4
+msgid "Providers"
+msgstr "Провайдерлер"
+
+#: usr/lib/hypnotix/hypnotix.py:845
+#, python-format
+msgid "Edit %s"
+msgstr "%s түзету"
+
+#: usr/lib/hypnotix/hypnotix.py:847
+msgid "Add a new provider"
+msgstr "Жаңа провайдер қосу"
+
+#: usr/lib/hypnotix/hypnotix.py:851
+#, python-format
+msgid "Delete %s"
+msgstr "%s өшіру"
+
+#: usr/lib/hypnotix/hypnotix.py:855
+msgid "Reset providers"
+msgstr "Провайдерлерді тастау"
+
+#: usr/lib/hypnotix/hypnotix.py:912 usr/lib/hypnotix/hypnotix.py:916
+#: usr/lib/hypnotix/hypnotix.py:998 usr/lib/hypnotix/hypnotix.py:1000
+#: usr/lib/hypnotix/hypnotix.py:1007 usr/lib/hypnotix/hypnotix.py:1010
+#: usr/lib/hypnotix/hypnotix.py:1022 usr/lib/hypnotix/hypnotix.py:1035
+#: usr/lib/hypnotix/hypnotix.py:1040 usr/lib/hypnotix/hypnotix.py:1048
+#: usr/lib/hypnotix/hypnotix.py:1441 usr/lib/hypnotix/hypnotix.py:1443
+#: usr/lib/hypnotix/hypnotix.py:1469 usr/lib/hypnotix/hypnotix.py:1473
+#: usr/share/hypnotix/hypnotix.ui.h:45
+msgid "General"
+msgstr "Жалпы"
+
+#: usr/lib/hypnotix/hypnotix.py:913 usr/lib/hypnotix/hypnotix.py:1012
+#: usr/lib/hypnotix/hypnotix.py:1014 usr/lib/hypnotix/hypnotix.py:1016
+#: usr/lib/hypnotix/hypnotix.py:1442 usr/share/hypnotix/hypnotix.ui.h:47
+msgid "Color"
+msgstr "Түс"
+
+#: usr/lib/hypnotix/hypnotix.py:917 usr/lib/hypnotix/hypnotix.py:1032
+#: usr/lib/hypnotix/hypnotix.py:1042 usr/lib/hypnotix/hypnotix.py:1444
+#: usr/share/hypnotix/hypnotix.ui.h:49
+msgid "Layout"
+msgstr "Жайма"
+
+#: usr/lib/hypnotix/hypnotix.py:931
+msgid "Remove from favorites"
+msgstr "Таңдаулылардан өшіру"
+
+#: usr/lib/hypnotix/hypnotix.py:935
+msgid "Add to favorites"
+msgstr "Таңдаулыларға қосу"
+
+#: usr/lib/hypnotix/hypnotix.py:983 usr/lib/hypnotix/hypnotix.py:984
+#: usr/lib/hypnotix/hypnotix.py:998 usr/lib/hypnotix/hypnotix.py:1000
+#: usr/lib/hypnotix/hypnotix.py:1465 usr/lib/hypnotix/hypnotix.py:1466
+#: usr/lib/hypnotix/hypnotix.py:1469 usr/lib/hypnotix/hypnotix.py:1473
+#: usr/share/hypnotix/hypnotix.ui.h:46
+msgid "Average Bitrate"
+msgstr "Орташа битрейт"
+
+#: usr/lib/hypnotix/hypnotix.py:1007
+msgid "Dimensions"
+msgstr "Өлшемдері"
+
+#: usr/lib/hypnotix/hypnotix.py:1010
+msgid "Aspect"
+msgstr "Арақатынас"
+
+#: usr/lib/hypnotix/hypnotix.py:1012
+msgid "Pixel Format"
+msgstr "Пиксель пішімі"
+
+#: usr/lib/hypnotix/hypnotix.py:1014
+msgid "Gamma"
+msgstr "Гамма"
+
+#: usr/lib/hypnotix/hypnotix.py:1016
+msgid "Bits Per Pixel"
+msgstr "Пиксельге шаққандағы бит саны"
+
+#: usr/lib/hypnotix/hypnotix.py:1022 usr/lib/hypnotix/hypnotix.py:1048
+msgid "Codec"
+msgstr "Кодек"
+
+#: usr/lib/hypnotix/hypnotix.py:1031
+msgid "surround sound"
+msgstr "көлемді дыбыс"
+
+#: usr/lib/hypnotix/hypnotix.py:1032
+msgid "Channels"
+msgstr "Арналар"
+
+#: usr/lib/hypnotix/hypnotix.py:1035
+msgid "Sample Rate"
+msgstr "Дискретизация жиілігі"
+
+#: usr/lib/hypnotix/hypnotix.py:1040
+msgid "Format"
+msgstr "Пішім"
+
+#: usr/lib/hypnotix/hypnotix.py:1042
+msgid "Channel Count"
+msgstr "Арналар саны"
+
+#: usr/lib/hypnotix/hypnotix.py:1136
+#, python-format
+msgid "%d TV channel"
+msgid_plural "%d TV channels"
+msgstr[0] "%d ТВ арнасы"
+msgstr[1] "%d ТВ арнасы"
+
+#: usr/lib/hypnotix/hypnotix.py:1141
+#, python-format
+msgid "%d movie"
+msgid_plural "%d movies"
+msgstr[0] "%d фильм"
+msgstr[1] "%d фильм"
+
+#: usr/lib/hypnotix/hypnotix.py:1146
+#, python-format
+msgid "%d series"
+msgid_plural "%d series"
+msgstr[0] "%d сериал"
+msgstr[1] "%d сериал"
+
+#: usr/lib/hypnotix/hypnotix.py:1166
+msgid "Edit"
+msgstr "Түзету"
+
+#: usr/lib/hypnotix/hypnotix.py:1176
+msgid "Clear icon cache"
+msgstr "Таңбаша кэшін тазарту"
+
+#: usr/lib/hypnotix/hypnotix.py:1186
+msgid "Remove"
+msgstr "Өшіру"
+
+#: usr/lib/hypnotix/hypnotix.py:1293
+msgid "M3U Playlists"
+msgstr "M3U ойнату тізімдері"
+
+#: usr/lib/hypnotix/hypnotix.py:1567
+msgid "Loading providers..."
+msgstr "Провайдерлер жүктелуде..."
+
+#: usr/lib/hypnotix/hypnotix.py:1580
+msgid "Downloading playlist..."
+msgstr "Ойнату тізімі жүктелуде..."
+
+#: usr/lib/hypnotix/hypnotix.py:1582
+msgid "Getting playlist..."
+msgstr "Ойнату тізімі алынуда..."
+
+#: usr/lib/hypnotix/hypnotix.py:1585
+msgid "Checking playlist..."
+msgstr "Ойнату тізімі тексерілуде..."
+
+#: usr/lib/hypnotix/hypnotix.py:1587
+msgid "Loading channels..."
+msgstr "Арналар жүктелуде..."
+
+#: usr/lib/hypnotix/hypnotix.py:1595
+#, python-format
+msgid "Failed to download playlist from %s"
+msgstr "%s ішінен ойнату тізімін жүктеу сәтсіз аяқталды"
+
+#: usr/share/hypnotix/hypnotix.ui.h:1
+msgid "Create a new channel"
+msgstr "Жаңа арна жасау"
+
+#: usr/share/hypnotix/hypnotix.ui.h:5
+msgid "MPV Options"
+msgstr "MPV опциялары"
+
+#: usr/share/hypnotix/hypnotix.ui.h:6
+msgid "List of MPV options"
+msgstr "MPV опцияларының тізімі"
+
+#: usr/share/hypnotix/hypnotix.ui.h:7
+msgid "Playback"
+msgstr "Ойнату"
+
+#: usr/share/hypnotix/hypnotix.ui.h:8
+msgid "User Agent"
+msgstr "Пайдаланушы агенті"
+
+#: usr/share/hypnotix/hypnotix.ui.h:9
+msgid "Referrer"
+msgstr "Сілтеуші"
+
+#: usr/share/hypnotix/hypnotix.ui.h:10
+msgid "Network"
+msgstr "Желі"
+
+#: usr/share/hypnotix/hypnotix.ui.h:11
+msgid "System version:"
+msgstr "Жүйе нұсқасы:"
+
+#: usr/share/hypnotix/hypnotix.ui.h:12
+msgid ""
+"If Youtube channels stop working you can switch to a local version of yt-dlp "
+"and update it using the button above."
+msgstr ""
+"Егер Youtube арналары жұмыс істеуін тоқтатса, yt-dlp бағдарламасының "
+"жергілікті нұсқасына ауысып, оны жоғарыдағы батырма арқылы жаңарта аласыз."
+
+#: usr/share/hypnotix/hypnotix.ui.h:13
+msgid "Local version:"
+msgstr "Жергілікті нұсқасы:"
+
+#: usr/share/hypnotix/hypnotix.ui.h:14
+msgid "Update from github.com/yt-dlp"
+msgstr "github.com/yt-dlp арқылы жаңарту"
+
+#: usr/share/hypnotix/hypnotix.ui.h:15
+msgid "Restart Hypnotix for changes to take effect."
+msgstr ""
+"Өзгерістер күшіне енуі үшін Hypnotix бағдарламасын қайта іске қосыңыз."
+
+#: usr/share/hypnotix/hypnotix.ui.h:16
+msgid "Use local version"
+msgstr "Жергілікті нұсқаны қолдану"
+
+#: usr/share/hypnotix/hypnotix.ui.h:17
+msgid "Youtube"
+msgstr "Youtube"
+
+#: usr/share/hypnotix/hypnotix.ui.h:18
+msgid "Add a new provider..."
+msgstr "Жаңа провайдерді қосу..."
+
+#: usr/share/hypnotix/hypnotix.ui.h:19
+msgid "Reset to defaults..."
+msgstr "Әдепкі күйіне қайтару..."
+
+#: usr/share/hypnotix/hypnotix.ui.h:20
+msgid "Name:"
+msgstr "Аты:"
+
+#: usr/share/hypnotix/hypnotix.ui.h:21
+msgid "URL:"
+msgstr "URL:"
+
+#: usr/share/hypnotix/hypnotix.ui.h:22
+msgid "Path:"
+msgstr "Жол:"
+
+#: usr/share/hypnotix/hypnotix.ui.h:23
+msgid "Cancel"
+msgstr "Бас тарту"
+
+#: usr/share/hypnotix/hypnotix.ui.h:24
+msgid "OK"
+msgstr "ОК"
+
+#: usr/share/hypnotix/hypnotix.ui.h:25
+msgid "Username:"
+msgstr "Пайдаланушы аты:"
+
+#: usr/share/hypnotix/hypnotix.ui.h:26
+msgid "Password:"
+msgstr "Пароль:"
+
+#: usr/share/hypnotix/hypnotix.ui.h:27
+msgid "Browse..."
+msgstr "Шолу..."
+
+#: usr/share/hypnotix/hypnotix.ui.h:28
+msgid "EPG:"
+msgstr "EPG:"
+
+#: usr/share/hypnotix/hypnotix.ui.h:29
+msgid "Type:"
+msgstr "Түрі:"
+
+#: usr/share/hypnotix/hypnotix.ui.h:30
+msgid "Are you sure you want to delete this provider?"
+msgstr "Бұл провайдерді өшіруді шынымен қалайсыз ба?"
+
+#: usr/share/hypnotix/hypnotix.ui.h:31
+msgid "No"
+msgstr "Жоқ"
+
+#: usr/share/hypnotix/hypnotix.ui.h:32
+msgid "Yes"
+msgstr "Иә"
+
+#: usr/share/hypnotix/hypnotix.ui.h:33
+msgid "Are you sure you want to reset to the default providers?"
+msgstr "Провайдерлерді әдепкі күйіне қайтаруды шынымен қалайсыз ба?"
+
+#: usr/share/hypnotix/hypnotix.ui.h:34
+msgid "Logo URL:"
+msgstr "Логотип URL-і:"
+
+#: usr/share/hypnotix/hypnotix.ui.h:35
+msgid "This channel will be added to your favorites."
+msgstr "Бұл арна таңдаулыларға қосылады."
+
+#: usr/share/hypnotix/hypnotix.ui.h:36
+msgid ""
+"Note: If the logo is a local file, upload it to imgur.com to get a URL."
+msgstr ""
+"Ескертпе: Егер логотип жергілікті файл болса, URL алу үшін оны imgur.com "
+"сайтына жүктеңіз."
+
+#: usr/share/hypnotix/hypnotix.ui.h:37
+msgid "Currently playing:"
+msgstr "Қазір ойнатылуда:"
+
+#: usr/share/hypnotix/hypnotix.ui.h:38
+msgid "Show"
+msgstr "Көрсету"
+
+#: usr/share/hypnotix/hypnotix.ui.h:39
+msgid "Pause"
+msgstr "Кідірту"
+
+#: usr/share/hypnotix/hypnotix.ui.h:40
+msgid "Stop"
+msgstr "Тоқтату"
+
+#: usr/share/hypnotix/hypnotix.ui.h:43
+msgid "Fullscreen"
+msgstr "Толық экран"
+
+#: usr/share/hypnotix/hypnotix.ui.h:44 usr/share/hypnotix/shortcuts.ui.h:9
+msgid "Search"
+msgstr "Іздеу"
+
+#: usr/share/hypnotix/hypnotix.ui.h:48
+msgid "Video"
+msgstr "Видео"
+
+#: usr/share/hypnotix/hypnotix.ui.h:50
+msgid "Audio"
+msgstr "Аудио"
+
+#: usr/share/hypnotix/shortcuts.ui.h:1
+msgid "Main shortcuts"
+msgstr "Негізгі жарлықтар"
+
+#: usr/share/hypnotix/shortcuts.ui.h:4
+msgid "Play previous/next channel"
+msgstr "Алдыңғы/келесі арнаны ойнату"
+
+#: usr/share/hypnotix/shortcuts.ui.h:5
+msgid "Fullscreen mode"
+msgstr "Толық экран режимі"
+
+#: usr/share/hypnotix/shortcuts.ui.h:6
+msgid "Theater mode (no controls)"
+msgstr "Кинотеатр режимі (басқару элементтерісіз)"
+
+#: usr/share/hypnotix/shortcuts.ui.h:7
+msgid "Borderless mode (no decorations)"
+msgstr "Жиексіз режим (безендірусіз)"
+
+#: usr/share/hypnotix/shortcuts.ui.h:8
+msgid "Normal mode"
+msgstr "Қалыпты режим"
+
+#: usr/share/hypnotix/shortcuts.ui.h:11
+msgid "Reload all providers"
+msgstr "Барлық провайдерлерді қайта жүктеу"

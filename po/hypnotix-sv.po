@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: linuxmint\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2025-07-24 17:05+0200\n"
-"PO-Revision-Date: 2025-07-24 22:22+0000\n"
+"PO-Revision-Date: 2026-09-17 00:14+0000\n"
 "Last-Translator: Jan-Olof Svensson <jan-olof.svensson@abc.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2026-01-08 15:44+0000\n"
-"X-Generator: Launchpad (build 99c00f518760bdd50fc6e353e7736d2fff8fba4a)\n"
+"X-Launchpad-Export-Date: 2026-11-16 12:00+0000\n"
+"X-Generator: Launchpad (build 72ba15af7e009b17d4aa1467977127ac8392a4de)\n"
+"Language: sv\n"
 
 #: usr/lib/hypnotix/hypnotix.py:159 usr/lib/hypnotix/hypnotix.py:863
 #: usr/lib/hypnotix/hypnotix.py:1490 generate_desktop_files:25
@@ -44,7 +45,7 @@ msgstr "Avsluta"
 
 #: usr/lib/hypnotix/hypnotix.py:403
 msgid "M3U URL"
-msgstr "M3U URL"
+msgstr "M3U-URL"
 
 #: usr/lib/hypnotix/hypnotix.py:404
 msgid "Local M3U File"
@@ -66,7 +67,7 @@ msgstr "Avsnitt %s"
 
 #: usr/lib/hypnotix/hypnotix.py:744
 msgid "No channels found"
-msgstr "Hittade inga kanaler"
+msgstr "Inga kanaler hittades"
 
 #: usr/lib/hypnotix/hypnotix.py:768 usr/lib/hypnotix/hypnotix.py:1491
 #: generate_desktop_files:25 usr/share/hypnotix/hypnotix.ui.h:42
@@ -174,7 +175,7 @@ msgstr "Färg"
 #: usr/lib/hypnotix/hypnotix.py:1042 usr/lib/hypnotix/hypnotix.py:1444
 #: usr/share/hypnotix/hypnotix.ui.h:49
 msgid "Layout"
-msgstr "Utformning"
+msgstr "Layout"
 
 #: usr/lib/hypnotix/hypnotix.py:931
 msgid "Remove from favorites"
@@ -214,7 +215,7 @@ msgstr "Bitar per pixel"
 
 #: usr/lib/hypnotix/hypnotix.py:1022 usr/lib/hypnotix/hypnotix.py:1048
 msgid "Codec"
-msgstr "Avkodare"
+msgstr "Kodek"
 
 #: usr/lib/hypnotix/hypnotix.py:1031
 msgid "surround sound"
@@ -263,7 +264,7 @@ msgstr "Redigera"
 
 #: usr/lib/hypnotix/hypnotix.py:1176
 msgid "Clear icon cache"
-msgstr "Rensa ikon-cache"
+msgstr "Rensa ikoncache"
 
 #: usr/lib/hypnotix/hypnotix.py:1186
 msgid "Remove"
@@ -304,19 +305,19 @@ msgstr "Skapa en ny kanal"
 
 #: usr/share/hypnotix/hypnotix.ui.h:5
 msgid "MPV Options"
-msgstr "MPV-val"
+msgstr "MPV-alternativ"
 
 #: usr/share/hypnotix/hypnotix.ui.h:6
 msgid "List of MPV options"
-msgstr "Lista med MPV-val"
+msgstr "Lista över MPV-alternativ"
 
 #: usr/share/hypnotix/hypnotix.ui.h:7
 msgid "Playback"
-msgstr "Spela upp"
+msgstr "Uppspelning"
 
 #: usr/share/hypnotix/hypnotix.ui.h:8
 msgid "User Agent"
-msgstr "Klienttyp"
+msgstr "Användaragent"
 
 #: usr/share/hypnotix/hypnotix.ui.h:9
 msgid "Referrer"
@@ -348,7 +349,7 @@ msgstr "Uppdatera från github.com/yt-dlp"
 
 #: usr/share/hypnotix/hypnotix.ui.h:15
 msgid "Restart Hypnotix for changes to take effect."
-msgstr "Starta om Hypnotix för att genomföra ändringarna."
+msgstr "Starta om Hypnotix för att ändringarna ska börja gälla."
 
 #: usr/share/hypnotix/hypnotix.ui.h:16
 msgid "Use local version"
@@ -356,7 +357,7 @@ msgstr "Använd lokal version"
 
 #: usr/share/hypnotix/hypnotix.ui.h:17
 msgid "Youtube"
-msgstr "Youtube"
+msgstr "YouTube"
 
 #: usr/share/hypnotix/hypnotix.ui.h:18
 msgid "Add a new provider..."
@@ -364,7 +365,7 @@ msgstr "Lägg till ny leverantör..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:19
 msgid "Reset to defaults..."
-msgstr "Återställ ursprungsvärden..."
+msgstr "Återställ standardvärden..."
 
 #: usr/share/hypnotix/hypnotix.ui.h:20
 msgid "Name:"
@@ -435,12 +436,12 @@ msgstr "Den här kanalen kommer att läggas till bland dina favoriter."
 msgid ""
 "Note: If the logo is a local file, upload it to imgur.com to get a URL."
 msgstr ""
-"Kommentar: Om logotypen är en lokal fil så skicka den till imgur.com för att "
+"Obs! Om logotypen är en lokal fil laddar du upp den till imgur.com för att "
 "få en URL."
 
 #: usr/share/hypnotix/hypnotix.ui.h:37
 msgid "Currently playing:"
-msgstr "Visar nu:"
+msgstr "Spelar nu:"
 
 #: usr/share/hypnotix/hypnotix.ui.h:38
 msgid "Show"
@@ -476,7 +477,7 @@ msgstr "De viktigaste snabbkommandona"
 
 #: usr/share/hypnotix/shortcuts.ui.h:4
 msgid "Play previous/next channel"
-msgstr "Visa föregående/nästa kanal"
+msgstr "Spela upp föregående/nästa kanal"
 
 #: usr/share/hypnotix/shortcuts.ui.h:5
 msgid "Fullscreen mode"
