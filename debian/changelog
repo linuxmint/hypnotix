@@ -1,3 +1,10 @@
+hypnotix (5.9) adrien; urgency=medium
+
+  * l10n: Update translations
+  * l10n: Update files
+
+ -- Clement Lefebvre <root@linuxmint.com>  Mon, 16 Nov 2026 13:31:32 +0000
+
 hypnotix (5.8) adrien; urgency=medium
 
   [ Michael Webster ]
