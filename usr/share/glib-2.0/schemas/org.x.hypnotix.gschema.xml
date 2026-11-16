@@ -21,6 +21,11 @@
       <summary>Provider selected by default</summary>
       <description></description>
     </key>
+    <key type="s" name="favorites-epg">
+      <default>""</default>
+      <summary>EPG urls for favorites</summary>
+      <description></description>
+    </key>
     <key type="as" name="providers">
       <default>['Free-TV:::url:::https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8:::::::::']</default>
       <summary>Format: name:::type:::url(or path):::username:::password:::epg</summary>
