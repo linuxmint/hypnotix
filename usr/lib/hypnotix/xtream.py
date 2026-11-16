@@ -737,12 +737,11 @@ class XTream:
             season = Season(season_name)
             get_series.seasons[season_name] = season
             if "episodes" in series_seasons.keys():
-                for series_season in series_seasons["episodes"].keys():
-                    for episode_info in series_seasons["episodes"][str(series_season)]:
-                        new_episode_channel = Episode(
-                            self, series_info, "Testing", episode_info
-                        )
-                        season.episodes[episode_info["title"]] = new_episode_channel
+                for episode_info in series_seasons["episodes"].get(str(season_key), []):
+                    new_episode_channel = Episode(
+                        self, series_info, "Testing", episode_info
+                    )
+                    season.episodes[episode_info["title"]] = new_episode_channel
 
     def _get_request(self, URL: str, timeout: Tuple = (2, 15)):
         """Generic GET Request with Error handling
