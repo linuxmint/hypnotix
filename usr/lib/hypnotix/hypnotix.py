@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 import gettext
 import locale
+import datetime
+import textwrap
 import os
 import shutil
 import sys
@@ -34,6 +36,7 @@ from unidecode import unidecode
 
 from common import Manager, Provider, Channel, MOVIES_GROUP, PROVIDERS_PATH, SERIES_GROUP, TV_GROUP,\
     async_function, idle_function
+from guide import EPGGuideWidget
 
 
 setproctitle.setproctitle("hypnotix")
@@ -83,25 +86,168 @@ with open("/usr/share/hypnotix/countries.list") as f:
 class ChannelWidget(Gtk.ListBoxRow):
     """ A custom widget for displaying and holding channel data. """
 
-    def __init__(self, channel, logo, **kwargs):
+    def __init__(self, channel, logo, main_window=None, **kwargs):
         super().__init__(**kwargs)
         self._channel = channel
+        self.main_window = main_window
         self.set_tooltip_text(channel.name)
 
         frame = Gtk.Frame()
-        label = Gtk.Label(channel.name)
-        label.set_max_width_chars(30)
-        label.set_ellipsize(Pango.EllipsizeMode.END)
+        self.name_label = Gtk.Label(channel.name)
+        self.name_label.set_max_width_chars(30)
+        self.name_label.set_ellipsize(Pango.EllipsizeMode.END)
+        self.name_label.set_no_show_all(True)
+
+        self.epg_label = Gtk.Label()
+        self.epg_label.set_max_width_chars(30)
+        self.epg_label.set_ellipsize(Pango.EllipsizeMode.END)
+        self.epg_label.get_style_context().add_class("dim-label")
+        self.epg_label.set_no_show_all(True)
+
+        logo.set_halign(Gtk.Align.FILL)
+
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, border_width=6)
-        box.pack_start(logo, False, False, 0)
-        box.pack_start(label, False, False, 0)
+        box.pack_start(logo, True, True, 0)
+        box.pack_start(self.name_label, False, False, 0)
+        box.pack_start(self.epg_label, False, False, 0)
         box.set_spacing(6)
         frame.add(box)
-        self.add(frame)
+
+        # Wrap frame in an EventBox so right-click events are captured cleanly
+        event_box = Gtk.EventBox()
+        event_box.add_events(Gdk.EventMask.BUTTON_PRESS_MASK)
+        event_box.add(frame)
+        self.add(event_box)
+
+        self.name_label.show()
+        event_box.connect("button-press-event", self.on_button_press)
 
     @property
     def channel(self):
         return self._channel
+
+    def update_epg(self, epg_manager):
+        if self.name_label.get_text() != self._channel.name:
+            self.name_label.set_text(self._channel.name)
+            self.set_tooltip_text(self._channel.name)
+        if epg_manager and getattr(self._channel, "xmltv_id", None):
+            now_playing, _ = epg_manager.get_current_and_next(self._channel.xmltv_id)
+            if now_playing and "title" in now_playing:
+                title = now_playing["title"]
+                self.epg_label.set_text(title)
+                self.epg_label.show()
+                self.name_label.hide()
+                return
+        self.epg_label.hide()
+        self.name_label.show()
+
+    def on_button_press(self, widget, event):
+        if event.type == Gdk.EventType.BUTTON_PRESS and event.button == 3:  # Right-click
+            menu = Gtk.Menu()
+
+            epg_mgr = None
+            provider = getattr(self._channel, "provider", None) or (self.main_window.active_provider if self.main_window else None)
+            if provider:
+                epg_mgr = getattr(provider, "epg_manager", None)
+
+            xmltv_id = getattr(self._channel, "xmltv_id", None)
+
+            # 1. Info Entry
+            info_item = Gtk.MenuItem(label=_("Info"))
+            now_playing, next_up = (None, None)
+            if epg_mgr and xmltv_id:
+                now_playing, next_up = epg_mgr.get_current_and_next(xmltv_id)
+
+            if not now_playing and not next_up:
+                info_item.set_sensitive(False)
+            else:
+
+                info_menu = Gtk.Menu()
+                added_section = False
+                for title_hdr, prog in [(_("Now Playing"), now_playing), (_("Next Up"), next_up)]:
+                    if prog:
+                        if added_section:
+                            info_menu.append(Gtk.SeparatorMenuItem())
+                        added_section = True
+
+                        start_str = datetime.datetime.fromtimestamp(prog["start"]).strftime("%H:%M")
+                        stop_str = datetime.datetime.fromtimestamp(prog["stop"]).strftime("%H:%M")
+                        title = prog.get("title", "")
+
+                        header_label = _("%s (%s - %s):   %s") % (title_hdr, start_str, stop_str, title)
+                        header_item = Gtk.MenuItem(label=header_label)
+                        header_item.set_sensitive(False)
+                        info_menu.append(header_item)
+
+                        desc = prog.get("desc", "").strip()
+                        if desc:
+                            wrapped_desc = "\n".join(textwrap.wrap(desc, width=60))
+                            desc_item = Gtk.MenuItem(label=wrapped_desc)
+                            desc_item.set_sensitive(False)
+                            info_menu.append(desc_item)
+                        else:
+                            desc_item = Gtk.MenuItem(label=_("No description available"))
+                            desc_item.set_sensitive(False)
+                            info_menu.append(desc_item)
+
+                info_item.set_submenu(info_menu)
+
+            menu.append(info_item)
+
+            # 2. Guide Entry
+            guide_item = Gtk.MenuItem(label=_("Guide"))
+            programmes = []
+            if epg_mgr and xmltv_id:
+                programmes = epg_mgr.programmes.get(xmltv_id, [])
+
+            if not programmes:
+                guide_item.set_sensitive(False)
+            else:
+                guide_menu = Gtk.Menu()
+                last_date = None
+                for prog in programmes:
+                    prog_dt = datetime.datetime.fromtimestamp(prog["start"])
+                    prog_date = prog_dt.date()
+
+                    # Insert a date separator whenever the day changes
+                    if prog_date != last_date:
+                        if last_date is not None:
+                            guide_menu.append(Gtk.SeparatorMenuItem())
+                        date_str = prog_dt.strftime("%A, %d %b %Y")
+                        date_header = Gtk.MenuItem(label=_("--- %s ---") % date_str)
+                        date_header.set_sensitive(False)
+                        guide_menu.append(date_header)
+                        last_date = prog_date
+
+                    start_str = prog_dt.strftime("%H:%M")
+                    stop_str = datetime.datetime.fromtimestamp(prog["stop"]).strftime("%H:%M")
+                    title = prog.get("title", "")
+
+                    prog_label = _("%s - %s   %s") % (start_str, stop_str, title)
+                    prog_item = Gtk.MenuItem(label=prog_label)
+
+                    desc_menu = Gtk.Menu()
+                    desc = prog.get("desc", "").strip()
+                    if desc:
+                        wrapped_desc = "\n".join(textwrap.wrap(desc, width=60))
+                        desc_item = Gtk.MenuItem(label=wrapped_desc)
+                        desc_item.set_sensitive(False)
+                        desc_menu.append(desc_item)
+                    else:
+                        desc_item = Gtk.MenuItem(label=_("No description available"))
+                        desc_item.set_sensitive(False)
+                        desc_menu.append(desc_item)
+
+                    prog_item.set_submenu(desc_menu)
+                    guide_menu.append(prog_item)
+
+                guide_item.set_submenu(guide_menu)
+
+            menu.append(guide_item)
+            menu.show_all()
+            menu.popup_at_pointer(event)
+            return True
+        return False
 
 class MyApplication(Gtk.Application):
     # Main initialization routine
@@ -182,6 +328,7 @@ class MainWindow:
             "status_label",
             "status_bar",
             "sidebar",
+            "sidebar_vbox",
             "go_back_button",
             "search_button",
             "search_bar",
@@ -240,6 +387,7 @@ class MainWindow:
             "useragent_entry",
             "referer_entry",
             "mpv_entry",
+            "favorites_epg_entry",
             "mpv_link",
             "ytdlp_local_switch",
             "ytdlp_system_version_label",
@@ -274,7 +422,12 @@ class MainWindow:
             else:
                 setattr(self, name, widget)
 
+        self.guide_widget = EPGGuideWidget(self)
+        self.guide_widget.show_all()
+        self.channel_stack.add_named(self.guide_widget, "guide_page")
+
         # Widget signals
+        self.window.connect("delete-event", self.on_window_delete)
         self.window.connect("key-press-event", self.on_key_press_event)
         self.window.connect("window-state-event", self.on_window_state_event)
         self.mpv_drawing_area.connect("realize", self.on_mpv_drawing_area_realize)
@@ -331,6 +484,7 @@ class MainWindow:
         self.bind_setting_widget("user-agent", self.useragent_entry)
         self.bind_setting_widget("http-referer", self.referer_entry)
         self.bind_setting_widget("mpv-options", self.mpv_entry)
+        self.bind_setting_widget("favorites-epg", self.favorites_epg_entry)
 
         # ytdlp
         self.ytdlp_local_switch.set_active(self.settings.get_boolean("use-local-ytdlp"))
@@ -408,6 +562,9 @@ class MainWindow:
         # Redownload playlists by default
         # This is going to get readjusted
         self._timerid = GLib.timeout_add_seconds(self.reload_timeout_sec, self.force_reload)
+
+        # Refresh EPG show titles every 60 seconds
+        GLib.timeout_add_seconds(60, self.refresh_epg_labels_periodic)
 
         self.window.show()
         self.playback_bar.hide()
@@ -523,17 +680,152 @@ class MainWindow:
     def show_favorites(self, widget=None):
         self.content_type = TV_GROUP
         channels = []
+
+        if not getattr(self, "fav_provider", None):
+            self.fav_provider = Provider("Favorites", None)
+            self.dynamic_fav_providers = {}
+
+        new_epg = self.settings.get_string("favorites-epg").strip()
+        if getattr(self.fav_provider, "epg", None) != new_epg:
+            self.fav_provider.epg = new_epg
+            if hasattr(self.fav_provider, "epg_manager"):
+                delattr(self.fav_provider, "epg_manager")
+
+        self.fav_provider.channels = []
+        for dp in self.dynamic_fav_providers.values():
+            dp.channels = []
+
+        providers_to_load = []
+
         for line in self.favorite_data:
-            info, url = line.split(":::")
-            channel = Channel(None, info)
+            line = line.strip()
+            if not line:
+                continue
+            parts = line.split(":::")
+            info, url = parts[0], parts[1]
+
+            channel = Channel(self.fav_provider, info)
             channel.url = url
+            channel.provider = self.fav_provider
+            if len(parts) > 3:
+                channel.xmltv_id = parts[3]
+
+            matched_existing = False
+            if len(parts) > 2 and parts[2]:
+                epg_url = parts[2]
+                for p in self.providers:
+                    if getattr(p, "epg", None) == epg_url:
+                        channel.provider = p
+                        matched_existing = True
+                        if channel not in p.channels:
+                            p.channels.append(channel)
+                        if p not in providers_to_load and (not hasattr(p, "epg_manager") or not channel.xmltv_id):
+                            providers_to_load.append(p)
+                        break
+
+            # Add manual/unmatched channels to fav_provider so it can map their EPG
+            if not matched_existing:
+                if len(parts) > 2 and parts[2].strip():
+                    epg_url = parts[2].strip()
+                    if epg_url not in self.dynamic_fav_providers:
+                        dp = Provider(f"Favorites-Custom-{len(self.dynamic_fav_providers)}", None)
+                        dp.epg = f"{epg_url} {self.fav_provider.epg}".strip()
+                        self.dynamic_fav_providers[epg_url] = dp
+                        providers_to_load.append(dp)
+                    dp = self.dynamic_fav_providers[epg_url]
+                    channel.provider = dp
+                    dp.channels.append(channel)
+                else:
+                    # Add manual/unmatched channels to fav_provider so it can map their EPG
+                    self.fav_provider.channels.append(channel)
+
             channels.append(channel)
+
+        # Queue the fav_provider to load its EPG database asynchronously
+        if self.fav_provider.channels and self.fav_provider.epg and not hasattr(self.fav_provider, "epg_manager"):
+            providers_to_load.append(self.fav_provider)
+
+        if providers_to_load:
+            self.load_epgs_async(providers_to_load)
+
         self.show_channels(channels, favorites=True)
+
+    @async_function
+    def load_epgs_async(self, providers):
+        for p in providers:
+            self.manager.load_epg(p)
+
+        # Trigger an idle callback to save the newly discovered matches permanently
+        GLib.idle_add(self.save_matched_favorites_idle, providers)
+        GLib.idle_add(self.update_epg_labels)
+
+    def save_matched_favorites_idle(self, providers):
+        import re
+        all_channels = [c for p in providers for c in p.channels]
+        if not all_channels:
+            return False
+
+        updated = False
+        new_fav_data = []
+
+        for line in self.favorite_data:
+            line = line.strip()
+            if not line:
+                continue
+
+            parts = line.split(":::")
+            info, url = parts[0], parts[1]
+
+            # Find the corresponding channel to see if the EPG Manager assigned it an xmltv_id
+            matched_channel = next((c for c in all_channels if c.url == url), None)
+
+            if matched_channel and matched_channel.xmltv_id:
+                # If the tvg-id in the EXTINF string doesn't perfectly match the resolved xmltv_id, rewrite it
+                if f'tvg-id="{matched_channel.xmltv_id}"' not in info:
+
+                    # Update or inject tvg-id
+                    if 'tvg-id="' in info:
+                        info = re.sub(r'tvg-id="[^"]*"', f'tvg-id="{matched_channel.xmltv_id}"', info)
+                    else:
+                        info = info.replace('#EXTINF:-1', f'#EXTINF:-1 tvg-id="{matched_channel.xmltv_id}"', 1)
+
+                    # Update or inject tvg-name as requested
+                    new_tvg_name = matched_channel.tvg_name or matched_channel.name
+                    if 'tvg-name="' in info:
+                        info = re.sub(r'tvg-name="[^"]*"', f'tvg-name="{new_tvg_name}"', info)
+                    else:
+                        info = info.replace('#EXTINF:-1', f'#EXTINF:-1 tvg-name="{new_tvg_name}"', 1)
+
+                    parts[0] = info
+
+                    # Update the explicit list indices for EPG url and XMLTV ID
+                    epg_url = getattr(matched_channel.provider, "epg", "") or ""
+                    if len(parts) == 2:
+                        parts.extend([epg_url, matched_channel.xmltv_id])
+                    elif len(parts) == 3:
+                        parts.append(matched_channel.xmltv_id)
+                    else:
+                        parts[3] = matched_channel.xmltv_id
+
+                    line = ":::".join(parts)
+                    updated = True
+
+            new_fav_data.append(line)
+
+        # Only flush to disk if a new match was injected
+        if updated:
+            self.favorite_data = new_fav_data
+            self.manager.save_favorites(self.favorite_data)
+
+        return False
 
     def show_channels(self, channels, favorites=False):
         self.navigate_to("channels_page", "", favorites)
         if self.content_type == TV_GROUP:
-            self.sidebar.show()
+            if self.fullscreen and getattr(self, "active_channel", None) is not None:
+                self.sidebar_vbox.hide()
+            else:
+                self.sidebar_vbox.show()
             for child in self.channels_listbox.get_children():
                 self.channels_listbox.remove(child)
 
@@ -541,14 +833,47 @@ class MainWindow:
             for channel in channels:
                 image = Gtk.Image().new_from_surface(self.get_channel_surface(channel.logo_path))
                 logos_to_refresh.append((channel, image))
-                self.channels_listbox.add(ChannelWidget(channel, image))
+                self.channels_listbox.add(ChannelWidget(channel, image, main_window=self))
 
             self.channels_listbox.show_all()
+
+            if self.active_channel is None:
+                self.channel_stack.set_visible_child_name("guide_page")
+                self.label_channel_name.set_text("")
+                self.label_channel_url.set_text("")
+
+                provider = getattr(self, "active_provider", None)
+                epg_mgr = getattr(provider, "epg_manager", None) if provider else None
+                self.guide_widget.render_guide(channels, epg_mgr)
+
+            self.update_epg_labels()
             self.visible_search_results = len(self.channels_listbox.get_children())
             if len(logos_to_refresh) > 0:
                 self.download_channel_logos(logos_to_refresh)
         else:
-            self.sidebar.hide()
+            self.sidebar_vbox.hide()
+
+    def update_epg_labels(self):
+        for widget in self.channels_listbox.get_children():
+            if isinstance(widget, ChannelWidget):
+                provider = getattr(widget.channel, "provider", None) or getattr(self, "active_provider", None)
+                if provider and getattr(provider, "epg_manager", None):
+                    widget.update_epg(provider.epg_manager)
+                else:
+                    widget.update_epg(None)
+
+        # Also asynchronously update the EPG Guide widget if it's currently loaded
+        if getattr(self, "active_provider", None):
+            # In case we are currently filtering by search, or looking at favorites
+            # Note: A safer approach is to pass exactly the channels currently drawn in the listbox
+            visible_channels = [w.channel for w in self.channels_listbox.get_children() if isinstance(w, ChannelWidget)]
+            epg_mgr = getattr(self.active_provider, "epg_manager", None)
+            self.guide_widget.render_guide(visible_channels, epg_mgr, initial_load=False)
+
+    def refresh_epg_labels_periodic(self):
+        # Called from GLib.timeout_add_seconds, which requires True to keep repeating
+        self.update_epg_labels()
+        return True
 
     def show_vod(self, items):
         logos_to_refresh = []
@@ -853,22 +1178,39 @@ class MainWindow:
         window.set_title(_("Hypnotix"))
         window.show()
 
+    def find_favorite_line(self, url):
+        """A channel's URL is the stable identifier; the info field can be rewritten in place
+        (tvg-id/tvg-name injection) so it must not be part of the match key."""
+        for fav in self.favorite_data:
+            parts = fav.split(":::")
+            if len(parts) > 1 and parts[1] == url:
+                return fav
+        return None
+
     def on_favorite_button_toggled(self, widget):
         if self.page_is_loading or getattr(self, "active_channel", None) is None:
             return
 
         name = self.active_channel.name
-        data = f"{self.active_channel.info}:::{self.active_channel.url}"
-        if widget.get_active() and data not in self.favorite_data:
+
+        existing_match = self.find_favorite_line(self.active_channel.url)
+
+        if widget.get_active() and not existing_match:
             print (f"Adding {name} to favorites")
+            epg_url = ""
+            xmltv_id = getattr(self.active_channel, "xmltv_id", "")
+            provider = getattr(self.active_channel, "provider", None) or getattr(self, "active_provider", None)
+            if provider and getattr(provider, "epg", None):
+                epg_url = provider.epg
+            data = f"{self.active_channel.info}:::{self.active_channel.url}:::{epg_url}:::{xmltv_id}"
             self.favorite_data.append(data)
 
             # Dynamically update the tooltip
             self.favorite_button.set_tooltip_text(_("Remove from favorites"))
 
-        elif widget.get_active() == False and data in self.favorite_data:
+        elif widget.get_active() == False and existing_match:
             print (f"Removing {name} from favorites")
-            self.favorite_data.remove(data)
+            self.favorite_data.remove(existing_match)
 
             # Dynamically update the tooltip
             self.favorite_button.set_tooltip_text(_("Add to favorites"))
@@ -893,6 +1235,8 @@ class MainWindow:
     @async_function
     def play_async(self, channel):
         if self.mpv is not None:
+            self.mpv.command("show-text", "", 1)
+            self.osd_epg_visible_until = 0
             self.mpv.stop()
             self.mpv.pause = False
         print("CHANNEL: '%s' (%s)" % (channel.name, channel.url))
@@ -914,6 +1258,8 @@ class MainWindow:
     def before_play(self, channel):
         self.info_menu_item.set_sensitive(False)
         self.channel_stack.set_visible_child_name("channel_page")
+        if self.fullscreen:
+            self.sidebar_vbox.hide()
         self.mpv_stack.set_visible_child_name("spinner_page")
         self.video_properties.clear()
         self.video_properties[_("General")] = {}
@@ -931,12 +1277,7 @@ class MainWindow:
         self.label_channel_url.set_text(channel.url)
 
         self.page_is_loading = True
-
-        # Use prefix matching to ignore appended EPG/XMLTV metadata
-        data_prefix = f"{channel.info}:::{channel.url}"
-        existing_match = next((fav for fav in self.favorite_data if fav == data_prefix or fav.startswith(data_prefix + ":::")), None)
-
-        if existing_match:
+        if self.find_favorite_line(channel.url) is not None:
             self.favorite_button.set_active(True)
             self.favorite_button_image.set_from_icon_name("xsi-starred-symbolic", Gtk.IconSize.BUTTON)
             self.favorite_button.set_tooltip_text(_("Remove from favorites"))
@@ -1069,6 +1410,11 @@ class MainWindow:
         self.active_channel = None
         self.info_menu_item.set_sensitive(False)
         self.playback_bar.hide()
+        self.label_channel_name.set_text("")
+        self.label_channel_url.set_text("")
+        self.channel_stack.set_visible_child_name("guide_page")
+        if self.fullscreen and self.content_type == TV_GROUP:
+            self.sidebar_vbox.show()
 
     def on_pause_button(self, widget):
         self.mpv.pause = not self.mpv.pause
@@ -1163,6 +1509,7 @@ class MainWindow:
         self.new_name_entry.set_text("")
         self.new_url_entry.set_text("")
         self.new_logo_entry.set_text("")
+        self.favorites_epg_entry.set_text("")
         self.new_ok_button.set_sensitive(False)
         self.navigate_to("new_channel_page")
 
@@ -1291,11 +1638,11 @@ class MainWindow:
         for widget in widgets:
             widget.hide()
         visible_widgets = []
+        visible_widgets.append(self.epg_label)
+        visible_widgets.append(self.epg_entry)
         if type_id == PROVIDER_TYPE_URL:
             visible_widgets.append(self.url_entry)
             visible_widgets.append(self.url_label)
-            visible_widgets.append(self.epg_label)
-            visible_widgets.append(self.epg_entry)
         elif type_id == PROVIDER_TYPE_LOCAL:
             visible_widgets.append(self.path_entry)
             visible_widgets.append(self.path_label)
@@ -1307,8 +1654,6 @@ class MainWindow:
             visible_widgets.append(self.username_label)
             visible_widgets.append(self.password_entry)
             visible_widgets.append(self.password_label)
-            visible_widgets.append(self.epg_label)
-            visible_widgets.append(self.epg_entry)
         else:
             print("Incorrect provider type: ", type_id)
 
@@ -1464,6 +1809,22 @@ class MainWindow:
         dlg.show()
 
     def on_menu_quit(self, widget):
+        self.cleanup_and_quit()
+
+    def on_window_delete(self, widget, event):
+        self.cleanup_and_quit()
+        return False
+
+    def cleanup_and_quit(self):
+        if self._timerid > 0:
+            GLib.source_remove(self._timerid)
+            self._timerid = -1
+        if self.mpv is not None:
+            try:
+                self.mpv.stop()
+                self.mpv.terminate()
+            except Exception:
+                pass
         self.application.quit()
 
     def on_key_press_event(self, widget, event):
@@ -1477,6 +1838,27 @@ class MainWindow:
         # Bool of Control or Shift modifier states
         ctrl = modifier == Gdk.ModifierType.CONTROL_MASK
         shift = modifier == Gdk.ModifierType.SHIFT_MASK
+
+        if event.keyval == Gdk.KEY_g and not isinstance(widget.get_focus(), Gtk.Entry) and self.mpv is not None:
+            # If the EPG is currently showing, toggle it off
+            if getattr(self, "osd_epg_visible_until", 0) > time.time():
+                self.mpv.command("show-text", "", 1)
+                self.osd_epg_visible_until = 0
+            else:
+                # If it's hidden, fetch the info and toggle it on
+                provider = getattr(self.active_channel, "provider", None) or getattr(self, "active_provider", None)
+                if provider and getattr(provider, "epg_manager", None):
+                    xmltv_id = getattr(self.active_channel, "xmltv_id", None)
+                    if xmltv_id:
+                        now_playing, _ = provider.epg_manager.get_current_and_next(xmltv_id)
+                        if now_playing:
+                            start_str = datetime.datetime.fromtimestamp(now_playing["start"]).strftime("%H:%M")
+                            stop_str = datetime.datetime.fromtimestamp(now_playing["stop"]).strftime("%H:%M")
+                            title = now_playing.get("title", "")
+                            osd_text = f"{title}\n{start_str} - {stop_str}"
+                            self.mpv.command("show-text", osd_text, 6000)
+                            self.osd_epg_visible_until = time.time() + 6
+            return True
 
         if ctrl and event.keyval == Gdk.KEY_r:
             self.reload(page=None, refresh=True)
@@ -1549,6 +1931,10 @@ class MainWindow:
                             self.manager.load_channels(provider)
                             if provider.name == self.settings.get_string("active-provider"):
                                 self.active_provider = provider
+                                if provider.epg:
+                                    self.status(_("Loading EPG..."), provider)
+                                    self.manager.load_epg(provider, refresh=refresh)
+                                    GLib.idle_add(self.update_epg_labels)
                             self.status(None)
                             print("%s: %d channels, %d groups, %d series, %d movies" % (provider.name, \
                                 len(provider.channels), len(provider.groups), len(provider.series), len(provider.movies)))
@@ -1592,6 +1978,10 @@ class MainWindow:
                         # If no errors, approve provider
                         if provider.name == self.settings.get_string("active-provider"):
                             self.active_provider = provider
+                            if provider.epg:
+                                self.status(_("Loading EPG..."), provider)
+                                self.manager.load_epg(provider, refresh=refresh)
+                                GLib.idle_add(self.update_epg_labels)
                         self.status(None)
                     else:
                         print("XTREAM Authentication Failed")
@@ -1604,11 +1994,16 @@ class MainWindow:
         # If there are more than 1 providers and no Active Provider, set to the first one
         if len(self.providers) > 0 and self.active_provider is None:
             self.active_provider = self.providers[0]
+            if self.active_provider.epg and not hasattr(self.active_provider, "epg_manager"):
+                self.status(_("Loading EPG..."), self.active_provider)
+                self.manager.load_epg(self.active_provider, refresh=refresh)
+                GLib.idle_add(self.update_epg_labels)
 
         self.refresh_providers_page()
 
         if page is not None:
             self.navigate_to(page)
+
         self.status(None)
         self.latest_search_bar_text = None
 
@@ -1696,17 +2091,17 @@ class MainWindow:
         self.mpv_top_box.show()
         self.mpv_bottom_box.hide()
         if self.content_type == TV_GROUP:
-            self.sidebar.show()
+            self.sidebar_vbox.show()
         self.headerbar.show()
         self.channels_box.set_border_width(12)
         self.fullscreen = False
 
     def theather_mode(self):
         if self.stack.get_visible_child_name() == "channels_page":
-            if self.sidebar.get_visible():
+            if self.sidebar_vbox.get_visible():
                 self.mpv_top_box.hide()
                 self.mpv_bottom_box.hide()
-                self.sidebar.hide()
+                self.sidebar_vbox.hide()
                 # self.headerbar.hide()
                 self.status_label.hide()
                 self.channels_box.set_border_width(0)
@@ -1718,7 +2113,7 @@ class MainWindow:
             if self.headerbar.get_visible():
                 self.mpv_top_box.hide()
                 self.mpv_bottom_box.hide()
-                self.sidebar.hide()
+                self.sidebar_vbox.hide()
                 self.headerbar.hide()
                 self.status_label.hide()
                 self.channels_box.set_border_width(0)
@@ -1756,7 +2151,8 @@ class MainWindow:
                 self.window.fullscreen()
                 self.mpv_top_box.hide()
                 self.mpv_bottom_box.hide()
-                self.sidebar.hide()
+                if self.active_channel is not None:
+                    self.sidebar_vbox.hide()
                 self.headerbar.hide()
                 self.status_label.hide()
                 self.channels_box.set_border_width(0)
